@@ -6,9 +6,9 @@
     color: #ffffff;
     border: none;
     border-radius: 3px;
-  }
+}
   
-  #auth-view #register-button {
+#auth-view #register-button {
     height: 30px;
     font-size: 12px;
     border: solid;
@@ -17,22 +17,22 @@
     border-color: #595959;
     background-color: #ffffff;
     color: #595959;
-  }
+}
   
-  #auth-view table button {
+#auth-view table button {
     width: 100%;
     font-family: "Overpass", serif;
-  }
+}
   
-  #auth-view #sign-in-button img {
+#auth-view #sign-in-button img {
     width: 17px;
     height: 17px;
     vertical-align: middle;
     margin-bottom: 2px;
     margin-right: 2px;
-  }
+}
   
-  #auth-view #register-button img {
+#auth-view #register-button img {
     height: 10px;
     margin-left: 4px;
-  }
+}
