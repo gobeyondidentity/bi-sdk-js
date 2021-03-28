@@ -33,24 +33,22 @@ Currently, there is no JavaScript SDK to provide you with the required views and
 
 ```html
 <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css?family=Overpass">
+      href="https://fonts.googleapis.com/css?family=Overpass">
   
 <div id="auth-view">
   <table>
     <tr><td>
-        <button id="sign-in-button" onclick="signInClicked()">
-          <img
-            src="https://beyondidentity.s3.us-east-2.amazonaws.com/logo.png"
-            alt="Logo">
-          Log in with Beyond Identity
-        </button>
+      <button id="sign-in-button" onclick="signInClicked()">
+        <img src="https://beyondidentity.s3.us-east-2.amazonaws.com/logo.png"
+             alt="Logo">
+        Log in with Beyond Identity
+      </button>
     </td></tr>
     <tr><td>
       <button id="register-button" onclick="registerClicked()">
         New to Beyond Identity? Go passwordless today
-        <img
-          src="https://beyondidentity.s3.us-east-2.amazonaws.com/arrow-right.png"
-          alt="Rightward facing arrow">
+        <img src="https://beyondidentity.s3.us-east-2.amazonaws.com/arrow-right.png"
+             alt="Rightward facing arrow">
       </button>
     </td></tr>
   </table>
@@ -125,52 +123,52 @@ For more details on configuring your confidential client, see the [Developer Doc
 
 ```javascript
 function signInClicked() {
-    const redirect = "https://redirect-back-to-your-home-page.com";
-    window.location.href = "https://acme-cloud.byndid.com/start?redirect=" + redirect;
+  const redirect = "https://redirect-back-to-your-home-page.com";
+  window.location.href = "https://acme-cloud.byndid.com/start?redirect=" + redirect;
 }
 
 function registerClicked() {
-    // This is triggered when the user taps the "sign up" button.
-    // Your sign up action should include a call to the Beyond Identity
-    // API to create a user credential as well as a way for the user to
-    // download the Beyond Identity App to store the credential associated
-    // with your app.
+  // This is triggered when the user taps the "sign up" button.
+  // Your sign up action should include a call to the Beyond Identity
+  // API to create a user credential as well as a way for the user to
+  // download the Beyond Identity App to store the credential associated
+  // with your app.
 }
 
 function onLoad() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const session = urlParams.get("session");
-    if (session === null) {
-        return;
-    }
+  const urlParams = new URLSearchParams(window.location.search);
+  const session = urlParams.get("session");
+  if (session === null) {
+      return;
+  }
 
-    // NOTE: This is where you would add logic as shown below in order
-    // to query the session on the backend and get the user's relevant
-    // info. In the case of this example, CORS prevents us from making
-    // a GET request to the server so we will unsafely log the user in
-    // as long as a session is specified.
+  // NOTE: This is where you would add logic as shown below in order
+  // to query the session on the backend and get the user's relevant
+  // info. In the case of this example, CORS prevents us from making
+  // a GET request to the server so we will unsafely log the user in
+  // as long as a session is specified.
 
-    const main = document.getElementById("main");
-    main.innerHTML = "You are now logged in!";
+  const main = document.getElementById("main");
+  main.innerHTML = "You are now logged in!";
 
-    // Example: Validating a session:
-    //
-    // If a session is passed in as a URL param and it exists
-    // on the server, then we can log the user in.
-    //
-    // const xmlHttp = new XMLHttpRequest();
-    // xmlHttp.onreadystatechange = function() { 
-    //     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-    //         // At this point, your session exists and you
-    //         // are logged in.
-    //         const main = document.getElementById("main");
-    //         main.innerHTML = "You are now logged in!";
-    //     } else {
-    //         alert("Invalid session. Failed to log you in.");
-    //     }
-    // }
-    // xmlHttp.open("GET", "https://acme-cloud.byndid.com/balance?session=" + session, true); // true for asynchronous 
-    // xmlHttp.send(null);
+  // Example: Validating a session:
+  //
+  // If a session is passed in as a URL param and it exists
+  // on the server, then we can log the user in.
+  //
+  // const xmlHttp = new XMLHttpRequest();
+  // xmlHttp.onreadystatechange = function() { 
+  //     if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+  //         // At this point, your session exists and you
+  //         // are logged in.
+  //         const main = document.getElementById("main");
+  //         main.innerHTML = "You are now logged in!";
+  //     } else {
+  //         alert("Invalid session. Failed to log you in.");
+  //     }
+  // }
+  // xmlHttp.open("GET", "https://acme-cloud.byndid.com/balance?session=" + session, true); // true for asynchronous 
+  // xmlHttp.send(null);
 }
 ```
 
@@ -194,50 +192,50 @@ For more details, see the [Developer Docs](https://docs.byndid.com).
 
 ```javascript
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+  });
 }
 
 function signInClicked() {
-    const state = uuidv4();
-    window.localStorage.setItem("state", state);
+  const state = uuidv4();
+  window.localStorage.setItem("state", state);
 
-    const url = new URL("https://auth.byndid.com/v2/authorize");
-    url.searchParams.append("client_id", "<CLIENT_ID>");
-    url.searchParams.append("redirect_url", "<REDIRECT_URI>");
-    url.searchParams.append("state", state);
-    url.searchParams.append("response_type", "code");
-    url.searchParams.append("scope", "openid");
+  const url = new URL("https://auth.byndid.com/v2/authorize");
+  url.searchParams.append("client_id", "<CLIENT_ID>");
+  url.searchParams.append("redirect_url", "<REDIRECT_URI>");
+  url.searchParams.append("state", state);
+  url.searchParams.append("response_type", "code");
+  url.searchParams.append("scope", "openid");
 
-    window.location.href = url.href;
+  window.location.href = url.href;
 }
 
 function registerClicked() {
-    // This is triggered when the user taps the "sign up" button.
-    // Your sign up action should include a call to the Beyond Identity
-    // API to create a user credential as well as a way for the user to
-    // download the Beyond Identity App to store the credential associated
-    // with your app.
+  // This is triggered when the user taps the "sign up" button.
+  // Your sign up action should include a call to the Beyond Identity
+  // API to create a user credential as well as a way for the user to
+  // download the Beyond Identity App to store the credential associated
+  // with your app.
 }
 
 function onLoad() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const state = urlParams.get("state");
-    const code = urlParams.get("code");
-    if (state === null || code === null) {
-        return;
-    }
+  const urlParams = new URLSearchParams(window.location.search);
+  const state = urlParams.get("state");
+  const code = urlParams.get("code");
+  if (state === null || code === null) {
+      return;
+  }
 
-    const currentState = window.localStorage.getItem("state");
-    if (currentState !== state) {
-        return;
-    }
+  const currentState = window.localStorage.getItem("state");
+  if (currentState !== state) {
+      return;
+  }
 
-    // Make a request to your confidential client along with the code.
-    // Your confidential client will exchange the code for an access
-    // token and send either that or a session back.
+  // Make a request to your confidential client along with the code.
+  // Your confidential client will exchange the code for an access
+  // token and send either that or a session back.
 } 
 ```
 
