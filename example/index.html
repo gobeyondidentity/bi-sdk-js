@@ -14,29 +14,30 @@
   <body onload="onLoad()">
     <div id="main">
       <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Overpass">
+            href="https://fonts.googleapis.com/css?family=Overpass">
 
+      <!-- AuthView contains the sign in and register buttons -->
       <div id="auth-view">
         <table>
           <tr><td>
               <button id="sign-in-button" onclick="signInClicked()">
-                <img
-                  src="https://beyondidentity.s3.us-east-2.amazonaws.com/logo.png"
-                  alt="Logo">
+                <img src="https://beyondidentity.s3.us-east-2.amazonaws.com/logo.png"
+                     alt="Logo">
                 Log in with Beyond Identity
               </button>
           </td></tr>
           <tr><td>
             <button id="register-button" onclick="registerClicked()">
               New to Beyond Identity? Go passwordless today
-              <img
-                src="https://beyondidentity.s3.us-east-2.amazonaws.com/arrow-right.png"
-                alt="Rightward facing arrow">
+              <img src="https://beyondidentity.s3.us-east-2.amazonaws.com/arrow-right.png"
+                   alt="Rightward facing arrow">
             </button>
           </td></tr>
         </table>
       </div>
+      
       <script src="main.js"></script>
+      
     </div>
   </body>
 </html>
