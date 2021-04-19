@@ -204,7 +204,7 @@ function signInClicked() {
 
   const url = new URL("https://auth.byndid.com/v2/authorize");
   url.searchParams.append("client_id", "<CLIENT_ID>");
-  url.searchParams.append("redirect_url", "<REDIRECT_URI>");
+  url.searchParams.append("redirect_uri", "<REDIRECT_URI>");
   url.searchParams.append("state", state);
   url.searchParams.append("response_type", "code");
   url.searchParams.append("scope", "openid");
