@@ -1,0 +1,12 @@
+{
+  "name": "kmc-ffi",
+  "version": "0.1.0",
+  "files": [
+    "kmc_bg.wasm",
+    "kmc.js",
+    "kmc.d.ts"
+  ],
+  "module": "kmc.js",
+  "types": "kmc.d.ts",
+  "sideEffects": false
+}

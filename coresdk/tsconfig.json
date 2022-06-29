@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "declarationDir": "./dist",
+    "outDir": "./dist",
+    "rootDir": "./"
+  },
+  "include": ["./"],
+  "exclude": ["webpack.config.js"]
+}

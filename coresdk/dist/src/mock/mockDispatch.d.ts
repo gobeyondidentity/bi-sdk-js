@@ -1,0 +1,33 @@
+import { Host } from "../host";
+import { CoreDispatch } from "../coreDispatch";
+import { DispatchData } from "./mockConfig";
+import { Credential, PkceCodeChallenge, Pkce, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, BindCredentialV1Result, CredentialV1, KeyType, CredentialId } from "../types";
+import { UrlType } from "../messaging/types";
+import { Configuration } from "../configuration";
+import { BIAuthenticateUrlResponse } from "../types/credential";
+export declare class MockDispatch implements CoreDispatch {
+    host: Host;
+    mock: DispatchData;
+    constructor(config: Configuration);
+    bindCredentialUrl(url: string): Promise<BindCredentialV1Result>;
+    getUrlType(url: string): UrlType;
+    updateCredential(credentialId: string): Promise<CredentialV1>;
+    migrateDatabase(allowedDomains?: string): void;
+    cancel(): Promise<void>;
+    createPkce(): Promise<Pkce>;
+    createCredential(handle: string, name: string, imageUrl: string, loginUri?: string, enrollUri?: string): Promise<Credential>;
+    deleteCredential(handle: string): Promise<void>;
+    deleteCredentialV1(id: CredentialId): Promise<void>;
+    authenticate(url: string, trusted: TrustedSource, onSelectCredential?: (credentials: CredentialV1[]) => Promise<string | undefined>): Promise<BIAuthenticateUrlResponse>;
+    authenticateConfidential(authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge, nonce?: string): Promise<AuthorizationCode>;
+    authenticatePublic(authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string): Promise<TokenResponse>;
+    export(handle: string): Promise<void>;
+    getCredentials(): Promise<Credential[]>;
+    listCredentials(): Promise<CredentialV1[]>;
+    getKeyType(keyHandle: string): Promise<KeyType>;
+    handleURL(url: string, trusted: TrustedSource): Promise<UrlResponse>;
+    import(token: string): Promise<Credential | undefined>;
+    register(url: string, trusted: TrustedSource): Promise<UrlResponse>;
+    getAppInstanceId: () => Promise<string>;
+    getBrowserInfo: () => Promise<BrowserInfo>;
+}
