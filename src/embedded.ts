@@ -26,7 +26,7 @@ export class Embedded {
    */
   static initialize = async (config?: Config): Promise<Embedded> => {
     const defaults = {
-      allowedDomains: ["beyondidentity.dev", "beyondidentity.run", "beyondidentity.xyz", "beyondidentity.com"],
+      allowedDomains: ["beyondidentity.com"],
     };
     config = config ? config : defaults;
     let allowedDomains = config.allowedDomains ? config.allowedDomains : defaults.allowedDomains;
