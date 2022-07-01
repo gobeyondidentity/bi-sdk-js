@@ -54,4 +54,4 @@ cd examples/app/js
 yarn build && yarn start
 ```
 
-Then open the example app [here](http://192.168.1.178:8083).
+Then open the example app [here](http://localhost:8083/).
