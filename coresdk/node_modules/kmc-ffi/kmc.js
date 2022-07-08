@@ -1,4 +1,4 @@
-import { openCredentialDb, closeCredentialDb, createCredential, readCredentials, updateCredential, deleteCredential } from './snippets/authlib-9e713a18f495db5f/src/store/credential/db/indexeddb/js/target/credstore.js';
+import { openCredentialDb, closeCredentialDb, createCredential, readCredentials, updateCredential, deleteCredential } from './snippets/authlib-9aa06af80424e367/src/store/credential/db/indexeddb/js/target/credstore.js';
 import { sleep } from './snippets/common-9958b286e1acf929/inline0.js';
 import { ecdsa_generate_key_pair, ecdsa_import_key, ecdsa_sign, ecdsa_verify, key_export, rsa_import_key, rsa_verify } from './snippets/crypto-7439096d35d6fc1f/src/ecdsa_wasm/js/crypto.js';
 import { FfiCreateKeyP256, FfiQueryKeyP256, FfiDeleteKeyP256, FfiVerifyExistingKeyP256, FfiSignWithP256, FfiPublicBitsP256 } from './snippets/hal-9eb4b9f0dfb51f2e/src/wasm/legacy/js/target/hal.js';
@@ -627,26 +627,26 @@ async function init(input) {
     imports.wbg.__wbg_set_f1a4ac8f3a605b11 = function(arg0, arg1, arg2) {
         getObject(arg0)[takeObject(arg1)] = takeObject(arg2);
     };
-    imports.wbg.__wbg_openCredentialDb_cc10d612b35be06f = function() {
+    imports.wbg.__wbg_openCredentialDb_33b959c6d6c2f8ef = function() {
         const ret = openCredentialDb();
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_closeCredentialDb_990ffb25601db93a = function(arg0) {
+    imports.wbg.__wbg_closeCredentialDb_702c6ded136ad684 = function(arg0) {
         closeCredentialDb(getObject(arg0));
     };
-    imports.wbg.__wbg_createCredential_ea09853c957d1070 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbg_createCredential_7c51952b7a23b9da = function(arg0, arg1, arg2) {
         const ret = createCredential(getObject(arg0), takeObject(arg1), takeObject(arg2));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_readCredentials_0473c2d197a9dbfe = function(arg0) {
+    imports.wbg.__wbg_readCredentials_1864437d49cdda3f = function(arg0) {
         const ret = readCredentials(getObject(arg0));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_updateCredential_09b30155ee0d2458 = function(arg0, arg1) {
+    imports.wbg.__wbg_updateCredential_dea1838d1aebb187 = function(arg0, arg1) {
         const ret = updateCredential(getObject(arg0), takeObject(arg1));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_deleteCredential_f247726b65bc30e9 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbg_deleteCredential_40d1d78816389e6c = function(arg0, arg1, arg2) {
         const ret = deleteCredential(getObject(arg0), getStringFromWasm0(arg1, arg2));
         return addHeapObject(ret);
     };
@@ -1045,8 +1045,8 @@ async function init(input) {
         const ret = wasm.memory;
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper6562 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 2389, __wbg_adapter_38);
+    imports.wbg.__wbindgen_closure_wrapper6565 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 2390, __wbg_adapter_38);
         return addHeapObject(ret);
     };
 

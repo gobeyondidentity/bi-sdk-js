@@ -18,7 +18,11 @@ or
 npm install @beyondidentity/bi-sdk-js
 ```
 
-And add the following to your package.json:
+The next step differs based on the framework you are using and requires you to copy our `.wasm` binary into a location where it can be fetched publicly.
+
+### React
+
+Add the following to your package.json:
 
 ```json
 "scripts": {
@@ -29,9 +33,30 @@ And add the following to your package.json:
 }
 ```
 
-This is to ensure that the included wasm binary can be fetched publicly.
+### Angular
 
-> :warning: This assumes your publicly available static assets are located in "public".
+Add the following to your package.json:
+
+```json
+"scripts": {
+  ...
+  "copy:wasm": "cp -R node_modules/@beyondidentity/bi-sdk-js/coresdk/dist/*.wasm src/",
+  "build": "yarn copy:wasm && ng build",
+  ...
+}
+```
+
+Go into `node_modules/@beyondidentity/bi-sdk-js/coresdk/dist` and keep note of the name of the `.wasm` file.
+
+Add the `.wasm` file to your `assets` in `angular.json`:
+
+```json
+"assets": [
+  ...
+  "src/kmc_bg.<hash>.wasm",
+  ...
+],
+```
 
 ## Usage
 
@@ -51,7 +76,7 @@ git clone git@github.com:gobeyondidentity/bi-sdk-js.git
 cd bi-sdk-js
 yarn install && yarn build
 cd examples/app/js
-yarn build && yarn start
+yarn install && yarn build && yarn start
 ```
 
 Then open the example app [here](http://localhost:8083/).
