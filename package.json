@@ -1,11 +1,12 @@
 {
   "name": "@beyondidentity/bi-sdk-js",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Passwordless authentication with our Authenticator embedded into you app",
   "main": "dist/bi-embedded.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
     "clean": "rm -rf node_modules dist",
+    "clean:all": "yarn clean & (cd coresdk && yarn clean)",
     "build": "webpack && sh scripts/tslint-patch.sh",
     "test": "uvu -r esm test",
     "prepack": "npm run build",
@@ -16,8 +17,7 @@
   "license": "Apache-2.0",
   "files": [
     "dist",
-    "src",
-    "coresdk/dist"
+    "src"
   ],
   "devDependencies": {
     "coresdk": "file:./coresdk",

@@ -135,7 +135,7 @@ class KmcDispatch implements CoreDispatch {
   };
 
   migrateDatabase = (allowedDomains?: string) => {
-    kmc_migrate_database(allowedDomains);
+    migrate_db(allowedDomains);
   };
 
   auth = async (url: string, trusted: TrustedSource): Promise<UrlResponse> =>
@@ -367,4 +367,23 @@ export function createDispatch(config: Configuration): CoreDispatch {
     }
   }
   return new KmcDispatch(config);
+}
+
+/**
+ * global one-time-call flag for kmc-migrate-database
+ */
+let __migrate_db = false;
+
+/**
+ * one-time-call for kmc-migrate-database.
+ * This function exists because in the WebAuthenticator,
+ * reactJS in development mode, will initialize core 
+ * twice, which will induce a panic in kmc_migrate_database.
+ * @param allowedDomains 
+ */
+function migrate_db(allowedDomains?: string) {
+  if (!__migrate_db) {
+    kmc_migrate_database(allowedDomains)
+    __migrate_db = true;
+  }
 }

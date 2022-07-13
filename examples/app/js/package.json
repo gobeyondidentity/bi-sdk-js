@@ -4,7 +4,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "mkdir -p dist && (cp {index.html,index.css,index.js,favicon.ico,bi_logo.svg} dist && yarn copy-deps)",
-    "copy-deps": "cp ../../../dist/bi-embedded.js dist && cp ../../../coresdk/dist/kmc_bg.*.wasm dist",
+    "copy-deps": "cp ../../../dist/bi-embedded.js dist",
     "start": "http-server -p 8083 dist"
   },
   "keywords": [],

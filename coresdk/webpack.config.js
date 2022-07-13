@@ -1,5 +1,5 @@
 const path = require("path");
-const webpack = require("webpack")
+const webpack = require("webpack");
 const base = require("../webpack.base");
 
 module.exports = (env) => {
@@ -12,6 +12,20 @@ module.exports = (env) => {
           test: /\.tsx?$/,
           use: "ts-loader",
           exclude: /node_modules/,
+        },
+        {
+          test: /\.js$/,
+          enforce: "pre",
+          use: [
+            {
+              loader: "source-map-loader",
+              options: {
+                filterSourceMappingUrl: (url, resourcePath) => {
+                  return false;
+                },
+              },
+            },
+          ],  
         },
       ],
     },

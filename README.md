@@ -1,4 +1,12 @@
-![beyond-identity-logo](https://user-images.githubusercontent.com/6578679/172954923-7a0c741a-8ee6-4ba3-a610-1b073f3eec59.png)
+<p align="center">
+   <br/>
+   <a href="https://developers.beyondidentity.com" target="_blank"><img src="https://user-images.githubusercontent.com/238738/178780350-489309c5-8fae-4121-a20b-562e8025c0ee.png" width="150px" ></a>
+   <h3 align="center">Beyond Identity</h3>
+   <p align="center">Universal Passkeys for Developers</p>
+   <p align="center">
+   All devices. Any protocol. Zero shared secrets.
+   </p>
+</p>
 
 # Beyond Identity JS SDK
 
@@ -16,46 +24,6 @@ yarn add @beyondidentity/bi-sdk-js
 or 
 ```
 npm install @beyondidentity/bi-sdk-js
-```
-
-The next step differs based on the framework you are using and requires you to copy our `.wasm` binary into a location where it can be fetched publicly.
-
-### React
-
-Add the following to your package.json:
-
-```json
-"scripts": {
-  ...
-  "copy:wasm": "cp -R ../node_modules/@beyondidentity/bi-sdk-js/coresdk/dist/*.wasm public",
-  "build": "yarn copy:wasm && <build steps>",
-  ...
-}
-```
-
-### Angular
-
-Add the following to your package.json:
-
-```json
-"scripts": {
-  ...
-  "copy:wasm": "cp -R node_modules/@beyondidentity/bi-sdk-js/coresdk/dist/*.wasm src/",
-  "build": "yarn copy:wasm && ng build",
-  ...
-}
-```
-
-Go into `node_modules/@beyondidentity/bi-sdk-js/coresdk/dist` and keep note of the name of the `.wasm` file.
-
-Add the `.wasm` file to your `assets` in `angular.json`:
-
-```json
-"assets": [
-  ...
-  "src/kmc_bg.<hash>.wasm",
-  ...
-],
 ```
 
 ## Usage

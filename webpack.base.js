@@ -8,10 +8,6 @@ exports.config = (env, webpack) => {
     experiments: {
       asyncWebAssembly: true,
     },
-    // do not generate source maps for production build
-    ...(env.CHANNEL !== "production" && {
-      devtool: "inline-source-map",
-    }),
     plugins: [
       new webpack.DefinePlugin({
         CHANNEL: JSON.stringify(env.CHANNEL),
