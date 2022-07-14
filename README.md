@@ -42,9 +42,5 @@ Check out the [documentation](https://developer.beyondidentity.com) for more inf
 ```
 git clone git@github.com:gobeyondidentity/bi-sdk-js.git
 cd bi-sdk-js
-yarn install && yarn build
-cd examples/app/js
-yarn install && yarn build && yarn start
+yarn example
 ```
-
-Then open the example app [here](http://localhost:8083/).
