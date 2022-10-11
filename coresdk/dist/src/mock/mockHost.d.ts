@@ -7,7 +7,6 @@ export declare class MockHost implements Host, HostEvents {
     onexport?: (this: Host, ev: ExportEvent) => void;
     onimport?: (this: Host, ev: ImportEvent) => void;
     onSelectCredentialV1?: (credentials: CredentialV1[]) => Promise<string | undefined>;
-    queryFeatureFlag: (flag: string) => boolean;
     get events(): HostEvents;
     constructor(config: Configuration);
     checkFeatureFlags(feature_flags: FeatureFlagRequest[]): FeatureFlagResponse[];

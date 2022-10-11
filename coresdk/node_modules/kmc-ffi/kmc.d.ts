@@ -16,8 +16,9 @@ export function kmc_get_user_agent(): Promise<any>;
 export function kmc_get_app_instance_id(): Promise<string>;
 /**
 * @param {string | undefined} allowed_domains
+* @returns {Promise<any>}
 */
-export function kmc_migrate_database(allowed_domains?: string): void;
+export function kmc_migrate_database(allowed_domains?: string): Promise<any>;
 /**
 * @param {string} token
 * @param {Function} cb
@@ -26,12 +27,13 @@ export function kmc_migrate_database(allowed_domains?: string): void;
 export function kmc_import(token: string, cb: Function): Promise<any>;
 /**
 * @param {string} url
-* @param {any} allowed_domains
+* @param {string | undefined} credential_id
+* @param {string | undefined} allowed_domains
 * @param {string} trusted_source
 * @param {Function} cb
 * @returns {Promise<any>}
 */
-export function kmc_handle_url(url: string, allowed_domains: any, trusted_source: string, cb: Function): Promise<any>;
+export function kmc_handle_url(url: string, credential_id: string | undefined, allowed_domains: string | undefined, trusted_source: string, cb: Function): Promise<any>;
 /**
 * @param {string} auth_url
 * @param {string} token_url
@@ -115,9 +117,9 @@ export interface InitOutput {
   readonly kmc_get_key_type: (a: number) => number;
   readonly kmc_get_user_agent: () => number;
   readonly kmc_get_app_instance_id: () => number;
-  readonly kmc_migrate_database: (a: number) => void;
+  readonly kmc_migrate_database: (a: number) => number;
   readonly kmc_import: (a: number, b: number) => number;
-  readonly kmc_handle_url: (a: number, b: number, c: number, d: number) => number;
+  readonly kmc_handle_url: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly kmc_embedded_public_oidc: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly kmc_embedded_confidential_oidc: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => number;
   readonly kmc_export: (a: number, b: number) => number;
@@ -132,11 +134,20 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h27858a87ec431f1e: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h3b7fc7c7d3dbc2f5: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h3cc26d5c09b00dcf: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__hbfce226dd892b781: (a: number, b: number, c: number, d: number) => void;
 }
+
+/**
+* Synchronously compiles the given `bytes` and instantiates the WebAssembly module.
+*
+* @param {BufferSource} bytes
+*
+* @returns {InitOutput}
+*/
+export function initSync(bytes: BufferSource): InitOutput;
 
 /**
 * If `module_or_path` is {RequestInfo} or {URL}, makes a request and

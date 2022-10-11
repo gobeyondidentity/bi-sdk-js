@@ -11,9 +11,5 @@ export declare const Environment: {
      * The device gateway URL
      */
     deviceGatewayUrl: string;
-    /**
-     * Optimizely key
-     */
-    optimizelySdkKey: string;
 };
 export {};

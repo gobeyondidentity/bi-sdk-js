@@ -20,7 +20,6 @@ import {
 import { UrlType } from "../messaging/types";
 import { Configuration } from "../configuration";
 import { BIAuthenticateUrlResponse } from "../types/credential";
-import { exitCode } from "process";
 
 export class MockDispatch implements CoreDispatch {
   host: Host;
@@ -50,6 +49,9 @@ export class MockDispatch implements CoreDispatch {
         state: "Active",
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
+        tenant: {
+          displayName: "My First Tenant",
+        },
         realm: {
           name: "realm",
           displayName: "My First Realm",
@@ -57,7 +59,7 @@ export class MockDispatch implements CoreDispatch {
         identity: {
           displayName: "First User",
           username: "FirstUser",
-          emailAddress: "",
+          primaryEmailAddress: "first.email@email.com",
         },
         theme: {
           logoUrlLight:
@@ -92,6 +94,9 @@ export class MockDispatch implements CoreDispatch {
       state: "Revoked",
       created: new Date().toISOString(),
       updated: new Date().toISOString(),
+      tenant: {
+        displayName: "My First Tenant",
+      },
       realm: {
         name: "realm",
         displayName: "My First Realm",
@@ -99,7 +104,7 @@ export class MockDispatch implements CoreDispatch {
       identity: {
         displayName: "First User",
         username: "FirstUser",
-        emailAddress: "",
+        primaryEmailAddress: "first.email@email.com",
       },
       theme: {
         logoUrlLight:
@@ -114,7 +119,9 @@ export class MockDispatch implements CoreDispatch {
     });
   }
 
-  migrateDatabase(allowedDomains?: string): void {}
+  migrateDatabase(allowedDomains?: string): Promise<void> {
+    return Promise.resolve();
+  }
 
   cancel(): Promise<void> {
     if (this.mock.cancel) return resolve(this.mock.cancel);
@@ -170,6 +177,7 @@ export class MockDispatch implements CoreDispatch {
 
   async authenticate(
     url: string,
+    credentialId: CredentialId | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]
@@ -188,6 +196,9 @@ export class MockDispatch implements CoreDispatch {
         state: "Active",
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
+        tenant: {
+          displayName: "My First Tenant",
+        },
         realm: {
           name: "realm",
           displayName: "My First Realm",
@@ -195,7 +206,7 @@ export class MockDispatch implements CoreDispatch {
         identity: {
           displayName: "First User",
           username: "FirstUser",
-          emailAddress: "",
+          primaryEmailAddress: "first.email@email.com",
         },
         theme: {
           logoUrlLight:
@@ -220,6 +231,9 @@ export class MockDispatch implements CoreDispatch {
         state: "Active",
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
+        tenant: {
+          displayName: "My First Tenant",
+        },
         realm: {
           name: "realm",
           displayName: "My First Realm",
@@ -227,7 +241,7 @@ export class MockDispatch implements CoreDispatch {
         identity: {
           displayName: "Second User",
           username: "SecondUser",
-          emailAddress: "",
+          primaryEmailAddress: "second.email@email.com",
         },
         theme: {
           logoUrlLight:
@@ -328,13 +342,16 @@ export class MockDispatch implements CoreDispatch {
       state: "Active",
       created: new Date().toISOString(),
       updated: new Date().toISOString(),
+      tenant: {
+        displayName: "My First Tenant",
+      },
       realm: {
         displayName: "My First Realm",
       },
       identity: {
         displayName: "First User",
         username: "FirstUser",
-        emailAddress: "",
+        primaryEmailAddress: "first.email@email.com",
       },
       theme: {
         logoUrlLight:

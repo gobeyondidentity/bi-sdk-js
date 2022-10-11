@@ -21,6 +21,7 @@ export interface CredentialV1 {
     state: "Active" | "Revoked";
     created: string;
     updated: string;
+    tenant: TenantV1;
     realm: RealmV1;
     identity: IdentityV1;
     theme: ThemeV1;
@@ -31,12 +32,15 @@ export interface RealmV1 {
 export interface IdentityV1 {
     displayName: string;
     username: string;
-    emailAddress: string;
+    primaryEmailAddress?: string;
 }
 export interface ThemeV1 {
     logoUrlLight: string;
     logoUrlDark: string;
     supportUrl: string;
+}
+export interface TenantV1 {
+    displayName: string;
 }
 /**
  * The result of binding a CredentialV1

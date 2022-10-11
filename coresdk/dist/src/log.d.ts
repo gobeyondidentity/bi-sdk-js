@@ -9,8 +9,7 @@ export interface Log {
     write(...data: any): void;
 }
 /**
- * The default implementatino of the Log interface.
- * Data is logged to the debug console.
+ * A default implementation of the Log interface that logs data to the console.
  */
 export declare class ConsoleLog implements Log {
     write(...data: any): void;

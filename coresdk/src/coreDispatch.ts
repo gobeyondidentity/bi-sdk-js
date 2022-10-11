@@ -48,7 +48,7 @@ export interface CoreDispatch {
 
   bindCredentialUrl(url: string): Promise<BindCredentialV1Result>;
   getUrlType(url: string): Messaging.UrlType;
-  migrateDatabase(allowedDomains?: string): void;
+  migrateDatabase(allowedDomains?: string): Promise<void>;
   cancel(): Promise<void>;
   createPkce(): Promise<Pkce>;
   createCredential(
@@ -62,6 +62,7 @@ export interface CoreDispatch {
   deleteCredentialV1(id: CredentialId): Promise<void>;
   authenticate(
     url: string,
+    credentialId: CredentialId | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]
@@ -112,6 +113,7 @@ class KmcDispatch implements CoreDispatch {
     const rsp = await kmc_handle_url(
       url,
       undefined,
+      undefined,
       "EmbeddedSource",
       (msg: string) => {
         return hostCall(this.host, msg);
@@ -134,8 +136,8 @@ class KmcDispatch implements CoreDispatch {
     return Messaging.toUrlType(rawUrlType);
   };
 
-  migrateDatabase = (allowedDomains?: string) => {
-    migrate_db(allowedDomains);
+  migrateDatabase = async (allowedDomains?: string) => {
+    await migrate_db(allowedDomains);
   };
 
   auth = async (url: string, trusted: TrustedSource): Promise<UrlResponse> =>
@@ -191,9 +193,10 @@ class KmcDispatch implements CoreDispatch {
 
   authenticate = async (
     url: string,
+    credentialId: CredentialId | undefined,
     trusted: TrustedSource
   ): Promise<BIAuthenticateUrlResponse> => {
-    const rsp = await kmc_handle_url(url, undefined, trusted, (msg: string) => {
+    const rsp = await kmc_handle_url(url, credentialId, undefined, trusted, (msg: string) => {
       return hostCall(this.host, msg);
     });
     let urlResponse = Messaging.toUrlResponse(rsp);
@@ -303,8 +306,7 @@ class KmcDispatch implements CoreDispatch {
     url: string,
     trusted: TrustedSource
   ): Promise<UrlResponse> => {
-    // FIXME: get allowed domains from somewhere
-    let rsp = await kmc_handle_url(url, undefined, trusted, (msg: string) => {
+    let rsp = await kmc_handle_url(url, undefined, undefined, trusted, (msg: string) => {
       return hostCall(this.host, msg);
     });
     return Messaging.toUrlResponse(rsp);
@@ -325,8 +327,7 @@ class KmcDispatch implements CoreDispatch {
     url: string,
     trusted: TrustedSource
   ): Promise<UrlResponse> => {
-    /// FIXME Allowed domains?
-    let rsp = await kmc_handle_url(url, undefined, trusted, (msg: string) => {
+    let rsp = await kmc_handle_url(url, undefined, undefined, trusted, (msg: string) => {
       return hostCall(this.host, msg);
     });
     return Messaging.toUrlResponse(rsp);
@@ -370,9 +371,10 @@ export function createDispatch(config: Configuration): CoreDispatch {
 }
 
 /**
- * global one-time-call flag for kmc-migrate-database
+ * Global one-time-call flag for kmc-migrate-database.
+ * (It's a promise.)
  */
-let __migrate_db = false;
+let __migrate_db: Promise<any> | undefined = undefined;
 
 /**
  * one-time-call for kmc-migrate-database.
@@ -381,9 +383,9 @@ let __migrate_db = false;
  * twice, which will induce a panic in kmc_migrate_database.
  * @param allowedDomains 
  */
-function migrate_db(allowedDomains?: string) {
-  if (!__migrate_db) {
-    kmc_migrate_database(allowedDomains)
-    __migrate_db = true;
+async function migrate_db(allowedDomains?: string) {
+  if (__migrate_db === undefined) {
+    __migrate_db = kmc_migrate_database(allowedDomains);
   }
+  return __migrate_db;
 }

@@ -5,11 +5,12 @@ import {
   CredentialId,
   BindCredentialV1Result as BindCredentialResponse,
   BIAuthenticateUrlResponse as AuthenticateResponse,
-  UrlResponse,
+  Log,
 } from "coresdk";
 
 export interface Config {
   allowedDomains?: string[];
+  log?: Log;
 }
 
 export class Embedded {
@@ -29,8 +30,13 @@ export class Embedded {
       allowedDomains: ["beyondidentity.com"],
     };
     config = config ? config : defaults;
-    let allowedDomains = config.allowedDomains ? config.allowedDomains : defaults.allowedDomains;
-    let builder = new CoreBuilder().allowedDomains(allowedDomains.join(","));
+    let allowedDomains = config.allowedDomains
+      ? config.allowedDomains
+      : defaults.allowedDomains;
+    let builder = new CoreBuilder()
+      .allowedDomains(allowedDomains.join(","))
+      .log(config.log);
+
     const core = await builder.build();
     return new Embedded(core);
   };
@@ -100,24 +106,21 @@ export class Embedded {
   };
 
   /**
-   * Authenticates against a credential bound to the browser.
-   * If more than one credential is present, a callback is used to
-   * determine which credential to authenticate against.
+   * Authenticates against the specified credential bound to the browser.
    * @param url The url in order to authenticate against a credential.
-   * @param onSelectCredential A callback that expects a credential id to be returned given a list of credentials.
+   * @param credentialId The ID of the credential with which to authenticate.
    * @returns A Promise that resolves to an AuthenticateResponse which
    * contains a redirectUrl as well as a message.
    */
   authenticate = async (
     url: string,
-    onSelectCredential: (
-      credentials: Credential[]
-    ) => Promise<string | undefined>
+    credentialId: CredentialId
   ): Promise<AuthenticateResponse> => {
     return await this.core.authenticate(
       url,
+      credentialId,
       "EmbeddedSource",
-      onSelectCredential
+      undefined
     );
   };
 }

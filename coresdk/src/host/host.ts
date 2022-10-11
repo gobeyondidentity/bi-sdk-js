@@ -49,8 +49,6 @@ export interface Host {
   authenticationPrompt(app_name: string, detail_list: PromptDetail[]): boolean;
   log(msg: string): void;
   selectCredentialV1(credentials: CredentialV1[]): Promise<string | undefined>;
-
-  queryFeatureFlag: (flag: string) => boolean;
 }
 
 export interface ExportEvent {

@@ -11,13 +11,13 @@ export interface CoreDispatch {
     host: Host;
     bindCredentialUrl(url: string): Promise<BindCredentialV1Result>;
     getUrlType(url: string): Messaging.UrlType;
-    migrateDatabase(allowedDomains?: string): void;
+    migrateDatabase(allowedDomains?: string): Promise<void>;
     cancel(): Promise<void>;
     createPkce(): Promise<Pkce>;
     createCredential(handle: string, name: string, imageUrl: string, loginUri?: string, enrollUri?: string): Promise<Credential>;
     deleteCredential(handle: string): Promise<void>;
     deleteCredentialV1(id: CredentialId): Promise<void>;
-    authenticate(url: string, trusted: TrustedSource, onSelectCredential?: (credentials: CredentialV1[]) => Promise<string | undefined>): Promise<BIAuthenticateUrlResponse>;
+    authenticate(url: string, credentialId: CredentialId | undefined, trusted: TrustedSource, onSelectCredential?: (credentials: CredentialV1[]) => Promise<string | undefined>): Promise<BIAuthenticateUrlResponse>;
     authenticateConfidential(authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge, nonce?: string): Promise<AuthorizationCode>;
     authenticatePublic(authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string): Promise<TokenResponse>;
     export(handle: string): Promise<void>;

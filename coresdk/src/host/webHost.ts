@@ -21,12 +21,11 @@ import { Environment } from "../env";
  * Enclave, or DeviceQuery, or the UI.
  */
 export class WebHost implements Host, HostEvents {
-  logger: Log;
+  logger?: Log;
 
   onexport?: (this: Host, ev: ExportEvent) => void;
   onimport?: (this: Host, ev: ImportEvent) => void;
 
-  queryFeatureFlag: (flag: string) => boolean;
   onSelectCredentialV1?: (
     credentials: CredentialV1[]
   ) => Promise<string | undefined>;
@@ -36,11 +35,7 @@ export class WebHost implements Host, HostEvents {
   }
 
   constructor(config: Configuration) {
-    // Install a default feature flag provider.
-    this.queryFeatureFlag = (string) => {
-      return false;
-    };
-    this.logger = config.log ? config.log : new ConsoleLog();
+    this.logger = config.log;
   }
 
   checkFeatureFlags(
@@ -64,6 +59,8 @@ export class WebHost implements Host, HostEvents {
   }
 
   getClientEnvironment(): ClientEnvironment {
+    // FIXME: update this description!
+    
     // cryptoSource shall be set to "Host" so that Workforce flows 
     // (register, import, export, oidcPublic, oidcConfidential, ...) 
     // will only ever use the Host-based CryptoProvider and never the 
@@ -139,7 +136,7 @@ export class WebHost implements Host, HostEvents {
   }
 
   log(msg: string): void {
-    this.logger.write(msg);
+    if (this.logger) this.logger.write(msg);
     return;
   }
 

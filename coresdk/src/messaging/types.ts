@@ -275,6 +275,7 @@ export interface CoreCredentialV1 {
   state: "Active" | "Revoked";
   created: string;
   updated: string;
+  tenant: CoreTenantV1;
   realm: CoreRealmV1;
   identity: CoreIdentityV1;
   theme: CoreThemeV1;
@@ -287,12 +288,17 @@ export interface CoreRealmV1 {
 export interface CoreIdentityV1 {
   display_name: string;
   username: string;
+  primary_email_address?: string;
 }
 
 export interface CoreThemeV1 {
   logo_url_light: string;
   logo_url_dark: string;
   support_url: string;
+}
+
+export interface CoreTenantV1 {
+  display_name: string;
 }
 
 export function credentialV1FromCredential(
@@ -310,13 +316,16 @@ export function credentialV1FromCredential(
     state: coreCred.state,
     created: coreCred.created,
     updated: coreCred.updated,
+    tenant: {
+      displayName: coreCred.tenant.display_name,
+    },
     realm: {
       displayName: coreCred.realm.display_name,
     },
     identity: {
       displayName: coreCred.identity.display_name,
       username: coreCred.identity.username,
-      emailAddress: "", // FIXME: email is missing from CoreIdentityV1
+      primaryEmailAddress: coreCred.identity.primary_email_address,
     },
     theme: {
       logoUrlLight: coreCred.theme.logo_url_light,

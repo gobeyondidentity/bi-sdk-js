@@ -52,6 +52,20 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 	}
 
 	/**
+	 * @private
+	 * @param {Chunk} chunk chunk
+	 * @returns {string} generated code
+	 */
+	_generateBaseUri(chunk) {
+		const options = chunk.getEntryOptions();
+		if (options && options.baseUri) {
+			return `${RuntimeGlobals.baseURI} = ${JSON.stringify(options.baseUri)};`;
+		} else {
+			return `${RuntimeGlobals.baseURI} = document.baseURI || self.location.href;`;
+		}
+	}
+
+	/**
 	 * @returns {string} runtime code
 	 */
 	generate() {
@@ -59,13 +73,13 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 		const {
 			runtimeTemplate,
 			outputOptions: {
-				globalObject,
 				chunkLoadingGlobal,
 				hotUpdateGlobal,
 				crossOriginLoading,
 				scriptType
 			}
 		} = compilation;
+		const globalObject = runtimeTemplate.globalObject;
 		const { linkPreload, linkPrefetch } =
 			JsonpChunkLoadingRuntimeModule.getCompilationHooks(compilation);
 		const fn = RuntimeGlobals.ensureChunkHandlers;
@@ -96,18 +110,14 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 		)}]`;
 		const conditionMap = chunkGraph.getChunkConditionMap(chunk, chunkHasJs);
 		const hasJsMatcher = compileBooleanMatcher(conditionMap);
-		const initialChunkIds = getInitialChunkIds(chunk, chunkGraph);
+		const initialChunkIds = getInitialChunkIds(chunk, chunkGraph, chunkHasJs);
 
 		const stateExpression = withHmr
 			? `${RuntimeGlobals.hmrRuntimeStatePrefix}_jsonp`
 			: undefined;
 
 		return Template.asString([
-			withBaseURI
-				? Template.asString([
-						`${RuntimeGlobals.baseURI} = document.baseURI || self.location.href;`
-				  ])
-				: "// no baseURI",
+			withBaseURI ? this._generateBaseUri(chunk) : "// no baseURI",
 			"",
 			"// object to store loaded and loading chunks",
 			"// undefined = chunk not loaded, null = chunk preloaded/prefetched",
@@ -253,15 +263,17 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 									'link.as = "script";',
 									`link.href = ${RuntimeGlobals.publicPath} + ${RuntimeGlobals.getChunkScriptFilename}(chunkId);`,
 									crossOriginLoading
-										? Template.asString([
-												"if (link.href.indexOf(window.location.origin + '/') !== 0) {",
-												Template.indent(
-													`link.crossOrigin = ${JSON.stringify(
-														crossOriginLoading
-													)};`
-												),
-												"}"
-										  ])
+										? crossOriginLoading === "use-credentials"
+											? 'link.crossOrigin = "use-credentials";'
+											: Template.asString([
+													"if (link.href.indexOf(window.location.origin + '/') !== 0) {",
+													Template.indent(
+														`link.crossOrigin = ${JSON.stringify(
+															crossOriginLoading
+														)};`
+													),
+													"}"
+											  ])
 										: ""
 								]),
 								chunk
@@ -276,8 +288,9 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 				? Template.asString([
 						"var currentUpdatedModulesList;",
 						"var waitingUpdateResolves = {};",
-						"function loadUpdateChunk(chunkId) {",
+						"function loadUpdateChunk(chunkId, updatedModulesList) {",
 						Template.indent([
+							"currentUpdatedModulesList = updatedModulesList;",
 							`return new Promise(${runtimeTemplate.basicFunction(
 								"resolve, reject",
 								[
@@ -419,7 +432,7 @@ class JsonpChunkLoadingRuntimeModule extends RuntimeModule {
 									`if(${RuntimeGlobals.hasOwnProperty}(installedChunks, chunkId) && installedChunks[chunkId]) {`,
 									Template.indent("installedChunks[chunkId][0]();"),
 									"}",
-									"installedChunks[chunkIds[i]] = 0;"
+									"installedChunks[chunkId] = 0;"
 								]),
 								"}",
 								withOnChunkLoad

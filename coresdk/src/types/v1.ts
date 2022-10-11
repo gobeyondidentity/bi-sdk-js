@@ -23,6 +23,7 @@ export type CredentialBindingJobId = string;
     state: "Active" | "Revoked";
     created: string;
     updated: string;
+    tenant: TenantV1;
     realm: RealmV1;
     identity: IdentityV1;
     theme: ThemeV1;
@@ -35,13 +36,17 @@ export type CredentialBindingJobId = string;
   export interface IdentityV1 {
       displayName: string;
       username: string;
-      emailAddress: string;
+      primaryEmailAddress?: string;
   }
   
   export interface ThemeV1 {
       logoUrlLight: string;
       logoUrlDark: string;
       supportUrl: string;
+  }
+
+  export interface TenantV1 {
+    displayName: string;
   }
   
   /**

@@ -33,7 +33,13 @@ const AuthenticateWithBeyondIdentity = () => {
   }, []);
 
   async function biAuthenticate(url: string) {
-    let result = await embedded.authenticate(url, (credentials: Credential[]) => {
+    let selectedCredentialId = await async function () {
+      let credentials = await embedded.getCredentials();
+      if (credentials.length === 0) {
+        return Promise.resolve("unknown_id");
+      } else if (credentials.length === 1) {
+        return Promise.resolve(credentials[0].id);
+      }
       let promptText = credentials.map((credential, index) => {
         return `${index}: ${credential.identity.username}`;
       }).join("\n");
@@ -45,7 +51,8 @@ const AuthenticateWithBeyondIdentity = () => {
         // This will fail in core as it won't match to any id
         return Promise.resolve("unknown_id");
       }
-    });
+    }();
+    let result = await embedded.authenticate(url, selectedCredentialId);
 
     // Scroll down to this element
     scrollReference.current?.scrollIntoView();

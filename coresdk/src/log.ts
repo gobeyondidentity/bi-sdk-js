@@ -1,22 +1,19 @@
-
 /**
  * Interface by which the host will be notified to log data.
  */
 export interface Log {
-
-    /**
-     * Called by the host to log data.
-     * @param data values to be logged, typically a string.
-     */
-    write(...data: any): void;
+  /**
+   * Called by the host to log data.
+   * @param data values to be logged, typically a string.
+   */
+  write(...data: any): void;
 }
 
 /**
- * The default implementatino of the Log interface.
- * Data is logged to the debug console.
+ * A default implementation of the Log interface that logs data to the console.
  */
 export class ConsoleLog implements Log {
-    write(...data: any): void {
-        console.log(data);
-    }
+  write(...data: any): void {
+    console.log(data);
+  }
 }

@@ -4,7 +4,6 @@ import { CoreDispatch } from "./coreDispatch";
 import { Credential, CredentialV1, BindCredentialV1Result, PkceCodeChallenge, Pkce, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, CredentialId } from "./types";
 import { Log } from "./log";
 import { HostEvents, ExportEvent, ImportEvent } from "./host";
-import { Optimizely } from "./util/optimizely";
 import { BIAuthenticateUrlResponse } from "./types/credential";
 /**
  * CoreBuilder is a wrapper around `CoreConfig` with a "fluent" interface.
@@ -13,7 +12,7 @@ export declare class CoreBuilder {
     config: Configuration;
     constructor();
     mock(data: MockConfiguration): CoreBuilder;
-    log(log: Log): CoreBuilder;
+    log(log?: Log): CoreBuilder;
     allowedDomains(allowedDomains?: string): CoreBuilder;
     /**
      * Construct the `Core`.
@@ -27,7 +26,6 @@ export declare class CoreBuilder {
  */
 export declare class Core {
     dispatch: CoreDispatch;
-    optimizely?: Optimizely;
     constructor(dispatch: CoreDispatch);
     get events(): HostEvents;
     /**
@@ -47,7 +45,7 @@ export declare class Core {
     /**
      * Authenticates a credential.
      */
-    authenticate: (url: string, trusted: TrustedSource, onSelectCredential?: ((credentials: CredentialV1[]) => Promise<string | undefined>) | undefined) => Promise<BIAuthenticateUrlResponse>;
+    authenticate: (url: string, credentialId: CredentialId | undefined, trusted: TrustedSource, onSelectCredential?: ((credentials: CredentialV1[]) => Promise<string | undefined>) | undefined) => Promise<BIAuthenticateUrlResponse>;
     authenticatePublic: (authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string | undefined) => Promise<TokenResponse>;
     /**
      * Begins an export of the specified credential.

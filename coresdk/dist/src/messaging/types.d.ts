@@ -147,6 +147,7 @@ export interface CoreCredentialV1 {
     state: "Active" | "Revoked";
     created: string;
     updated: string;
+    tenant: CoreTenantV1;
     realm: CoreRealmV1;
     identity: CoreIdentityV1;
     theme: CoreThemeV1;
@@ -157,11 +158,15 @@ export interface CoreRealmV1 {
 export interface CoreIdentityV1 {
     display_name: string;
     username: string;
+    primary_email_address?: string;
 }
 export interface CoreThemeV1 {
     logo_url_light: string;
     logo_url_dark: string;
     support_url: string;
+}
+export interface CoreTenantV1 {
+    display_name: string;
 }
 export declare function credentialV1FromCredential(coreCred: CoreCredentialV1): CredentialV1;
 export declare type UrlType = {

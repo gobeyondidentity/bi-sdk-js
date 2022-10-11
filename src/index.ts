@@ -4,5 +4,7 @@ export {
   RealmId,
   IdentityId,
   CredentialId,
+  Log,
+  ConsoleLog,
 } from "coresdk";
 export { Embedded } from "./embedded";

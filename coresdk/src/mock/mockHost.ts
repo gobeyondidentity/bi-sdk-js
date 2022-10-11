@@ -24,16 +24,11 @@ export class MockHost implements Host, HostEvents {
     credentials: CredentialV1[]
   ) => Promise<string | undefined>;
 
-  queryFeatureFlag: (flag: string) => boolean;
-
   get events(): HostEvents {
     return this;
   }
 
   constructor(config: Configuration) {
-    this.queryFeatureFlag = (string) => {
-      return false;
-    };
     this.mock = config.mock ? <HostData>config.mock.host : {};
   }
 

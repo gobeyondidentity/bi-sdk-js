@@ -31,13 +31,8 @@ class BeyondIdentityEmbeddedSdk {
     return (await this.initialized()).isBindCredentialUrl(url);
   };
 
-  authenticate = async (
-    url: string,
-    onSelectCredential: (
-      credentials: Credential[]
-    ) => Promise<string | undefined>
-  ) => {
-    return (await this.initialized()).authenticate(url, onSelectCredential);
+  authenticate = async (url: string, credentialId: CredentialId) => {
+    return (await this.initialized()).authenticate(url, credentialId);
   };
 }
 

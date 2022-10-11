@@ -8,10 +8,9 @@ import { Configuration } from "../configuration";
  * Enclave, or DeviceQuery, or the UI.
  */
 export declare class WebHost implements Host, HostEvents {
-    logger: Log;
+    logger?: Log;
     onexport?: (this: Host, ev: ExportEvent) => void;
     onimport?: (this: Host, ev: ImportEvent) => void;
-    queryFeatureFlag: (flag: string) => boolean;
     onSelectCredentialV1?: (credentials: CredentialV1[]) => Promise<string | undefined>;
     get events(): HostEvents;
     constructor(config: Configuration);

@@ -22,7 +22,6 @@ import {
 import { Log } from "./log";
 import { HostEvents, ExportEvent, ImportEvent } from "./host";
 import init from "kmc-ffi";
-import { Optimizely } from "./util/optimizely";
 import { BIAuthenticateUrlResponse } from "./types/credential";
 
 /**
@@ -40,7 +39,7 @@ export class CoreBuilder {
     return this;
   }
 
-  log(log: Log): CoreBuilder {
+  log(log?: Log): CoreBuilder {
     this.config.log = log;
     return this;
   }
@@ -70,9 +69,7 @@ export class CoreBuilder {
  */
 export class Core {
   dispatch: CoreDispatch;
-
-  optimizely?: Optimizely;
-
+  
   constructor(dispatch: CoreDispatch) {
     this.dispatch = dispatch;
   }
@@ -87,21 +84,11 @@ export class Core {
    * with an appInstanceId, which is required for the import flow.
    */
   init = async (config: Configuration): Promise<void> => {
-    this.dispatch.migrateDatabase(config.allowedDomains);
+    await this.dispatch.migrateDatabase(config.allowedDomains);
 
-    // Get the appInstanceID to pass into the
-    // queryFeatureFlag closure
-    let instanceId = await this.dispatch.getAppInstanceId();
-    try {
-      this.optimizely = await Optimizely.init();
-      this.dispatch.host.queryFeatureFlag = (flag: string) => {
-        return this.optimizely
-          ? this.optimizely.queryFeatureFlag(flag, instanceId || "")
-          : false;
-      };
-    } catch (err) {
-      console.error("Optimizely initialization failure: ", err);
-    }
+    // Get the appInstanceID. This is the step that populates the 
+    // appInstanceId on first run.
+    await this.dispatch.getAppInstanceId();
   };
 
   bindCredentialUrl = async (url: string): Promise<BindCredentialV1Result> =>
@@ -150,6 +137,7 @@ export class Core {
    */
   authenticate = async (
     url: string,
+    credentialId: CredentialId | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]
@@ -160,7 +148,7 @@ export class Core {
       : undefined; // use default credential selection handling defined by the host
     
     try {
-      return await this.dispatch.authenticate(url, trusted, onSelectCredential);
+      return await this.dispatch.authenticate(url, credentialId, trusted, onSelectCredential);
     } finally {
       // reset select credential callback
       this.dispatch.host.events.onSelectCredentialV1 = undefined;
@@ -260,12 +248,7 @@ export class Core {
   ): Promise<UrlResponse> => this.dispatch.register(url, trusted);
 
   getAppInstanceId = async (): Promise<string> => {
-    let halVersion;
-    if (this.dispatch.host.queryFeatureFlag("crypto_provider_hal")) {
-      halVersion = "H";
-    } else {
-      halVersion = "L";
-    }
+    let halVersion = "H";
     return (await this.dispatch.getAppInstanceId()) + `[${halVersion}]`;
   };
 
