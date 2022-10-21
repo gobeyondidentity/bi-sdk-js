@@ -1,5 +1,6 @@
-.nyc_output
-coverage
 dist
 docs
 node_modules
+test/__pycache__
+test-automation
+test/BrowserStackLocal**
