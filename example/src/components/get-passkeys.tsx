@@ -1,34 +1,34 @@
 import "bootstrap/dist/css/bootstrap.css";
-import { Credential } from '../utils/BeyondIdentityEmbeddedSdk';
+import { Passkey } from '../utils/BeyondIdentityEmbeddedSdk';
 import { Component } from "react";
 
-class GetCredentials extends Component<{}, { credentials: Credential[] }> {
+class GetPasskeys extends Component<{}, { passkeys: Passkey[] }> {
   constructor(props: any) {
     super(props);
-    this.state = { credentials: [] };
+    this.state = { passkeys: [] };
   }
 
   async componentDidMount() {
     const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
     let embedded = new BeyondIdentityEmbeddedSdk.default();
-    this.setState({ credentials: await embedded.getCredentials() });
+    this.setState({ passkeys: await embedded.getPasskeys() });
     window.addEventListener("message", async (event) => {
-      if (event.data === "update-credentials") {
-        this.setState({ credentials: await embedded.getCredentials() });
+      if (event.data === "update-passkeys") {
+        this.setState({ passkeys: await embedded.getPasskeys() });
       } else {
         console.log("Unknown event data received:", event.data);
       }
     });
   }
 
-  async handleDeleteCredentialClick(e: React.MouseEvent<HTMLButtonElement>, credential: Credential) {
+  async handleDeletePasskeyClick(e: React.MouseEvent<HTMLButtonElement>, passkey: Passkey) {
     e.preventDefault();
     const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
     let embedded = new BeyondIdentityEmbeddedSdk.default();
-    let result = window.confirm(`Are you sure you want to delete credential with username \"${credential.identity.username}\"?`);
+    let result = window.confirm(`Are you sure you want to delete credential with username \"${passkey.identity.username}\"?`);
     if (result) {
-      await embedded.deleteCredential(credential.id);
-      this.setState({ credentials: await embedded.getCredentials() });
+      await embedded.deletePasskey(passkey.id);
+      this.setState({ passkeys: await embedded.getPasskeys() });
     }
   }
 
@@ -54,18 +54,18 @@ class GetCredentials extends Component<{}, { credentials: Credential[] }> {
                   </thead>
 
                   <tbody>
-                    {this.state.credentials.map(credential => (
-                      <tr key={credential.id}>
+                    {this.state.passkeys.map(passkey => (
+                      <tr key={passkey.id}>
                         <td><button
                           type="button"
-                          value={credential.id}
-                          onClick={event => this.handleDeleteCredentialClick(event, credential)}
+                          value={passkey.id}
+                          onClick={event => this.handleDeletePasskeyClick(event, passkey)}
                           className="btn btn-primary btn-md"
                         >Delete</button></td>
-                        <th scope="row"><img src={credential.theme.logoUrlLight} style={{ width: "50px" }} alt="Beyond Identity Credential Logo"></img></th>
-                        <td>{credential.identity.username}</td>
-                        <td>{credential.identity.displayName}</td>
-                        <td>{credential.id}</td>
+                        <th scope="row"><img src={passkey.theme.logoUrlLight} style={{ width: "50px" }} alt="Beyond Identity passkey Logo"></img></th>
+                        <td>{passkey.identity.username}</td>
+                        <td>{passkey.identity.displayName}</td>
+                        <td>{passkey.id}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -79,4 +79,4 @@ class GetCredentials extends Component<{}, { credentials: Credential[] }> {
   }
 }
 
-export default GetCredentials;
+export default GetPasskeys;

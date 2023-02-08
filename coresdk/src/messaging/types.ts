@@ -169,7 +169,7 @@ export interface HandleBiAuthenticateUrlResponse {
 }
 
 export interface HandleBindCredentialUrlResponse {
-  credential: CredentialV1;
+  credential: CoreCredentialV1;
   post_binding_redirect_uri?: string;
 }
 
@@ -179,7 +179,7 @@ export type HandleUrlResponse =
   | { BiAuthenticate: HandleBiAuthenticateUrlResponse }
   | { BindCredential: HandleBindCredentialUrlResponse };
 
-/** Helper method for constructing UrlResponse from rust HandleUrlRespone objects. */
+/** Helper method for constructing UrlResponse from rust HandleUrlResponse objects. */
 export function toUrlResponse(rsp: HandleUrlResponse): UrlResponse {
   if ("SelfIssue" in rsp) {
     return {
@@ -209,7 +209,7 @@ export function toUrlResponse(rsp: HandleUrlResponse): UrlResponse {
     return {
       type: "bindCredential",
       bindCredential: {
-        credential: rsp["BindCredential"].credential,
+        credential: credentialV1FromCredential(rsp["BindCredential"].credential),
         postBindRedirect: rsp["BindCredential"].post_binding_redirect_uri,
       },
     };
@@ -309,20 +309,20 @@ export function credentialV1FromCredential(
     localCreated: coreCred.local_created,
     localUpdated: coreCred.local_updated,
     apiBaseUrl: coreCred.api_base_url,
-    tenantId: coreCred.tenant_id,
-    realmId: coreCred.realm_id,
-    identityId: coreCred.identity_id,
     keyHandle: coreCred.key_handle,
     state: coreCred.state,
     created: coreCred.created,
     updated: coreCred.updated,
     tenant: {
+      id: coreCred.tenant_id,
       displayName: coreCred.tenant.display_name,
     },
     realm: {
+      id: coreCred.realm_id,
       displayName: coreCred.realm.display_name,
     },
     identity: {
+      id: coreCred.realm_id,
       displayName: coreCred.identity.display_name,
       username: coreCred.identity.username,
       primaryEmailAddress: coreCred.identity.primary_email_address,

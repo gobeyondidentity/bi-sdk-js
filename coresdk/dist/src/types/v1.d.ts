@@ -13,9 +13,6 @@ export interface CredentialV1 {
     localCreated: string;
     localUpdated: string;
     apiBaseUrl: string;
-    tenantId: TenantId;
-    realmId: RealmId;
-    identityId: IdentityId;
     keyHandle: KeyHandle;
     keyType?: KeyType;
     state: "Active" | "Revoked";
@@ -27,9 +24,11 @@ export interface CredentialV1 {
     theme: ThemeV1;
 }
 export interface RealmV1 {
+    id: RealmId;
     displayName: string;
 }
 export interface IdentityV1 {
+    id: IdentityId;
     displayName: string;
     username: string;
     primaryEmailAddress?: string;
@@ -40,6 +39,7 @@ export interface ThemeV1 {
     supportUrl: string;
 }
 export interface TenantV1 {
+    id: TenantId;
     displayName: string;
 }
 /**

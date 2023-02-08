@@ -1,17 +1,17 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Highlight from "react-highlight";
-import GetCredentials from "./get-credentials";
+import GetPasskeys from "./get-passkeys";
 
-const RecoverCredential = () => {
-  const [recoverCredentialUsername, setRecoverCredentialUsername] = useState(String);
-  const [recoverCredentialResult, setRecoverCredentialResult] = useState({});
+const RecoverPasskey = () => {
+  const [recoverPasskeyUsername, setRecoverPasskeyUsername] = useState(String);
+  const [recoverPasskeyResult, setRecoverPasskeyResult] = useState({});
 
-  async function handleRecoverCredentialClick(e: React.MouseEvent<HTMLButtonElement>) {
+  async function handleRecoverPasskeyClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
     let embedded = new BeyondIdentityEmbeddedSdk.default();
-    let username = recoverCredentialUsername;
+    let username = recoverPasskeyUsername;
     let response = await fetch('https://acme-cloud.byndid.com/recover-credential-binding-link', {
       method: 'POST',
       headers: {
@@ -25,16 +25,16 @@ const RecoverCredential = () => {
     });
     let jsonResponse = await response.json();
     if (response.status !== 200 || jsonResponse === null) {
-      setRecoverCredentialResult(jsonResponse);
+      setRecoverPasskeyResult(jsonResponse);
       return;
     }
     let credentialBindingLink = jsonResponse.credential_binding_link;
-    if (await embedded.isBindCredentialUrl(credentialBindingLink)) {
-      let result = await embedded.bindCredential(credentialBindingLink);
-      setRecoverCredentialResult(result);
-      window.postMessage("update-credentials", "*");
+    if (await embedded.isBindPasskeyUrl(credentialBindingLink)) {
+      let result = await embedded.bindPasskey(credentialBindingLink);
+      setRecoverPasskeyResult(result);
+      window.postMessage("update-passkeys", "*");
     } else {
-      setRecoverCredentialResult(jsonResponse);
+      setRecoverPasskeyResult(jsonResponse);
     }
   }
 
@@ -58,12 +58,12 @@ const RecoverCredential = () => {
                   <input
                     type="text"
                     className="form-control rounded-4 mb-3"
-                    onChange={event => setRecoverCredentialUsername(event.target.value)}
+                    onChange={event => setRecoverPasskeyUsername(event.target.value)}
                   />
-                  <label htmlFor="bindCredentialUsername">Username</label>
+                  <label htmlFor="bindPasskeyUsername">Username</label>
                   <button
                     type="button"
-                    onClick={handleRecoverCredentialClick}
+                    onClick={handleRecoverPasskeyClick}
                     className="btn btn-primary btn-lg px-4"
                   >
                     Get Passkey
@@ -72,11 +72,11 @@ const RecoverCredential = () => {
               </div>
             </div>
 
-            {Object.keys(recoverCredentialResult).length > 0 &&
+            {Object.keys(recoverPasskeyResult).length > 0 &&
               <div className="row row-cols-1 row-cols-md-1 mt-3">
                 <div className="col">
                   <Highlight className='json'>
-                    {JSON.stringify(recoverCredentialResult, null, 2)}
+                    {JSON.stringify(recoverPasskeyResult, null, 2)}
                   </Highlight>
                 </div>
               </div>
@@ -85,9 +85,9 @@ const RecoverCredential = () => {
         </div>
       </section>
       
-      <GetCredentials></GetCredentials>
+      <GetPasskeys></GetPasskeys>
     </main>
   );
 };
 
-export default RecoverCredential;
+export default RecoverPasskey;

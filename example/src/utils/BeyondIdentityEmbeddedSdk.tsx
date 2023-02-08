@@ -1,6 +1,6 @@
 import '@beyondidentity/bi-sdk-js';
-import { CredentialId, Embedded } from '@beyondidentity/bi-sdk-js';
-export type { Credential } from '@beyondidentity/bi-sdk-js';
+import { Embedded } from '@beyondidentity/bi-sdk-js';
+export type { Passkey } from '@beyondidentity/bi-sdk-js';
 
 class BeyondIdentityEmbeddedSdk {
   embedded: Embedded | null = null;
@@ -12,31 +12,31 @@ class BeyondIdentityEmbeddedSdk {
     return this.embedded as Embedded;
   };
 
-  bindCredential = async (url: string) => {
-    return (await this.initialized()).bindCredential(url);
+  bindPasskey = async (url: string) => {
+    return (await this.initialized()).bindPasskey(url);
   };
 
-  getCredentials = async () => {
-    return (await this.initialized()).getCredentials();
+  getPasskeys = async () => {
+    return (await this.initialized()).getPasskeys();
   };
 
-  deleteCredential = async (id: CredentialId) => {
-    return (await this.initialized()).deleteCredential(id);
+  deletePasskey = async (id: string) => {
+    return (await this.initialized()).deletePasskey(id);
   };
 
   isAuthenticateUrl = async (url: string) => {
     return (await this.initialized()).isAuthenticateUrl(url);
   };
 
-  isBindCredentialUrl = async (url: string) => {
-    return (await this.initialized()).isBindCredentialUrl(url);
+  isBindPasskeyUrl = async (url: string) => {
+    return (await this.initialized()).isBindPasskeyUrl(url);
   };
 
   authenticate = async (
     url: string,
-    credentialId: CredentialId
+    passkeyId: string
   ) => {
-    return (await this.initialized()).authenticate(url, credentialId);
+    return (await this.initialized()).authenticate(url, passkeyId);
   };
 }
 

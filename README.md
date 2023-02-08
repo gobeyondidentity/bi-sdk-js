@@ -8,34 +8,37 @@
    </p>
 </p>
 
-# Beyond Identity JS SDK
+# Beyond Identity JavaScript SDK
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-### Embedded
+### Embedded SDK
 
-Offering the entire experience embedded in your product. Users will not need to navigate to the Beyond Identity Authenticator.
+Goodbye, passwords! The Beyond Identity SDKs allow you to embed the Passwordless experience into your product. Users will not need to download the Beyond Identity Authenticator. These SDKs supports OIDC and OAuth2.
 
 ## Installation
 
 ```
 yarn add @beyondidentity/bi-sdk-js
 ```
-or 
+or
 ```
 npm install @beyondidentity/bi-sdk-js
 ```
 
 ## Usage
 
-```typescript
-import * as embeddedsdk from "@beyondidentity/bi-sdk-js";
+Check out the [Developer Documentation](https://developer.beyondidentity.com) and the [SDK API Documentation](https://gobeyondidentity.github.io/bi-sdk-js/) for more information.
 
-async function initialize(): Promise<embeddedsdk.Embedded> {
-    return embeddedsdk.Embedded.initialize();
-}
+### Setup
+
+First, before calling the Embedded functions, make sure to initialize the SDK.
+
+```typescript
+import { Embedded } from '@beyondidentity/bi-sdk-js';
+
+const embedded = await Embedded.initialize();
 ```
-Check out the [documentation](https://developer.beyondidentity.com) for more information.
 
 ## Example App
 

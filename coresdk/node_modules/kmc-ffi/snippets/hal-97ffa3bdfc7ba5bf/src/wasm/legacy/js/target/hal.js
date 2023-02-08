@@ -4266,7 +4266,7 @@ function ecdsaSign(key, hash, data) {
 
 // node_modules/web-api/src/webauthn.js
 var cbor = __toModule(require_cbor());
-async function webauthnGenerateKeyPair(name, data) {
+async function webauthnGenerateKeyPair(data, user) {
   const userId = new Uint8Array(16);
   randomBytes(userId);
   let challenge = data !== void 0 ? data : new Uint8Array(0);
@@ -4279,8 +4279,8 @@ async function webauthnGenerateKeyPair(name, data) {
     challenge,
     user: {
       id: userId,
-      name,
-      displayName: name
+      name: user.name,
+      displayName: user.displayName
     },
     pubKeyCredParams: [
       {
@@ -4444,11 +4444,12 @@ async function queryCryptoCapabilities(provider) {
     return subtle;
   throw new BadPlatform("crypto");
 }
-async function generateKey(handle, provider, data) {
-  if (!validateKeyHandle(handle))
-    throw new InvalidArg("handle");
+async function generateKey(provider, data, user) {
+  if (!user) {
+    throw new TypeError("invalid user");
+  }
   let api = await queryCryptoCapabilities(provider);
-  return await api.generateKey(handle, data);
+  return await api.generateKey(data, user);
 }
 async function sign(key, data) {
   let api = keyProvider(key);
@@ -4480,7 +4481,7 @@ var subtle = new class Subtle {
       return key.subtle;
     throw new InvalidKey("");
   }
-  async generateKey(handle, data) {
+  async generateKey(data, user) {
     let signingKey = await ecdsaGenerateKeyPair("P-256");
     let key = {
       subtle: {
@@ -4511,8 +4512,8 @@ var webauthn = new class WebAuthn {
       return key.webauthn;
     throw new InvalidKey("");
   }
-  async generateKey(handle, data) {
-    const cred = await webauthnGenerateKeyPair(handle, data);
+  async generateKey(data, user) {
+    const cred = await webauthnGenerateKeyPair(data, user);
     let key = {
       webauthn: {
         signingKey: {
@@ -4682,7 +4683,7 @@ async function deleteKey(db, handle) {
 }
 
 // src/index.js
-function FfiCreateKeyP256(handle, provider, data) {
+function FfiCreateKeyP256(handle, provider, data, user) {
   return new Promise(async (resolve, reject) => {
     let db;
     try {
@@ -4692,11 +4693,11 @@ function FfiCreateKeyP256(handle, provider, data) {
         throw new KeyExists(handle);
       let signature;
       try {
-        [key, signature] = await generateKey(handle, provider, data);
+        [key, signature] = await generateKey(provider, data, user);
       } catch (err) {
         if (provider === "webauthn" && err instanceof WebAuthnError && err.name != "NotAllowedError") {
           console.warn(err);
-          [key, signature] = await generateKey(handle, "subtle", data);
+          [key, signature] = await generateKey("subtle", data, void 0);
         } else {
           throw err;
         }

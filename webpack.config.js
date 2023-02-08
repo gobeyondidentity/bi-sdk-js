@@ -15,10 +15,6 @@ module.exports = (env) => {
         },
       ],
     },
-    // do not generate source maps for production build
-    ...(env.CHANNEL !== "production" && {
-      devtool: "inline-source-map",
-    }),
     output: {
       filename: "bi-embedded.js",
       library: "embeddedsdk",

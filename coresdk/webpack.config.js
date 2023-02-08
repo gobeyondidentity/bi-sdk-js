@@ -13,6 +13,9 @@ module.exports = (env) => {
           use: "ts-loader",
           exclude: /node_modules/,
         },
+        // Disable sourcemaps included kmc-js/snippets. 
+        // These can be quite large, and aren't particularly 
+        // useful.
         {
           test: /\.js$/,
           enforce: "pre",
@@ -39,6 +42,6 @@ module.exports = (env) => {
       clean: true,
     },
   };
-
+  
   return config;
 };

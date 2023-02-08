@@ -6,9 +6,9 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 
 import Login from '../components/login';
-import GetCredentials from "../components/get-credentials";
-import BindCredential from "../components/bind-credential";
-import RecoverCredential from "../components/recover-credential";
+import GetPasskeys from "../components/get-passkeys";
+import BindPasskey from "../components/bind-passkey";
+import RecoverPasskey from "../components/recover-passkey";
 
 export default function IndexPage() {
   const [key, setKey] = useState('home');
@@ -21,17 +21,17 @@ export default function IndexPage() {
             className="mb-3 justify-content-center"
           >
             <Tab eventKey="signup" title="1. Signup">
-                <BindCredential></BindCredential>
-                <GetCredentials></GetCredentials>
+                <BindPasskey></BindPasskey>
+                <GetPasskeys></GetPasskeys>
             </Tab>
             <Tab eventKey="list" title="2. Manage Local Passkeys">
-               <GetCredentials></GetCredentials>
+               <GetPasskeys></GetPasskeys>
             </Tab>
             <Tab eventKey="signin" title="3. Sign in with Passkey">
               <Login></Login>
             </Tab>
             <Tab eventKey="recover" title="4. Existing User">
-              <RecoverCredential></RecoverCredential>
+              <RecoverPasskey></RecoverPasskey>
             </Tab>
         </Tabs>
       </main>

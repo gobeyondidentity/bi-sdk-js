@@ -1,1 +1,8414 @@
-var ri=Object.create;var Xe=Object.defineProperty;var oi=Object.getOwnPropertyDescriptor;var li=Object.getOwnPropertyNames;var ci=Object.getPrototypeOf,ai=Object.prototype.hasOwnProperty;var ui=a=>Xe(a,"__esModule",{value:!0});var x=(a,o)=>()=>(o||a((o={exports:{}}).exports,o),o.exports);var fi=(a,o,l)=>{if(o&&typeof o=="object"||typeof o=="function")for(let i of li(o))!ai.call(a,i)&&i!=="default"&&Xe(a,i,{get:()=>o[i],enumerable:!(l=oi(o,i))||l.enumerable});return a},Tt=a=>fi(ui(Xe(a!=null?ri(ci(a)):{},"default",a&&a.__esModule&&"default"in a?{get:()=>a.default,enumerable:!0}:{value:a,enumerable:!0})),a);var tn=x(($r,en)=>{"use strict";en.exports=Ni;function Ni(a,o){for(var l=new Array(arguments.length-1),i=0,e=2,t=!0;e<arguments.length;)l[i++]=arguments[e++];return new Promise(function(c,u){l[i]=function(d){if(t)if(t=!1,d)u(d);else{for(var s=new Array(arguments.length-1),y=0;y<s.length;)s[y++]=arguments[y];c.apply(null,s)}};try{a.apply(o||null,l)}catch(f){t&&(t=!1,u(f))}})}});var ln=x(on=>{"use strict";var Be=on;Be.length=function(o){var l=o.length;if(!l)return 0;for(var i=0;--l%4>1&&o.charAt(l)==="=";)++i;return Math.ceil(o.length*3)/4-i};var de=new Array(64),nn=new Array(123);for(W=0;W<64;)nn[de[W]=W<26?W+65:W<52?W+71:W<62?W-4:W-59|43]=W++;var W;Be.encode=function(o,l,i){for(var e=null,t=[],n=0,c=0,u;l<i;){var f=o[l++];switch(c){case 0:t[n++]=de[f>>2],u=(f&3)<<4,c=1;break;case 1:t[n++]=de[u|f>>4],u=(f&15)<<2,c=2;break;case 2:t[n++]=de[u|f>>6],t[n++]=de[f&63],c=0;break}n>8191&&((e||(e=[])).push(String.fromCharCode.apply(String,t)),n=0)}return c&&(t[n++]=de[u],t[n++]=61,c===1&&(t[n++]=61)),e?(n&&e.push(String.fromCharCode.apply(String,t.slice(0,n))),e.join("")):String.fromCharCode.apply(String,t.slice(0,n))};var rn="invalid encoding";Be.decode=function(o,l,i){for(var e=i,t=0,n,c=0;c<o.length;){var u=o.charCodeAt(c++);if(u===61&&t>1)break;if((u=nn[u])===void 0)throw Error(rn);switch(t){case 0:n=u,t=1;break;case 1:l[i++]=n<<2|(u&48)>>4,n=u,t=2;break;case 2:l[i++]=(n&15)<<4|(u&60)>>2,n=u,t=3;break;case 3:l[i++]=(n&3)<<6|u,t=0;break}}if(t===1)throw Error(rn);return i-e};Be.test=function(o){return/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(o)}});var an=x((Zr,cn)=>{"use strict";cn.exports=Ue;function Ue(){this._listeners={}}Ue.prototype.on=function(o,l,i){return(this._listeners[o]||(this._listeners[o]=[])).push({fn:l,ctx:i||this}),this};Ue.prototype.off=function(o,l){if(o===void 0)this._listeners={};else if(l===void 0)this._listeners[o]=[];else for(var i=this._listeners[o],e=0;e<i.length;)i[e].fn===l?i.splice(e,1):++e;return this};Ue.prototype.emit=function(o){var l=this._listeners[o];if(l){for(var i=[],e=1;e<arguments.length;)i.push(arguments[e++]);for(e=0;e<l.length;)l[e].fn.apply(l[e++].ctx,i)}return this}});var sn=x((Xr,pn)=>{"use strict";pn.exports=un(un);function un(a){return typeof Float32Array!="undefined"?function(){var o=new Float32Array([-0]),l=new Uint8Array(o.buffer),i=l[3]===128;function e(u,f,d){o[0]=u,f[d]=l[0],f[d+1]=l[1],f[d+2]=l[2],f[d+3]=l[3]}function t(u,f,d){o[0]=u,f[d]=l[3],f[d+1]=l[2],f[d+2]=l[1],f[d+3]=l[0]}a.writeFloatLE=i?e:t,a.writeFloatBE=i?t:e;function n(u,f){return l[0]=u[f],l[1]=u[f+1],l[2]=u[f+2],l[3]=u[f+3],o[0]}function c(u,f){return l[3]=u[f],l[2]=u[f+1],l[1]=u[f+2],l[0]=u[f+3],o[0]}a.readFloatLE=i?n:c,a.readFloatBE=i?c:n}():function(){function o(i,e,t,n){var c=e<0?1:0;if(c&&(e=-e),e===0)i(1/e>0?0:2147483648,t,n);else if(isNaN(e))i(2143289344,t,n);else if(e>34028234663852886e22)i((c<<31|2139095040)>>>0,t,n);else if(e<11754943508222875e-54)i((c<<31|Math.round(e/1401298464324817e-60))>>>0,t,n);else{var u=Math.floor(Math.log(e)/Math.LN2),f=Math.round(e*Math.pow(2,-u)*8388608)&8388607;i((c<<31|u+127<<23|f)>>>0,t,n)}}a.writeFloatLE=o.bind(null,fn),a.writeFloatBE=o.bind(null,dn);function l(i,e,t){var n=i(e,t),c=(n>>31)*2+1,u=n>>>23&255,f=n&8388607;return u===255?f?NaN:c*(1/0):u===0?c*1401298464324817e-60*f:c*Math.pow(2,u-150)*(f+8388608)}a.readFloatLE=l.bind(null,vn),a.readFloatBE=l.bind(null,yn)}(),typeof Float64Array!="undefined"?function(){var o=new Float64Array([-0]),l=new Uint8Array(o.buffer),i=l[7]===128;function e(u,f,d){o[0]=u,f[d]=l[0],f[d+1]=l[1],f[d+2]=l[2],f[d+3]=l[3],f[d+4]=l[4],f[d+5]=l[5],f[d+6]=l[6],f[d+7]=l[7]}function t(u,f,d){o[0]=u,f[d]=l[7],f[d+1]=l[6],f[d+2]=l[5],f[d+3]=l[4],f[d+4]=l[3],f[d+5]=l[2],f[d+6]=l[1],f[d+7]=l[0]}a.writeDoubleLE=i?e:t,a.writeDoubleBE=i?t:e;function n(u,f){return l[0]=u[f],l[1]=u[f+1],l[2]=u[f+2],l[3]=u[f+3],l[4]=u[f+4],l[5]=u[f+5],l[6]=u[f+6],l[7]=u[f+7],o[0]}function c(u,f){return l[7]=u[f],l[6]=u[f+1],l[5]=u[f+2],l[4]=u[f+3],l[3]=u[f+4],l[2]=u[f+5],l[1]=u[f+6],l[0]=u[f+7],o[0]}a.readDoubleLE=i?n:c,a.readDoubleBE=i?c:n}():function(){function o(i,e,t,n,c,u){var f=n<0?1:0;if(f&&(n=-n),n===0)i(0,c,u+e),i(1/n>0?0:2147483648,c,u+t);else if(isNaN(n))i(0,c,u+e),i(2146959360,c,u+t);else if(n>17976931348623157e292)i(0,c,u+e),i((f<<31|2146435072)>>>0,c,u+t);else{var d;if(n<22250738585072014e-324)d=n/5e-324,i(d>>>0,c,u+e),i((f<<31|d/4294967296)>>>0,c,u+t);else{var s=Math.floor(Math.log(n)/Math.LN2);s===1024&&(s=1023),d=n*Math.pow(2,-s),i(d*4503599627370496>>>0,c,u+e),i((f<<31|s+1023<<20|d*1048576&1048575)>>>0,c,u+t)}}}a.writeDoubleLE=o.bind(null,fn,0,4),a.writeDoubleBE=o.bind(null,dn,4,0);function l(i,e,t,n,c){var u=i(n,c+e),f=i(n,c+t),d=(f>>31)*2+1,s=f>>>20&2047,y=4294967296*(f&1048575)+u;return s===2047?y?NaN:d*(1/0):s===0?d*5e-324*y:d*Math.pow(2,s-1075)*(y+4503599627370496)}a.readDoubleLE=l.bind(null,vn,0,4),a.readDoubleBE=l.bind(null,yn,4,0)}(),a}function fn(a,o,l){o[l]=a&255,o[l+1]=a>>>8&255,o[l+2]=a>>>16&255,o[l+3]=a>>>24}function dn(a,o,l){o[l]=a>>>24,o[l+1]=a>>>16&255,o[l+2]=a>>>8&255,o[l+3]=a&255}function vn(a,o){return(a[o]|a[o+1]<<8|a[o+2]<<16|a[o+3]<<24)>>>0}function yn(a,o){return(a[o]<<24|a[o+1]<<16|a[o+2]<<8|a[o+3])>>>0}});var wn=x((exports,module)=>{"use strict";module.exports=inquire;function inquire(moduleName){try{var mod=eval("quire".replace(/^/,"re"))(moduleName);if(mod&&(mod.length||Object.keys(mod).length))return mod}catch(a){}return null}});var hn=x(bn=>{"use strict";var at=bn;at.length=function(o){for(var l=0,i=0,e=0;e<o.length;++e)i=o.charCodeAt(e),i<128?l+=1:i<2048?l+=2:(i&64512)==55296&&(o.charCodeAt(e+1)&64512)==56320?(++e,l+=4):l+=3;return l};at.read=function(o,l,i){var e=i-l;if(e<1)return"";for(var t=null,n=[],c=0,u;l<i;)u=o[l++],u<128?n[c++]=u:u>191&&u<224?n[c++]=(u&31)<<6|o[l++]&63:u>239&&u<365?(u=((u&7)<<18|(o[l++]&63)<<12|(o[l++]&63)<<6|o[l++]&63)-65536,n[c++]=55296+(u>>10),n[c++]=56320+(u&1023)):n[c++]=(u&15)<<12|(o[l++]&63)<<6|o[l++]&63,c>8191&&((t||(t=[])).push(String.fromCharCode.apply(String,n)),c=0);return t?(c&&t.push(String.fromCharCode.apply(String,n.slice(0,c))),t.join("")):String.fromCharCode.apply(String,n.slice(0,c))};at.write=function(o,l,i){for(var e=i,t,n,c=0;c<o.length;++c)t=o.charCodeAt(c),t<128?l[i++]=t:t<2048?(l[i++]=t>>6|192,l[i++]=t&63|128):(t&64512)==55296&&((n=o.charCodeAt(c+1))&64512)==56320?(t=65536+((t&1023)<<10)+(n&1023),++c,l[i++]=t>>18|240,l[i++]=t>>12&63|128,l[i++]=t>>6&63|128,l[i++]=t&63|128):(l[i++]=t>>12|224,l[i++]=t>>6&63|128,l[i++]=t&63|128);return i-e}});var Sn=x((Qr,On)=>{"use strict";On.exports=Bi;function Bi(a,o,l){var i=l||8192,e=i>>>1,t=null,n=i;return function(u){if(u<1||u>e)return a(u);n+u>i&&(t=a(i),n=0);var f=o.call(t,n,n+=u);return n&7&&(n=(n|7)+1),f}}});var Dn=x((gr,kn)=>{"use strict";kn.exports=L;var Se=te();function L(a,o){this.lo=a>>>0,this.hi=o>>>0}var ie=L.zero=new L(0,0);ie.toNumber=function(){return 0};ie.zzEncode=ie.zzDecode=function(){return this};ie.length=function(){return 1};var Ui=L.zeroHash="\0\0\0\0\0\0\0\0";L.fromNumber=function(o){if(o===0)return ie;var l=o<0;l&&(o=-o);var i=o>>>0,e=(o-i)/4294967296>>>0;return l&&(e=~e>>>0,i=~i>>>0,++i>4294967295&&(i=0,++e>4294967295&&(e=0))),new L(i,e)};L.from=function(o){if(typeof o=="number")return L.fromNumber(o);if(Se.isString(o))if(Se.Long)o=Se.Long.fromString(o);else return L.fromNumber(parseInt(o,10));return o.low||o.high?new L(o.low>>>0,o.high>>>0):ie};L.prototype.toNumber=function(o){if(!o&&this.hi>>>31){var l=~this.lo+1>>>0,i=~this.hi>>>0;return l||(i=i+1>>>0),-(l+i*4294967296)}return this.lo+this.hi*4294967296};L.prototype.toLong=function(o){return Se.Long?new Se.Long(this.lo|0,this.hi|0,Boolean(o)):{low:this.lo|0,high:this.hi|0,unsigned:Boolean(o)}};var ee=String.prototype.charCodeAt;L.fromHash=function(o){return o===Ui?ie:new L((ee.call(o,0)|ee.call(o,1)<<8|ee.call(o,2)<<16|ee.call(o,3)<<24)>>>0,(ee.call(o,4)|ee.call(o,5)<<8|ee.call(o,6)<<16|ee.call(o,7)<<24)>>>0)};L.prototype.toHash=function(){return String.fromCharCode(this.lo&255,this.lo>>>8&255,this.lo>>>16&255,this.lo>>>24,this.hi&255,this.hi>>>8&255,this.hi>>>16&255,this.hi>>>24)};L.prototype.zzEncode=function(){var o=this.hi>>31;return this.hi=((this.hi<<1|this.lo>>>31)^o)>>>0,this.lo=(this.lo<<1^o)>>>0,this};L.prototype.zzDecode=function(){var o=-(this.lo&1);return this.lo=((this.lo>>>1|this.hi<<31)^o)>>>0,this.hi=(this.hi>>>1^o)>>>0,this};L.prototype.length=function(){var o=this.lo,l=(this.lo>>>28|this.hi<<4)>>>0,i=this.hi>>>24;return i===0?l===0?o<16384?o<128?1:2:o<2097152?3:4:l<16384?l<128?5:6:l<2097152?7:8:i<128?9:10}});var te=x(ut=>{"use strict";var b=ut;b.asPromise=tn();b.base64=ln();b.EventEmitter=an();b.float=sn();b.inquire=wn();b.utf8=hn();b.pool=Sn();b.LongBits=Dn();b.isNode=Boolean(typeof global!="undefined"&&global&&global.process&&global.process.versions&&global.process.versions.node);b.global=b.isNode&&global||typeof window!="undefined"&&window||typeof self!="undefined"&&self||ut;b.emptyArray=Object.freeze?Object.freeze([]):[];b.emptyObject=Object.freeze?Object.freeze({}):{};b.isInteger=Number.isInteger||function(o){return typeof o=="number"&&isFinite(o)&&Math.floor(o)===o};b.isString=function(o){return typeof o=="string"||o instanceof String};b.isObject=function(o){return o&&typeof o=="object"};b.isset=b.isSet=function(o,l){var i=o[l];return i!=null&&o.hasOwnProperty(l)?typeof i!="object"||(Array.isArray(i)?i.length:Object.keys(i).length)>0:!1};b.Buffer=function(){try{var a=b.inquire("buffer").Buffer;return a.prototype.utf8Write?a:null}catch{return null}}();b._Buffer_from=null;b._Buffer_allocUnsafe=null;b.newBuffer=function(o){return typeof o=="number"?b.Buffer?b._Buffer_allocUnsafe(o):new b.Array(o):b.Buffer?b._Buffer_from(o):typeof Uint8Array=="undefined"?o:new Uint8Array(o)};b.Array=typeof Uint8Array!="undefined"?Uint8Array:Array;b.Long=b.global.dcodeIO&&b.global.dcodeIO.Long||b.global.Long||b.inquire("long");b.key2Re=/^true|false|0|1$/;b.key32Re=/^-?(?:0|[1-9][0-9]*)$/;b.key64Re=/^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))$/;b.longToHash=function(o){return o?b.LongBits.from(o).toHash():b.LongBits.zeroHash};b.longFromHash=function(o,l){var i=b.LongBits.fromHash(o);return b.Long?b.Long.fromBits(i.lo,i.hi,l):i.toNumber(Boolean(l))};function Pn(a,o,l){for(var i=Object.keys(o),e=0;e<i.length;++e)(a[i[e]]===void 0||!l)&&(a[i[e]]=o[i[e]]);return a}b.merge=Pn;b.lcFirst=function(o){return o.charAt(0).toLowerCase()+o.substring(1)};function In(a){function o(l,i){if(!(this instanceof o))return new o(l,i);Object.defineProperty(this,"message",{get:function(){return l}}),Error.captureStackTrace?Error.captureStackTrace(this,o):Object.defineProperty(this,"stack",{value:new Error().stack||""}),i&&Pn(this,i)}return(o.prototype=Object.create(Error.prototype)).constructor=o,Object.defineProperty(o.prototype,"name",{get:function(){return a}}),o.prototype.toString=function(){return this.name+": "+this.message},o}b.newError=In;b.ProtocolError=In("ProtocolError");b.oneOfGetter=function(o){for(var l={},i=0;i<o.length;++i)l[o[i]]=1;return function(){for(var e=Object.keys(this),t=e.length-1;t>-1;--t)if(l[e[t]]===1&&this[e[t]]!==void 0&&this[e[t]]!==null)return e[t]}};b.oneOfSetter=function(o){return function(l){for(var i=0;i<o.length;++i)o[i]!==l&&delete this[o[i]]}};b.toJSONOptions={longs:String,enums:String,bytes:String,json:!0};b._configure=function(){var a=b.Buffer;if(!a){b._Buffer_from=b._Buffer_allocUnsafe=null;return}b._Buffer_from=a.from!==Uint8Array.from&&a.from||function(l,i){return new a(l,i)},b._Buffer_allocUnsafe=a.allocUnsafe||function(l){return new a(l)}}});var wt=x((to,mn)=>{"use strict";mn.exports=I;var J=te(),ft,Le=J.LongBits,An=J.base64,jn=J.utf8;function ke(a,o,l){this.fn=a,this.len=o,this.next=void 0,this.val=l}function dt(){}function Li(a){this.head=a.head,this.tail=a.tail,this.len=a.len,this.next=a.states}function I(){this.len=0,this.head=new ke(dt,0,0),this.tail=this.head,this.states=null}var Mn=function(){return J.Buffer?function(){return(I.create=function(){return new ft})()}:function(){return new I}};I.create=Mn();I.alloc=function(o){return new J.Array(o)};J.Array!==Array&&(I.alloc=J.pool(I.alloc,J.Array.prototype.subarray));I.prototype._push=function(o,l,i){return this.tail=this.tail.next=new ke(o,l,i),this.len+=l,this};function vt(a,o,l){o[l]=a&255}function Ri(a,o,l){for(;a>127;)o[l++]=a&127|128,a>>>=7;o[l]=a}function yt(a,o){this.len=a,this.next=void 0,this.val=o}yt.prototype=Object.create(ke.prototype);yt.prototype.fn=Ri;I.prototype.uint32=function(o){return this.len+=(this.tail=this.tail.next=new yt((o=o>>>0)<128?1:o<16384?2:o<2097152?3:o<268435456?4:5,o)).len,this};I.prototype.int32=function(o){return o<0?this._push(pt,10,Le.fromNumber(o)):this.uint32(o)};I.prototype.sint32=function(o){return this.uint32((o<<1^o>>31)>>>0)};function pt(a,o,l){for(;a.hi;)o[l++]=a.lo&127|128,a.lo=(a.lo>>>7|a.hi<<25)>>>0,a.hi>>>=7;for(;a.lo>127;)o[l++]=a.lo&127|128,a.lo=a.lo>>>7;o[l++]=a.lo}I.prototype.uint64=function(o){var l=Le.from(o);return this._push(pt,l.length(),l)};I.prototype.int64=I.prototype.uint64;I.prototype.sint64=function(o){var l=Le.from(o).zzEncode();return this._push(pt,l.length(),l)};I.prototype.bool=function(o){return this._push(vt,1,o?1:0)};function st(a,o,l){o[l]=a&255,o[l+1]=a>>>8&255,o[l+2]=a>>>16&255,o[l+3]=a>>>24}I.prototype.fixed32=function(o){return this._push(st,4,o>>>0)};I.prototype.sfixed32=I.prototype.fixed32;I.prototype.fixed64=function(o){var l=Le.from(o);return this._push(st,4,l.lo)._push(st,4,l.hi)};I.prototype.sfixed64=I.prototype.fixed64;I.prototype.float=function(o){return this._push(J.float.writeFloatLE,4,o)};I.prototype.double=function(o){return this._push(J.float.writeDoubleLE,8,o)};var Ci=J.Array.prototype.set?function(o,l,i){l.set(o,i)}:function(o,l,i){for(var e=0;e<o.length;++e)l[i+e]=o[e]};I.prototype.bytes=function(o){var l=o.length>>>0;if(!l)return this._push(vt,1,0);if(J.isString(o)){var i=I.alloc(l=An.length(o));An.decode(o,i,0),o=i}return this.uint32(l)._push(Ci,l,o)};I.prototype.string=function(o){var l=jn.length(o);return l?this.uint32(l)._push(jn.write,l,o):this._push(vt,1,0)};I.prototype.fork=function(){return this.states=new Li(this),this.head=this.tail=new ke(dt,0,0),this.len=0,this};I.prototype.reset=function(){return this.states?(this.head=this.states.head,this.tail=this.states.tail,this.len=this.states.len,this.states=this.states.next):(this.head=this.tail=new ke(dt,0,0),this.len=0),this};I.prototype.ldelim=function(){var o=this.head,l=this.tail,i=this.len;return this.reset().uint32(i),i&&(this.tail.next=o.next,this.tail=l,this.len+=i),this};I.prototype.finish=function(){for(var o=this.head.next,l=this.constructor.alloc(this.len),i=0;o;)o.fn(o.val,l,i),i+=o.len,o=o.next;return l};I._configure=function(a){ft=a,I.create=Mn(),ft._configure()}});var Vn=x((no,_n)=>{"use strict";_n.exports=G;var En=wt();(G.prototype=Object.create(En.prototype)).constructor=G;var ne=te();function G(){En.call(this)}G._configure=function(){G.alloc=ne._Buffer_allocUnsafe,G.writeBytesBuffer=ne.Buffer&&ne.Buffer.prototype instanceof Uint8Array&&ne.Buffer.prototype.set.name==="set"?function(o,l,i){l.set(o,i)}:function(o,l,i){if(o.copy)o.copy(l,i,0,o.length);else for(var e=0;e<o.length;)l[i++]=o[e++]}};G.prototype.bytes=function(o){ne.isString(o)&&(o=ne._Buffer_from(o,"base64"));var l=o.length>>>0;return this.uint32(l),l&&this._push(G.writeBytesBuffer,l,o),this};function Fi(a,o,l){a.length<40?ne.utf8.write(a,o,l):o.utf8Write?o.utf8Write(a,l):o.write(a,l)}G.prototype.string=function(o){var l=ne.Buffer.byteLength(o);return this.uint32(l),l&&this._push(Fi,l,o),this};G._configure()});var Ot=x((io,Un)=>{"use strict";Un.exports=V;var Z=te(),bt,xn=Z.LongBits,Hi=Z.utf8;function z(a,o){return RangeError("index out of range: "+a.pos+" + "+(o||1)+" > "+a.len)}function V(a){this.buf=a,this.pos=0,this.len=a.length}var Tn=typeof Uint8Array!="undefined"?function(o){if(o instanceof Uint8Array||Array.isArray(o))return new V(o);throw Error("illegal buffer")}:function(o){if(Array.isArray(o))return new V(o);throw Error("illegal buffer")},Nn=function(){return Z.Buffer?function(l){return(V.create=function(e){return Z.Buffer.isBuffer(e)?new bt(e):Tn(e)})(l)}:Tn};V.create=Nn();V.prototype._slice=Z.Array.prototype.subarray||Z.Array.prototype.slice;V.prototype.uint32=function(){var o=4294967295;return function(){if(o=(this.buf[this.pos]&127)>>>0,this.buf[this.pos++]<128||(o=(o|(this.buf[this.pos]&127)<<7)>>>0,this.buf[this.pos++]<128)||(o=(o|(this.buf[this.pos]&127)<<14)>>>0,this.buf[this.pos++]<128)||(o=(o|(this.buf[this.pos]&127)<<21)>>>0,this.buf[this.pos++]<128)||(o=(o|(this.buf[this.pos]&15)<<28)>>>0,this.buf[this.pos++]<128))return o;if((this.pos+=5)>this.len)throw this.pos=this.len,z(this,10);return o}}();V.prototype.int32=function(){return this.uint32()|0};V.prototype.sint32=function(){var o=this.uint32();return o>>>1^-(o&1)|0};function ht(){var a=new xn(0,0),o=0;if(this.len-this.pos>4){for(;o<4;++o)if(a.lo=(a.lo|(this.buf[this.pos]&127)<<o*7)>>>0,this.buf[this.pos++]<128)return a;if(a.lo=(a.lo|(this.buf[this.pos]&127)<<28)>>>0,a.hi=(a.hi|(this.buf[this.pos]&127)>>4)>>>0,this.buf[this.pos++]<128)return a;o=0}else{for(;o<3;++o){if(this.pos>=this.len)throw z(this);if(a.lo=(a.lo|(this.buf[this.pos]&127)<<o*7)>>>0,this.buf[this.pos++]<128)return a}return a.lo=(a.lo|(this.buf[this.pos++]&127)<<o*7)>>>0,a}if(this.len-this.pos>4){for(;o<5;++o)if(a.hi=(a.hi|(this.buf[this.pos]&127)<<o*7+3)>>>0,this.buf[this.pos++]<128)return a}else for(;o<5;++o){if(this.pos>=this.len)throw z(this);if(a.hi=(a.hi|(this.buf[this.pos]&127)<<o*7+3)>>>0,this.buf[this.pos++]<128)return a}throw Error("invalid varint encoding")}V.prototype.bool=function(){return this.uint32()!==0};function Re(a,o){return(a[o-4]|a[o-3]<<8|a[o-2]<<16|a[o-1]<<24)>>>0}V.prototype.fixed32=function(){if(this.pos+4>this.len)throw z(this,4);return Re(this.buf,this.pos+=4)};V.prototype.sfixed32=function(){if(this.pos+4>this.len)throw z(this,4);return Re(this.buf,this.pos+=4)|0};function Bn(){if(this.pos+8>this.len)throw z(this,8);return new xn(Re(this.buf,this.pos+=4),Re(this.buf,this.pos+=4))}V.prototype.float=function(){if(this.pos+4>this.len)throw z(this,4);var o=Z.float.readFloatLE(this.buf,this.pos);return this.pos+=4,o};V.prototype.double=function(){if(this.pos+8>this.len)throw z(this,4);var o=Z.float.readDoubleLE(this.buf,this.pos);return this.pos+=8,o};V.prototype.bytes=function(){var o=this.uint32(),l=this.pos,i=this.pos+o;if(i>this.len)throw z(this,o);return this.pos+=o,Array.isArray(this.buf)?this.buf.slice(l,i):l===i?new this.buf.constructor(0):this._slice.call(this.buf,l,i)};V.prototype.string=function(){var o=this.bytes();return Hi.read(o,0,o.length)};V.prototype.skip=function(o){if(typeof o=="number"){if(this.pos+o>this.len)throw z(this,o);this.pos+=o}else do if(this.pos>=this.len)throw z(this);while(this.buf[this.pos++]&128);return this};V.prototype.skipType=function(a){switch(a){case 0:this.skip();break;case 1:this.skip(8);break;case 2:this.skip(this.uint32());break;case 3:for(;(a=this.uint32()&7)!=4;)this.skipType(a);break;case 5:this.skip(4);break;default:throw Error("invalid wire type "+a+" at offset "+this.pos)}return this};V._configure=function(a){bt=a,V.create=Nn(),bt._configure();var o=Z.Long?"toLong":"toNumber";Z.merge(V.prototype,{int64:function(){return ht.call(this)[o](!1)},uint64:function(){return ht.call(this)[o](!0)},sint64:function(){return ht.call(this).zzDecode()[o](!1)},fixed64:function(){return Bn.call(this)[o](!0)},sfixed64:function(){return Bn.call(this)[o](!1)}})}});var Fn=x((ro,Cn)=>{"use strict";Cn.exports=re;var Ln=Ot();(re.prototype=Object.create(Ln.prototype)).constructor=re;var Rn=te();function re(a){Ln.call(this,a)}re._configure=function(){Rn.Buffer&&(re.prototype._slice=Rn.Buffer.prototype.slice)};re.prototype.string=function(){var o=this.uint32();return this.buf.utf8Slice?this.buf.utf8Slice(this.pos,this.pos=Math.min(this.pos+o,this.len)):this.buf.toString("utf-8",this.pos,this.pos=Math.min(this.pos+o,this.len))};re._configure()});var Jn=x((oo,Hn)=>{"use strict";Hn.exports=De;var St=te();(De.prototype=Object.create(St.EventEmitter.prototype)).constructor=De;function De(a,o,l){if(typeof a!="function")throw TypeError("rpcImpl must be a function");St.EventEmitter.call(this),this.rpcImpl=a,this.requestDelimited=Boolean(o),this.responseDelimited=Boolean(l)}De.prototype.rpcCall=function a(o,l,i,e,t){if(!e)throw TypeError("request must be specified");var n=this;if(!t)return St.asPromise(a,n,o,l,i,e);if(!n.rpcImpl){setTimeout(function(){t(Error("already ended"))},0);return}try{return n.rpcImpl(o,l[n.requestDelimited?"encodeDelimited":"encode"](e).finish(),function(u,f){if(u)return n.emit("error",u,o),t(u);if(f===null){n.end(!0);return}if(!(f instanceof i))try{f=i[n.responseDelimited?"decodeDelimited":"decode"](f)}catch(d){return n.emit("error",d,o),t(d)}return n.emit("data",f,o),t(null,f)})}catch(c){n.emit("error",c,o),setTimeout(function(){t(c)},0);return}};De.prototype.end=function(o){return this.rpcImpl&&(o||this.rpcImpl(null,null,null),this.rpcImpl=null,this.emit("end").off()),this}});var Wn=x(Kn=>{"use strict";var Ji=Kn;Ji.Service=Jn()});var qn=x((co,zn)=>{"use strict";zn.exports={}});var Zn=x(Gn=>{"use strict";var C=Gn;C.build="minimal";C.Writer=wt();C.BufferWriter=Vn();C.Reader=Ot();C.BufferReader=Fn();C.util=te();C.rpc=Wn();C.roots=qn();C.configure=$n;function $n(){C.util._configure(),C.Writer._configure(C.BufferWriter),C.Reader._configure(C.BufferReader)}$n()});var Yn=x((uo,Xn)=>{"use strict";Xn.exports=Zn()});var Qn=x((Pe,Ce)=>{(function(a,o){"use strict";var l="1.0.2",i="",e="?",t="function",n="undefined",c="object",u="string",f="major",d="model",s="name",y="type",p="vendor",w="version",K="architecture",ve="console",D="mobile",O="tablet",q="smarttv",ye="wearable",kt="embedded",Fe=255,He="Amazon",Je="Apple",Dt="ASUS",Pt="BlackBerry",oe="Browser",Ae="Chrome",ei="Edge",je="Firefox",Me="Google",It="Huawei",Ke="LG",We="Microsoft",At="Motorola",me="Opera",ze="Samsung",qe="Sony",jt="Xiaomi",$e="Zebra",Mt="Facebook",ti=function(S,M){var k={};for(var _ in S)M[_]&&M[_].length%2==0?k[_]=M[_].concat(S[_]):k[_]=S[_];return k},Ee=function(S){for(var M={},k=0;k<S.length;k++)M[S[k].toUpperCase()]=S[k];return M},mt=function(S,M){return typeof S===u?pe(M).indexOf(pe(S))!==-1:!1},pe=function(S){return S.toLowerCase()},ni=function(S){return typeof S===u?S.replace(/[^\d\.]/g,i).split(".")[0]:o},Ge=function(S,M){if(typeof S===u)return S=S.replace(/^\s\s*/,i).replace(/\s\s*$/,i),typeof M===n?S:S.substring(0,Fe)},se=function(S,M){for(var k=0,_,P,Ve,m,we,$;k<M.length&&!we;){var Vt=M[k],xt=M[k+1];for(_=P=0;_<Vt.length&&!we;)if(we=Vt[_++].exec(S),we)for(Ve=0;Ve<xt.length;Ve++)$=we[++P],m=xt[Ve],typeof m===c&&m.length>0?m.length===2?typeof m[1]==t?this[m[0]]=m[1].call(this,$):this[m[0]]=m[1]:m.length===3?typeof m[1]===t&&!(m[1].exec&&m[1].test)?this[m[0]]=$?m[1].call(this,$,m[2]):o:this[m[0]]=$?$.replace(m[1],m[2]):o:m.length===4&&(this[m[0]]=$?m[3].call(this,$.replace(m[1],m[2])):o):this[m]=$||o;k+=2}},Ze=function(S,M){for(var k in M)if(typeof M[k]===c&&M[k].length>0){for(var _=0;_<M[k].length;_++)if(mt(M[k][_],S))return k===e?o:k}else if(mt(M[k],S))return k===e?o:k;return S},ii={"1.0":"/8","1.2":"/1","1.3":"/3","2.0":"/412","2.0.2":"/416","2.0.3":"/417","2.0.4":"/419","?":"/"},Et={ME:"4.90","NT 3.11":"NT3.51","NT 4.0":"NT4.0","2000":"NT 5.0",XP:["NT 5.1","NT 5.2"],Vista:"NT 6.0","7":"NT 6.1","8":"NT 6.2","8.1":"NT 6.3","10":["NT 6.4","NT 10.0"],RT:"ARM"},_t={browser:[[/\b(?:crmo|crios)\/([\w\.]+)/i],[w,[s,"Chrome"]],[/edg(?:e|ios|a)?\/([\w\.]+)/i],[w,[s,"Edge"]],[/(opera mini)\/([-\w\.]+)/i,/(opera [mobiletab]{3,6})\b.+version\/([-\w\.]+)/i,/(opera)(?:.+version\/|[\/ ]+)([\w\.]+)/i],[s,w],[/opios[\/ ]+([\w\.]+)/i],[w,[s,me+" Mini"]],[/\bopr\/([\w\.]+)/i],[w,[s,me]],[/(kindle)\/([\w\.]+)/i,/(lunascape|maxthon|netfront|jasmine|blazer)[\/ ]?([\w\.]*)/i,/(avant |iemobile|slim)(?:browser)?[\/ ]?([\w\.]*)/i,/(ba?idubrowser)[\/ ]?([\w\.]+)/i,/(?:ms|\()(ie) ([\w\.]+)/i,/(flock|rockmelt|midori|epiphany|silk|skyfire|ovibrowser|bolt|iron|vivaldi|iridium|phantomjs|bowser|quark|qupzilla|falkon|rekonq|puffin|brave|whale|qqbrowserlite|qq)\/([-\w\.]+)/i,/(weibo)__([\d\.]+)/i],[s,w],[/(?:\buc? ?browser|(?:juc.+)ucweb)[\/ ]?([\w\.]+)/i],[w,[s,"UC"+oe]],[/\bqbcore\/([\w\.]+)/i],[w,[s,"WeChat(Win) Desktop"]],[/micromessenger\/([\w\.]+)/i],[w,[s,"WeChat"]],[/konqueror\/([\w\.]+)/i],[w,[s,"Konqueror"]],[/trident.+rv[: ]([\w\.]{1,9})\b.+like gecko/i],[w,[s,"IE"]],[/yabrowser\/([\w\.]+)/i],[w,[s,"Yandex"]],[/(avast|avg)\/([\w\.]+)/i],[[s,/(.+)/,"$1 Secure "+oe],w],[/\bfocus\/([\w\.]+)/i],[w,[s,je+" Focus"]],[/\bopt\/([\w\.]+)/i],[w,[s,me+" Touch"]],[/coc_coc\w+\/([\w\.]+)/i],[w,[s,"Coc Coc"]],[/dolfin\/([\w\.]+)/i],[w,[s,"Dolphin"]],[/coast\/([\w\.]+)/i],[w,[s,me+" Coast"]],[/miuibrowser\/([\w\.]+)/i],[w,[s,"MIUI "+oe]],[/fxios\/([-\w\.]+)/i],[w,[s,je]],[/\bqihu|(qi?ho?o?|360)browser/i],[[s,"360 "+oe]],[/(oculus|samsung|sailfish)browser\/([\w\.]+)/i],[[s,/(.+)/,"$1 "+oe],w],[/(comodo_dragon)\/([\w\.]+)/i],[[s,/_/g," "],w],[/(electron)\/([\w\.]+) safari/i,/(tesla)(?: qtcarbrowser|\/(20\d\d\.[-\w\.]+))/i,/m?(qqbrowser|baiduboxapp|2345Explorer)[\/ ]?([\w\.]+)/i],[s,w],[/(metasr)[\/ ]?([\w\.]+)/i,/(lbbrowser)/i],[s],[/((?:fban\/fbios|fb_iab\/fb4a)(?!.+fbav)|;fbav\/([\w\.]+);)/i],[[s,Mt],w],[/safari (line)\/([\w\.]+)/i,/\b(line)\/([\w\.]+)\/iab/i,/(chromium|instagram)[\/ ]([-\w\.]+)/i],[s,w],[/\bgsa\/([\w\.]+) .*safari\//i],[w,[s,"GSA"]],[/headlesschrome(?:\/([\w\.]+)| )/i],[w,[s,Ae+" Headless"]],[/ wv\).+(chrome)\/([\w\.]+)/i],[[s,Ae+" WebView"],w],[/droid.+ version\/([\w\.]+)\b.+(?:mobile safari|safari)/i],[w,[s,"Android "+oe]],[/(chrome|omniweb|arora|[tizenoka]{5} ?browser)\/v?([\w\.]+)/i],[s,w],[/version\/([\w\.]+) .*mobile\/\w+ (safari)/i],[w,[s,"Mobile Safari"]],[/version\/([\w\.]+) .*(mobile ?safari|safari)/i],[w,s],[/webkit.+?(mobile ?safari|safari)(\/[\w\.]+)/i],[s,[w,Ze,ii]],[/(webkit|khtml)\/([\w\.]+)/i],[s,w],[/(navigator|netscape\d?)\/([-\w\.]+)/i],[[s,"Netscape"],w],[/mobile vr; rv:([\w\.]+)\).+firefox/i],[w,[s,je+" Reality"]],[/ekiohf.+(flow)\/([\w\.]+)/i,/(swiftfox)/i,/(icedragon|iceweasel|camino|chimera|fennec|maemo browser|minimo|conkeror|klar)[\/ ]?([\w\.\+]+)/i,/(seamonkey|k-meleon|icecat|iceape|firebird|phoenix|palemoon|basilisk|waterfox)\/([-\w\.]+)$/i,/(firefox)\/([\w\.]+)/i,/(mozilla)\/([\w\.]+) .+rv\:.+gecko\/\d+/i,/(polaris|lynx|dillo|icab|doris|amaya|w3m|netsurf|sleipnir|obigo|mosaic|(?:go|ice|up)[\. ]?browser)[-\/ ]?v?([\w\.]+)/i,/(links) \(([\w\.]+)/i],[s,w]],cpu:[[/(?:(amd|x(?:(?:86|64)[-_])?|wow|win)64)[;\)]/i],[[K,"amd64"]],[/(ia32(?=;))/i],[[K,pe]],[/((?:i[346]|x)86)[;\)]/i],[[K,"ia32"]],[/\b(aarch64|arm(v?8e?l?|_?64))\b/i],[[K,"arm64"]],[/\b(arm(?:v[67])?ht?n?[fl]p?)\b/i],[[K,"armhf"]],[/windows (ce|mobile); ppc;/i],[[K,"arm"]],[/((?:ppc|powerpc)(?:64)?)(?: mac|;|\))/i],[[K,/ower/,i,pe]],[/(sun4\w)[;\)]/i],[[K,"sparc"]],[/((?:avr32|ia64(?=;))|68k(?=\))|\barm(?=v(?:[1-7]|[5-7]1)l?|;|eabi)|(?=atmel )avr|(?:irix|mips|sparc)(?:64)?\b|pa-risc)/i],[[K,pe]]],device:[[/\b(sch-i[89]0\d|shw-m380s|sm-[pt]\w{2,4}|gt-[pn]\d{2,4}|sgh-t8[56]9|nexus 10)/i],[d,[p,ze],[y,O]],[/\b((?:s[cgp]h|gt|sm)-\w+|galaxy nexus)/i,/samsung[- ]([-\w]+)/i,/sec-(sgh\w+)/i],[d,[p,ze],[y,D]],[/\((ip(?:hone|od)[\w ]*);/i],[d,[p,Je],[y,D]],[/\((ipad);[-\w\),; ]+apple/i,/applecoremedia\/[\w\.]+ \((ipad)/i,/\b(ipad)\d\d?,\d\d?[;\]].+ios/i],[d,[p,Je],[y,O]],[/\b((?:ag[rs][23]?|bah2?|sht?|btv)-a?[lw]\d{2})\b(?!.+d\/s)/i],[d,[p,It],[y,O]],[/(?:huawei|honor)([-\w ]+)[;\)]/i,/\b(nexus 6p|\w{2,4}-[atu]?[ln][01259x][012359][an]?)\b(?!.+d\/s)/i],[d,[p,It],[y,D]],[/\b(poco[\w ]+)(?: bui|\))/i,/\b; (\w+) build\/hm\1/i,/\b(hm[-_ ]?note?[_ ]?(?:\d\w)?) bui/i,/\b(redmi[\-_ ]?(?:note|k)?[\w_ ]+)(?: bui|\))/i,/\b(mi[-_ ]?(?:a\d|one|one[_ ]plus|note lte|max)?[_ ]?(?:\d?\w?)[_ ]?(?:plus|se|lite)?)(?: bui|\))/i],[[d,/_/g," "],[p,jt],[y,D]],[/\b(mi[-_ ]?(?:pad)(?:[\w_ ]+))(?: bui|\))/i],[[d,/_/g," "],[p,jt],[y,O]],[/; (\w+) bui.+ oppo/i,/\b(cph[12]\d{3}|p(?:af|c[al]|d\w|e[ar])[mt]\d0|x9007|a101op)\b/i],[d,[p,"OPPO"],[y,D]],[/vivo (\w+)(?: bui|\))/i,/\b(v[12]\d{3}\w?[at])(?: bui|;)/i],[d,[p,"Vivo"],[y,D]],[/\b(rmx[12]\d{3})(?: bui|;|\))/i],[d,[p,"Realme"],[y,D]],[/\b(milestone|droid(?:[2-4x]| (?:bionic|x2|pro|razr))?:?( 4g)?)\b[\w ]+build\//i,/\bmot(?:orola)?[- ](\w*)/i,/((?:moto[\w\(\) ]+|xt\d{3,4}|nexus 6)(?= bui|\)))/i],[d,[p,At],[y,D]],[/\b(mz60\d|xoom[2 ]{0,2}) build\//i],[d,[p,At],[y,O]],[/((?=lg)?[vl]k\-?\d{3}) bui| 3\.[-\w; ]{10}lg?-([06cv9]{3,4})/i],[d,[p,Ke],[y,O]],[/(lm(?:-?f100[nv]?|-[\w\.]+)(?= bui|\))|nexus [45])/i,/\blg[-e;\/ ]+((?!browser|netcast|android tv)\w+)/i,/\blg-?([\d\w]+) bui/i],[d,[p,Ke],[y,D]],[/(ideatab[-\w ]+)/i,/lenovo ?(s[56]000[-\w]+|tab(?:[\w ]+)|yt[-\d\w]{6}|tb[-\d\w]{6})/i],[d,[p,"Lenovo"],[y,O]],[/(?:maemo|nokia).*(n900|lumia \d+)/i,/nokia[-_ ]?([-\w\.]*)/i],[[d,/_/g," "],[p,"Nokia"],[y,D]],[/(pixel c)\b/i],[d,[p,Me],[y,O]],[/droid.+; (pixel[\daxl ]{0,6})(?: bui|\))/i],[d,[p,Me],[y,D]],[/droid.+ ([c-g]\d{4}|so[-gl]\w+|xq-a\w[4-7][12])(?= bui|\).+chrome\/(?![1-6]{0,1}\d\.))/i],[d,[p,qe],[y,D]],[/sony tablet [ps]/i,/\b(?:sony)?sgp\w+(?: bui|\))/i],[[d,"Xperia Tablet"],[p,qe],[y,O]],[/ (kb2005|in20[12]5|be20[12][59])\b/i,/(?:one)?(?:plus)? (a\d0\d\d)(?: b|\))/i],[d,[p,"OnePlus"],[y,D]],[/(alexa)webm/i,/(kf[a-z]{2}wi)( bui|\))/i,/(kf[a-z]+)( bui|\)).+silk\//i],[d,[p,He],[y,O]],[/((?:sd|kf)[0349hijorstuw]+)( bui|\)).+silk\//i],[[d,/(.+)/g,"Fire Phone $1"],[p,He],[y,D]],[/(playbook);[-\w\),; ]+(rim)/i],[d,p,[y,O]],[/\b((?:bb[a-f]|st[hv])100-\d)/i,/\(bb10; (\w+)/i],[d,[p,Pt],[y,D]],[/(?:\b|asus_)(transfo[prime ]{4,10} \w+|eeepc|slider \w+|nexus 7|padfone|p00[cj])/i],[d,[p,Dt],[y,O]],[/ (z[bes]6[027][012][km][ls]|zenfone \d\w?)\b/i],[d,[p,Dt],[y,D]],[/(nexus 9)/i],[d,[p,"HTC"],[y,O]],[/(htc)[-;_ ]{1,2}([\w ]+(?=\)| bui)|\w+)/i,/(zte)[- ]([\w ]+?)(?: bui|\/|\))/i,/(alcatel|geeksphone|nexian|panasonic|sony)[-_ ]?([-\w]*)/i],[p,[d,/_/g," "],[y,D]],[/droid.+; ([ab][1-7]-?[0178a]\d\d?)/i],[d,[p,"Acer"],[y,O]],[/droid.+; (m[1-5] note) bui/i,/\bmz-([-\w]{2,})/i],[d,[p,"Meizu"],[y,D]],[/\b(sh-?[altvz]?\d\d[a-ekm]?)/i],[d,[p,"Sharp"],[y,D]],[/(blackberry|benq|palm(?=\-)|sonyericsson|acer|asus|dell|meizu|motorola|polytron)[-_ ]?([-\w]*)/i,/(hp) ([\w ]+\w)/i,/(asus)-?(\w+)/i,/(microsoft); (lumia[\w ]+)/i,/(lenovo)[-_ ]?([-\w]+)/i,/(jolla)/i,/(oppo) ?([\w ]+) bui/i],[p,d,[y,D]],[/(archos) (gamepad2?)/i,/(hp).+(touchpad(?!.+tablet)|tablet)/i,/(kindle)\/([\w\.]+)/i,/(nook)[\w ]+build\/(\w+)/i,/(dell) (strea[kpr\d ]*[\dko])/i,/(le[- ]+pan)[- ]+(\w{1,9}) bui/i,/(trinity)[- ]*(t\d{3}) bui/i,/(gigaset)[- ]+(q\w{1,9}) bui/i,/(vodafone) ([\w ]+)(?:\)| bui)/i],[p,d,[y,O]],[/(surface duo)/i],[d,[p,We],[y,O]],[/droid [\d\.]+; (fp\du?)(?: b|\))/i],[d,[p,"Fairphone"],[y,D]],[/(u304aa)/i],[d,[p,"AT&T"],[y,D]],[/\bsie-(\w*)/i],[d,[p,"Siemens"],[y,D]],[/\b(rct\w+) b/i],[d,[p,"RCA"],[y,O]],[/\b(venue[\d ]{2,7}) b/i],[d,[p,"Dell"],[y,O]],[/\b(q(?:mv|ta)\w+) b/i],[d,[p,"Verizon"],[y,O]],[/\b(?:barnes[& ]+noble |bn[rt])([\w\+ ]*) b/i],[d,[p,"Barnes & Noble"],[y,O]],[/\b(tm\d{3}\w+) b/i],[d,[p,"NuVision"],[y,O]],[/\b(k88) b/i],[d,[p,"ZTE"],[y,O]],[/\b(nx\d{3}j) b/i],[d,[p,"ZTE"],[y,D]],[/\b(gen\d{3}) b.+49h/i],[d,[p,"Swiss"],[y,D]],[/\b(zur\d{3}) b/i],[d,[p,"Swiss"],[y,O]],[/\b((zeki)?tb.*\b) b/i],[d,[p,"Zeki"],[y,O]],[/\b([yr]\d{2}) b/i,/\b(dragon[- ]+touch |dt)(\w{5}) b/i],[[p,"Dragon Touch"],d,[y,O]],[/\b(ns-?\w{0,9}) b/i],[d,[p,"Insignia"],[y,O]],[/\b((nxa|next)-?\w{0,9}) b/i],[d,[p,"NextBook"],[y,O]],[/\b(xtreme\_)?(v(1[045]|2[015]|[3469]0|7[05])) b/i],[[p,"Voice"],d,[y,D]],[/\b(lvtel\-)?(v1[12]) b/i],[[p,"LvTel"],d,[y,D]],[/\b(ph-1) /i],[d,[p,"Essential"],[y,D]],[/\b(v(100md|700na|7011|917g).*\b) b/i],[d,[p,"Envizen"],[y,O]],[/\b(trio[-\w\. ]+) b/i],[d,[p,"MachSpeed"],[y,O]],[/\btu_(1491) b/i],[d,[p,"Rotor"],[y,O]],[/(shield[\w ]+) b/i],[d,[p,"Nvidia"],[y,O]],[/(sprint) (\w+)/i],[p,d,[y,D]],[/(kin\.[onetw]{3})/i],[[d,/\./g," "],[p,We],[y,D]],[/droid.+; (cc6666?|et5[16]|mc[239][23]x?|vc8[03]x?)\)/i],[d,[p,$e],[y,O]],[/droid.+; (ec30|ps20|tc[2-8]\d[kx])\)/i],[d,[p,$e],[y,D]],[/(ouya)/i,/(nintendo) ([wids3utch]+)/i],[p,d,[y,ve]],[/droid.+; (shield) bui/i],[d,[p,"Nvidia"],[y,ve]],[/(playstation [345portablevi]+)/i],[d,[p,qe],[y,ve]],[/\b(xbox(?: one)?(?!; xbox))[\); ]/i],[d,[p,We],[y,ve]],[/smart-tv.+(samsung)/i],[p,[y,q]],[/hbbtv.+maple;(\d+)/i],[[d,/^/,"SmartTV"],[p,ze],[y,q]],[/(nux; netcast.+smarttv|lg (netcast\.tv-201\d|android tv))/i],[[p,Ke],[y,q]],[/(apple) ?tv/i],[p,[d,Je+" TV"],[y,q]],[/crkey/i],[[d,Ae+"cast"],[p,Me],[y,q]],[/droid.+aft(\w)( bui|\))/i],[d,[p,He],[y,q]],[/\(dtv[\);].+(aquos)/i],[d,[p,"Sharp"],[y,q]],[/\b(roku)[\dx]*[\)\/]((?:dvp-)?[\d\.]*)/i,/hbbtv\/\d+\.\d+\.\d+ +\([\w ]*; *(\w[^;]*);([^;]*)/i],[[p,Ge],[d,Ge],[y,q]],[/\b(android tv|smart[- ]?tv|opera tv|tv; rv:)\b/i],[[y,q]],[/((pebble))app/i],[p,d,[y,ye]],[/droid.+; (glass) \d/i],[d,[p,Me],[y,ye]],[/droid.+; (wt63?0{2,3})\)/i],[d,[p,$e],[y,ye]],[/(quest( 2)?)/i],[d,[p,Mt],[y,ye]],[/(tesla)(?: qtcarbrowser|\/[-\w\.]+)/i],[p,[y,kt]],[/droid .+?; ([^;]+?)(?: bui|\) applew).+? mobile safari/i],[d,[y,D]],[/droid .+?; ([^;]+?)(?: bui|\) applew).+?(?! mobile) safari/i],[d,[y,O]],[/\b((tablet|tab)[;\/]|focus\/\d(?!.+mobile))/i],[[y,O]],[/(phone|mobile(?:[;\/]| safari)|pda(?=.+windows ce))/i],[[y,D]],[/(android[-\w\. ]{0,9});.+buil/i],[d,[p,"Generic"]]],engine:[[/windows.+ edge\/([\w\.]+)/i],[w,[s,ei+"HTML"]],[/webkit\/537\.36.+chrome\/(?!27)([\w\.]+)/i],[w,[s,"Blink"]],[/(presto)\/([\w\.]+)/i,/(webkit|trident|netfront|netsurf|amaya|lynx|w3m|goanna)\/([\w\.]+)/i,/ekioh(flow)\/([\w\.]+)/i,/(khtml|tasman|links)[\/ ]\(?([\w\.]+)/i,/(icab)[\/ ]([23]\.[\d\.]+)/i],[s,w],[/rv\:([\w\.]{1,9})\b.+(gecko)/i],[w,s]],os:[[/microsoft (windows) (vista|xp)/i],[s,w],[/(windows) nt 6\.2; (arm)/i,/(windows (?:phone(?: os)?|mobile))[\/ ]?([\d\.\w ]*)/i,/(windows)[\/ ]?([ntce\d\. ]+\w)(?!.+xbox)/i],[s,[w,Ze,Et]],[/(win(?=3|9|n)|win 9x )([nt\d\.]+)/i],[[s,"Windows"],[w,Ze,Et]],[/ip[honead]{2,4}\b(?:.*os ([\w]+) like mac|; opera)/i,/cfnetwork\/.+darwin/i],[[w,/_/g,"."],[s,"iOS"]],[/(mac os x) ?([\w\. ]*)/i,/(macintosh|mac_powerpc\b)(?!.+haiku)/i],[[s,"Mac OS"],[w,/_/g,"."]],[/droid ([\w\.]+)\b.+(android[- ]x86)/i],[w,s],[/(android|webos|qnx|bada|rim tablet os|maemo|meego|sailfish)[-\/ ]?([\w\.]*)/i,/(blackberry)\w*\/([\w\.]*)/i,/(tizen|kaios)[\/ ]([\w\.]+)/i,/\((series40);/i],[s,w],[/\(bb(10);/i],[w,[s,Pt]],[/(?:symbian ?os|symbos|s60(?=;)|series60)[-\/ ]?([\w\.]*)/i],[w,[s,"Symbian"]],[/mozilla\/[\d\.]+ \((?:mobile|tablet|tv|mobile; [\w ]+); rv:.+ gecko\/([\w\.]+)/i],[w,[s,je+" OS"]],[/web0s;.+rt(tv)/i,/\b(?:hp)?wos(?:browser)?\/([\w\.]+)/i],[w,[s,"webOS"]],[/crkey\/([\d\.]+)/i],[w,[s,Ae+"cast"]],[/(cros) [\w]+ ([\w\.]+\w)/i],[[s,"Chromium OS"],w],[/(nintendo|playstation) ([wids345portablevuch]+)/i,/(xbox); +xbox ([^\);]+)/i,/\b(joli|palm)\b ?(?:os)?\/?([\w\.]*)/i,/(mint)[\/\(\) ]?(\w*)/i,/(mageia|vectorlinux)[; ]/i,/([kxln]?ubuntu|debian|suse|opensuse|gentoo|arch(?= linux)|slackware|fedora|mandriva|centos|pclinuxos|red ?hat|zenwalk|linpus|raspbian|plan 9|minix|risc os|contiki|deepin|manjaro|elementary os|sabayon|linspire)(?: gnu\/linux)?(?: enterprise)?(?:[- ]linux)?(?:-gnu)?[-\/ ]?(?!chrom|package)([-\w\.]*)/i,/(hurd|linux) ?([\w\.]*)/i,/(gnu) ?([\w\.]*)/i,/\b([-frentopcghs]{0,5}bsd|dragonfly)[\/ ]?(?!amd|[ix346]{1,2}86)([\w\.]*)/i,/(haiku) (\w+)/i],[s,w],[/(sunos) ?([\w\.\d]*)/i],[[s,"Solaris"],w],[/((?:open)?solaris)[-\/ ]?([\w\.]*)/i,/(aix) ((\d)(?=\.|\)| )[\w\.])*/i,/\b(beos|os\/2|amigaos|morphos|openvms|fuchsia|hp-ux)/i,/(unix) ?([\w\.]*)/i],[s,w]]},F=function(S,M){if(typeof S===c&&(M=S,S=o),!(this instanceof F))return new F(S,M).getResult();var k=S||(typeof a!==n&&a.navigator&&a.navigator.userAgent?a.navigator.userAgent:i),_=M?ti(_t,M):_t;return this.getBrowser=function(){var P={};return P[s]=o,P[w]=o,se.call(P,k,_.browser),P.major=ni(P.version),P},this.getCPU=function(){var P={};return P[K]=o,se.call(P,k,_.cpu),P},this.getDevice=function(){var P={};return P[p]=o,P[d]=o,P[y]=o,se.call(P,k,_.device),P},this.getEngine=function(){var P={};return P[s]=o,P[w]=o,se.call(P,k,_.engine),P},this.getOS=function(){var P={};return P[s]=o,P[w]=o,se.call(P,k,_.os),P},this.getResult=function(){return{ua:this.getUA(),browser:this.getBrowser(),engine:this.getEngine(),os:this.getOS(),device:this.getDevice(),cpu:this.getCPU()}},this.getUA=function(){return k},this.setUA=function(P){return k=typeof P===u&&P.length>Fe?Ge(P,Fe):P,this},this.setUA(k),this};F.VERSION=l,F.BROWSER=Ee([s,w,f]),F.CPU=Ee([K]),F.DEVICE=Ee([d,p,y,ve,D,q,O,ye,kt]),F.ENGINE=F.OS=Ee([s,w]),typeof Pe!==n?(typeof Ce!==n&&Ce.exports&&(Pe=Ce.exports=F),Pe.UAParser=F):typeof define===t&&define.amd?define(function(){return F}):typeof a!==n&&(a.UAParser=F);var le=typeof a!==n&&(a.jQuery||a.Zepto);if(le&&!le.ua){var _e=new F;le.ua=_e.getResult(),le.ua.get=function(){return _e.getUA()},le.ua.set=function(S){_e.setUA(S);var M=_e.getResult();for(var k in M)le.ua[k]=M[k]}}})(typeof window=="object"?window:Pe)});var be=new Error("Unsupported platform"),ce=new Error("Invalid argument"),Nt=new Error("Unexpected error"),he=new Error("Invalid key"),Y=new Error("Invalid signature"),Ye=new Error("Operation blocked");var N={readonly:"readonly",readwrite:"readwrite"};function Bt(a,o,l){return window.indexedDB||Promise.reject(be),new Promise((i,e)=>{try{let t=!1,n=u=>{t||(t=!0,e(u))},c=window.indexedDB.open(a,o);c.onupgradeneeded=u=>{try{l(u.target.result,u.target.transaction,u.newVersion,u.oldVersion)}catch(f){n(f)}},c.onblocked=u=>{n(Ye)},c.onerror=u=>{n(u.target.error)},c.onsuccess=u=>{if(!t){let f=u.target.result;f.onversionchange=d=>{f.close()},i(f)}}}catch(t){reject_once(t)}})}function Ut(a){a.close()}function Lt(a){return new Promise((o,l)=>{let i=window.indexedDB.deleteDatabase(a);i.onerror=e=>{l(Nt)},i.onsuccess=e=>{o()},i.onblocked=e=>{l(Ye)}})}function B(a,o,l){let i=a.transaction(o,l);return i.result=null,i.promise=new Promise((e,t)=>{i.oncomplete=n=>{e(i.result)},i.onerror=n=>{t(i.error?i.error:n.target.error)},i.onabort=n=>{t(i.result)}}),i}function U(a){return a.error?Promise.reject(a.error):a.promise}function ae(a,o,l){try{let e=a.objectStore(o).get(l);e.onsuccess=t=>{a.result=e.result},e.onerror=t=>{a.result=t.target.error,a.abort()}}catch(i){a.result=i,a.abort()}}function xe(a,o,l){return new Promise((i,e)=>{try{let n=a.objectStore(o).get(l);n.onsuccess=c=>{i(n.result)},n.onerror=c=>{a.result=c.target.error,e(c.error)}}catch(t){a.result=t,e(t)}})}function Qe(a,o){try{let i=a.objectStore(o).getAll();i.onsuccess=e=>{a.result=i.result},i.onerror=e=>{a.result=e.target.error,a.abort()}}catch(l){a.result=l,a.abort()}}function Rt(a,o){return new Promise((l,i)=>{try{let t=a.objectStore(o).getAll();t.onsuccess=n=>{l(t.result)},t.onerror=n=>{a.result=n.target.error,i(n.error)}}catch(e){a.result=e,i(e)}})}function H(a,o,l,i){try{let t=a.objectStore(o).put(l,i);t.onsuccess=n=>{a.result=t.result},t.onerror=n=>{a.result=n.target.error,a.abort()}}catch(e){a.result=e,a.abort()}}function ue(a,o,l){try{let e=a.objectStore(o).delete(l);e.onsuccess=t=>{a.result=e.result},e.onerror=t=>{a.result=t.target.error,a.abort()}}catch(i){a.result=i,a.abort()}}function ge(a,o){try{let i=a.objectStore(o).clear();i.onsuccess=e=>{a.result=i.result},i.onerror=e=>{a.result=e.target.error,a.abort()}}catch(l){a.result=l,a.abort()}}var Ct="keymaker",et=[si,wi,bi,hi,Oi,Si],Q="certificates",g="keys",E="credentials",tt="id",X="appSettings";function di(a){return new Promise(async(o,l)=>{a===void 0&&(a=et.length);try{let i=await Bt(Ct,a,pi);o(i)}catch(i){l(i)}})}function vi(a){return new Promise(async(o,l)=>{try{Ut(a),o()}catch(i){l(i)}})}function yi(){return new Promise(async(a,o)=>{try{await Lt(Ct),a()}catch(l){o(l)}})}function pi(a,o,l,i){if(!a||!l)throw ce;if(l>et.length)throw ce;for(;i<l;i++)et[i](a,o)}function si(a,o){a.createObjectStore(E,{keyPath:"handle"}),a.createObjectStore(Q),a.createObjectStore(g)}function wi(a,o){a.createObjectStore(X,{keyPath:"instanceId"})}function bi(a,o){let i=o.objectStore(E).openCursor();i.onsuccess=e=>{let t=e.target.result;t&&(t.value.state||(t.value.state="Active",t.update(t.value)),t.continue())}}function hi(a,o){}function Oi(a,o){let i=o.objectStore(E).openCursor();i.onsuccess=e=>{let t=e.target.result;t&&(t.value.id||(t.value.id=Di(16,"cr"),t.update(t.value)),t.continue())}}function Si(a,o){o.objectStore(E).createIndex(tt,"id",{unique:!0})}function ki(a){let o=new Uint8Array(a);return window.crypto.getRandomValues(o),o}function Di(a,o){return(o??"")+[...ki(a/2)].map(l=>l.toString(16).padStart(2,"0")).join("")}function gi(a,o){return new Promise(async(l,i)=>{try{let e=B(a,Q,N.readonly);ae(e,Q,o);let t=await U(e);l(new Uint8Array(t))}catch(e){i(e)}})}function er(a,o,l){return new Promise(async(i,e)=>{try{let t=B(a,Q,N.readwrite);H(t,Q,l,o),await U(t),i()}catch(t){e(t)}})}function tr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,Q,N.readwrite);ue(e,Q,o),await U(e),l()}catch(e){i(e)}})}function Ft(a,o,l){return new Promise(async(i,e)=>{try{let t=B(a,g,N.readwrite);H(t,g,l,o),await U(t),i()}catch(t){e(t)}})}function fe(a,o){return new Promise(async(l,i)=>{try{let e=B(a,g,N.readonly);ae(e,g,o);let t=await U(e);t?l(t):i(he)}catch(e){i(e)}})}function lr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,g,N.readwrite);ue(e,g,o),await U(e),l()}catch(e){i(e)}})}function nt(a){window.crypto.getRandomValues(a)}function it(a,o){return new Promise((l,i)=>{window.crypto.subtle.exportKey(o,a).then(e=>{l(new Uint8Array(e))},e=>{i(e)})})}function Ht(a){return new Promise((o,l)=>{let i={name:"ECDSA",namedCurve:a};window.crypto.subtle.generateKey(i,!1,["sign","verify"]).then(e=>{o(e)},e=>{l(e)})})}function Jt(a,o,l,i){return new Promise((e,t)=>{let n={name:"ECDSA",namedCurve:o};window.crypto.subtle.importKey(a,l,n,!0,[i]).then(c=>{e(c)},c=>{t(c)})})}function Kt(a,o,l){return new Promise((i,e)=>{let t={name:"ECDSA",hash:o};window.crypto.subtle.sign(t,a,l).then(n=>{n=new Uint8Array(n),i(n)},n=>{e(n)})})}function Wt(a,o,l,i){return new Promise((e,t)=>{let n={name:"ECDSA",hash:o};window.crypto.subtle.verify(n,a,l,i).then(c=>{e(c)},c=>{t(c)})})}function zt(){return new Promise((a,o)=>{let l={name:"AES-GCM",length:256};window.crypto.subtle.generateKey(l,!1,["encrypt","decrypt"]).then(i=>{a(i)},i=>{o(i)})})}function rt(a,o,l){return new Promise((i,e)=>{let t={name:"AES-GCM",iv:o};window.crypto.subtle.encrypt(t,a,l).then(n=>{i(new Uint8Array(n))},n=>{e(n)})})}function ot(a,o,l){return new Promise((i,e)=>{let t={name:"AES-GCM",iv:o};window.crypto.subtle.decrypt(t,a,l).then(n=>{i(new Uint8Array(n))},n=>{e(n)})})}var Pi="subtle";function pr(a,o){return new Promise(async(l,i)=>{try{let t=await(await Mi()).generateKey(o);await Ft(a,o,t),l()}catch(e){i(e)}})}function sr(a,o){return new Promise(async(l,i)=>{try{let e=await fe(a,o),t=Oe(e);l(t===Gt)}catch(e){i(e)}})}function wr(a,o,l){return new Promise(async(i,e)=>{try{let t=await fe(a,o),c=await Oe(t).sign(t,l);i(c)}catch(t){e(t)}})}function Ii(a){if(a.subtle!==void 0){if(a=a.subtle.signature,a.length==64)return a;if(a.length<64)throw Y;if(a[0]!=48)throw Y;let o=new Uint8Array(64),l=2;if(a[l++]!=2)throw Y;let i=a[l++];if(i==33)l++;else if(i!=32)throw Y;if(o.set(a.slice(l,l+32),0),l+=32,a[l++]!=2)throw Y;if(i=a[l++],i==33)l++;else if(i!=32)throw Y;return o.set(a.slice(l,l+32),32),o}else throw a.webauthn!==void 0?new Error("Not implemented"):Y}function br(a,o,l,i){return new Promise(async(e,t)=>{try{let n=await Ai(a,o),c=await Jt("raw","P-256",n,"verify");l=Ii(l);let u=await Wt(c,"SHA-256",l,i);e(u)}catch(n){t(n)}})}function Ai(a,o){return new Promise(async(l,i)=>{try{let e=await fe(a,o),n=await Oe(e).publicKey(e);l(new Uint8Array(n))}catch(e){i(e)}})}function hr(a,o,l){return new Promise(async(i,e)=>{try{let t=await fe(a,o),c=await Oe(t).encrypt(t,l);i(c)}catch(t){e(t)}})}function Or(a,o,l){return new Promise(async(i,e)=>{try{let t=await fe(a,o),c=await Oe(t).decrypt(t,data);i(c)}catch(t){e(t)}})}function ji(){return!!window.crypto.subtle}async function Mi(a){if(ji())return $t;throw be}function qt(a,o){return o in a}function Oe(a){if("subtle"in a)return $t;if("webauthn"in a)return Gt;throw ce}var $t=new class{extractKeys(o){if(qt(o,Pi))return o.subtle;throw he}async generateKey(o){let l=await Ht("P-256"),i=await zt();return{subtle:{signingKey:l,encryptionKey:i}}}async publicKey(o){let l=this.extractKeys(o);return await it(l.signingKey.publicKey,"raw")}async sign(o,l){let i=this.extractKeys(o);return{subtle:{signature:await Kt(i.signingKey.privateKey,"SHA-256",l)}}}async encrypt(o,l){let i=this.extractKeys(o),e=new Uint8Array(12);nt(e);let t=await rt(i.encryptionKey,e,l),n=new Uint8Array(e.length+t.length);return n.set(e),n.set(t,e.length),n}async decrypt(o,l){let i=this.extractKeys(o),e=l.slice(0,12);return l=l.slice(12),await ot(i.encryptionKey,e,l)}},Gt=new class{extractKeys(o){if(qt(o,webAuthnProvider))return o.webauthn;throw he}async generateKey(o){throw be}async publicKey(o){let l=this.extractKeys(o);return await it(l.signingKey.publicKey,"raw")}async sign(o,l){let i=this.extractKeys(o),e={challenge:l,allowCredentials:[{id:i.signingKey.rawId,type:"public-key",transports:i.signingKey.transports}],userVerification:"required",timeout:6e4},t=await navigator.credentials.get({publicKey:e});if(!t)return Promise.reject(ce);let n=t.response;return{webauthn:{authenticatorData:n.authenticatorData,clientDataJSON:n.clientDataJSON,signature:n.signature}}}async encrypt(o,l){let i=this.extractKeys(o),e=new Uint8Array(12);nt(e);let t=await rt(i.encryptionKey,e,l),n=new Uint8Array(e.length+t.length);return n.set(e),n.set(t,e.length),n}async decrypt(o,l){let i=this.extractKeys(o),e=l.slice(0,12);return l=l.slice(12),await ot(i.encryptionKey,e,l)}};var Te,mi=new Uint8Array(16);function lt(){if(!Te&&(Te=typeof crypto!="undefined"&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto)||typeof msCrypto!="undefined"&&typeof msCrypto.getRandomValues=="function"&&msCrypto.getRandomValues.bind(msCrypto),!Te))throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return Te(mi)}var Zt=/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;function Ei(a){return typeof a=="string"&&Zt.test(a)}var Xt=Ei;var R=[];for(Ne=0;Ne<256;++Ne)R.push((Ne+256).toString(16).substr(1));var Ne;function _i(a){var o=arguments.length>1&&arguments[1]!==void 0?arguments[1]:0,l=(R[a[o+0]]+R[a[o+1]]+R[a[o+2]]+R[a[o+3]]+"-"+R[a[o+4]]+R[a[o+5]]+"-"+R[a[o+6]]+R[a[o+7]]+"-"+R[a[o+8]]+R[a[o+9]]+"-"+R[a[o+10]]+R[a[o+11]]+R[a[o+12]]+R[a[o+13]]+R[a[o+14]]+R[a[o+15]]).toLowerCase();if(!Xt(l))throw TypeError("Stringified UUID is invalid");return l}var Yt=_i;function Vi(a,o,l){a=a||{};var i=a.random||(a.rng||lt)();if(i[6]=i[6]&15|64,i[8]=i[8]&63|128,o){l=l||0;for(var e=0;e<16;++e)o[l+e]=i[e];return o}return Yt(i)}var ct=Vi;function Lr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,E,N.readwrite);H(e,E,o),await U(e),l()}catch(e){i(e)}})}function Rr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,E,N.readwrite),t=e.objectStore(E),n=t.index(tt),c=!1,u=n.openCursor().on_success=f=>{u&&(!update&&u.value.id==o.id&&(u.update(o),c=!0),u.continue())};c||t.put(o),await U(e),l()}catch(e){i(e)}})}function Cr(a,o,l){return new Promise(async(i,e)=>{try{let t=B(a,E,N.readwrite),n=await xe(t,E,o);n.name=l.name,n.image_url=l.image_url,n.enroll_uri=l.enroll_uri,n.login_uri=l.login_uri,n.desktop_login_url=l.desktop_login_url,n.device_gateway_url=l.device_gateway_url,n.migrate_addr=l.migrate_addr,H(t,E,n),await U(t),i()}catch(t){e(t)}})}function Fr(a,o){return new Promise(async(l,i)=>{try{l(!!await xi(a,o))}catch(e){i(e)}})}function xi(a,o){return new Promise(async(l,i)=>{try{let e=B(a,E,N.readonly);ae(e,E,o);let t=await U(e);l(t)}catch(e){i(e)}})}function Hr(a,o){return new Promise(async(l,i)=>{try{let t=(await Ti(a)).find(n=>n.id===o);l(t)}catch(e){i(e)}})}function Ti(a){return new Promise(async(o,l)=>{try{let i=B(a,E,N.readonly);Qe(i,E);let e=await U(i);o(e)}catch(i){l(i)}})}function Jr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,E,N.readwrite);ue(e,E,o),await U(e),l()}catch(e){i(e)}})}function Kr(a,o,l){return new Promise(async(i,e)=>{try{let t=B(a,E,N.readwrite),n=await xe(t,E,o);n.auth_client_ids.push(l),H(t,E,n),await U(t),i()}catch(t){e(t)}})}function Wr(a,o){return new Promise(async(l,i)=>{try{let e=B(a,E,N.readwrite),t=await xe(e,E,o);t.auth_client_ids=[],H(e,E,t),await U(e),l()}catch(e){i(e)}})}async function Qt(a){return await gt(a,void 0)}async function zr(a,o){await gt(a,o)}async function gt(a,o){let l=B(a,X,N.readwrite),i=()=>(o===void 0&&(o={instanceId:ct()}),o),e=await Rt(l,X);if(e.length===0?H(l,X,i()):e.length>1?(ge(l,X),H(l,X,i())):o!==void 0&&(o.instanceId!==e[0].instanceId&&ge(),H(l,X,i())),Qe(l,X),e=await U(l),e.length!==1)throw new Error("Transaction failure");return e[0]}var h=Tt(Yn()),v=h.Reader,j=h.Writer,T=h.util,r=h.roots.default||(h.roots.default={}),A=r.device=(()=>{let a={};return a.Platform=function(){let o={},l=Object.create(o);return l[o[0]="UNSPECIFIED"]=0,l[o[1]="MACOS"]=1,l[o[2]="IOS"]=2,l[o[3]="ANDROID"]=3,l[o[4]="WINDOWS"]=4,l[o[5]="LINUX"]=5,l[o[6]="WEB"]=6,l[o[7]="CHROMEOS"]=7,l}(),a.Core=function(){let o={},l=Object.create(o);return l[o[0]="GO"]=0,l[o[1]="RUST"]=1,l}(),a.AnswerType=function(){let o={},l=Object.create(o);return l[o[0]="UNSUPPORTED"]=0,l[o[1]="UNKNOWN"]=1,l[o[2]="ERROR"]=2,l[o[3]="VALUE"]=3,l}(),a.Answer=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.type=0,o.prototype.error="",o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.type!=null&&Object.hasOwnProperty.call(i,"type")&&e.uint32(8).int32(i.type),i.error!=null&&Object.hasOwnProperty.call(i,"error")&&e.uint32(18).string(i.error),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.Answer;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.type=i.int32();break;case 2:n.error=i.string();break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.type!=null&&i.hasOwnProperty("type"))switch(i.type){default:return"type: enum value expected";case 0:case 1:case 2:case 3:break}return i.error!=null&&i.hasOwnProperty("error")&&!T.isString(i.error)?"error: string expected":null},o.fromObject=function(i){if(i instanceof r.device.Answer)return i;let e=new r.device.Answer;switch(i.type){case"UNSUPPORTED":case 0:e.type=0;break;case"UNKNOWN":case 1:e.type=1;break;case"ERROR":case 2:e.type=2;break;case"VALUE":case 3:e.type=3;break}return i.error!=null&&(e.error=String(i.error)),e},o.toObject=function(i,e){e||(e={});let t={};return e.defaults&&(t.type=e.enums===String?"UNSUPPORTED":0,t.error=""),i.type!=null&&i.hasOwnProperty("type")&&(t.type=e.enums===String?r.device.AnswerType[i.type]:i.type),i.error!=null&&i.hasOwnProperty("error")&&(t.error=i.error),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o}(),a.StringMaybe=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.answer=null,o.prototype.value="",o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.answer!=null&&Object.hasOwnProperty.call(i,"answer")&&r.device.Answer.encode(i.answer,e.uint32(10).fork()).ldelim(),i.value!=null&&Object.hasOwnProperty.call(i,"value")&&e.uint32(18).string(i.value),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.StringMaybe;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.answer=r.device.Answer.decode(i,i.uint32());break;case 2:n.value=i.string();break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.answer!=null&&i.hasOwnProperty("answer")){let e=r.device.Answer.verify(i.answer);if(e)return"answer."+e}return i.value!=null&&i.hasOwnProperty("value")&&!T.isString(i.value)?"value: string expected":null},o.fromObject=function(i){if(i instanceof r.device.StringMaybe)return i;let e=new r.device.StringMaybe;if(i.answer!=null){if(typeof i.answer!="object")throw TypeError(".device.StringMaybe.answer: object expected");e.answer=r.device.Answer.fromObject(i.answer)}return i.value!=null&&(e.value=String(i.value)),e},o.toObject=function(i,e){e||(e={});let t={};return e.defaults&&(t.answer=null,t.value=""),i.answer!=null&&i.hasOwnProperty("answer")&&(t.answer=r.device.Answer.toObject(i.answer,e)),i.value!=null&&i.hasOwnProperty("value")&&(t.value=i.value),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o}(),a.Int32Maybe=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.answer=null,o.prototype.value=0,o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.answer!=null&&Object.hasOwnProperty.call(i,"answer")&&r.device.Answer.encode(i.answer,e.uint32(10).fork()).ldelim(),i.value!=null&&Object.hasOwnProperty.call(i,"value")&&e.uint32(16).int32(i.value),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.Int32Maybe;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.answer=r.device.Answer.decode(i,i.uint32());break;case 2:n.value=i.int32();break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.answer!=null&&i.hasOwnProperty("answer")){let e=r.device.Answer.verify(i.answer);if(e)return"answer."+e}return i.value!=null&&i.hasOwnProperty("value")&&!T.isInteger(i.value)?"value: integer expected":null},o.fromObject=function(i){if(i instanceof r.device.Int32Maybe)return i;let e=new r.device.Int32Maybe;if(i.answer!=null){if(typeof i.answer!="object")throw TypeError(".device.Int32Maybe.answer: object expected");e.answer=r.device.Answer.fromObject(i.answer)}return i.value!=null&&(e.value=i.value|0),e},o.toObject=function(i,e){e||(e={});let t={};return e.defaults&&(t.answer=null,t.value=0),i.answer!=null&&i.hasOwnProperty("answer")&&(t.answer=r.device.Answer.toObject(i.answer,e)),i.value!=null&&i.hasOwnProperty("value")&&(t.value=i.value),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o}(),a.Int64Maybe=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.answer=null,o.prototype.value=T.Long?T.Long.fromBits(0,0,!1):0,o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.answer!=null&&Object.hasOwnProperty.call(i,"answer")&&r.device.Answer.encode(i.answer,e.uint32(10).fork()).ldelim(),i.value!=null&&Object.hasOwnProperty.call(i,"value")&&e.uint32(16).int64(i.value),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.Int64Maybe;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.answer=r.device.Answer.decode(i,i.uint32());break;case 2:n.value=i.int64();break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.answer!=null&&i.hasOwnProperty("answer")){let e=r.device.Answer.verify(i.answer);if(e)return"answer."+e}return i.value!=null&&i.hasOwnProperty("value")&&!T.isInteger(i.value)&&!(i.value&&T.isInteger(i.value.low)&&T.isInteger(i.value.high))?"value: integer|Long expected":null},o.fromObject=function(i){if(i instanceof r.device.Int64Maybe)return i;let e=new r.device.Int64Maybe;if(i.answer!=null){if(typeof i.answer!="object")throw TypeError(".device.Int64Maybe.answer: object expected");e.answer=r.device.Answer.fromObject(i.answer)}return i.value!=null&&(T.Long?(e.value=T.Long.fromValue(i.value)).unsigned=!1:typeof i.value=="string"?e.value=parseInt(i.value,10):typeof i.value=="number"?e.value=i.value:typeof i.value=="object"&&(e.value=new T.LongBits(i.value.low>>>0,i.value.high>>>0).toNumber())),e},o.toObject=function(i,e){e||(e={});let t={};if(e.defaults)if(t.answer=null,T.Long){let n=new T.Long(0,0,!1);t.value=e.longs===String?n.toString():e.longs===Number?n.toNumber():n}else t.value=e.longs===String?"0":0;return i.answer!=null&&i.hasOwnProperty("answer")&&(t.answer=r.device.Answer.toObject(i.answer,e)),i.value!=null&&i.hasOwnProperty("value")&&(typeof i.value=="number"?t.value=e.longs===String?String(i.value):i.value:t.value=e.longs===String?T.Long.prototype.toString.call(i.value):e.longs===Number?new T.LongBits(i.value.low>>>0,i.value.high>>>0).toNumber():i.value),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o}(),a.BoolMaybe=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.answer=null,o.prototype.value=!1,o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.answer!=null&&Object.hasOwnProperty.call(i,"answer")&&r.device.Answer.encode(i.answer,e.uint32(10).fork()).ldelim(),i.value!=null&&Object.hasOwnProperty.call(i,"value")&&e.uint32(16).bool(i.value),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.BoolMaybe;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.answer=r.device.Answer.decode(i,i.uint32());break;case 2:n.value=i.bool();break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.answer!=null&&i.hasOwnProperty("answer")){let e=r.device.Answer.verify(i.answer);if(e)return"answer."+e}return i.value!=null&&i.hasOwnProperty("value")&&typeof i.value!="boolean"?"value: boolean expected":null},o.fromObject=function(i){if(i instanceof r.device.BoolMaybe)return i;let e=new r.device.BoolMaybe;if(i.answer!=null){if(typeof i.answer!="object")throw TypeError(".device.BoolMaybe.answer: object expected");e.answer=r.device.Answer.fromObject(i.answer)}return i.value!=null&&(e.value=Boolean(i.value)),e},o.toObject=function(i,e){e||(e={});let t={};return e.defaults&&(t.answer=null,t.value=!1),i.answer!=null&&i.hasOwnProperty("answer")&&(t.answer=r.device.Answer.toObject(i.answer,e)),i.value!=null&&i.hasOwnProperty("value")&&(t.value=i.value),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o}(),a.DeviceInfo=function(){function o(l){if(l)for(let i=Object.keys(l),e=0;e<i.length;++e)l[i[e]]!=null&&(this[i[e]]=l[i[e]])}return o.prototype.answer=null,o.prototype.platform=0,o.prototype.appVersion=null,o.prototype.core=0,o.prototype.osVersion=null,o.prototype.deviceType=null,o.prototype.authentication=null,o.prototype.volumes=null,o.prototype.securitySoftware=null,o.prototype.authorizationSettings=null,o.prototype.applications=null,o.prototype.appInstanceId=null,o.prototype.hardwareUuid=null,o.prototype.intuneManagedDeviceId=null,o.prototype.osDomainName=null,o.prototype.hostname=null,o.prototype.hardwareSerialNum=null,o.prototype.tpmInfo=null,o.prototype.crowdstrikeAgentId=null,o.prototype.biSdkInfo=null,o.prototype.keyProvenances=null,o.prototype.isHalEnabled=null,o.prototype.locale=null,o.prototype.intuneManagedDeviceName=null,o.prototype.intuneDeviceId=null,o.create=function(i){return new o(i)},o.encode=function(i,e){return e||(e=j.create()),i.answer!=null&&Object.hasOwnProperty.call(i,"answer")&&r.device.Answer.encode(i.answer,e.uint32(10).fork()).ldelim(),i.platform!=null&&Object.hasOwnProperty.call(i,"platform")&&e.uint32(16).int32(i.platform),i.appVersion!=null&&Object.hasOwnProperty.call(i,"appVersion")&&r.device.StringMaybe.encode(i.appVersion,e.uint32(26).fork()).ldelim(),i.osVersion!=null&&Object.hasOwnProperty.call(i,"osVersion")&&r.device.DeviceInfo.OSVersion.encode(i.osVersion,e.uint32(34).fork()).ldelim(),i.deviceType!=null&&Object.hasOwnProperty.call(i,"deviceType")&&r.device.DeviceInfo.DeviceType.encode(i.deviceType,e.uint32(42).fork()).ldelim(),i.authentication!=null&&Object.hasOwnProperty.call(i,"authentication")&&r.device.DeviceInfo.Authentication.encode(i.authentication,e.uint32(50).fork()).ldelim(),i.volumes!=null&&Object.hasOwnProperty.call(i,"volumes")&&r.device.DeviceInfo.Volumes.encode(i.volumes,e.uint32(58).fork()).ldelim(),i.securitySoftware!=null&&Object.hasOwnProperty.call(i,"securitySoftware")&&r.device.DeviceInfo.SecuritySoftware.encode(i.securitySoftware,e.uint32(66).fork()).ldelim(),i.authorizationSettings!=null&&Object.hasOwnProperty.call(i,"authorizationSettings")&&r.device.DeviceInfo.AuthorizationSettings.encode(i.authorizationSettings,e.uint32(74).fork()).ldelim(),i.applications!=null&&Object.hasOwnProperty.call(i,"applications")&&r.device.DeviceInfo.Applications.encode(i.applications,e.uint32(82).fork()).ldelim(),i.appInstanceId!=null&&Object.hasOwnProperty.call(i,"appInstanceId")&&r.device.StringMaybe.encode(i.appInstanceId,e.uint32(90).fork()).ldelim(),i.hardwareUuid!=null&&Object.hasOwnProperty.call(i,"hardwareUuid")&&r.device.StringMaybe.encode(i.hardwareUuid,e.uint32(98).fork()).ldelim(),i.core!=null&&Object.hasOwnProperty.call(i,"core")&&e.uint32(104).int32(i.core),i.intuneManagedDeviceId!=null&&Object.hasOwnProperty.call(i,"intuneManagedDeviceId")&&r.device.StringMaybe.encode(i.intuneManagedDeviceId,e.uint32(114).fork()).ldelim(),i.osDomainName!=null&&Object.hasOwnProperty.call(i,"osDomainName")&&r.device.StringMaybe.encode(i.osDomainName,e.uint32(122).fork()).ldelim(),i.hostname!=null&&Object.hasOwnProperty.call(i,"hostname")&&r.device.StringMaybe.encode(i.hostname,e.uint32(130).fork()).ldelim(),i.hardwareSerialNum!=null&&Object.hasOwnProperty.call(i,"hardwareSerialNum")&&r.device.StringMaybe.encode(i.hardwareSerialNum,e.uint32(138).fork()).ldelim(),i.tpmInfo!=null&&Object.hasOwnProperty.call(i,"tpmInfo")&&r.device.DeviceInfo.TPMInfo.encode(i.tpmInfo,e.uint32(146).fork()).ldelim(),i.crowdstrikeAgentId!=null&&Object.hasOwnProperty.call(i,"crowdstrikeAgentId")&&r.device.StringMaybe.encode(i.crowdstrikeAgentId,e.uint32(154).fork()).ldelim(),i.biSdkInfo!=null&&Object.hasOwnProperty.call(i,"biSdkInfo")&&r.device.DeviceInfo.BiSdkInfo.encode(i.biSdkInfo,e.uint32(162).fork()).ldelim(),i.keyProvenances!=null&&Object.hasOwnProperty.call(i,"keyProvenances")&&r.device.DeviceInfo.KeyProvenances.encode(i.keyProvenances,e.uint32(170).fork()).ldelim(),i.isHalEnabled!=null&&Object.hasOwnProperty.call(i,"isHalEnabled")&&r.device.BoolMaybe.encode(i.isHalEnabled,e.uint32(178).fork()).ldelim(),i.locale!=null&&Object.hasOwnProperty.call(i,"locale")&&r.device.DeviceInfo.Locale.encode(i.locale,e.uint32(186).fork()).ldelim(),i.intuneManagedDeviceName!=null&&Object.hasOwnProperty.call(i,"intuneManagedDeviceName")&&r.device.StringMaybe.encode(i.intuneManagedDeviceName,e.uint32(194).fork()).ldelim(),i.intuneDeviceId!=null&&Object.hasOwnProperty.call(i,"intuneDeviceId")&&r.device.StringMaybe.encode(i.intuneDeviceId,e.uint32(202).fork()).ldelim(),e},o.encodeDelimited=function(i,e){return this.encode(i,e).ldelim()},o.decode=function(i,e){i instanceof v||(i=v.create(i));let t=e===void 0?i.len:i.pos+e,n=new r.device.DeviceInfo;for(;i.pos<t;){let c=i.uint32();switch(c>>>3){case 1:n.answer=r.device.Answer.decode(i,i.uint32());break;case 2:n.platform=i.int32();break;case 3:n.appVersion=r.device.StringMaybe.decode(i,i.uint32());break;case 13:n.core=i.int32();break;case 4:n.osVersion=r.device.DeviceInfo.OSVersion.decode(i,i.uint32());break;case 5:n.deviceType=r.device.DeviceInfo.DeviceType.decode(i,i.uint32());break;case 6:n.authentication=r.device.DeviceInfo.Authentication.decode(i,i.uint32());break;case 7:n.volumes=r.device.DeviceInfo.Volumes.decode(i,i.uint32());break;case 8:n.securitySoftware=r.device.DeviceInfo.SecuritySoftware.decode(i,i.uint32());break;case 9:n.authorizationSettings=r.device.DeviceInfo.AuthorizationSettings.decode(i,i.uint32());break;case 10:n.applications=r.device.DeviceInfo.Applications.decode(i,i.uint32());break;case 11:n.appInstanceId=r.device.StringMaybe.decode(i,i.uint32());break;case 12:n.hardwareUuid=r.device.StringMaybe.decode(i,i.uint32());break;case 14:n.intuneManagedDeviceId=r.device.StringMaybe.decode(i,i.uint32());break;case 15:n.osDomainName=r.device.StringMaybe.decode(i,i.uint32());break;case 16:n.hostname=r.device.StringMaybe.decode(i,i.uint32());break;case 17:n.hardwareSerialNum=r.device.StringMaybe.decode(i,i.uint32());break;case 18:n.tpmInfo=r.device.DeviceInfo.TPMInfo.decode(i,i.uint32());break;case 19:n.crowdstrikeAgentId=r.device.StringMaybe.decode(i,i.uint32());break;case 20:n.biSdkInfo=r.device.DeviceInfo.BiSdkInfo.decode(i,i.uint32());break;case 21:n.keyProvenances=r.device.DeviceInfo.KeyProvenances.decode(i,i.uint32());break;case 22:n.isHalEnabled=r.device.BoolMaybe.decode(i,i.uint32());break;case 23:n.locale=r.device.DeviceInfo.Locale.decode(i,i.uint32());break;case 24:n.intuneManagedDeviceName=r.device.StringMaybe.decode(i,i.uint32());break;case 25:n.intuneDeviceId=r.device.StringMaybe.decode(i,i.uint32());break;default:i.skipType(c&7);break}}return n},o.decodeDelimited=function(i){return i instanceof v||(i=new v(i)),this.decode(i,i.uint32())},o.verify=function(i){if(typeof i!="object"||i===null)return"object expected";if(i.answer!=null&&i.hasOwnProperty("answer")){let e=r.device.Answer.verify(i.answer);if(e)return"answer."+e}if(i.platform!=null&&i.hasOwnProperty("platform"))switch(i.platform){default:return"platform: enum value expected";case 0:case 1:case 2:case 3:case 4:case 5:case 6:case 7:break}if(i.appVersion!=null&&i.hasOwnProperty("appVersion")){let e=r.device.StringMaybe.verify(i.appVersion);if(e)return"appVersion."+e}if(i.core!=null&&i.hasOwnProperty("core"))switch(i.core){default:return"core: enum value expected";case 0:case 1:break}if(i.osVersion!=null&&i.hasOwnProperty("osVersion")){let e=r.device.DeviceInfo.OSVersion.verify(i.osVersion);if(e)return"osVersion."+e}if(i.deviceType!=null&&i.hasOwnProperty("deviceType")){let e=r.device.DeviceInfo.DeviceType.verify(i.deviceType);if(e)return"deviceType."+e}if(i.authentication!=null&&i.hasOwnProperty("authentication")){let e=r.device.DeviceInfo.Authentication.verify(i.authentication);if(e)return"authentication."+e}if(i.volumes!=null&&i.hasOwnProperty("volumes")){let e=r.device.DeviceInfo.Volumes.verify(i.volumes);if(e)return"volumes."+e}if(i.securitySoftware!=null&&i.hasOwnProperty("securitySoftware")){let e=r.device.DeviceInfo.SecuritySoftware.verify(i.securitySoftware);if(e)return"securitySoftware."+e}if(i.authorizationSettings!=null&&i.hasOwnProperty("authorizationSettings")){let e=r.device.DeviceInfo.AuthorizationSettings.verify(i.authorizationSettings);if(e)return"authorizationSettings."+e}if(i.applications!=null&&i.hasOwnProperty("applications")){let e=r.device.DeviceInfo.Applications.verify(i.applications);if(e)return"applications."+e}if(i.appInstanceId!=null&&i.hasOwnProperty("appInstanceId")){let e=r.device.StringMaybe.verify(i.appInstanceId);if(e)return"appInstanceId."+e}if(i.hardwareUuid!=null&&i.hasOwnProperty("hardwareUuid")){let e=r.device.StringMaybe.verify(i.hardwareUuid);if(e)return"hardwareUuid."+e}if(i.intuneManagedDeviceId!=null&&i.hasOwnProperty("intuneManagedDeviceId")){let e=r.device.StringMaybe.verify(i.intuneManagedDeviceId);if(e)return"intuneManagedDeviceId."+e}if(i.osDomainName!=null&&i.hasOwnProperty("osDomainName")){let e=r.device.StringMaybe.verify(i.osDomainName);if(e)return"osDomainName."+e}if(i.hostname!=null&&i.hasOwnProperty("hostname")){let e=r.device.StringMaybe.verify(i.hostname);if(e)return"hostname."+e}if(i.hardwareSerialNum!=null&&i.hasOwnProperty("hardwareSerialNum")){let e=r.device.StringMaybe.verify(i.hardwareSerialNum);if(e)return"hardwareSerialNum."+e}if(i.tpmInfo!=null&&i.hasOwnProperty("tpmInfo")){let e=r.device.DeviceInfo.TPMInfo.verify(i.tpmInfo);if(e)return"tpmInfo."+e}if(i.crowdstrikeAgentId!=null&&i.hasOwnProperty("crowdstrikeAgentId")){let e=r.device.StringMaybe.verify(i.crowdstrikeAgentId);if(e)return"crowdstrikeAgentId."+e}if(i.biSdkInfo!=null&&i.hasOwnProperty("biSdkInfo")){let e=r.device.DeviceInfo.BiSdkInfo.verify(i.biSdkInfo);if(e)return"biSdkInfo."+e}if(i.keyProvenances!=null&&i.hasOwnProperty("keyProvenances")){let e=r.device.DeviceInfo.KeyProvenances.verify(i.keyProvenances);if(e)return"keyProvenances."+e}if(i.isHalEnabled!=null&&i.hasOwnProperty("isHalEnabled")){let e=r.device.BoolMaybe.verify(i.isHalEnabled);if(e)return"isHalEnabled."+e}if(i.locale!=null&&i.hasOwnProperty("locale")){let e=r.device.DeviceInfo.Locale.verify(i.locale);if(e)return"locale."+e}if(i.intuneManagedDeviceName!=null&&i.hasOwnProperty("intuneManagedDeviceName")){let e=r.device.StringMaybe.verify(i.intuneManagedDeviceName);if(e)return"intuneManagedDeviceName."+e}if(i.intuneDeviceId!=null&&i.hasOwnProperty("intuneDeviceId")){let e=r.device.StringMaybe.verify(i.intuneDeviceId);if(e)return"intuneDeviceId."+e}return null},o.fromObject=function(i){if(i instanceof r.device.DeviceInfo)return i;let e=new r.device.DeviceInfo;if(i.answer!=null){if(typeof i.answer!="object")throw TypeError(".device.DeviceInfo.answer: object expected");e.answer=r.device.Answer.fromObject(i.answer)}switch(i.platform){case"UNSPECIFIED":case 0:e.platform=0;break;case"MACOS":case 1:e.platform=1;break;case"IOS":case 2:e.platform=2;break;case"ANDROID":case 3:e.platform=3;break;case"WINDOWS":case 4:e.platform=4;break;case"LINUX":case 5:e.platform=5;break;case"WEB":case 6:e.platform=6;break;case"CHROMEOS":case 7:e.platform=7;break}if(i.appVersion!=null){if(typeof i.appVersion!="object")throw TypeError(".device.DeviceInfo.appVersion: object expected");e.appVersion=r.device.StringMaybe.fromObject(i.appVersion)}switch(i.core){case"GO":case 0:e.core=0;break;case"RUST":case 1:e.core=1;break}if(i.osVersion!=null){if(typeof i.osVersion!="object")throw TypeError(".device.DeviceInfo.osVersion: object expected");e.osVersion=r.device.DeviceInfo.OSVersion.fromObject(i.osVersion)}if(i.deviceType!=null){if(typeof i.deviceType!="object")throw TypeError(".device.DeviceInfo.deviceType: object expected");e.deviceType=r.device.DeviceInfo.DeviceType.fromObject(i.deviceType)}if(i.authentication!=null){if(typeof i.authentication!="object")throw TypeError(".device.DeviceInfo.authentication: object expected");e.authentication=r.device.DeviceInfo.Authentication.fromObject(i.authentication)}if(i.volumes!=null){if(typeof i.volumes!="object")throw TypeError(".device.DeviceInfo.volumes: object expected");e.volumes=r.device.DeviceInfo.Volumes.fromObject(i.volumes)}if(i.securitySoftware!=null){if(typeof i.securitySoftware!="object")throw TypeError(".device.DeviceInfo.securitySoftware: object expected");e.securitySoftware=r.device.DeviceInfo.SecuritySoftware.fromObject(i.securitySoftware)}if(i.authorizationSettings!=null){if(typeof i.authorizationSettings!="object")throw TypeError(".device.DeviceInfo.authorizationSettings: object expected");e.authorizationSettings=r.device.DeviceInfo.AuthorizationSettings.fromObject(i.authorizationSettings)}if(i.applications!=null){if(typeof i.applications!="object")throw TypeError(".device.DeviceInfo.applications: object expected");e.applications=r.device.DeviceInfo.Applications.fromObject(i.applications)}if(i.appInstanceId!=null){if(typeof i.appInstanceId!="object")throw TypeError(".device.DeviceInfo.appInstanceId: object expected");e.appInstanceId=r.device.StringMaybe.fromObject(i.appInstanceId)}if(i.hardwareUuid!=null){if(typeof i.hardwareUuid!="object")throw TypeError(".device.DeviceInfo.hardwareUuid: object expected");e.hardwareUuid=r.device.StringMaybe.fromObject(i.hardwareUuid)}if(i.intuneManagedDeviceId!=null){if(typeof i.intuneManagedDeviceId!="object")throw TypeError(".device.DeviceInfo.intuneManagedDeviceId: object expected");e.intuneManagedDeviceId=r.device.StringMaybe.fromObject(i.intuneManagedDeviceId)}if(i.osDomainName!=null){if(typeof i.osDomainName!="object")throw TypeError(".device.DeviceInfo.osDomainName: object expected");e.osDomainName=r.device.StringMaybe.fromObject(i.osDomainName)}if(i.hostname!=null){if(typeof i.hostname!="object")throw TypeError(".device.DeviceInfo.hostname: object expected");e.hostname=r.device.StringMaybe.fromObject(i.hostname)}if(i.hardwareSerialNum!=null){if(typeof i.hardwareSerialNum!="object")throw TypeError(".device.DeviceInfo.hardwareSerialNum: object expected");e.hardwareSerialNum=r.device.StringMaybe.fromObject(i.hardwareSerialNum)}if(i.tpmInfo!=null){if(typeof i.tpmInfo!="object")throw TypeError(".device.DeviceInfo.tpmInfo: object expected");e.tpmInfo=r.device.DeviceInfo.TPMInfo.fromObject(i.tpmInfo)}if(i.crowdstrikeAgentId!=null){if(typeof i.crowdstrikeAgentId!="object")throw TypeError(".device.DeviceInfo.crowdstrikeAgentId: object expected");e.crowdstrikeAgentId=r.device.StringMaybe.fromObject(i.crowdstrikeAgentId)}if(i.biSdkInfo!=null){if(typeof i.biSdkInfo!="object")throw TypeError(".device.DeviceInfo.biSdkInfo: object expected");e.biSdkInfo=r.device.DeviceInfo.BiSdkInfo.fromObject(i.biSdkInfo)}if(i.keyProvenances!=null){if(typeof i.keyProvenances!="object")throw TypeError(".device.DeviceInfo.keyProvenances: object expected");e.keyProvenances=r.device.DeviceInfo.KeyProvenances.fromObject(i.keyProvenances)}if(i.isHalEnabled!=null){if(typeof i.isHalEnabled!="object")throw TypeError(".device.DeviceInfo.isHalEnabled: object expected");e.isHalEnabled=r.device.BoolMaybe.fromObject(i.isHalEnabled)}if(i.locale!=null){if(typeof i.locale!="object")throw TypeError(".device.DeviceInfo.locale: object expected");e.locale=r.device.DeviceInfo.Locale.fromObject(i.locale)}if(i.intuneManagedDeviceName!=null){if(typeof i.intuneManagedDeviceName!="object")throw TypeError(".device.DeviceInfo.intuneManagedDeviceName: object expected");e.intuneManagedDeviceName=r.device.StringMaybe.fromObject(i.intuneManagedDeviceName)}if(i.intuneDeviceId!=null){if(typeof i.intuneDeviceId!="object")throw TypeError(".device.DeviceInfo.intuneDeviceId: object expected");e.intuneDeviceId=r.device.StringMaybe.fromObject(i.intuneDeviceId)}return e},o.toObject=function(i,e){e||(e={});let t={};return e.defaults&&(t.answer=null,t.platform=e.enums===String?"UNSPECIFIED":0,t.appVersion=null,t.osVersion=null,t.deviceType=null,t.authentication=null,t.volumes=null,t.securitySoftware=null,t.authorizationSettings=null,t.applications=null,t.appInstanceId=null,t.hardwareUuid=null,t.core=e.enums===String?"GO":0,t.intuneManagedDeviceId=null,t.osDomainName=null,t.hostname=null,t.hardwareSerialNum=null,t.tpmInfo=null,t.crowdstrikeAgentId=null,t.biSdkInfo=null,t.keyProvenances=null,t.isHalEnabled=null,t.locale=null,t.intuneManagedDeviceName=null,t.intuneDeviceId=null),i.answer!=null&&i.hasOwnProperty("answer")&&(t.answer=r.device.Answer.toObject(i.answer,e)),i.platform!=null&&i.hasOwnProperty("platform")&&(t.platform=e.enums===String?r.device.Platform[i.platform]:i.platform),i.appVersion!=null&&i.hasOwnProperty("appVersion")&&(t.appVersion=r.device.StringMaybe.toObject(i.appVersion,e)),i.osVersion!=null&&i.hasOwnProperty("osVersion")&&(t.osVersion=r.device.DeviceInfo.OSVersion.toObject(i.osVersion,e)),i.deviceType!=null&&i.hasOwnProperty("deviceType")&&(t.deviceType=r.device.DeviceInfo.DeviceType.toObject(i.deviceType,e)),i.authentication!=null&&i.hasOwnProperty("authentication")&&(t.authentication=r.device.DeviceInfo.Authentication.toObject(i.authentication,e)),i.volumes!=null&&i.hasOwnProperty("volumes")&&(t.volumes=r.device.DeviceInfo.Volumes.toObject(i.volumes,e)),i.securitySoftware!=null&&i.hasOwnProperty("securitySoftware")&&(t.securitySoftware=r.device.DeviceInfo.SecuritySoftware.toObject(i.securitySoftware,e)),i.authorizationSettings!=null&&i.hasOwnProperty("authorizationSettings")&&(t.authorizationSettings=r.device.DeviceInfo.AuthorizationSettings.toObject(i.authorizationSettings,e)),i.applications!=null&&i.hasOwnProperty("applications")&&(t.applications=r.device.DeviceInfo.Applications.toObject(i.applications,e)),i.appInstanceId!=null&&i.hasOwnProperty("appInstanceId")&&(t.appInstanceId=r.device.StringMaybe.toObject(i.appInstanceId,e)),i.hardwareUuid!=null&&i.hasOwnProperty("hardwareUuid")&&(t.hardwareUuid=r.device.StringMaybe.toObject(i.hardwareUuid,e)),i.core!=null&&i.hasOwnProperty("core")&&(t.core=e.enums===String?r.device.Core[i.core]:i.core),i.intuneManagedDeviceId!=null&&i.hasOwnProperty("intuneManagedDeviceId")&&(t.intuneManagedDeviceId=r.device.StringMaybe.toObject(i.intuneManagedDeviceId,e)),i.osDomainName!=null&&i.hasOwnProperty("osDomainName")&&(t.osDomainName=r.device.StringMaybe.toObject(i.osDomainName,e)),i.hostname!=null&&i.hasOwnProperty("hostname")&&(t.hostname=r.device.StringMaybe.toObject(i.hostname,e)),i.hardwareSerialNum!=null&&i.hasOwnProperty("hardwareSerialNum")&&(t.hardwareSerialNum=r.device.StringMaybe.toObject(i.hardwareSerialNum,e)),i.tpmInfo!=null&&i.hasOwnProperty("tpmInfo")&&(t.tpmInfo=r.device.DeviceInfo.TPMInfo.toObject(i.tpmInfo,e)),i.crowdstrikeAgentId!=null&&i.hasOwnProperty("crowdstrikeAgentId")&&(t.crowdstrikeAgentId=r.device.StringMaybe.toObject(i.crowdstrikeAgentId,e)),i.biSdkInfo!=null&&i.hasOwnProperty("biSdkInfo")&&(t.biSdkInfo=r.device.DeviceInfo.BiSdkInfo.toObject(i.biSdkInfo,e)),i.keyProvenances!=null&&i.hasOwnProperty("keyProvenances")&&(t.keyProvenances=r.device.DeviceInfo.KeyProvenances.toObject(i.keyProvenances,e)),i.isHalEnabled!=null&&i.hasOwnProperty("isHalEnabled")&&(t.isHalEnabled=r.device.BoolMaybe.toObject(i.isHalEnabled,e)),i.locale!=null&&i.hasOwnProperty("locale")&&(t.locale=r.device.DeviceInfo.Locale.toObject(i.locale,e)),i.intuneManagedDeviceName!=null&&i.hasOwnProperty("intuneManagedDeviceName")&&(t.intuneManagedDeviceName=r.device.StringMaybe.toObject(i.intuneManagedDeviceName,e)),i.intuneDeviceId!=null&&i.hasOwnProperty("intuneDeviceId")&&(t.intuneDeviceId=r.device.StringMaybe.toObject(i.intuneDeviceId,e)),t},o.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},o.Applications=function(){function l(i){if(this.software=[],i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.software=T.emptyArray,l.create=function(e){return new l(e)},l.encode=function(e,t){if(t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.software!=null&&e.software.length)for(let n=0;n<e.software.length;++n)r.device.DeviceInfo.Applications.Software.encode(e.software[n],t.uint32(18).fork()).ldelim();return t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.Applications;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.software&&c.software.length||(c.software=[]),c.software.push(r.device.DeviceInfo.Applications.Software.decode(e,e.uint32()));break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.software!=null&&e.hasOwnProperty("software")){if(!Array.isArray(e.software))return"software: array expected";for(let t=0;t<e.software.length;++t){let n=r.device.DeviceInfo.Applications.Software.verify(e.software[t]);if(n)return"software."+n}}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.Applications)return e;let t=new r.device.DeviceInfo.Applications;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.Applications.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.software){if(!Array.isArray(e.software))throw TypeError(".device.DeviceInfo.Applications.software: array expected");t.software=[];for(let n=0;n<e.software.length;++n){if(typeof e.software[n]!="object")throw TypeError(".device.DeviceInfo.Applications.software: object expected");t.software[n]=r.device.DeviceInfo.Applications.Software.fromObject(e.software[n])}}return t},l.toObject=function(e,t){t||(t={});let n={};if((t.arrays||t.defaults)&&(n.software=[]),t.defaults&&(n.answer=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.software&&e.software.length){n.software=[];for(let c=0;c<e.software.length;++c)n.software[c]=r.device.DeviceInfo.Applications.Software.toObject(e.software[c],t)}return n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l.Software=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.architecture=0,i.prototype.installDomain=0,i.prototype.identifier=null,i.prototype.name=null,i.prototype.version=null,i.prototype.publisher=null,i.prototype.installLocation=null,i.prototype.installDate=null,i.prototype.language=null,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.architecture!=null&&Object.hasOwnProperty.call(t,"architecture")&&n.uint32(16).int32(t.architecture),t.installDomain!=null&&Object.hasOwnProperty.call(t,"installDomain")&&n.uint32(24).int32(t.installDomain),t.identifier!=null&&Object.hasOwnProperty.call(t,"identifier")&&r.device.StringMaybe.encode(t.identifier,n.uint32(34).fork()).ldelim(),t.name!=null&&Object.hasOwnProperty.call(t,"name")&&r.device.StringMaybe.encode(t.name,n.uint32(42).fork()).ldelim(),t.version!=null&&Object.hasOwnProperty.call(t,"version")&&r.device.StringMaybe.encode(t.version,n.uint32(50).fork()).ldelim(),t.publisher!=null&&Object.hasOwnProperty.call(t,"publisher")&&r.device.StringMaybe.encode(t.publisher,n.uint32(58).fork()).ldelim(),t.installLocation!=null&&Object.hasOwnProperty.call(t,"installLocation")&&r.device.StringMaybe.encode(t.installLocation,n.uint32(66).fork()).ldelim(),t.installDate!=null&&Object.hasOwnProperty.call(t,"installDate")&&r.device.StringMaybe.encode(t.installDate,n.uint32(74).fork()).ldelim(),t.language!=null&&Object.hasOwnProperty.call(t,"language")&&r.device.StringMaybe.encode(t.language,n.uint32(82).fork()).ldelim(),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.Applications.Software;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.architecture=t.int32();break;case 3:u.installDomain=t.int32();break;case 4:u.identifier=r.device.StringMaybe.decode(t,t.uint32());break;case 5:u.name=r.device.StringMaybe.decode(t,t.uint32());break;case 6:u.version=r.device.StringMaybe.decode(t,t.uint32());break;case 7:u.publisher=r.device.StringMaybe.decode(t,t.uint32());break;case 8:u.installLocation=r.device.StringMaybe.decode(t,t.uint32());break;case 9:u.installDate=r.device.StringMaybe.decode(t,t.uint32());break;case 10:u.language=r.device.StringMaybe.decode(t,t.uint32());break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.architecture!=null&&t.hasOwnProperty("architecture"))switch(t.architecture){default:return"architecture: enum value expected";case 0:case 1:case 2:case 3:break}if(t.installDomain!=null&&t.hasOwnProperty("installDomain"))switch(t.installDomain){default:return"installDomain: enum value expected";case 0:case 1:case 2:case 3:break}if(t.identifier!=null&&t.hasOwnProperty("identifier")){let n=r.device.StringMaybe.verify(t.identifier);if(n)return"identifier."+n}if(t.name!=null&&t.hasOwnProperty("name")){let n=r.device.StringMaybe.verify(t.name);if(n)return"name."+n}if(t.version!=null&&t.hasOwnProperty("version")){let n=r.device.StringMaybe.verify(t.version);if(n)return"version."+n}if(t.publisher!=null&&t.hasOwnProperty("publisher")){let n=r.device.StringMaybe.verify(t.publisher);if(n)return"publisher."+n}if(t.installLocation!=null&&t.hasOwnProperty("installLocation")){let n=r.device.StringMaybe.verify(t.installLocation);if(n)return"installLocation."+n}if(t.installDate!=null&&t.hasOwnProperty("installDate")){let n=r.device.StringMaybe.verify(t.installDate);if(n)return"installDate."+n}if(t.language!=null&&t.hasOwnProperty("language")){let n=r.device.StringMaybe.verify(t.language);if(n)return"language."+n}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.Applications.Software)return t;let n=new r.device.DeviceInfo.Applications.Software;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.Applications.Software.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}switch(t.architecture){case"ARCH_UNSUPPORTED":case 0:n.architecture=0;break;case"ARCH_UNKNOWN":case 1:n.architecture=1;break;case"ARCH_BIT32":case 2:n.architecture=2;break;case"ARCH_BIT64":case 3:n.architecture=3;break}switch(t.installDomain){case"DOMAIN_UNSUPPORTED":case 0:n.installDomain=0;break;case"DOMAIN_UNKNOWN":case 1:n.installDomain=1;break;case"DOMAIN_USER":case 2:n.installDomain=2;break;case"DOMAIN_MACHINE":case 3:n.installDomain=3;break}if(t.identifier!=null){if(typeof t.identifier!="object")throw TypeError(".device.DeviceInfo.Applications.Software.identifier: object expected");n.identifier=r.device.StringMaybe.fromObject(t.identifier)}if(t.name!=null){if(typeof t.name!="object")throw TypeError(".device.DeviceInfo.Applications.Software.name: object expected");n.name=r.device.StringMaybe.fromObject(t.name)}if(t.version!=null){if(typeof t.version!="object")throw TypeError(".device.DeviceInfo.Applications.Software.version: object expected");n.version=r.device.StringMaybe.fromObject(t.version)}if(t.publisher!=null){if(typeof t.publisher!="object")throw TypeError(".device.DeviceInfo.Applications.Software.publisher: object expected");n.publisher=r.device.StringMaybe.fromObject(t.publisher)}if(t.installLocation!=null){if(typeof t.installLocation!="object")throw TypeError(".device.DeviceInfo.Applications.Software.installLocation: object expected");n.installLocation=r.device.StringMaybe.fromObject(t.installLocation)}if(t.installDate!=null){if(typeof t.installDate!="object")throw TypeError(".device.DeviceInfo.Applications.Software.installDate: object expected");n.installDate=r.device.StringMaybe.fromObject(t.installDate)}if(t.language!=null){if(typeof t.language!="object")throw TypeError(".device.DeviceInfo.Applications.Software.language: object expected");n.language=r.device.StringMaybe.fromObject(t.language)}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.architecture=n.enums===String?"ARCH_UNSUPPORTED":0,c.installDomain=n.enums===String?"DOMAIN_UNSUPPORTED":0,c.identifier=null,c.name=null,c.version=null,c.publisher=null,c.installLocation=null,c.installDate=null,c.language=null),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.architecture!=null&&t.hasOwnProperty("architecture")&&(c.architecture=n.enums===String?r.device.DeviceInfo.Applications.Arch[t.architecture]:t.architecture),t.installDomain!=null&&t.hasOwnProperty("installDomain")&&(c.installDomain=n.enums===String?r.device.DeviceInfo.Applications.InstallDomain[t.installDomain]:t.installDomain),t.identifier!=null&&t.hasOwnProperty("identifier")&&(c.identifier=r.device.StringMaybe.toObject(t.identifier,n)),t.name!=null&&t.hasOwnProperty("name")&&(c.name=r.device.StringMaybe.toObject(t.name,n)),t.version!=null&&t.hasOwnProperty("version")&&(c.version=r.device.StringMaybe.toObject(t.version,n)),t.publisher!=null&&t.hasOwnProperty("publisher")&&(c.publisher=r.device.StringMaybe.toObject(t.publisher,n)),t.installLocation!=null&&t.hasOwnProperty("installLocation")&&(c.installLocation=r.device.StringMaybe.toObject(t.installLocation,n)),t.installDate!=null&&t.hasOwnProperty("installDate")&&(c.installDate=r.device.StringMaybe.toObject(t.installDate,n)),t.language!=null&&t.hasOwnProperty("language")&&(c.language=r.device.StringMaybe.toObject(t.language,n)),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i}(),l.InstallDomain=function(){let i={},e=Object.create(i);return e[i[0]="DOMAIN_UNSUPPORTED"]=0,e[i[1]="DOMAIN_UNKNOWN"]=1,e[i[2]="DOMAIN_USER"]=2,e[i[3]="DOMAIN_MACHINE"]=3,e}(),l.Arch=function(){let i={},e=Object.create(i);return e[i[0]="ARCH_UNSUPPORTED"]=0,e[i[1]="ARCH_UNKNOWN"]=1,e[i[2]="ARCH_BIT32"]=2,e[i[3]="ARCH_BIT64"]=3,e}(),l}(),o.OSVersion=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.major=null,l.prototype.minor=null,l.prototype.build=null,l.prototype.patch=null,l.prototype.revision=null,l.prototype.servicePack=null,l.prototype.isServer=null,l.prototype.sdk=null,l.prototype.previewSdk=null,l.prototype.incremental=null,l.prototype.securityPatch=null,l.prototype.userAgent=null,l.prototype.userAgentData=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.major!=null&&Object.hasOwnProperty.call(e,"major")&&r.device.Int32Maybe.encode(e.major,t.uint32(18).fork()).ldelim(),e.minor!=null&&Object.hasOwnProperty.call(e,"minor")&&r.device.Int32Maybe.encode(e.minor,t.uint32(26).fork()).ldelim(),e.build!=null&&Object.hasOwnProperty.call(e,"build")&&r.device.StringMaybe.encode(e.build,t.uint32(34).fork()).ldelim(),e.patch!=null&&Object.hasOwnProperty.call(e,"patch")&&r.device.Int32Maybe.encode(e.patch,t.uint32(42).fork()).ldelim(),e.revision!=null&&Object.hasOwnProperty.call(e,"revision")&&r.device.Int32Maybe.encode(e.revision,t.uint32(50).fork()).ldelim(),e.servicePack!=null&&Object.hasOwnProperty.call(e,"servicePack")&&r.device.StringMaybe.encode(e.servicePack,t.uint32(58).fork()).ldelim(),e.isServer!=null&&Object.hasOwnProperty.call(e,"isServer")&&r.device.BoolMaybe.encode(e.isServer,t.uint32(66).fork()).ldelim(),e.sdk!=null&&Object.hasOwnProperty.call(e,"sdk")&&r.device.Int32Maybe.encode(e.sdk,t.uint32(74).fork()).ldelim(),e.previewSdk!=null&&Object.hasOwnProperty.call(e,"previewSdk")&&r.device.Int32Maybe.encode(e.previewSdk,t.uint32(82).fork()).ldelim(),e.incremental!=null&&Object.hasOwnProperty.call(e,"incremental")&&r.device.StringMaybe.encode(e.incremental,t.uint32(90).fork()).ldelim(),e.securityPatch!=null&&Object.hasOwnProperty.call(e,"securityPatch")&&r.device.StringMaybe.encode(e.securityPatch,t.uint32(98).fork()).ldelim(),e.userAgent!=null&&Object.hasOwnProperty.call(e,"userAgent")&&r.device.StringMaybe.encode(e.userAgent,t.uint32(106).fork()).ldelim(),e.userAgentData!=null&&Object.hasOwnProperty.call(e,"userAgentData")&&r.device.DeviceInfo.OSVersion.UserAgentData.encode(e.userAgentData,t.uint32(114).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.OSVersion;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.major=r.device.Int32Maybe.decode(e,e.uint32());break;case 3:c.minor=r.device.Int32Maybe.decode(e,e.uint32());break;case 4:c.build=r.device.StringMaybe.decode(e,e.uint32());break;case 5:c.patch=r.device.Int32Maybe.decode(e,e.uint32());break;case 6:c.revision=r.device.Int32Maybe.decode(e,e.uint32());break;case 7:c.servicePack=r.device.StringMaybe.decode(e,e.uint32());break;case 8:c.isServer=r.device.BoolMaybe.decode(e,e.uint32());break;case 9:c.sdk=r.device.Int32Maybe.decode(e,e.uint32());break;case 10:c.previewSdk=r.device.Int32Maybe.decode(e,e.uint32());break;case 11:c.incremental=r.device.StringMaybe.decode(e,e.uint32());break;case 12:c.securityPatch=r.device.StringMaybe.decode(e,e.uint32());break;case 13:c.userAgent=r.device.StringMaybe.decode(e,e.uint32());break;case 14:c.userAgentData=r.device.DeviceInfo.OSVersion.UserAgentData.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.major!=null&&e.hasOwnProperty("major")){let t=r.device.Int32Maybe.verify(e.major);if(t)return"major."+t}if(e.minor!=null&&e.hasOwnProperty("minor")){let t=r.device.Int32Maybe.verify(e.minor);if(t)return"minor."+t}if(e.build!=null&&e.hasOwnProperty("build")){let t=r.device.StringMaybe.verify(e.build);if(t)return"build."+t}if(e.patch!=null&&e.hasOwnProperty("patch")){let t=r.device.Int32Maybe.verify(e.patch);if(t)return"patch."+t}if(e.revision!=null&&e.hasOwnProperty("revision")){let t=r.device.Int32Maybe.verify(e.revision);if(t)return"revision."+t}if(e.servicePack!=null&&e.hasOwnProperty("servicePack")){let t=r.device.StringMaybe.verify(e.servicePack);if(t)return"servicePack."+t}if(e.isServer!=null&&e.hasOwnProperty("isServer")){let t=r.device.BoolMaybe.verify(e.isServer);if(t)return"isServer."+t}if(e.sdk!=null&&e.hasOwnProperty("sdk")){let t=r.device.Int32Maybe.verify(e.sdk);if(t)return"sdk."+t}if(e.previewSdk!=null&&e.hasOwnProperty("previewSdk")){let t=r.device.Int32Maybe.verify(e.previewSdk);if(t)return"previewSdk."+t}if(e.incremental!=null&&e.hasOwnProperty("incremental")){let t=r.device.StringMaybe.verify(e.incremental);if(t)return"incremental."+t}if(e.securityPatch!=null&&e.hasOwnProperty("securityPatch")){let t=r.device.StringMaybe.verify(e.securityPatch);if(t)return"securityPatch."+t}if(e.userAgent!=null&&e.hasOwnProperty("userAgent")){let t=r.device.StringMaybe.verify(e.userAgent);if(t)return"userAgent."+t}if(e.userAgentData!=null&&e.hasOwnProperty("userAgentData")){let t=r.device.DeviceInfo.OSVersion.UserAgentData.verify(e.userAgentData);if(t)return"userAgentData."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.OSVersion)return e;let t=new r.device.DeviceInfo.OSVersion;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.major!=null){if(typeof e.major!="object")throw TypeError(".device.DeviceInfo.OSVersion.major: object expected");t.major=r.device.Int32Maybe.fromObject(e.major)}if(e.minor!=null){if(typeof e.minor!="object")throw TypeError(".device.DeviceInfo.OSVersion.minor: object expected");t.minor=r.device.Int32Maybe.fromObject(e.minor)}if(e.build!=null){if(typeof e.build!="object")throw TypeError(".device.DeviceInfo.OSVersion.build: object expected");t.build=r.device.StringMaybe.fromObject(e.build)}if(e.patch!=null){if(typeof e.patch!="object")throw TypeError(".device.DeviceInfo.OSVersion.patch: object expected");t.patch=r.device.Int32Maybe.fromObject(e.patch)}if(e.revision!=null){if(typeof e.revision!="object")throw TypeError(".device.DeviceInfo.OSVersion.revision: object expected");t.revision=r.device.Int32Maybe.fromObject(e.revision)}if(e.servicePack!=null){if(typeof e.servicePack!="object")throw TypeError(".device.DeviceInfo.OSVersion.servicePack: object expected");t.servicePack=r.device.StringMaybe.fromObject(e.servicePack)}if(e.isServer!=null){if(typeof e.isServer!="object")throw TypeError(".device.DeviceInfo.OSVersion.isServer: object expected");t.isServer=r.device.BoolMaybe.fromObject(e.isServer)}if(e.sdk!=null){if(typeof e.sdk!="object")throw TypeError(".device.DeviceInfo.OSVersion.sdk: object expected");t.sdk=r.device.Int32Maybe.fromObject(e.sdk)}if(e.previewSdk!=null){if(typeof e.previewSdk!="object")throw TypeError(".device.DeviceInfo.OSVersion.previewSdk: object expected");t.previewSdk=r.device.Int32Maybe.fromObject(e.previewSdk)}if(e.incremental!=null){if(typeof e.incremental!="object")throw TypeError(".device.DeviceInfo.OSVersion.incremental: object expected");t.incremental=r.device.StringMaybe.fromObject(e.incremental)}if(e.securityPatch!=null){if(typeof e.securityPatch!="object")throw TypeError(".device.DeviceInfo.OSVersion.securityPatch: object expected");t.securityPatch=r.device.StringMaybe.fromObject(e.securityPatch)}if(e.userAgent!=null){if(typeof e.userAgent!="object")throw TypeError(".device.DeviceInfo.OSVersion.userAgent: object expected");t.userAgent=r.device.StringMaybe.fromObject(e.userAgent)}if(e.userAgentData!=null){if(typeof e.userAgentData!="object")throw TypeError(".device.DeviceInfo.OSVersion.userAgentData: object expected");t.userAgentData=r.device.DeviceInfo.OSVersion.UserAgentData.fromObject(e.userAgentData)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.major=null,n.minor=null,n.build=null,n.patch=null,n.revision=null,n.servicePack=null,n.isServer=null,n.sdk=null,n.previewSdk=null,n.incremental=null,n.securityPatch=null,n.userAgent=null,n.userAgentData=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.major!=null&&e.hasOwnProperty("major")&&(n.major=r.device.Int32Maybe.toObject(e.major,t)),e.minor!=null&&e.hasOwnProperty("minor")&&(n.minor=r.device.Int32Maybe.toObject(e.minor,t)),e.build!=null&&e.hasOwnProperty("build")&&(n.build=r.device.StringMaybe.toObject(e.build,t)),e.patch!=null&&e.hasOwnProperty("patch")&&(n.patch=r.device.Int32Maybe.toObject(e.patch,t)),e.revision!=null&&e.hasOwnProperty("revision")&&(n.revision=r.device.Int32Maybe.toObject(e.revision,t)),e.servicePack!=null&&e.hasOwnProperty("servicePack")&&(n.servicePack=r.device.StringMaybe.toObject(e.servicePack,t)),e.isServer!=null&&e.hasOwnProperty("isServer")&&(n.isServer=r.device.BoolMaybe.toObject(e.isServer,t)),e.sdk!=null&&e.hasOwnProperty("sdk")&&(n.sdk=r.device.Int32Maybe.toObject(e.sdk,t)),e.previewSdk!=null&&e.hasOwnProperty("previewSdk")&&(n.previewSdk=r.device.Int32Maybe.toObject(e.previewSdk,t)),e.incremental!=null&&e.hasOwnProperty("incremental")&&(n.incremental=r.device.StringMaybe.toObject(e.incremental,t)),e.securityPatch!=null&&e.hasOwnProperty("securityPatch")&&(n.securityPatch=r.device.StringMaybe.toObject(e.securityPatch,t)),e.userAgent!=null&&e.hasOwnProperty("userAgent")&&(n.userAgent=r.device.StringMaybe.toObject(e.userAgent,t)),e.userAgentData!=null&&e.hasOwnProperty("userAgentData")&&(n.userAgentData=r.device.DeviceInfo.OSVersion.UserAgentData.toObject(e.userAgentData,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l.UserAgentData=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.browser=null,i.prototype.platform=null,i.prototype.hostPlatform=null,i.prototype.device=null,i.prototype.clientData=null,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.browser!=null&&Object.hasOwnProperty.call(t,"browser")&&r.device.DeviceInfo.OSVersion.UserAgentData.Browser.encode(t.browser,n.uint32(18).fork()).ldelim(),t.platform!=null&&Object.hasOwnProperty.call(t,"platform")&&r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.encode(t.platform,n.uint32(26).fork()).ldelim(),t.device!=null&&Object.hasOwnProperty.call(t,"device")&&r.device.DeviceInfo.OSVersion.UserAgentData.Device.encode(t.device,n.uint32(34).fork()).ldelim(),t.clientData!=null&&Object.hasOwnProperty.call(t,"clientData")&&r.device.DeviceInfo.OSVersion.UserAgentData.ClientData.encode(t.clientData,n.uint32(42).fork()).ldelim(),t.hostPlatform!=null&&Object.hasOwnProperty.call(t,"hostPlatform")&&r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.encode(t.hostPlatform,n.uint32(50).fork()).ldelim(),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.OSVersion.UserAgentData;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.browser=r.device.DeviceInfo.OSVersion.UserAgentData.Browser.decode(t,t.uint32());break;case 3:u.platform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.decode(t,t.uint32());break;case 6:u.hostPlatform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.decode(t,t.uint32());break;case 4:u.device=r.device.DeviceInfo.OSVersion.UserAgentData.Device.decode(t,t.uint32());break;case 5:u.clientData=r.device.DeviceInfo.OSVersion.UserAgentData.ClientData.decode(t,t.uint32());break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.browser!=null&&t.hasOwnProperty("browser")){let n=r.device.DeviceInfo.OSVersion.UserAgentData.Browser.verify(t.browser);if(n)return"browser."+n}if(t.platform!=null&&t.hasOwnProperty("platform")){let n=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.verify(t.platform);if(n)return"platform."+n}if(t.hostPlatform!=null&&t.hasOwnProperty("hostPlatform")){let n=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.verify(t.hostPlatform);if(n)return"hostPlatform."+n}if(t.device!=null&&t.hasOwnProperty("device")){let n=r.device.DeviceInfo.OSVersion.UserAgentData.Device.verify(t.device);if(n)return"device."+n}if(t.clientData!=null&&t.hasOwnProperty("clientData")){let n=r.device.DeviceInfo.OSVersion.UserAgentData.ClientData.verify(t.clientData);if(n)return"clientData."+n}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.OSVersion.UserAgentData)return t;let n=new r.device.DeviceInfo.OSVersion.UserAgentData;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}if(t.browser!=null){if(typeof t.browser!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.browser: object expected");n.browser=r.device.DeviceInfo.OSVersion.UserAgentData.Browser.fromObject(t.browser)}if(t.platform!=null){if(typeof t.platform!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.platform: object expected");n.platform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.fromObject(t.platform)}if(t.hostPlatform!=null){if(typeof t.hostPlatform!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.hostPlatform: object expected");n.hostPlatform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.fromObject(t.hostPlatform)}if(t.device!=null){if(typeof t.device!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.device: object expected");n.device=r.device.DeviceInfo.OSVersion.UserAgentData.Device.fromObject(t.device)}if(t.clientData!=null){if(typeof t.clientData!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.clientData: object expected");n.clientData=r.device.DeviceInfo.OSVersion.UserAgentData.ClientData.fromObject(t.clientData)}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.browser=null,c.platform=null,c.device=null,c.clientData=null,c.hostPlatform=null),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.browser!=null&&t.hasOwnProperty("browser")&&(c.browser=r.device.DeviceInfo.OSVersion.UserAgentData.Browser.toObject(t.browser,n)),t.platform!=null&&t.hasOwnProperty("platform")&&(c.platform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.toObject(t.platform,n)),t.device!=null&&t.hasOwnProperty("device")&&(c.device=r.device.DeviceInfo.OSVersion.UserAgentData.Device.toObject(t.device,n)),t.clientData!=null&&t.hasOwnProperty("clientData")&&(c.clientData=r.device.DeviceInfo.OSVersion.UserAgentData.ClientData.toObject(t.clientData,n)),t.hostPlatform!=null&&t.hasOwnProperty("hostPlatform")&&(c.hostPlatform=r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.toObject(t.hostPlatform,n)),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i.Browser=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.name=null,e.prototype.version=null,e.prototype.engineName=null,e.prototype.engineVersion=null,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.name!=null&&Object.hasOwnProperty.call(n,"name")&&r.device.StringMaybe.encode(n.name,c.uint32(18).fork()).ldelim(),n.version!=null&&Object.hasOwnProperty.call(n,"version")&&r.device.StringMaybe.encode(n.version,c.uint32(26).fork()).ldelim(),n.engineName!=null&&Object.hasOwnProperty.call(n,"engineName")&&r.device.StringMaybe.encode(n.engineName,c.uint32(34).fork()).ldelim(),n.engineVersion!=null&&Object.hasOwnProperty.call(n,"engineVersion")&&r.device.StringMaybe.encode(n.engineVersion,c.uint32(42).fork()).ldelim(),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.OSVersion.UserAgentData.Browser;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.name=r.device.StringMaybe.decode(n,n.uint32());break;case 3:f.version=r.device.StringMaybe.decode(n,n.uint32());break;case 4:f.engineName=r.device.StringMaybe.decode(n,n.uint32());break;case 5:f.engineVersion=r.device.StringMaybe.decode(n,n.uint32());break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.name!=null&&n.hasOwnProperty("name")){let c=r.device.StringMaybe.verify(n.name);if(c)return"name."+c}if(n.version!=null&&n.hasOwnProperty("version")){let c=r.device.StringMaybe.verify(n.version);if(c)return"version."+c}if(n.engineName!=null&&n.hasOwnProperty("engineName")){let c=r.device.StringMaybe.verify(n.engineName);if(c)return"engineName."+c}if(n.engineVersion!=null&&n.hasOwnProperty("engineVersion")){let c=r.device.StringMaybe.verify(n.engineVersion);if(c)return"engineVersion."+c}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.OSVersion.UserAgentData.Browser)return n;let c=new r.device.DeviceInfo.OSVersion.UserAgentData.Browser;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}if(n.name!=null){if(typeof n.name!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.name: object expected");c.name=r.device.StringMaybe.fromObject(n.name)}if(n.version!=null){if(typeof n.version!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.version: object expected");c.version=r.device.StringMaybe.fromObject(n.version)}if(n.engineName!=null){if(typeof n.engineName!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.engineName: object expected");c.engineName=r.device.StringMaybe.fromObject(n.engineName)}if(n.engineVersion!=null){if(typeof n.engineVersion!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.engineVersion: object expected");c.engineVersion=r.device.StringMaybe.fromObject(n.engineVersion)}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.name=null,u.version=null,u.engineName=null,u.engineVersion=null),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.name!=null&&n.hasOwnProperty("name")&&(u.name=r.device.StringMaybe.toObject(n.name,c)),n.version!=null&&n.hasOwnProperty("version")&&(u.version=r.device.StringMaybe.toObject(n.version,c)),n.engineName!=null&&n.hasOwnProperty("engineName")&&(u.engineName=r.device.StringMaybe.toObject(n.engineName,c)),n.engineVersion!=null&&n.hasOwnProperty("engineVersion")&&(u.engineVersion=r.device.StringMaybe.toObject(n.engineVersion,c)),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i.HostPlatform=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.name=null,e.prototype.version=null,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.name!=null&&Object.hasOwnProperty.call(n,"name")&&r.device.StringMaybe.encode(n.name,c.uint32(18).fork()).ldelim(),n.version!=null&&Object.hasOwnProperty.call(n,"version")&&r.device.StringMaybe.encode(n.version,c.uint32(26).fork()).ldelim(),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.name=r.device.StringMaybe.decode(n,n.uint32());break;case 3:f.version=r.device.StringMaybe.decode(n,n.uint32());break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.name!=null&&n.hasOwnProperty("name")){let c=r.device.StringMaybe.verify(n.name);if(c)return"name."+c}if(n.version!=null&&n.hasOwnProperty("version")){let c=r.device.StringMaybe.verify(n.version);if(c)return"version."+c}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform)return n;let c=new r.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}if(n.name!=null){if(typeof n.name!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.name: object expected");c.name=r.device.StringMaybe.fromObject(n.name)}if(n.version!=null){if(typeof n.version!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.version: object expected");c.version=r.device.StringMaybe.fromObject(n.version)}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.name=null,u.version=null),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.name!=null&&n.hasOwnProperty("name")&&(u.name=r.device.StringMaybe.toObject(n.name,c)),n.version!=null&&n.hasOwnProperty("version")&&(u.version=r.device.StringMaybe.toObject(n.version,c)),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i.Device=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.architecture=null,e.prototype.model=null,e.prototype.type=null,e.prototype.vendor=null,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.architecture!=null&&Object.hasOwnProperty.call(n,"architecture")&&r.device.StringMaybe.encode(n.architecture,c.uint32(18).fork()).ldelim(),n.model!=null&&Object.hasOwnProperty.call(n,"model")&&r.device.StringMaybe.encode(n.model,c.uint32(26).fork()).ldelim(),n.type!=null&&Object.hasOwnProperty.call(n,"type")&&r.device.StringMaybe.encode(n.type,c.uint32(34).fork()).ldelim(),n.vendor!=null&&Object.hasOwnProperty.call(n,"vendor")&&r.device.StringMaybe.encode(n.vendor,c.uint32(42).fork()).ldelim(),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.OSVersion.UserAgentData.Device;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.architecture=r.device.StringMaybe.decode(n,n.uint32());break;case 3:f.model=r.device.StringMaybe.decode(n,n.uint32());break;case 4:f.type=r.device.StringMaybe.decode(n,n.uint32());break;case 5:f.vendor=r.device.StringMaybe.decode(n,n.uint32());break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.architecture!=null&&n.hasOwnProperty("architecture")){let c=r.device.StringMaybe.verify(n.architecture);if(c)return"architecture."+c}if(n.model!=null&&n.hasOwnProperty("model")){let c=r.device.StringMaybe.verify(n.model);if(c)return"model."+c}if(n.type!=null&&n.hasOwnProperty("type")){let c=r.device.StringMaybe.verify(n.type);if(c)return"type."+c}if(n.vendor!=null&&n.hasOwnProperty("vendor")){let c=r.device.StringMaybe.verify(n.vendor);if(c)return"vendor."+c}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.OSVersion.UserAgentData.Device)return n;let c=new r.device.DeviceInfo.OSVersion.UserAgentData.Device;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}if(n.architecture!=null){if(typeof n.architecture!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.architecture: object expected");c.architecture=r.device.StringMaybe.fromObject(n.architecture)}if(n.model!=null){if(typeof n.model!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.model: object expected");c.model=r.device.StringMaybe.fromObject(n.model)}if(n.type!=null){if(typeof n.type!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.type: object expected");c.type=r.device.StringMaybe.fromObject(n.type)}if(n.vendor!=null){if(typeof n.vendor!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.vendor: object expected");c.vendor=r.device.StringMaybe.fromObject(n.vendor)}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.architecture=null,u.model=null,u.type=null,u.vendor=null),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.architecture!=null&&n.hasOwnProperty("architecture")&&(u.architecture=r.device.StringMaybe.toObject(n.architecture,c)),n.model!=null&&n.hasOwnProperty("model")&&(u.model=r.device.StringMaybe.toObject(n.model,c)),n.type!=null&&n.hasOwnProperty("type")&&(u.type=r.device.StringMaybe.toObject(n.type,c)),n.vendor!=null&&n.hasOwnProperty("vendor")&&(u.vendor=r.device.StringMaybe.toObject(n.vendor,c)),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i.ClientData=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.platform=null,e.prototype.mobile=null,e.prototype.architecture=null,e.prototype.bitness=null,e.prototype.model=null,e.prototype.platformVersion=null,e.prototype.uaFullVerson=null,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.platform!=null&&Object.hasOwnProperty.call(n,"platform")&&r.device.StringMaybe.encode(n.platform,c.uint32(18).fork()).ldelim(),n.mobile!=null&&Object.hasOwnProperty.call(n,"mobile")&&r.device.BoolMaybe.encode(n.mobile,c.uint32(26).fork()).ldelim(),n.architecture!=null&&Object.hasOwnProperty.call(n,"architecture")&&r.device.StringMaybe.encode(n.architecture,c.uint32(34).fork()).ldelim(),n.bitness!=null&&Object.hasOwnProperty.call(n,"bitness")&&r.device.StringMaybe.encode(n.bitness,c.uint32(42).fork()).ldelim(),n.model!=null&&Object.hasOwnProperty.call(n,"model")&&r.device.StringMaybe.encode(n.model,c.uint32(50).fork()).ldelim(),n.platformVersion!=null&&Object.hasOwnProperty.call(n,"platformVersion")&&r.device.StringMaybe.encode(n.platformVersion,c.uint32(58).fork()).ldelim(),n.uaFullVerson!=null&&Object.hasOwnProperty.call(n,"uaFullVerson")&&r.device.StringMaybe.encode(n.uaFullVerson,c.uint32(66).fork()).ldelim(),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.OSVersion.UserAgentData.ClientData;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.platform=r.device.StringMaybe.decode(n,n.uint32());break;case 3:f.mobile=r.device.BoolMaybe.decode(n,n.uint32());break;case 4:f.architecture=r.device.StringMaybe.decode(n,n.uint32());break;case 5:f.bitness=r.device.StringMaybe.decode(n,n.uint32());break;case 6:f.model=r.device.StringMaybe.decode(n,n.uint32());break;case 7:f.platformVersion=r.device.StringMaybe.decode(n,n.uint32());break;case 8:f.uaFullVerson=r.device.StringMaybe.decode(n,n.uint32());break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.platform!=null&&n.hasOwnProperty("platform")){let c=r.device.StringMaybe.verify(n.platform);if(c)return"platform."+c}if(n.mobile!=null&&n.hasOwnProperty("mobile")){let c=r.device.BoolMaybe.verify(n.mobile);if(c)return"mobile."+c}if(n.architecture!=null&&n.hasOwnProperty("architecture")){let c=r.device.StringMaybe.verify(n.architecture);if(c)return"architecture."+c}if(n.bitness!=null&&n.hasOwnProperty("bitness")){let c=r.device.StringMaybe.verify(n.bitness);if(c)return"bitness."+c}if(n.model!=null&&n.hasOwnProperty("model")){let c=r.device.StringMaybe.verify(n.model);if(c)return"model."+c}if(n.platformVersion!=null&&n.hasOwnProperty("platformVersion")){let c=r.device.StringMaybe.verify(n.platformVersion);if(c)return"platformVersion."+c}if(n.uaFullVerson!=null&&n.hasOwnProperty("uaFullVerson")){let c=r.device.StringMaybe.verify(n.uaFullVerson);if(c)return"uaFullVerson."+c}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.OSVersion.UserAgentData.ClientData)return n;let c=new r.device.DeviceInfo.OSVersion.UserAgentData.ClientData;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}if(n.platform!=null){if(typeof n.platform!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.platform: object expected");c.platform=r.device.StringMaybe.fromObject(n.platform)}if(n.mobile!=null){if(typeof n.mobile!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.mobile: object expected");c.mobile=r.device.BoolMaybe.fromObject(n.mobile)}if(n.architecture!=null){if(typeof n.architecture!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.architecture: object expected");c.architecture=r.device.StringMaybe.fromObject(n.architecture)}if(n.bitness!=null){if(typeof n.bitness!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.bitness: object expected");c.bitness=r.device.StringMaybe.fromObject(n.bitness)}if(n.model!=null){if(typeof n.model!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.model: object expected");c.model=r.device.StringMaybe.fromObject(n.model)}if(n.platformVersion!=null){if(typeof n.platformVersion!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.platformVersion: object expected");c.platformVersion=r.device.StringMaybe.fromObject(n.platformVersion)}if(n.uaFullVerson!=null){if(typeof n.uaFullVerson!="object")throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.uaFullVerson: object expected");c.uaFullVerson=r.device.StringMaybe.fromObject(n.uaFullVerson)}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.platform=null,u.mobile=null,u.architecture=null,u.bitness=null,u.model=null,u.platformVersion=null,u.uaFullVerson=null),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.platform!=null&&n.hasOwnProperty("platform")&&(u.platform=r.device.StringMaybe.toObject(n.platform,c)),n.mobile!=null&&n.hasOwnProperty("mobile")&&(u.mobile=r.device.BoolMaybe.toObject(n.mobile,c)),n.architecture!=null&&n.hasOwnProperty("architecture")&&(u.architecture=r.device.StringMaybe.toObject(n.architecture,c)),n.bitness!=null&&n.hasOwnProperty("bitness")&&(u.bitness=r.device.StringMaybe.toObject(n.bitness,c)),n.model!=null&&n.hasOwnProperty("model")&&(u.model=r.device.StringMaybe.toObject(n.model,c)),n.platformVersion!=null&&n.hasOwnProperty("platformVersion")&&(u.platformVersion=r.device.StringMaybe.toObject(n.platformVersion,c)),n.uaFullVerson!=null&&n.hasOwnProperty("uaFullVerson")&&(u.uaFullVerson=r.device.StringMaybe.toObject(n.uaFullVerson,c)),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i}(),l}(),o.BiSdkInfo=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.sdkVersion=null,l.prototype.appVersion=null,l.prototype.clientId=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.sdkVersion!=null&&Object.hasOwnProperty.call(e,"sdkVersion")&&r.device.StringMaybe.encode(e.sdkVersion,t.uint32(18).fork()).ldelim(),e.appVersion!=null&&Object.hasOwnProperty.call(e,"appVersion")&&r.device.StringMaybe.encode(e.appVersion,t.uint32(26).fork()).ldelim(),e.clientId!=null&&Object.hasOwnProperty.call(e,"clientId")&&r.device.StringMaybe.encode(e.clientId,t.uint32(34).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.BiSdkInfo;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.sdkVersion=r.device.StringMaybe.decode(e,e.uint32());break;case 3:c.appVersion=r.device.StringMaybe.decode(e,e.uint32());break;case 4:c.clientId=r.device.StringMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.sdkVersion!=null&&e.hasOwnProperty("sdkVersion")){let t=r.device.StringMaybe.verify(e.sdkVersion);if(t)return"sdkVersion."+t}if(e.appVersion!=null&&e.hasOwnProperty("appVersion")){let t=r.device.StringMaybe.verify(e.appVersion);if(t)return"appVersion."+t}if(e.clientId!=null&&e.hasOwnProperty("clientId")){let t=r.device.StringMaybe.verify(e.clientId);if(t)return"clientId."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.BiSdkInfo)return e;let t=new r.device.DeviceInfo.BiSdkInfo;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.BiSdkInfo.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.sdkVersion!=null){if(typeof e.sdkVersion!="object")throw TypeError(".device.DeviceInfo.BiSdkInfo.sdkVersion: object expected");t.sdkVersion=r.device.StringMaybe.fromObject(e.sdkVersion)}if(e.appVersion!=null){if(typeof e.appVersion!="object")throw TypeError(".device.DeviceInfo.BiSdkInfo.appVersion: object expected");t.appVersion=r.device.StringMaybe.fromObject(e.appVersion)}if(e.clientId!=null){if(typeof e.clientId!="object")throw TypeError(".device.DeviceInfo.BiSdkInfo.clientId: object expected");t.clientId=r.device.StringMaybe.fromObject(e.clientId)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.sdkVersion=null,n.appVersion=null,n.clientId=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.sdkVersion!=null&&e.hasOwnProperty("sdkVersion")&&(n.sdkVersion=r.device.StringMaybe.toObject(e.sdkVersion,t)),e.appVersion!=null&&e.hasOwnProperty("appVersion")&&(n.appVersion=r.device.StringMaybe.toObject(e.appVersion,t)),e.clientId!=null&&e.hasOwnProperty("clientId")&&(n.clientId=r.device.StringMaybe.toObject(e.clientId,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o.DeviceType=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.model=null,l.prototype.isJailbroken=null,l.prototype.manufacturer=null,l.prototype.isRooted=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.model!=null&&Object.hasOwnProperty.call(e,"model")&&r.device.StringMaybe.encode(e.model,t.uint32(18).fork()).ldelim(),e.isJailbroken!=null&&Object.hasOwnProperty.call(e,"isJailbroken")&&r.device.BoolMaybe.encode(e.isJailbroken,t.uint32(26).fork()).ldelim(),e.manufacturer!=null&&Object.hasOwnProperty.call(e,"manufacturer")&&r.device.StringMaybe.encode(e.manufacturer,t.uint32(34).fork()).ldelim(),e.isRooted!=null&&Object.hasOwnProperty.call(e,"isRooted")&&r.device.BoolMaybe.encode(e.isRooted,t.uint32(42).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.DeviceType;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.model=r.device.StringMaybe.decode(e,e.uint32());break;case 3:c.isJailbroken=r.device.BoolMaybe.decode(e,e.uint32());break;case 4:c.manufacturer=r.device.StringMaybe.decode(e,e.uint32());break;case 5:c.isRooted=r.device.BoolMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.model!=null&&e.hasOwnProperty("model")){let t=r.device.StringMaybe.verify(e.model);if(t)return"model."+t}if(e.isJailbroken!=null&&e.hasOwnProperty("isJailbroken")){let t=r.device.BoolMaybe.verify(e.isJailbroken);if(t)return"isJailbroken."+t}if(e.manufacturer!=null&&e.hasOwnProperty("manufacturer")){let t=r.device.StringMaybe.verify(e.manufacturer);if(t)return"manufacturer."+t}if(e.isRooted!=null&&e.hasOwnProperty("isRooted")){let t=r.device.BoolMaybe.verify(e.isRooted);if(t)return"isRooted."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.DeviceType)return e;let t=new r.device.DeviceInfo.DeviceType;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.DeviceType.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.model!=null){if(typeof e.model!="object")throw TypeError(".device.DeviceInfo.DeviceType.model: object expected");t.model=r.device.StringMaybe.fromObject(e.model)}if(e.isJailbroken!=null){if(typeof e.isJailbroken!="object")throw TypeError(".device.DeviceInfo.DeviceType.isJailbroken: object expected");t.isJailbroken=r.device.BoolMaybe.fromObject(e.isJailbroken)}if(e.manufacturer!=null){if(typeof e.manufacturer!="object")throw TypeError(".device.DeviceInfo.DeviceType.manufacturer: object expected");t.manufacturer=r.device.StringMaybe.fromObject(e.manufacturer)}if(e.isRooted!=null){if(typeof e.isRooted!="object")throw TypeError(".device.DeviceInfo.DeviceType.isRooted: object expected");t.isRooted=r.device.BoolMaybe.fromObject(e.isRooted)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.model=null,n.isJailbroken=null,n.manufacturer=null,n.isRooted=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.model!=null&&e.hasOwnProperty("model")&&(n.model=r.device.StringMaybe.toObject(e.model,t)),e.isJailbroken!=null&&e.hasOwnProperty("isJailbroken")&&(n.isJailbroken=r.device.BoolMaybe.toObject(e.isJailbroken,t)),e.manufacturer!=null&&e.hasOwnProperty("manufacturer")&&(n.manufacturer=r.device.StringMaybe.toObject(e.manufacturer,t)),e.isRooted!=null&&e.hasOwnProperty("isRooted")&&(n.isRooted=r.device.BoolMaybe.toObject(e.isRooted,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o.Authentication=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.loginProviderName=null,l.prototype.loginProviderGuid=null,l.prototype.isTpmAvailable=null,l.prototype.isPasswordSet=null,l.prototype.isBiometricsSet=null,l.prototype.isWatchAuthenticationEnabled=null,l.prototype.isSecureEnclaveAvailable=null,l.prototype.isWebauthnAvailable=null,l.prototype.isPlatformAuthenticatorAvailable=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.loginProviderName!=null&&Object.hasOwnProperty.call(e,"loginProviderName")&&r.device.StringMaybe.encode(e.loginProviderName,t.uint32(18).fork()).ldelim(),e.loginProviderGuid!=null&&Object.hasOwnProperty.call(e,"loginProviderGuid")&&r.device.StringMaybe.encode(e.loginProviderGuid,t.uint32(26).fork()).ldelim(),e.isTpmAvailable!=null&&Object.hasOwnProperty.call(e,"isTpmAvailable")&&r.device.BoolMaybe.encode(e.isTpmAvailable,t.uint32(34).fork()).ldelim(),e.isPasswordSet!=null&&Object.hasOwnProperty.call(e,"isPasswordSet")&&r.device.BoolMaybe.encode(e.isPasswordSet,t.uint32(42).fork()).ldelim(),e.isBiometricsSet!=null&&Object.hasOwnProperty.call(e,"isBiometricsSet")&&r.device.BoolMaybe.encode(e.isBiometricsSet,t.uint32(50).fork()).ldelim(),e.isWatchAuthenticationEnabled!=null&&Object.hasOwnProperty.call(e,"isWatchAuthenticationEnabled")&&r.device.BoolMaybe.encode(e.isWatchAuthenticationEnabled,t.uint32(58).fork()).ldelim(),e.isSecureEnclaveAvailable!=null&&Object.hasOwnProperty.call(e,"isSecureEnclaveAvailable")&&r.device.BoolMaybe.encode(e.isSecureEnclaveAvailable,t.uint32(66).fork()).ldelim(),e.isWebauthnAvailable!=null&&Object.hasOwnProperty.call(e,"isWebauthnAvailable")&&r.device.BoolMaybe.encode(e.isWebauthnAvailable,t.uint32(74).fork()).ldelim(),e.isPlatformAuthenticatorAvailable!=null&&Object.hasOwnProperty.call(e,"isPlatformAuthenticatorAvailable")&&r.device.BoolMaybe.encode(e.isPlatformAuthenticatorAvailable,t.uint32(82).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.Authentication;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.loginProviderName=r.device.StringMaybe.decode(e,e.uint32());break;case 3:c.loginProviderGuid=r.device.StringMaybe.decode(e,e.uint32());break;case 4:c.isTpmAvailable=r.device.BoolMaybe.decode(e,e.uint32());break;case 5:c.isPasswordSet=r.device.BoolMaybe.decode(e,e.uint32());break;case 6:c.isBiometricsSet=r.device.BoolMaybe.decode(e,e.uint32());break;case 7:c.isWatchAuthenticationEnabled=r.device.BoolMaybe.decode(e,e.uint32());break;case 8:c.isSecureEnclaveAvailable=r.device.BoolMaybe.decode(e,e.uint32());break;case 9:c.isWebauthnAvailable=r.device.BoolMaybe.decode(e,e.uint32());break;case 10:c.isPlatformAuthenticatorAvailable=r.device.BoolMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.loginProviderName!=null&&e.hasOwnProperty("loginProviderName")){let t=r.device.StringMaybe.verify(e.loginProviderName);if(t)return"loginProviderName."+t}if(e.loginProviderGuid!=null&&e.hasOwnProperty("loginProviderGuid")){let t=r.device.StringMaybe.verify(e.loginProviderGuid);if(t)return"loginProviderGuid."+t}if(e.isTpmAvailable!=null&&e.hasOwnProperty("isTpmAvailable")){let t=r.device.BoolMaybe.verify(e.isTpmAvailable);if(t)return"isTpmAvailable."+t}if(e.isPasswordSet!=null&&e.hasOwnProperty("isPasswordSet")){let t=r.device.BoolMaybe.verify(e.isPasswordSet);if(t)return"isPasswordSet."+t}if(e.isBiometricsSet!=null&&e.hasOwnProperty("isBiometricsSet")){let t=r.device.BoolMaybe.verify(e.isBiometricsSet);if(t)return"isBiometricsSet."+t}if(e.isWatchAuthenticationEnabled!=null&&e.hasOwnProperty("isWatchAuthenticationEnabled")){let t=r.device.BoolMaybe.verify(e.isWatchAuthenticationEnabled);if(t)return"isWatchAuthenticationEnabled."+t}if(e.isSecureEnclaveAvailable!=null&&e.hasOwnProperty("isSecureEnclaveAvailable")){let t=r.device.BoolMaybe.verify(e.isSecureEnclaveAvailable);if(t)return"isSecureEnclaveAvailable."+t}if(e.isWebauthnAvailable!=null&&e.hasOwnProperty("isWebauthnAvailable")){let t=r.device.BoolMaybe.verify(e.isWebauthnAvailable);if(t)return"isWebauthnAvailable."+t}if(e.isPlatformAuthenticatorAvailable!=null&&e.hasOwnProperty("isPlatformAuthenticatorAvailable")){let t=r.device.BoolMaybe.verify(e.isPlatformAuthenticatorAvailable);if(t)return"isPlatformAuthenticatorAvailable."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.Authentication)return e;let t=new r.device.DeviceInfo.Authentication;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.Authentication.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.loginProviderName!=null){if(typeof e.loginProviderName!="object")throw TypeError(".device.DeviceInfo.Authentication.loginProviderName: object expected");t.loginProviderName=r.device.StringMaybe.fromObject(e.loginProviderName)}if(e.loginProviderGuid!=null){if(typeof e.loginProviderGuid!="object")throw TypeError(".device.DeviceInfo.Authentication.loginProviderGuid: object expected");t.loginProviderGuid=r.device.StringMaybe.fromObject(e.loginProviderGuid)}if(e.isTpmAvailable!=null){if(typeof e.isTpmAvailable!="object")throw TypeError(".device.DeviceInfo.Authentication.isTpmAvailable: object expected");t.isTpmAvailable=r.device.BoolMaybe.fromObject(e.isTpmAvailable)}if(e.isPasswordSet!=null){if(typeof e.isPasswordSet!="object")throw TypeError(".device.DeviceInfo.Authentication.isPasswordSet: object expected");t.isPasswordSet=r.device.BoolMaybe.fromObject(e.isPasswordSet)}if(e.isBiometricsSet!=null){if(typeof e.isBiometricsSet!="object")throw TypeError(".device.DeviceInfo.Authentication.isBiometricsSet: object expected");t.isBiometricsSet=r.device.BoolMaybe.fromObject(e.isBiometricsSet)}if(e.isWatchAuthenticationEnabled!=null){if(typeof e.isWatchAuthenticationEnabled!="object")throw TypeError(".device.DeviceInfo.Authentication.isWatchAuthenticationEnabled: object expected");t.isWatchAuthenticationEnabled=r.device.BoolMaybe.fromObject(e.isWatchAuthenticationEnabled)}if(e.isSecureEnclaveAvailable!=null){if(typeof e.isSecureEnclaveAvailable!="object")throw TypeError(".device.DeviceInfo.Authentication.isSecureEnclaveAvailable: object expected");t.isSecureEnclaveAvailable=r.device.BoolMaybe.fromObject(e.isSecureEnclaveAvailable)}if(e.isWebauthnAvailable!=null){if(typeof e.isWebauthnAvailable!="object")throw TypeError(".device.DeviceInfo.Authentication.isWebauthnAvailable: object expected");t.isWebauthnAvailable=r.device.BoolMaybe.fromObject(e.isWebauthnAvailable)}if(e.isPlatformAuthenticatorAvailable!=null){if(typeof e.isPlatformAuthenticatorAvailable!="object")throw TypeError(".device.DeviceInfo.Authentication.isPlatformAuthenticatorAvailable: object expected");t.isPlatformAuthenticatorAvailable=r.device.BoolMaybe.fromObject(e.isPlatformAuthenticatorAvailable)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.loginProviderName=null,n.loginProviderGuid=null,n.isTpmAvailable=null,n.isPasswordSet=null,n.isBiometricsSet=null,n.isWatchAuthenticationEnabled=null,n.isSecureEnclaveAvailable=null,n.isWebauthnAvailable=null,n.isPlatformAuthenticatorAvailable=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.loginProviderName!=null&&e.hasOwnProperty("loginProviderName")&&(n.loginProviderName=r.device.StringMaybe.toObject(e.loginProviderName,t)),e.loginProviderGuid!=null&&e.hasOwnProperty("loginProviderGuid")&&(n.loginProviderGuid=r.device.StringMaybe.toObject(e.loginProviderGuid,t)),e.isTpmAvailable!=null&&e.hasOwnProperty("isTpmAvailable")&&(n.isTpmAvailable=r.device.BoolMaybe.toObject(e.isTpmAvailable,t)),e.isPasswordSet!=null&&e.hasOwnProperty("isPasswordSet")&&(n.isPasswordSet=r.device.BoolMaybe.toObject(e.isPasswordSet,t)),e.isBiometricsSet!=null&&e.hasOwnProperty("isBiometricsSet")&&(n.isBiometricsSet=r.device.BoolMaybe.toObject(e.isBiometricsSet,t)),e.isWatchAuthenticationEnabled!=null&&e.hasOwnProperty("isWatchAuthenticationEnabled")&&(n.isWatchAuthenticationEnabled=r.device.BoolMaybe.toObject(e.isWatchAuthenticationEnabled,t)),e.isSecureEnclaveAvailable!=null&&e.hasOwnProperty("isSecureEnclaveAvailable")&&(n.isSecureEnclaveAvailable=r.device.BoolMaybe.toObject(e.isSecureEnclaveAvailable,t)),e.isWebauthnAvailable!=null&&e.hasOwnProperty("isWebauthnAvailable")&&(n.isWebauthnAvailable=r.device.BoolMaybe.toObject(e.isWebauthnAvailable,t)),e.isPlatformAuthenticatorAvailable!=null&&e.hasOwnProperty("isPlatformAuthenticatorAvailable")&&(n.isPlatformAuthenticatorAvailable=r.device.BoolMaybe.toObject(e.isPlatformAuthenticatorAvailable,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o.SecuritySoftware=function(){function l(i){if(this.software=[],i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.software=T.emptyArray,l.create=function(e){return new l(e)},l.encode=function(e,t){if(t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.software!=null&&e.software.length)for(let n=0;n<e.software.length;++n)r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.encode(e.software[n],t.uint32(18).fork()).ldelim();return t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.SecuritySoftware;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.software&&c.software.length||(c.software=[]),c.software.push(r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.decode(e,e.uint32()));break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.software!=null&&e.hasOwnProperty("software")){if(!Array.isArray(e.software))return"software: array expected";for(let t=0;t<e.software.length;++t){let n=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.verify(e.software[t]);if(n)return"software."+n}}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.SecuritySoftware)return e;let t=new r.device.DeviceInfo.SecuritySoftware;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.software){if(!Array.isArray(e.software))throw TypeError(".device.DeviceInfo.SecuritySoftware.software: array expected");t.software=[];for(let n=0;n<e.software.length;++n){if(typeof e.software[n]!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.software: object expected");t.software[n]=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.fromObject(e.software[n])}}return t},l.toObject=function(e,t){t||(t={});let n={};if((t.arrays||t.defaults)&&(n.software=[]),t.defaults&&(n.answer=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.software&&e.software.length){n.software=[];for(let c=0;c<e.software.length;++c)n.software[c]=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.toObject(e.software[c],t)}return n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l.SoftwareInfo=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.category=null,i.prototype.name=null,i.prototype.version=null,i.prototype.enabled=null,i.prototype.status=null,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.category!=null&&Object.hasOwnProperty.call(t,"category")&&r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.encode(t.category,n.uint32(18).fork()).ldelim(),t.name!=null&&Object.hasOwnProperty.call(t,"name")&&r.device.StringMaybe.encode(t.name,n.uint32(26).fork()).ldelim(),t.version!=null&&Object.hasOwnProperty.call(t,"version")&&r.device.StringMaybe.encode(t.version,n.uint32(34).fork()).ldelim(),t.enabled!=null&&Object.hasOwnProperty.call(t,"enabled")&&r.device.BoolMaybe.encode(t.enabled,n.uint32(42).fork()).ldelim(),t.status!=null&&Object.hasOwnProperty.call(t,"status")&&r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.encode(t.status,n.uint32(50).fork()).ldelim(),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.category=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.decode(t,t.uint32());break;case 3:u.name=r.device.StringMaybe.decode(t,t.uint32());break;case 4:u.version=r.device.StringMaybe.decode(t,t.uint32());break;case 5:u.enabled=r.device.BoolMaybe.decode(t,t.uint32());break;case 6:u.status=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.decode(t,t.uint32());break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.category!=null&&t.hasOwnProperty("category")){let n=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.verify(t.category);if(n)return"category."+n}if(t.name!=null&&t.hasOwnProperty("name")){let n=r.device.StringMaybe.verify(t.name);if(n)return"name."+n}if(t.version!=null&&t.hasOwnProperty("version")){let n=r.device.StringMaybe.verify(t.version);if(n)return"version."+n}if(t.enabled!=null&&t.hasOwnProperty("enabled")){let n=r.device.BoolMaybe.verify(t.enabled);if(n)return"enabled."+n}if(t.status!=null&&t.hasOwnProperty("status")){let n=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.verify(t.status);if(n)return"status."+n}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.SecuritySoftware.SoftwareInfo)return t;let n=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}if(t.category!=null){if(typeof t.category!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.category: object expected");n.category=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.fromObject(t.category)}if(t.name!=null){if(typeof t.name!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.name: object expected");n.name=r.device.StringMaybe.fromObject(t.name)}if(t.version!=null){if(typeof t.version!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.version: object expected");n.version=r.device.StringMaybe.fromObject(t.version)}if(t.enabled!=null){if(typeof t.enabled!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.enabled: object expected");n.enabled=r.device.BoolMaybe.fromObject(t.enabled)}if(t.status!=null){if(typeof t.status!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.status: object expected");n.status=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.fromObject(t.status)}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.category=null,c.name=null,c.version=null,c.enabled=null,c.status=null),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.category!=null&&t.hasOwnProperty("category")&&(c.category=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.toObject(t.category,n)),t.name!=null&&t.hasOwnProperty("name")&&(c.name=r.device.StringMaybe.toObject(t.name,n)),t.version!=null&&t.hasOwnProperty("version")&&(c.version=r.device.StringMaybe.toObject(t.version,n)),t.enabled!=null&&t.hasOwnProperty("enabled")&&(c.enabled=r.device.BoolMaybe.toObject(t.enabled,n)),t.status!=null&&t.hasOwnProperty("status")&&(c.status=r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.toObject(t.status,n)),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i.Category=function(){let e={},t=Object.create(e);return t[e[0]="FIREWALL"]=0,t[e[1]="ANTIMALWARE"]=1,t[e[2]="ANTISPYWARE"]=2,t[e[3]="ANTIVIRUS"]=3,t}(),i.CategoryMaybe=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.value=0,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.value!=null&&Object.hasOwnProperty.call(n,"value")&&c.uint32(16).int32(n.value),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.value=n.int32();break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.value!=null&&n.hasOwnProperty("value"))switch(n.value){default:return"value: enum value expected";case 0:case 1:case 2:case 3:break}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe)return n;let c=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}switch(n.value){case"FIREWALL":case 0:c.value=0;break;case"ANTIMALWARE":case 1:c.value=1;break;case"ANTISPYWARE":case 2:c.value=2;break;case"ANTIVIRUS":case 3:c.value=3;break}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.value=c.enums===String?"FIREWALL":0),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.value!=null&&n.hasOwnProperty("value")&&(u.value=c.enums===String?r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.Category[n.value]:n.value),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i.Status=function(){let e={},t=Object.create(e);return t[e[0]="OFF"]=0,t[e[1]="ON"]=1,t[e[2]="SNOOZED"]=2,t[e[3]="EXPIRED"]=3,t}(),i.StatusMaybe=function(){function e(t){if(t)for(let n=Object.keys(t),c=0;c<n.length;++c)t[n[c]]!=null&&(this[n[c]]=t[n[c]])}return e.prototype.answer=null,e.prototype.value=0,e.create=function(n){return new e(n)},e.encode=function(n,c){return c||(c=j.create()),n.answer!=null&&Object.hasOwnProperty.call(n,"answer")&&r.device.Answer.encode(n.answer,c.uint32(10).fork()).ldelim(),n.value!=null&&Object.hasOwnProperty.call(n,"value")&&c.uint32(16).int32(n.value),c},e.encodeDelimited=function(n,c){return this.encode(n,c).ldelim()},e.decode=function(n,c){n instanceof v||(n=v.create(n));let u=c===void 0?n.len:n.pos+c,f=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe;for(;n.pos<u;){let d=n.uint32();switch(d>>>3){case 1:f.answer=r.device.Answer.decode(n,n.uint32());break;case 2:f.value=n.int32();break;default:n.skipType(d&7);break}}return f},e.decodeDelimited=function(n){return n instanceof v||(n=new v(n)),this.decode(n,n.uint32())},e.verify=function(n){if(typeof n!="object"||n===null)return"object expected";if(n.answer!=null&&n.hasOwnProperty("answer")){let c=r.device.Answer.verify(n.answer);if(c)return"answer."+c}if(n.value!=null&&n.hasOwnProperty("value"))switch(n.value){default:return"value: enum value expected";case 0:case 1:case 2:case 3:break}return null},e.fromObject=function(n){if(n instanceof r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe)return n;let c=new r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe;if(n.answer!=null){if(typeof n.answer!="object")throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.answer: object expected");c.answer=r.device.Answer.fromObject(n.answer)}switch(n.value){case"OFF":case 0:c.value=0;break;case"ON":case 1:c.value=1;break;case"SNOOZED":case 2:c.value=2;break;case"EXPIRED":case 3:c.value=3;break}return c},e.toObject=function(n,c){c||(c={});let u={};return c.defaults&&(u.answer=null,u.value=c.enums===String?"OFF":0),n.answer!=null&&n.hasOwnProperty("answer")&&(u.answer=r.device.Answer.toObject(n.answer,c)),n.value!=null&&n.hasOwnProperty("value")&&(u.value=c.enums===String?r.device.DeviceInfo.SecuritySoftware.SoftwareInfo.Status[n.value]:n.value),u},e.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},e}(),i}(),l}(),o.Volumes=function(){function l(i){if(this.volumes=[],i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.volumes=T.emptyArray,l.prototype.filevault=null,l.create=function(e){return new l(e)},l.encode=function(e,t){if(t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.volumes!=null&&e.volumes.length)for(let n=0;n<e.volumes.length;++n)r.device.DeviceInfo.Volumes.VolumeInfo.encode(e.volumes[n],t.uint32(18).fork()).ldelim();return e.filevault!=null&&Object.hasOwnProperty.call(e,"filevault")&&r.device.DeviceInfo.Volumes.FileVaultStatusMaybe.encode(e.filevault,t.uint32(26).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.Volumes;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.volumes&&c.volumes.length||(c.volumes=[]),c.volumes.push(r.device.DeviceInfo.Volumes.VolumeInfo.decode(e,e.uint32()));break;case 3:c.filevault=r.device.DeviceInfo.Volumes.FileVaultStatusMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.volumes!=null&&e.hasOwnProperty("volumes")){if(!Array.isArray(e.volumes))return"volumes: array expected";for(let t=0;t<e.volumes.length;++t){let n=r.device.DeviceInfo.Volumes.VolumeInfo.verify(e.volumes[t]);if(n)return"volumes."+n}}if(e.filevault!=null&&e.hasOwnProperty("filevault")){let t=r.device.DeviceInfo.Volumes.FileVaultStatusMaybe.verify(e.filevault);if(t)return"filevault."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.Volumes)return e;let t=new r.device.DeviceInfo.Volumes;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.Volumes.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.volumes){if(!Array.isArray(e.volumes))throw TypeError(".device.DeviceInfo.Volumes.volumes: array expected");t.volumes=[];for(let n=0;n<e.volumes.length;++n){if(typeof e.volumes[n]!="object")throw TypeError(".device.DeviceInfo.Volumes.volumes: object expected");t.volumes[n]=r.device.DeviceInfo.Volumes.VolumeInfo.fromObject(e.volumes[n])}}if(e.filevault!=null){if(typeof e.filevault!="object")throw TypeError(".device.DeviceInfo.Volumes.filevault: object expected");t.filevault=r.device.DeviceInfo.Volumes.FileVaultStatusMaybe.fromObject(e.filevault)}return t},l.toObject=function(e,t){t||(t={});let n={};if((t.arrays||t.defaults)&&(n.volumes=[]),t.defaults&&(n.answer=null,n.filevault=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.volumes&&e.volumes.length){n.volumes=[];for(let c=0;c<e.volumes.length;++c)n.volumes[c]=r.device.DeviceInfo.Volumes.VolumeInfo.toObject(e.volumes[c],t)}return e.filevault!=null&&e.hasOwnProperty("filevault")&&(n.filevault=r.device.DeviceInfo.Volumes.FileVaultStatusMaybe.toObject(e.filevault,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l.VolumeInfo=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.name=null,i.prototype.isBitlockerEnabled=null,i.prototype.isSystemDrive=null,i.prototype.isEncrypted=null,i.prototype.isRemovable=null,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.name!=null&&Object.hasOwnProperty.call(t,"name")&&r.device.StringMaybe.encode(t.name,n.uint32(18).fork()).ldelim(),t.isBitlockerEnabled!=null&&Object.hasOwnProperty.call(t,"isBitlockerEnabled")&&r.device.BoolMaybe.encode(t.isBitlockerEnabled,n.uint32(26).fork()).ldelim(),t.isSystemDrive!=null&&Object.hasOwnProperty.call(t,"isSystemDrive")&&r.device.BoolMaybe.encode(t.isSystemDrive,n.uint32(34).fork()).ldelim(),t.isEncrypted!=null&&Object.hasOwnProperty.call(t,"isEncrypted")&&r.device.BoolMaybe.encode(t.isEncrypted,n.uint32(42).fork()).ldelim(),t.isRemovable!=null&&Object.hasOwnProperty.call(t,"isRemovable")&&r.device.BoolMaybe.encode(t.isRemovable,n.uint32(50).fork()).ldelim(),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.Volumes.VolumeInfo;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.name=r.device.StringMaybe.decode(t,t.uint32());break;case 3:u.isBitlockerEnabled=r.device.BoolMaybe.decode(t,t.uint32());break;case 4:u.isSystemDrive=r.device.BoolMaybe.decode(t,t.uint32());break;case 5:u.isEncrypted=r.device.BoolMaybe.decode(t,t.uint32());break;case 6:u.isRemovable=r.device.BoolMaybe.decode(t,t.uint32());break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.name!=null&&t.hasOwnProperty("name")){let n=r.device.StringMaybe.verify(t.name);if(n)return"name."+n}if(t.isBitlockerEnabled!=null&&t.hasOwnProperty("isBitlockerEnabled")){let n=r.device.BoolMaybe.verify(t.isBitlockerEnabled);if(n)return"isBitlockerEnabled."+n}if(t.isSystemDrive!=null&&t.hasOwnProperty("isSystemDrive")){let n=r.device.BoolMaybe.verify(t.isSystemDrive);if(n)return"isSystemDrive."+n}if(t.isEncrypted!=null&&t.hasOwnProperty("isEncrypted")){let n=r.device.BoolMaybe.verify(t.isEncrypted);if(n)return"isEncrypted."+n}if(t.isRemovable!=null&&t.hasOwnProperty("isRemovable")){let n=r.device.BoolMaybe.verify(t.isRemovable);if(n)return"isRemovable."+n}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.Volumes.VolumeInfo)return t;let n=new r.device.DeviceInfo.Volumes.VolumeInfo;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}if(t.name!=null){if(typeof t.name!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.name: object expected");n.name=r.device.StringMaybe.fromObject(t.name)}if(t.isBitlockerEnabled!=null){if(typeof t.isBitlockerEnabled!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isBitlockerEnabled: object expected");n.isBitlockerEnabled=r.device.BoolMaybe.fromObject(t.isBitlockerEnabled)}if(t.isSystemDrive!=null){if(typeof t.isSystemDrive!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isSystemDrive: object expected");n.isSystemDrive=r.device.BoolMaybe.fromObject(t.isSystemDrive)}if(t.isEncrypted!=null){if(typeof t.isEncrypted!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isEncrypted: object expected");n.isEncrypted=r.device.BoolMaybe.fromObject(t.isEncrypted)}if(t.isRemovable!=null){if(typeof t.isRemovable!="object")throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isRemovable: object expected");n.isRemovable=r.device.BoolMaybe.fromObject(t.isRemovable)}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.name=null,c.isBitlockerEnabled=null,c.isSystemDrive=null,c.isEncrypted=null,c.isRemovable=null),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.name!=null&&t.hasOwnProperty("name")&&(c.name=r.device.StringMaybe.toObject(t.name,n)),t.isBitlockerEnabled!=null&&t.hasOwnProperty("isBitlockerEnabled")&&(c.isBitlockerEnabled=r.device.BoolMaybe.toObject(t.isBitlockerEnabled,n)),t.isSystemDrive!=null&&t.hasOwnProperty("isSystemDrive")&&(c.isSystemDrive=r.device.BoolMaybe.toObject(t.isSystemDrive,n)),t.isEncrypted!=null&&t.hasOwnProperty("isEncrypted")&&(c.isEncrypted=r.device.BoolMaybe.toObject(t.isEncrypted,n)),t.isRemovable!=null&&t.hasOwnProperty("isRemovable")&&(c.isRemovable=r.device.BoolMaybe.toObject(t.isRemovable,n)),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i}(),l.FileVaultStatus=function(){let i={},e=Object.create(i);return e[i[0]="FILE_VAULT_ON"]=0,e[i[1]="FILE_VAULT_OFF"]=1,e}(),l.FileVaultStatusMaybe=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.value=0,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.value!=null&&Object.hasOwnProperty.call(t,"value")&&n.uint32(16).int32(t.value),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.Volumes.FileVaultStatusMaybe;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.value=t.int32();break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.value!=null&&t.hasOwnProperty("value"))switch(t.value){default:return"value: enum value expected";case 0:case 1:break}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.Volumes.FileVaultStatusMaybe)return t;let n=new r.device.DeviceInfo.Volumes.FileVaultStatusMaybe;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.Volumes.FileVaultStatusMaybe.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}switch(t.value){case"FILE_VAULT_ON":case 0:n.value=0;break;case"FILE_VAULT_OFF":case 1:n.value=1;break}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.value=n.enums===String?"FILE_VAULT_ON":0),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.value!=null&&t.hasOwnProperty("value")&&(c.value=n.enums===String?r.device.DeviceInfo.Volumes.FileVaultStatus[t.value]:t.value),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i}(),l}(),o.AuthorizationSettings=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.isLocalhostServiceEnabled=null,l.prototype.isAccessibilityServiceEnabled=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.isLocalhostServiceEnabled!=null&&Object.hasOwnProperty.call(e,"isLocalhostServiceEnabled")&&r.device.BoolMaybe.encode(e.isLocalhostServiceEnabled,t.uint32(18).fork()).ldelim(),e.isAccessibilityServiceEnabled!=null&&Object.hasOwnProperty.call(e,"isAccessibilityServiceEnabled")&&r.device.BoolMaybe.encode(e.isAccessibilityServiceEnabled,t.uint32(26).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.AuthorizationSettings;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.isLocalhostServiceEnabled=r.device.BoolMaybe.decode(e,e.uint32());break;case 3:c.isAccessibilityServiceEnabled=r.device.BoolMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.isLocalhostServiceEnabled!=null&&e.hasOwnProperty("isLocalhostServiceEnabled")){let t=r.device.BoolMaybe.verify(e.isLocalhostServiceEnabled);if(t)return"isLocalhostServiceEnabled."+t}if(e.isAccessibilityServiceEnabled!=null&&e.hasOwnProperty("isAccessibilityServiceEnabled")){let t=r.device.BoolMaybe.verify(e.isAccessibilityServiceEnabled);if(t)return"isAccessibilityServiceEnabled."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.AuthorizationSettings)return e;let t=new r.device.DeviceInfo.AuthorizationSettings;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.AuthorizationSettings.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.isLocalhostServiceEnabled!=null){if(typeof e.isLocalhostServiceEnabled!="object")throw TypeError(".device.DeviceInfo.AuthorizationSettings.isLocalhostServiceEnabled: object expected");t.isLocalhostServiceEnabled=r.device.BoolMaybe.fromObject(e.isLocalhostServiceEnabled)}if(e.isAccessibilityServiceEnabled!=null){if(typeof e.isAccessibilityServiceEnabled!="object")throw TypeError(".device.DeviceInfo.AuthorizationSettings.isAccessibilityServiceEnabled: object expected");t.isAccessibilityServiceEnabled=r.device.BoolMaybe.fromObject(e.isAccessibilityServiceEnabled)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.isLocalhostServiceEnabled=null,n.isAccessibilityServiceEnabled=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.isLocalhostServiceEnabled!=null&&e.hasOwnProperty("isLocalhostServiceEnabled")&&(n.isLocalhostServiceEnabled=r.device.BoolMaybe.toObject(e.isLocalhostServiceEnabled,t)),e.isAccessibilityServiceEnabled!=null&&e.hasOwnProperty("isAccessibilityServiceEnabled")&&(n.isAccessibilityServiceEnabled=r.device.BoolMaybe.toObject(e.isAccessibilityServiceEnabled,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o.TPMInfo=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.Version=null,l.prototype.Level=null,l.prototype.Revision=null,l.prototype.VendorID=null,l.prototype.Firmware=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.Version!=null&&Object.hasOwnProperty.call(e,"Version")&&r.device.StringMaybe.encode(e.Version,t.uint32(18).fork()).ldelim(),e.Level!=null&&Object.hasOwnProperty.call(e,"Level")&&r.device.StringMaybe.encode(e.Level,t.uint32(26).fork()).ldelim(),e.Revision!=null&&Object.hasOwnProperty.call(e,"Revision")&&r.device.StringMaybe.encode(e.Revision,t.uint32(34).fork()).ldelim(),e.VendorID!=null&&Object.hasOwnProperty.call(e,"VendorID")&&r.device.StringMaybe.encode(e.VendorID,t.uint32(42).fork()).ldelim(),e.Firmware!=null&&Object.hasOwnProperty.call(e,"Firmware")&&r.device.StringMaybe.encode(e.Firmware,t.uint32(50).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.TPMInfo;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.Version=r.device.StringMaybe.decode(e,e.uint32());break;case 3:c.Level=r.device.StringMaybe.decode(e,e.uint32());break;case 4:c.Revision=r.device.StringMaybe.decode(e,e.uint32());break;case 5:c.VendorID=r.device.StringMaybe.decode(e,e.uint32());break;case 6:c.Firmware=r.device.StringMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.Version!=null&&e.hasOwnProperty("Version")){let t=r.device.StringMaybe.verify(e.Version);if(t)return"Version."+t}if(e.Level!=null&&e.hasOwnProperty("Level")){let t=r.device.StringMaybe.verify(e.Level);if(t)return"Level."+t}if(e.Revision!=null&&e.hasOwnProperty("Revision")){let t=r.device.StringMaybe.verify(e.Revision);if(t)return"Revision."+t}if(e.VendorID!=null&&e.hasOwnProperty("VendorID")){let t=r.device.StringMaybe.verify(e.VendorID);if(t)return"VendorID."+t}if(e.Firmware!=null&&e.hasOwnProperty("Firmware")){let t=r.device.StringMaybe.verify(e.Firmware);if(t)return"Firmware."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.TPMInfo)return e;let t=new r.device.DeviceInfo.TPMInfo;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.TPMInfo.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.Version!=null){if(typeof e.Version!="object")throw TypeError(".device.DeviceInfo.TPMInfo.Version: object expected");t.Version=r.device.StringMaybe.fromObject(e.Version)}if(e.Level!=null){if(typeof e.Level!="object")throw TypeError(".device.DeviceInfo.TPMInfo.Level: object expected");t.Level=r.device.StringMaybe.fromObject(e.Level)}if(e.Revision!=null){if(typeof e.Revision!="object")throw TypeError(".device.DeviceInfo.TPMInfo.Revision: object expected");t.Revision=r.device.StringMaybe.fromObject(e.Revision)}if(e.VendorID!=null){if(typeof e.VendorID!="object")throw TypeError(".device.DeviceInfo.TPMInfo.VendorID: object expected");t.VendorID=r.device.StringMaybe.fromObject(e.VendorID)}if(e.Firmware!=null){if(typeof e.Firmware!="object")throw TypeError(".device.DeviceInfo.TPMInfo.Firmware: object expected");t.Firmware=r.device.StringMaybe.fromObject(e.Firmware)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.Version=null,n.Level=null,n.Revision=null,n.VendorID=null,n.Firmware=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.Version!=null&&e.hasOwnProperty("Version")&&(n.Version=r.device.StringMaybe.toObject(e.Version,t)),e.Level!=null&&e.hasOwnProperty("Level")&&(n.Level=r.device.StringMaybe.toObject(e.Level,t)),e.Revision!=null&&e.hasOwnProperty("Revision")&&(n.Revision=r.device.StringMaybe.toObject(e.Revision,t)),e.VendorID!=null&&e.hasOwnProperty("VendorID")&&(n.VendorID=r.device.StringMaybe.toObject(e.VendorID,t)),e.Firmware!=null&&e.hasOwnProperty("Firmware")&&(n.Firmware=r.device.StringMaybe.toObject(e.Firmware,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o.KeyProvenances=function(){function l(i){if(this.info=[],i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.info=T.emptyArray,l.create=function(e){return new l(e)},l.encode=function(e,t){if(t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.info!=null&&e.info.length)for(let n=0;n<e.info.length;++n)r.device.DeviceInfo.KeyProvenances.Info.encode(e.info[n],t.uint32(18).fork()).ldelim();return t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.KeyProvenances;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.info&&c.info.length||(c.info=[]),c.info.push(r.device.DeviceInfo.KeyProvenances.Info.decode(e,e.uint32()));break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.info!=null&&e.hasOwnProperty("info")){if(!Array.isArray(e.info))return"info: array expected";for(let t=0;t<e.info.length;++t){let n=r.device.DeviceInfo.KeyProvenances.Info.verify(e.info[t]);if(n)return"info."+n}}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.KeyProvenances)return e;let t=new r.device.DeviceInfo.KeyProvenances;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.info){if(!Array.isArray(e.info))throw TypeError(".device.DeviceInfo.KeyProvenances.info: array expected");t.info=[];for(let n=0;n<e.info.length;++n){if(typeof e.info[n]!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.info: object expected");t.info[n]=r.device.DeviceInfo.KeyProvenances.Info.fromObject(e.info[n])}}return t},l.toObject=function(e,t){t||(t={});let n={};if((t.arrays||t.defaults)&&(n.info=[]),t.defaults&&(n.answer=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.info&&e.info.length){n.info=[];for(let c=0;c<e.info.length;++c)n.info[c]=r.device.DeviceInfo.KeyProvenances.Info.toObject(e.info[c],t)}return n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l.KeyProvenance=function(){let i={},e=Object.create(i);return e[i[0]="UNKNOWN"]=0,e[i[1]="TEE"]=1,e[i[2]="FILE"]=2,e}(),l.KeyProvenanceMaybe=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.answer=null,i.prototype.value=0,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.answer!=null&&Object.hasOwnProperty.call(t,"answer")&&r.device.Answer.encode(t.answer,n.uint32(10).fork()).ldelim(),t.value!=null&&Object.hasOwnProperty.call(t,"value")&&n.uint32(16).int32(t.value),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.answer=r.device.Answer.decode(t,t.uint32());break;case 2:u.value=t.int32();break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.answer!=null&&t.hasOwnProperty("answer")){let n=r.device.Answer.verify(t.answer);if(n)return"answer."+n}if(t.value!=null&&t.hasOwnProperty("value"))switch(t.value){default:return"value: enum value expected";case 0:case 1:case 2:break}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe)return t;let n=new r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe;if(t.answer!=null){if(typeof t.answer!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.answer: object expected");n.answer=r.device.Answer.fromObject(t.answer)}switch(t.value){case"UNKNOWN":case 0:n.value=0;break;case"TEE":case 1:n.value=1;break;case"FILE":case 2:n.value=2;break}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.answer=null,c.value=n.enums===String?"UNKNOWN":0),t.answer!=null&&t.hasOwnProperty("answer")&&(c.answer=r.device.Answer.toObject(t.answer,n)),t.value!=null&&t.hasOwnProperty("value")&&(c.value=n.enums===String?r.device.DeviceInfo.KeyProvenances.KeyProvenance[t.value]:t.value),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i}(),l.Info=function(){function i(e){if(e)for(let t=Object.keys(e),n=0;n<t.length;++n)e[t[n]]!=null&&(this[t[n]]=e[t[n]])}return i.prototype.profileHandle=null,i.prototype.keyHandle=null,i.prototype.keyProvenance=null,i.create=function(t){return new i(t)},i.encode=function(t,n){return n||(n=j.create()),t.profileHandle!=null&&Object.hasOwnProperty.call(t,"profileHandle")&&r.device.StringMaybe.encode(t.profileHandle,n.uint32(10).fork()).ldelim(),t.keyHandle!=null&&Object.hasOwnProperty.call(t,"keyHandle")&&r.device.StringMaybe.encode(t.keyHandle,n.uint32(18).fork()).ldelim(),t.keyProvenance!=null&&Object.hasOwnProperty.call(t,"keyProvenance")&&r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.encode(t.keyProvenance,n.uint32(26).fork()).ldelim(),n},i.encodeDelimited=function(t,n){return this.encode(t,n).ldelim()},i.decode=function(t,n){t instanceof v||(t=v.create(t));let c=n===void 0?t.len:t.pos+n,u=new r.device.DeviceInfo.KeyProvenances.Info;for(;t.pos<c;){let f=t.uint32();switch(f>>>3){case 1:u.profileHandle=r.device.StringMaybe.decode(t,t.uint32());break;case 2:u.keyHandle=r.device.StringMaybe.decode(t,t.uint32());break;case 3:u.keyProvenance=r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.decode(t,t.uint32());break;default:t.skipType(f&7);break}}return u},i.decodeDelimited=function(t){return t instanceof v||(t=new v(t)),this.decode(t,t.uint32())},i.verify=function(t){if(typeof t!="object"||t===null)return"object expected";if(t.profileHandle!=null&&t.hasOwnProperty("profileHandle")){let n=r.device.StringMaybe.verify(t.profileHandle);if(n)return"profileHandle."+n}if(t.keyHandle!=null&&t.hasOwnProperty("keyHandle")){let n=r.device.StringMaybe.verify(t.keyHandle);if(n)return"keyHandle."+n}if(t.keyProvenance!=null&&t.hasOwnProperty("keyProvenance")){let n=r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.verify(t.keyProvenance);if(n)return"keyProvenance."+n}return null},i.fromObject=function(t){if(t instanceof r.device.DeviceInfo.KeyProvenances.Info)return t;let n=new r.device.DeviceInfo.KeyProvenances.Info;if(t.profileHandle!=null){if(typeof t.profileHandle!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.Info.profileHandle: object expected");n.profileHandle=r.device.StringMaybe.fromObject(t.profileHandle)}if(t.keyHandle!=null){if(typeof t.keyHandle!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.Info.keyHandle: object expected");n.keyHandle=r.device.StringMaybe.fromObject(t.keyHandle)}if(t.keyProvenance!=null){if(typeof t.keyProvenance!="object")throw TypeError(".device.DeviceInfo.KeyProvenances.Info.keyProvenance: object expected");n.keyProvenance=r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.fromObject(t.keyProvenance)}return n},i.toObject=function(t,n){n||(n={});let c={};return n.defaults&&(c.profileHandle=null,c.keyHandle=null,c.keyProvenance=null),t.profileHandle!=null&&t.hasOwnProperty("profileHandle")&&(c.profileHandle=r.device.StringMaybe.toObject(t.profileHandle,n)),t.keyHandle!=null&&t.hasOwnProperty("keyHandle")&&(c.keyHandle=r.device.StringMaybe.toObject(t.keyHandle,n)),t.keyProvenance!=null&&t.hasOwnProperty("keyProvenance")&&(c.keyProvenance=r.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.toObject(t.keyProvenance,n)),c},i.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},i}(),l}(),o.Locale=function(){function l(i){if(i)for(let e=Object.keys(i),t=0;t<e.length;++t)i[e[t]]!=null&&(this[e[t]]=i[e[t]])}return l.prototype.answer=null,l.prototype.current=null,l.create=function(e){return new l(e)},l.encode=function(e,t){return t||(t=j.create()),e.answer!=null&&Object.hasOwnProperty.call(e,"answer")&&r.device.Answer.encode(e.answer,t.uint32(10).fork()).ldelim(),e.current!=null&&Object.hasOwnProperty.call(e,"current")&&r.device.StringMaybe.encode(e.current,t.uint32(18).fork()).ldelim(),t},l.encodeDelimited=function(e,t){return this.encode(e,t).ldelim()},l.decode=function(e,t){e instanceof v||(e=v.create(e));let n=t===void 0?e.len:e.pos+t,c=new r.device.DeviceInfo.Locale;for(;e.pos<n;){let u=e.uint32();switch(u>>>3){case 1:c.answer=r.device.Answer.decode(e,e.uint32());break;case 2:c.current=r.device.StringMaybe.decode(e,e.uint32());break;default:e.skipType(u&7);break}}return c},l.decodeDelimited=function(e){return e instanceof v||(e=new v(e)),this.decode(e,e.uint32())},l.verify=function(e){if(typeof e!="object"||e===null)return"object expected";if(e.answer!=null&&e.hasOwnProperty("answer")){let t=r.device.Answer.verify(e.answer);if(t)return"answer."+t}if(e.current!=null&&e.hasOwnProperty("current")){let t=r.device.StringMaybe.verify(e.current);if(t)return"current."+t}return null},l.fromObject=function(e){if(e instanceof r.device.DeviceInfo.Locale)return e;let t=new r.device.DeviceInfo.Locale;if(e.answer!=null){if(typeof e.answer!="object")throw TypeError(".device.DeviceInfo.Locale.answer: object expected");t.answer=r.device.Answer.fromObject(e.answer)}if(e.current!=null){if(typeof e.current!="object")throw TypeError(".device.DeviceInfo.Locale.current: object expected");t.current=r.device.StringMaybe.fromObject(e.current)}return t},l.toObject=function(e,t){t||(t={});let n={};return t.defaults&&(n.answer=null,n.current=null),e.answer!=null&&e.hasOwnProperty("answer")&&(n.answer=r.device.Answer.toObject(e.answer,t)),e.current!=null&&e.hasOwnProperty("current")&&(n.current=r.device.StringMaybe.toObject(e.current,t)),n},l.prototype.toJSON=function(){return this.constructor.toObject(this,h.util.toJSONOptions)},l}(),o}(),a})();var gn=Tt(Qn()),Ie=class{constructor(o,l,i){this.ua=o,this.ch=l,this.appSettings=i}static async collect(o){let l=new gn.UAParser().getResult(),i={};if(navigator.userAgentData){let t={brands:navigator.userAgentData.brands,mobile:navigator.userAgentData.mobile,platform:navigator.userAgentData.platform},n=await navigator.userAgentData.getHighEntropyValues(["architecture","bitness","model","platformVersion","uaFullVersion"]);i={...t,...n}}let e={};return o&&(e=await Qt(o)),new Ie(l,i,e)}getUserAgent(){return{browser:{name:this.ua.browser.name,version:this.ua.browser.version,engineName:this.ua.engine.name,engineVersion:this.ua.engine.version},platform:{name:this.ua.os.name,version:this.ua.os.version},device:{architecture:this.ua.cpu.architecture,model:this.ua.device.model,type:this.ua.device.type,vendor:this.ua.device.vendor},clientData:{...this.ch}}}getClientHints(){return this.ch}async getAppInstanceId(){return this.appSettings?{answer:{type:A.AnswerType.VALUE},value:this.appSettings.instanceId}:void 0}getOsVersion(){let o=this.getUserAgent(),l={};if(o.clientData){l.answer={type:A.AnswerType.VALUE};for(let i in o.clientData)i!=="brands"&&(l[i]={value:o.clientData[i]})}else l.answer={type:A.AnswerType.UNSUPPORTED};return{answer:{type:A.AnswerType.VALUE},userAgent:{type:A.AnswerType.VALUE,value:navigator.userAgent},userAgentData:{answer:{type:A.AnswerType.VALUE},browser:{answer:{type:A.AnswerType.VALUE},name:{answer:{type:A.AnswerType.VALUE},value:this.ua.browser.name},version:{answer:{type:A.AnswerType.VALUE},value:this.ua.browser.version},engineName:{answer:{type:A.AnswerType.VALUE},value:this.ua.engine.name},engineVersion:{answer:{type:A.AnswerType.VALUE},value:this.ua.engine.version}},platform:{answer:{type:A.AnswerType.VALUE},name:{answer:{type:A.AnswerType.VALUE},value:this.ua.os.name},version:{answer:{type:A.AnswerType.VALUE},value:this.ua.os.version}},hostPlatform:{answer:{type:A.AnswerType.VALUE},name:{answer:{type:A.AnswerType.VALUE},value:this.ua.os.name},version:{answer:{type:A.AnswerType.VALUE},value:this.ua.os.version}},device:{answer:{type:A.AnswerType.VALUE},architecture:{answer:{type:A.AnswerType.VALUE},value:this.ua.cpu.architecture},model:{answer:{type:A.AnswerType.VALUE},value:this.ua.device.model},type:{answer:{type:A.AnswerType.VALUE},value:this.ua.device.type},vendor:{answer:{type:A.AnswerType.VALUE},value:this.ua.device.vendor}},clientData:l}}}async getAuthentication(){let o=!!window.PublicKeyCredential,l=o&&await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();return{answer:{type:A.AnswerType.VALUE},isWebauthnAvailable:{answer:{type:A.AnswerType.VALUE},value:o},isPlatformAuthenticatorAvailable:{answer:{type:A.AnswerType.VALUE},value:l}}}};async function po(){return(await Ie.collect()).getUserAgent()}async function so(a){let o=new A.DeviceInfo,l=await Ie.collect(a);o.answer={type:A.AnswerType.VALUE},o.platform=A.Platform.WEB,o.osVersion=l.getOsVersion(),o.core=A.Core.RUST;let i="1.0.0",e="1.0.0";return o.appVersion={answer:{type:A.AnswerType.VALUE},value:i},o.appInstanceId=await l.getAppInstanceId(),o.authentication=await l.getAuthentication(),Ki(o)}function Ki(a){return A.DeviceInfo.encode(a).finish()}function wo(a){return A.DeviceInfo.decode(a)}export{Kr as kmc_add_authenticator_client_id,vi as kmc_close_db,wo as kmc_decode_device_info,Or as kmc_decrypt,Wr as kmc_delete_all_authenticator_client_ids,tr as kmc_delete_cert,lr as kmc_delete_key,Jr as kmc_delete_profile,Ki as kmc_encode_device_info,hr as kmc_encrypt,pr as kmc_generate_key,Ti as kmc_get_all_profiles,Qt as kmc_get_app_settings,gi as kmc_get_cert,so as kmc_get_device_info,fe as kmc_get_key,xi as kmc_get_profile,Hr as kmc_get_profile_by_id,po as kmc_get_user_agent,Fr as kmc_has_profile,sr as kmc_is_key_webauthn_backed,di as kmc_open_db,Ai as kmc_public_key,zr as kmc_put_app_settings,er as kmc_put_cert,yi as kmc_reset_db,Ft as kmc_save_key,wr as kmc_sign,Cr as kmc_update_profile_metadata,br as kmc_verify,Lr as kmc_write_profile,Rr as kmc_write_profile_id};
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __commonJS = (cb, mod2) => function __require() {
+  return mod2 || (0, cb[Object.keys(cb)[0]])((mod2 = { exports: {} }).exports, mod2), mod2.exports;
+};
+var __reExport = (target, module2, desc) => {
+  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+  }
+  return target;
+};
+var __toModule = (module2) => {
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
+};
+
+// node_modules/@protobufjs/aspromise/index.js
+var require_aspromise = __commonJS({
+  "node_modules/@protobufjs/aspromise/index.js"(exports2, module2) {
+    "use strict";
+    module2.exports = asPromise;
+    function asPromise(fn, ctx) {
+      var params = new Array(arguments.length - 1), offset = 0, index = 2, pending = true;
+      while (index < arguments.length)
+        params[offset++] = arguments[index++];
+      return new Promise(function executor(resolve, reject) {
+        params[offset] = function callback(err) {
+          if (pending) {
+            pending = false;
+            if (err)
+              reject(err);
+            else {
+              var params2 = new Array(arguments.length - 1), offset2 = 0;
+              while (offset2 < params2.length)
+                params2[offset2++] = arguments[offset2];
+              resolve.apply(null, params2);
+            }
+          }
+        };
+        try {
+          fn.apply(ctx || null, params);
+        } catch (err) {
+          if (pending) {
+            pending = false;
+            reject(err);
+          }
+        }
+      });
+    }
+  }
+});
+
+// node_modules/@protobufjs/base64/index.js
+var require_base64 = __commonJS({
+  "node_modules/@protobufjs/base64/index.js"(exports2) {
+    "use strict";
+    var base64 = exports2;
+    base64.length = function length(string) {
+      var p = string.length;
+      if (!p)
+        return 0;
+      var n = 0;
+      while (--p % 4 > 1 && string.charAt(p) === "=")
+        ++n;
+      return Math.ceil(string.length * 3) / 4 - n;
+    };
+    var b64 = new Array(64);
+    var s64 = new Array(123);
+    for (i = 0; i < 64; )
+      s64[b64[i] = i < 26 ? i + 65 : i < 52 ? i + 71 : i < 62 ? i - 4 : i - 59 | 43] = i++;
+    var i;
+    base64.encode = function encode(buffer, start, end) {
+      var parts = null, chunk = [];
+      var i2 = 0, j = 0, t;
+      while (start < end) {
+        var b = buffer[start++];
+        switch (j) {
+          case 0:
+            chunk[i2++] = b64[b >> 2];
+            t = (b & 3) << 4;
+            j = 1;
+            break;
+          case 1:
+            chunk[i2++] = b64[t | b >> 4];
+            t = (b & 15) << 2;
+            j = 2;
+            break;
+          case 2:
+            chunk[i2++] = b64[t | b >> 6];
+            chunk[i2++] = b64[b & 63];
+            j = 0;
+            break;
+        }
+        if (i2 > 8191) {
+          (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+          i2 = 0;
+        }
+      }
+      if (j) {
+        chunk[i2++] = b64[t];
+        chunk[i2++] = 61;
+        if (j === 1)
+          chunk[i2++] = 61;
+      }
+      if (parts) {
+        if (i2)
+          parts.push(String.fromCharCode.apply(String, chunk.slice(0, i2)));
+        return parts.join("");
+      }
+      return String.fromCharCode.apply(String, chunk.slice(0, i2));
+    };
+    var invalidEncoding = "invalid encoding";
+    base64.decode = function decode(string, buffer, offset) {
+      var start = offset;
+      var j = 0, t;
+      for (var i2 = 0; i2 < string.length; ) {
+        var c = string.charCodeAt(i2++);
+        if (c === 61 && j > 1)
+          break;
+        if ((c = s64[c]) === void 0)
+          throw Error(invalidEncoding);
+        switch (j) {
+          case 0:
+            t = c;
+            j = 1;
+            break;
+          case 1:
+            buffer[offset++] = t << 2 | (c & 48) >> 4;
+            t = c;
+            j = 2;
+            break;
+          case 2:
+            buffer[offset++] = (t & 15) << 4 | (c & 60) >> 2;
+            t = c;
+            j = 3;
+            break;
+          case 3:
+            buffer[offset++] = (t & 3) << 6 | c;
+            j = 0;
+            break;
+        }
+      }
+      if (j === 1)
+        throw Error(invalidEncoding);
+      return offset - start;
+    };
+    base64.test = function test(string) {
+      return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(string);
+    };
+  }
+});
+
+// node_modules/@protobufjs/eventemitter/index.js
+var require_eventemitter = __commonJS({
+  "node_modules/@protobufjs/eventemitter/index.js"(exports2, module2) {
+    "use strict";
+    module2.exports = EventEmitter;
+    function EventEmitter() {
+      this._listeners = {};
+    }
+    EventEmitter.prototype.on = function on(evt, fn, ctx) {
+      (this._listeners[evt] || (this._listeners[evt] = [])).push({
+        fn,
+        ctx: ctx || this
+      });
+      return this;
+    };
+    EventEmitter.prototype.off = function off(evt, fn) {
+      if (evt === void 0)
+        this._listeners = {};
+      else {
+        if (fn === void 0)
+          this._listeners[evt] = [];
+        else {
+          var listeners = this._listeners[evt];
+          for (var i = 0; i < listeners.length; )
+            if (listeners[i].fn === fn)
+              listeners.splice(i, 1);
+            else
+              ++i;
+        }
+      }
+      return this;
+    };
+    EventEmitter.prototype.emit = function emit(evt) {
+      var listeners = this._listeners[evt];
+      if (listeners) {
+        var args = [], i = 1;
+        for (; i < arguments.length; )
+          args.push(arguments[i++]);
+        for (i = 0; i < listeners.length; )
+          listeners[i].fn.apply(listeners[i++].ctx, args);
+      }
+      return this;
+    };
+  }
+});
+
+// node_modules/@protobufjs/float/index.js
+var require_float = __commonJS({
+  "node_modules/@protobufjs/float/index.js"(exports2, module2) {
+    "use strict";
+    module2.exports = factory(factory);
+    function factory(exports3) {
+      if (typeof Float32Array !== "undefined")
+        (function() {
+          var f32 = new Float32Array([-0]), f8b = new Uint8Array(f32.buffer), le = f8b[3] === 128;
+          function writeFloat_f32_cpy(val, buf, pos) {
+            f32[0] = val;
+            buf[pos] = f8b[0];
+            buf[pos + 1] = f8b[1];
+            buf[pos + 2] = f8b[2];
+            buf[pos + 3] = f8b[3];
+          }
+          function writeFloat_f32_rev(val, buf, pos) {
+            f32[0] = val;
+            buf[pos] = f8b[3];
+            buf[pos + 1] = f8b[2];
+            buf[pos + 2] = f8b[1];
+            buf[pos + 3] = f8b[0];
+          }
+          exports3.writeFloatLE = le ? writeFloat_f32_cpy : writeFloat_f32_rev;
+          exports3.writeFloatBE = le ? writeFloat_f32_rev : writeFloat_f32_cpy;
+          function readFloat_f32_cpy(buf, pos) {
+            f8b[0] = buf[pos];
+            f8b[1] = buf[pos + 1];
+            f8b[2] = buf[pos + 2];
+            f8b[3] = buf[pos + 3];
+            return f32[0];
+          }
+          function readFloat_f32_rev(buf, pos) {
+            f8b[3] = buf[pos];
+            f8b[2] = buf[pos + 1];
+            f8b[1] = buf[pos + 2];
+            f8b[0] = buf[pos + 3];
+            return f32[0];
+          }
+          exports3.readFloatLE = le ? readFloat_f32_cpy : readFloat_f32_rev;
+          exports3.readFloatBE = le ? readFloat_f32_rev : readFloat_f32_cpy;
+        })();
+      else
+        (function() {
+          function writeFloat_ieee754(writeUint, val, buf, pos) {
+            var sign = val < 0 ? 1 : 0;
+            if (sign)
+              val = -val;
+            if (val === 0)
+              writeUint(1 / val > 0 ? 0 : 2147483648, buf, pos);
+            else if (isNaN(val))
+              writeUint(2143289344, buf, pos);
+            else if (val > 34028234663852886e22)
+              writeUint((sign << 31 | 2139095040) >>> 0, buf, pos);
+            else if (val < 11754943508222875e-54)
+              writeUint((sign << 31 | Math.round(val / 1401298464324817e-60)) >>> 0, buf, pos);
+            else {
+              var exponent = Math.floor(Math.log(val) / Math.LN2), mantissa = Math.round(val * Math.pow(2, -exponent) * 8388608) & 8388607;
+              writeUint((sign << 31 | exponent + 127 << 23 | mantissa) >>> 0, buf, pos);
+            }
+          }
+          exports3.writeFloatLE = writeFloat_ieee754.bind(null, writeUintLE);
+          exports3.writeFloatBE = writeFloat_ieee754.bind(null, writeUintBE);
+          function readFloat_ieee754(readUint, buf, pos) {
+            var uint = readUint(buf, pos), sign = (uint >> 31) * 2 + 1, exponent = uint >>> 23 & 255, mantissa = uint & 8388607;
+            return exponent === 255 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 1401298464324817e-60 * mantissa : sign * Math.pow(2, exponent - 150) * (mantissa + 8388608);
+          }
+          exports3.readFloatLE = readFloat_ieee754.bind(null, readUintLE);
+          exports3.readFloatBE = readFloat_ieee754.bind(null, readUintBE);
+        })();
+      if (typeof Float64Array !== "undefined")
+        (function() {
+          var f64 = new Float64Array([-0]), f8b = new Uint8Array(f64.buffer), le = f8b[7] === 128;
+          function writeDouble_f64_cpy(val, buf, pos) {
+            f64[0] = val;
+            buf[pos] = f8b[0];
+            buf[pos + 1] = f8b[1];
+            buf[pos + 2] = f8b[2];
+            buf[pos + 3] = f8b[3];
+            buf[pos + 4] = f8b[4];
+            buf[pos + 5] = f8b[5];
+            buf[pos + 6] = f8b[6];
+            buf[pos + 7] = f8b[7];
+          }
+          function writeDouble_f64_rev(val, buf, pos) {
+            f64[0] = val;
+            buf[pos] = f8b[7];
+            buf[pos + 1] = f8b[6];
+            buf[pos + 2] = f8b[5];
+            buf[pos + 3] = f8b[4];
+            buf[pos + 4] = f8b[3];
+            buf[pos + 5] = f8b[2];
+            buf[pos + 6] = f8b[1];
+            buf[pos + 7] = f8b[0];
+          }
+          exports3.writeDoubleLE = le ? writeDouble_f64_cpy : writeDouble_f64_rev;
+          exports3.writeDoubleBE = le ? writeDouble_f64_rev : writeDouble_f64_cpy;
+          function readDouble_f64_cpy(buf, pos) {
+            f8b[0] = buf[pos];
+            f8b[1] = buf[pos + 1];
+            f8b[2] = buf[pos + 2];
+            f8b[3] = buf[pos + 3];
+            f8b[4] = buf[pos + 4];
+            f8b[5] = buf[pos + 5];
+            f8b[6] = buf[pos + 6];
+            f8b[7] = buf[pos + 7];
+            return f64[0];
+          }
+          function readDouble_f64_rev(buf, pos) {
+            f8b[7] = buf[pos];
+            f8b[6] = buf[pos + 1];
+            f8b[5] = buf[pos + 2];
+            f8b[4] = buf[pos + 3];
+            f8b[3] = buf[pos + 4];
+            f8b[2] = buf[pos + 5];
+            f8b[1] = buf[pos + 6];
+            f8b[0] = buf[pos + 7];
+            return f64[0];
+          }
+          exports3.readDoubleLE = le ? readDouble_f64_cpy : readDouble_f64_rev;
+          exports3.readDoubleBE = le ? readDouble_f64_rev : readDouble_f64_cpy;
+        })();
+      else
+        (function() {
+          function writeDouble_ieee754(writeUint, off0, off1, val, buf, pos) {
+            var sign = val < 0 ? 1 : 0;
+            if (sign)
+              val = -val;
+            if (val === 0) {
+              writeUint(0, buf, pos + off0);
+              writeUint(1 / val > 0 ? 0 : 2147483648, buf, pos + off1);
+            } else if (isNaN(val)) {
+              writeUint(0, buf, pos + off0);
+              writeUint(2146959360, buf, pos + off1);
+            } else if (val > 17976931348623157e292) {
+              writeUint(0, buf, pos + off0);
+              writeUint((sign << 31 | 2146435072) >>> 0, buf, pos + off1);
+            } else {
+              var mantissa;
+              if (val < 22250738585072014e-324) {
+                mantissa = val / 5e-324;
+                writeUint(mantissa >>> 0, buf, pos + off0);
+                writeUint((sign << 31 | mantissa / 4294967296) >>> 0, buf, pos + off1);
+              } else {
+                var exponent = Math.floor(Math.log(val) / Math.LN2);
+                if (exponent === 1024)
+                  exponent = 1023;
+                mantissa = val * Math.pow(2, -exponent);
+                writeUint(mantissa * 4503599627370496 >>> 0, buf, pos + off0);
+                writeUint((sign << 31 | exponent + 1023 << 20 | mantissa * 1048576 & 1048575) >>> 0, buf, pos + off1);
+              }
+            }
+          }
+          exports3.writeDoubleLE = writeDouble_ieee754.bind(null, writeUintLE, 0, 4);
+          exports3.writeDoubleBE = writeDouble_ieee754.bind(null, writeUintBE, 4, 0);
+          function readDouble_ieee754(readUint, off0, off1, buf, pos) {
+            var lo = readUint(buf, pos + off0), hi = readUint(buf, pos + off1);
+            var sign = (hi >> 31) * 2 + 1, exponent = hi >>> 20 & 2047, mantissa = 4294967296 * (hi & 1048575) + lo;
+            return exponent === 2047 ? mantissa ? NaN : sign * Infinity : exponent === 0 ? sign * 5e-324 * mantissa : sign * Math.pow(2, exponent - 1075) * (mantissa + 4503599627370496);
+          }
+          exports3.readDoubleLE = readDouble_ieee754.bind(null, readUintLE, 0, 4);
+          exports3.readDoubleBE = readDouble_ieee754.bind(null, readUintBE, 4, 0);
+        })();
+      return exports3;
+    }
+    function writeUintLE(val, buf, pos) {
+      buf[pos] = val & 255;
+      buf[pos + 1] = val >>> 8 & 255;
+      buf[pos + 2] = val >>> 16 & 255;
+      buf[pos + 3] = val >>> 24;
+    }
+    function writeUintBE(val, buf, pos) {
+      buf[pos] = val >>> 24;
+      buf[pos + 1] = val >>> 16 & 255;
+      buf[pos + 2] = val >>> 8 & 255;
+      buf[pos + 3] = val & 255;
+    }
+    function readUintLE(buf, pos) {
+      return (buf[pos] | buf[pos + 1] << 8 | buf[pos + 2] << 16 | buf[pos + 3] << 24) >>> 0;
+    }
+    function readUintBE(buf, pos) {
+      return (buf[pos] << 24 | buf[pos + 1] << 16 | buf[pos + 2] << 8 | buf[pos + 3]) >>> 0;
+    }
+  }
+});
+
+// node_modules/@protobufjs/inquire/index.js
+var require_inquire = __commonJS({
+  "node_modules/@protobufjs/inquire/index.js"(exports, module) {
+    "use strict";
+    module.exports = inquire;
+    function inquire(moduleName) {
+      try {
+        var mod = eval("quire".replace(/^/, "re"))(moduleName);
+        if (mod && (mod.length || Object.keys(mod).length))
+          return mod;
+      } catch (e) {
+      }
+      return null;
+    }
+  }
+});
+
+// node_modules/@protobufjs/utf8/index.js
+var require_utf8 = __commonJS({
+  "node_modules/@protobufjs/utf8/index.js"(exports2) {
+    "use strict";
+    var utf8 = exports2;
+    utf8.length = function utf8_length(string) {
+      var len = 0, c = 0;
+      for (var i = 0; i < string.length; ++i) {
+        c = string.charCodeAt(i);
+        if (c < 128)
+          len += 1;
+        else if (c < 2048)
+          len += 2;
+        else if ((c & 64512) === 55296 && (string.charCodeAt(i + 1) & 64512) === 56320) {
+          ++i;
+          len += 4;
+        } else
+          len += 3;
+      }
+      return len;
+    };
+    utf8.read = function utf8_read(buffer, start, end) {
+      var len = end - start;
+      if (len < 1)
+        return "";
+      var parts = null, chunk = [], i = 0, t;
+      while (start < end) {
+        t = buffer[start++];
+        if (t < 128)
+          chunk[i++] = t;
+        else if (t > 191 && t < 224)
+          chunk[i++] = (t & 31) << 6 | buffer[start++] & 63;
+        else if (t > 239 && t < 365) {
+          t = ((t & 7) << 18 | (buffer[start++] & 63) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63) - 65536;
+          chunk[i++] = 55296 + (t >> 10);
+          chunk[i++] = 56320 + (t & 1023);
+        } else
+          chunk[i++] = (t & 15) << 12 | (buffer[start++] & 63) << 6 | buffer[start++] & 63;
+        if (i > 8191) {
+          (parts || (parts = [])).push(String.fromCharCode.apply(String, chunk));
+          i = 0;
+        }
+      }
+      if (parts) {
+        if (i)
+          parts.push(String.fromCharCode.apply(String, chunk.slice(0, i)));
+        return parts.join("");
+      }
+      return String.fromCharCode.apply(String, chunk.slice(0, i));
+    };
+    utf8.write = function utf8_write(string, buffer, offset) {
+      var start = offset, c1, c2;
+      for (var i = 0; i < string.length; ++i) {
+        c1 = string.charCodeAt(i);
+        if (c1 < 128) {
+          buffer[offset++] = c1;
+        } else if (c1 < 2048) {
+          buffer[offset++] = c1 >> 6 | 192;
+          buffer[offset++] = c1 & 63 | 128;
+        } else if ((c1 & 64512) === 55296 && ((c2 = string.charCodeAt(i + 1)) & 64512) === 56320) {
+          c1 = 65536 + ((c1 & 1023) << 10) + (c2 & 1023);
+          ++i;
+          buffer[offset++] = c1 >> 18 | 240;
+          buffer[offset++] = c1 >> 12 & 63 | 128;
+          buffer[offset++] = c1 >> 6 & 63 | 128;
+          buffer[offset++] = c1 & 63 | 128;
+        } else {
+          buffer[offset++] = c1 >> 12 | 224;
+          buffer[offset++] = c1 >> 6 & 63 | 128;
+          buffer[offset++] = c1 & 63 | 128;
+        }
+      }
+      return offset - start;
+    };
+  }
+});
+
+// node_modules/@protobufjs/pool/index.js
+var require_pool = __commonJS({
+  "node_modules/@protobufjs/pool/index.js"(exports2, module2) {
+    "use strict";
+    module2.exports = pool;
+    function pool(alloc, slice, size) {
+      var SIZE = size || 8192;
+      var MAX = SIZE >>> 1;
+      var slab = null;
+      var offset = SIZE;
+      return function pool_alloc(size2) {
+        if (size2 < 1 || size2 > MAX)
+          return alloc(size2);
+        if (offset + size2 > SIZE) {
+          slab = alloc(SIZE);
+          offset = 0;
+        }
+        var buf = slice.call(slab, offset, offset += size2);
+        if (offset & 7)
+          offset = (offset | 7) + 1;
+        return buf;
+      };
+    }
+  }
+});
+
+// node_modules/protobufjs/src/util/longbits.js
+var require_longbits = __commonJS({
+  "node_modules/protobufjs/src/util/longbits.js"(exports2, module2) {
+    "use strict";
+    module2.exports = LongBits;
+    var util2 = require_minimal();
+    function LongBits(lo, hi) {
+      this.lo = lo >>> 0;
+      this.hi = hi >>> 0;
+    }
+    var zero = LongBits.zero = new LongBits(0, 0);
+    zero.toNumber = function() {
+      return 0;
+    };
+    zero.zzEncode = zero.zzDecode = function() {
+      return this;
+    };
+    zero.length = function() {
+      return 1;
+    };
+    var zeroHash = LongBits.zeroHash = "\0\0\0\0\0\0\0\0";
+    LongBits.fromNumber = function fromNumber(value) {
+      if (value === 0)
+        return zero;
+      var sign = value < 0;
+      if (sign)
+        value = -value;
+      var lo = value >>> 0, hi = (value - lo) / 4294967296 >>> 0;
+      if (sign) {
+        hi = ~hi >>> 0;
+        lo = ~lo >>> 0;
+        if (++lo > 4294967295) {
+          lo = 0;
+          if (++hi > 4294967295)
+            hi = 0;
+        }
+      }
+      return new LongBits(lo, hi);
+    };
+    LongBits.from = function from(value) {
+      if (typeof value === "number")
+        return LongBits.fromNumber(value);
+      if (util2.isString(value)) {
+        if (util2.Long)
+          value = util2.Long.fromString(value);
+        else
+          return LongBits.fromNumber(parseInt(value, 10));
+      }
+      return value.low || value.high ? new LongBits(value.low >>> 0, value.high >>> 0) : zero;
+    };
+    LongBits.prototype.toNumber = function toNumber(unsigned) {
+      if (!unsigned && this.hi >>> 31) {
+        var lo = ~this.lo + 1 >>> 0, hi = ~this.hi >>> 0;
+        if (!lo)
+          hi = hi + 1 >>> 0;
+        return -(lo + hi * 4294967296);
+      }
+      return this.lo + this.hi * 4294967296;
+    };
+    LongBits.prototype.toLong = function toLong(unsigned) {
+      return util2.Long ? new util2.Long(this.lo | 0, this.hi | 0, Boolean(unsigned)) : { low: this.lo | 0, high: this.hi | 0, unsigned: Boolean(unsigned) };
+    };
+    var charCodeAt = String.prototype.charCodeAt;
+    LongBits.fromHash = function fromHash(hash) {
+      if (hash === zeroHash)
+        return zero;
+      return new LongBits((charCodeAt.call(hash, 0) | charCodeAt.call(hash, 1) << 8 | charCodeAt.call(hash, 2) << 16 | charCodeAt.call(hash, 3) << 24) >>> 0, (charCodeAt.call(hash, 4) | charCodeAt.call(hash, 5) << 8 | charCodeAt.call(hash, 6) << 16 | charCodeAt.call(hash, 7) << 24) >>> 0);
+    };
+    LongBits.prototype.toHash = function toHash() {
+      return String.fromCharCode(this.lo & 255, this.lo >>> 8 & 255, this.lo >>> 16 & 255, this.lo >>> 24, this.hi & 255, this.hi >>> 8 & 255, this.hi >>> 16 & 255, this.hi >>> 24);
+    };
+    LongBits.prototype.zzEncode = function zzEncode() {
+      var mask = this.hi >> 31;
+      this.hi = ((this.hi << 1 | this.lo >>> 31) ^ mask) >>> 0;
+      this.lo = (this.lo << 1 ^ mask) >>> 0;
+      return this;
+    };
+    LongBits.prototype.zzDecode = function zzDecode() {
+      var mask = -(this.lo & 1);
+      this.lo = ((this.lo >>> 1 | this.hi << 31) ^ mask) >>> 0;
+      this.hi = (this.hi >>> 1 ^ mask) >>> 0;
+      return this;
+    };
+    LongBits.prototype.length = function length() {
+      var part0 = this.lo, part1 = (this.lo >>> 28 | this.hi << 4) >>> 0, part2 = this.hi >>> 24;
+      return part2 === 0 ? part1 === 0 ? part0 < 16384 ? part0 < 128 ? 1 : 2 : part0 < 2097152 ? 3 : 4 : part1 < 16384 ? part1 < 128 ? 5 : 6 : part1 < 2097152 ? 7 : 8 : part2 < 128 ? 9 : 10;
+    };
+  }
+});
+
+// node_modules/protobufjs/src/util/minimal.js
+var require_minimal = __commonJS({
+  "node_modules/protobufjs/src/util/minimal.js"(exports2) {
+    "use strict";
+    var util2 = exports2;
+    util2.asPromise = require_aspromise();
+    util2.base64 = require_base64();
+    util2.EventEmitter = require_eventemitter();
+    util2.float = require_float();
+    util2.inquire = require_inquire();
+    util2.utf8 = require_utf8();
+    util2.pool = require_pool();
+    util2.LongBits = require_longbits();
+    util2.isNode = Boolean(typeof global !== "undefined" && global && global.process && global.process.versions && global.process.versions.node);
+    util2.global = util2.isNode && global || typeof window !== "undefined" && window || typeof self !== "undefined" && self || exports2;
+    util2.emptyArray = Object.freeze ? Object.freeze([]) : [];
+    util2.emptyObject = Object.freeze ? Object.freeze({}) : {};
+    util2.isInteger = Number.isInteger || function isInteger(value) {
+      return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+    };
+    util2.isString = function isString(value) {
+      return typeof value === "string" || value instanceof String;
+    };
+    util2.isObject = function isObject(value) {
+      return value && typeof value === "object";
+    };
+    util2.isset = util2.isSet = function isSet(obj, prop) {
+      var value = obj[prop];
+      if (value != null && obj.hasOwnProperty(prop))
+        return typeof value !== "object" || (Array.isArray(value) ? value.length : Object.keys(value).length) > 0;
+      return false;
+    };
+    util2.Buffer = function() {
+      try {
+        var Buffer2 = util2.inquire("buffer").Buffer;
+        return Buffer2.prototype.utf8Write ? Buffer2 : null;
+      } catch (e) {
+        return null;
+      }
+    }();
+    util2._Buffer_from = null;
+    util2._Buffer_allocUnsafe = null;
+    util2.newBuffer = function newBuffer(sizeOrArray) {
+      return typeof sizeOrArray === "number" ? util2.Buffer ? util2._Buffer_allocUnsafe(sizeOrArray) : new util2.Array(sizeOrArray) : util2.Buffer ? util2._Buffer_from(sizeOrArray) : typeof Uint8Array === "undefined" ? sizeOrArray : new Uint8Array(sizeOrArray);
+    };
+    util2.Array = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
+    util2.Long = util2.global.dcodeIO && util2.global.dcodeIO.Long || util2.global.Long || util2.inquire("long");
+    util2.key2Re = /^true|false|0|1$/;
+    util2.key32Re = /^-?(?:0|[1-9][0-9]*)$/;
+    util2.key64Re = /^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))$/;
+    util2.longToHash = function longToHash(value) {
+      return value ? util2.LongBits.from(value).toHash() : util2.LongBits.zeroHash;
+    };
+    util2.longFromHash = function longFromHash(hash, unsigned) {
+      var bits = util2.LongBits.fromHash(hash);
+      if (util2.Long)
+        return util2.Long.fromBits(bits.lo, bits.hi, unsigned);
+      return bits.toNumber(Boolean(unsigned));
+    };
+    function merge(dst, src, ifNotSet) {
+      for (var keys = Object.keys(src), i = 0; i < keys.length; ++i)
+        if (dst[keys[i]] === void 0 || !ifNotSet)
+          dst[keys[i]] = src[keys[i]];
+      return dst;
+    }
+    util2.merge = merge;
+    util2.lcFirst = function lcFirst(str) {
+      return str.charAt(0).toLowerCase() + str.substring(1);
+    };
+    function newError(name) {
+      function CustomError(message, properties) {
+        if (!(this instanceof CustomError))
+          return new CustomError(message, properties);
+        Object.defineProperty(this, "message", { get: function() {
+          return message;
+        } });
+        if (Error.captureStackTrace)
+          Error.captureStackTrace(this, CustomError);
+        else
+          Object.defineProperty(this, "stack", { value: new Error().stack || "" });
+        if (properties)
+          merge(this, properties);
+      }
+      (CustomError.prototype = Object.create(Error.prototype)).constructor = CustomError;
+      Object.defineProperty(CustomError.prototype, "name", { get: function() {
+        return name;
+      } });
+      CustomError.prototype.toString = function toString() {
+        return this.name + ": " + this.message;
+      };
+      return CustomError;
+    }
+    util2.newError = newError;
+    util2.ProtocolError = newError("ProtocolError");
+    util2.oneOfGetter = function getOneOf(fieldNames) {
+      var fieldMap = {};
+      for (var i = 0; i < fieldNames.length; ++i)
+        fieldMap[fieldNames[i]] = 1;
+      return function() {
+        for (var keys = Object.keys(this), i2 = keys.length - 1; i2 > -1; --i2)
+          if (fieldMap[keys[i2]] === 1 && this[keys[i2]] !== void 0 && this[keys[i2]] !== null)
+            return keys[i2];
+      };
+    };
+    util2.oneOfSetter = function setOneOf(fieldNames) {
+      return function(name) {
+        for (var i = 0; i < fieldNames.length; ++i)
+          if (fieldNames[i] !== name)
+            delete this[fieldNames[i]];
+      };
+    };
+    util2.toJSONOptions = {
+      longs: String,
+      enums: String,
+      bytes: String,
+      json: true
+    };
+    util2._configure = function() {
+      var Buffer2 = util2.Buffer;
+      if (!Buffer2) {
+        util2._Buffer_from = util2._Buffer_allocUnsafe = null;
+        return;
+      }
+      util2._Buffer_from = Buffer2.from !== Uint8Array.from && Buffer2.from || function Buffer_from(value, encoding) {
+        return new Buffer2(value, encoding);
+      };
+      util2._Buffer_allocUnsafe = Buffer2.allocUnsafe || function Buffer_allocUnsafe(size) {
+        return new Buffer2(size);
+      };
+    };
+  }
+});
+
+// node_modules/protobufjs/src/writer.js
+var require_writer = __commonJS({
+  "node_modules/protobufjs/src/writer.js"(exports2, module2) {
+    "use strict";
+    module2.exports = Writer2;
+    var util2 = require_minimal();
+    var BufferWriter;
+    var LongBits = util2.LongBits;
+    var base64 = util2.base64;
+    var utf8 = util2.utf8;
+    function Op(fn, len, val) {
+      this.fn = fn;
+      this.len = len;
+      this.next = void 0;
+      this.val = val;
+    }
+    function noop() {
+    }
+    function State(writer) {
+      this.head = writer.head;
+      this.tail = writer.tail;
+      this.len = writer.len;
+      this.next = writer.states;
+    }
+    function Writer2() {
+      this.len = 0;
+      this.head = new Op(noop, 0, 0);
+      this.tail = this.head;
+      this.states = null;
+    }
+    var create = function create2() {
+      return util2.Buffer ? function create_buffer_setup() {
+        return (Writer2.create = function create_buffer() {
+          return new BufferWriter();
+        })();
+      } : function create_array() {
+        return new Writer2();
+      };
+    };
+    Writer2.create = create();
+    Writer2.alloc = function alloc(size) {
+      return new util2.Array(size);
+    };
+    if (util2.Array !== Array)
+      Writer2.alloc = util2.pool(Writer2.alloc, util2.Array.prototype.subarray);
+    Writer2.prototype._push = function push(fn, len, val) {
+      this.tail = this.tail.next = new Op(fn, len, val);
+      this.len += len;
+      return this;
+    };
+    function writeByte(val, buf, pos) {
+      buf[pos] = val & 255;
+    }
+    function writeVarint32(val, buf, pos) {
+      while (val > 127) {
+        buf[pos++] = val & 127 | 128;
+        val >>>= 7;
+      }
+      buf[pos] = val;
+    }
+    function VarintOp(len, val) {
+      this.len = len;
+      this.next = void 0;
+      this.val = val;
+    }
+    VarintOp.prototype = Object.create(Op.prototype);
+    VarintOp.prototype.fn = writeVarint32;
+    Writer2.prototype.uint32 = function write_uint32(value) {
+      this.len += (this.tail = this.tail.next = new VarintOp((value = value >>> 0) < 128 ? 1 : value < 16384 ? 2 : value < 2097152 ? 3 : value < 268435456 ? 4 : 5, value)).len;
+      return this;
+    };
+    Writer2.prototype.int32 = function write_int32(value) {
+      return value < 0 ? this._push(writeVarint64, 10, LongBits.fromNumber(value)) : this.uint32(value);
+    };
+    Writer2.prototype.sint32 = function write_sint32(value) {
+      return this.uint32((value << 1 ^ value >> 31) >>> 0);
+    };
+    function writeVarint64(val, buf, pos) {
+      while (val.hi) {
+        buf[pos++] = val.lo & 127 | 128;
+        val.lo = (val.lo >>> 7 | val.hi << 25) >>> 0;
+        val.hi >>>= 7;
+      }
+      while (val.lo > 127) {
+        buf[pos++] = val.lo & 127 | 128;
+        val.lo = val.lo >>> 7;
+      }
+      buf[pos++] = val.lo;
+    }
+    Writer2.prototype.uint64 = function write_uint64(value) {
+      var bits = LongBits.from(value);
+      return this._push(writeVarint64, bits.length(), bits);
+    };
+    Writer2.prototype.int64 = Writer2.prototype.uint64;
+    Writer2.prototype.sint64 = function write_sint64(value) {
+      var bits = LongBits.from(value).zzEncode();
+      return this._push(writeVarint64, bits.length(), bits);
+    };
+    Writer2.prototype.bool = function write_bool(value) {
+      return this._push(writeByte, 1, value ? 1 : 0);
+    };
+    function writeFixed32(val, buf, pos) {
+      buf[pos] = val & 255;
+      buf[pos + 1] = val >>> 8 & 255;
+      buf[pos + 2] = val >>> 16 & 255;
+      buf[pos + 3] = val >>> 24;
+    }
+    Writer2.prototype.fixed32 = function write_fixed32(value) {
+      return this._push(writeFixed32, 4, value >>> 0);
+    };
+    Writer2.prototype.sfixed32 = Writer2.prototype.fixed32;
+    Writer2.prototype.fixed64 = function write_fixed64(value) {
+      var bits = LongBits.from(value);
+      return this._push(writeFixed32, 4, bits.lo)._push(writeFixed32, 4, bits.hi);
+    };
+    Writer2.prototype.sfixed64 = Writer2.prototype.fixed64;
+    Writer2.prototype.float = function write_float(value) {
+      return this._push(util2.float.writeFloatLE, 4, value);
+    };
+    Writer2.prototype.double = function write_double(value) {
+      return this._push(util2.float.writeDoubleLE, 8, value);
+    };
+    var writeBytes = util2.Array.prototype.set ? function writeBytes_set(val, buf, pos) {
+      buf.set(val, pos);
+    } : function writeBytes_for(val, buf, pos) {
+      for (var i = 0; i < val.length; ++i)
+        buf[pos + i] = val[i];
+    };
+    Writer2.prototype.bytes = function write_bytes(value) {
+      var len = value.length >>> 0;
+      if (!len)
+        return this._push(writeByte, 1, 0);
+      if (util2.isString(value)) {
+        var buf = Writer2.alloc(len = base64.length(value));
+        base64.decode(value, buf, 0);
+        value = buf;
+      }
+      return this.uint32(len)._push(writeBytes, len, value);
+    };
+    Writer2.prototype.string = function write_string(value) {
+      var len = utf8.length(value);
+      return len ? this.uint32(len)._push(utf8.write, len, value) : this._push(writeByte, 1, 0);
+    };
+    Writer2.prototype.fork = function fork() {
+      this.states = new State(this);
+      this.head = this.tail = new Op(noop, 0, 0);
+      this.len = 0;
+      return this;
+    };
+    Writer2.prototype.reset = function reset() {
+      if (this.states) {
+        this.head = this.states.head;
+        this.tail = this.states.tail;
+        this.len = this.states.len;
+        this.states = this.states.next;
+      } else {
+        this.head = this.tail = new Op(noop, 0, 0);
+        this.len = 0;
+      }
+      return this;
+    };
+    Writer2.prototype.ldelim = function ldelim() {
+      var head = this.head, tail = this.tail, len = this.len;
+      this.reset().uint32(len);
+      if (len) {
+        this.tail.next = head.next;
+        this.tail = tail;
+        this.len += len;
+      }
+      return this;
+    };
+    Writer2.prototype.finish = function finish() {
+      var head = this.head.next, buf = this.constructor.alloc(this.len), pos = 0;
+      while (head) {
+        head.fn(head.val, buf, pos);
+        pos += head.len;
+        head = head.next;
+      }
+      return buf;
+    };
+    Writer2._configure = function(BufferWriter_) {
+      BufferWriter = BufferWriter_;
+      Writer2.create = create();
+      BufferWriter._configure();
+    };
+  }
+});
+
+// node_modules/protobufjs/src/writer_buffer.js
+var require_writer_buffer = __commonJS({
+  "node_modules/protobufjs/src/writer_buffer.js"(exports2, module2) {
+    "use strict";
+    module2.exports = BufferWriter;
+    var Writer2 = require_writer();
+    (BufferWriter.prototype = Object.create(Writer2.prototype)).constructor = BufferWriter;
+    var util2 = require_minimal();
+    function BufferWriter() {
+      Writer2.call(this);
+    }
+    BufferWriter._configure = function() {
+      BufferWriter.alloc = util2._Buffer_allocUnsafe;
+      BufferWriter.writeBytesBuffer = util2.Buffer && util2.Buffer.prototype instanceof Uint8Array && util2.Buffer.prototype.set.name === "set" ? function writeBytesBuffer_set(val, buf, pos) {
+        buf.set(val, pos);
+      } : function writeBytesBuffer_copy(val, buf, pos) {
+        if (val.copy)
+          val.copy(buf, pos, 0, val.length);
+        else
+          for (var i = 0; i < val.length; )
+            buf[pos++] = val[i++];
+      };
+    };
+    BufferWriter.prototype.bytes = function write_bytes_buffer(value) {
+      if (util2.isString(value))
+        value = util2._Buffer_from(value, "base64");
+      var len = value.length >>> 0;
+      this.uint32(len);
+      if (len)
+        this._push(BufferWriter.writeBytesBuffer, len, value);
+      return this;
+    };
+    function writeStringBuffer(val, buf, pos) {
+      if (val.length < 40)
+        util2.utf8.write(val, buf, pos);
+      else if (buf.utf8Write)
+        buf.utf8Write(val, pos);
+      else
+        buf.write(val, pos);
+    }
+    BufferWriter.prototype.string = function write_string_buffer(value) {
+      var len = util2.Buffer.byteLength(value);
+      this.uint32(len);
+      if (len)
+        this._push(writeStringBuffer, len, value);
+      return this;
+    };
+    BufferWriter._configure();
+  }
+});
+
+// node_modules/protobufjs/src/reader.js
+var require_reader = __commonJS({
+  "node_modules/protobufjs/src/reader.js"(exports2, module2) {
+    "use strict";
+    module2.exports = Reader2;
+    var util2 = require_minimal();
+    var BufferReader;
+    var LongBits = util2.LongBits;
+    var utf8 = util2.utf8;
+    function indexOutOfRange(reader, writeLength) {
+      return RangeError("index out of range: " + reader.pos + " + " + (writeLength || 1) + " > " + reader.len);
+    }
+    function Reader2(buffer) {
+      this.buf = buffer;
+      this.pos = 0;
+      this.len = buffer.length;
+    }
+    var create_array = typeof Uint8Array !== "undefined" ? function create_typed_array(buffer) {
+      if (buffer instanceof Uint8Array || Array.isArray(buffer))
+        return new Reader2(buffer);
+      throw Error("illegal buffer");
+    } : function create_array2(buffer) {
+      if (Array.isArray(buffer))
+        return new Reader2(buffer);
+      throw Error("illegal buffer");
+    };
+    var create = function create2() {
+      return util2.Buffer ? function create_buffer_setup(buffer) {
+        return (Reader2.create = function create_buffer(buffer2) {
+          return util2.Buffer.isBuffer(buffer2) ? new BufferReader(buffer2) : create_array(buffer2);
+        })(buffer);
+      } : create_array;
+    };
+    Reader2.create = create();
+    Reader2.prototype._slice = util2.Array.prototype.subarray || util2.Array.prototype.slice;
+    Reader2.prototype.uint32 = function read_uint32_setup() {
+      var value = 4294967295;
+      return function read_uint32() {
+        value = (this.buf[this.pos] & 127) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return value;
+        value = (value | (this.buf[this.pos] & 127) << 7) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return value;
+        value = (value | (this.buf[this.pos] & 127) << 14) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return value;
+        value = (value | (this.buf[this.pos] & 127) << 21) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return value;
+        value = (value | (this.buf[this.pos] & 15) << 28) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return value;
+        if ((this.pos += 5) > this.len) {
+          this.pos = this.len;
+          throw indexOutOfRange(this, 10);
+        }
+        return value;
+      };
+    }();
+    Reader2.prototype.int32 = function read_int32() {
+      return this.uint32() | 0;
+    };
+    Reader2.prototype.sint32 = function read_sint32() {
+      var value = this.uint32();
+      return value >>> 1 ^ -(value & 1) | 0;
+    };
+    function readLongVarint() {
+      var bits = new LongBits(0, 0);
+      var i = 0;
+      if (this.len - this.pos > 4) {
+        for (; i < 4; ++i) {
+          bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+          if (this.buf[this.pos++] < 128)
+            return bits;
+        }
+        bits.lo = (bits.lo | (this.buf[this.pos] & 127) << 28) >>> 0;
+        bits.hi = (bits.hi | (this.buf[this.pos] & 127) >> 4) >>> 0;
+        if (this.buf[this.pos++] < 128)
+          return bits;
+        i = 0;
+      } else {
+        for (; i < 3; ++i) {
+          if (this.pos >= this.len)
+            throw indexOutOfRange(this);
+          bits.lo = (bits.lo | (this.buf[this.pos] & 127) << i * 7) >>> 0;
+          if (this.buf[this.pos++] < 128)
+            return bits;
+        }
+        bits.lo = (bits.lo | (this.buf[this.pos++] & 127) << i * 7) >>> 0;
+        return bits;
+      }
+      if (this.len - this.pos > 4) {
+        for (; i < 5; ++i) {
+          bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+          if (this.buf[this.pos++] < 128)
+            return bits;
+        }
+      } else {
+        for (; i < 5; ++i) {
+          if (this.pos >= this.len)
+            throw indexOutOfRange(this);
+          bits.hi = (bits.hi | (this.buf[this.pos] & 127) << i * 7 + 3) >>> 0;
+          if (this.buf[this.pos++] < 128)
+            return bits;
+        }
+      }
+      throw Error("invalid varint encoding");
+    }
+    Reader2.prototype.bool = function read_bool() {
+      return this.uint32() !== 0;
+    };
+    function readFixed32_end(buf, end) {
+      return (buf[end - 4] | buf[end - 3] << 8 | buf[end - 2] << 16 | buf[end - 1] << 24) >>> 0;
+    }
+    Reader2.prototype.fixed32 = function read_fixed32() {
+      if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+      return readFixed32_end(this.buf, this.pos += 4);
+    };
+    Reader2.prototype.sfixed32 = function read_sfixed32() {
+      if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+      return readFixed32_end(this.buf, this.pos += 4) | 0;
+    };
+    function readFixed64() {
+      if (this.pos + 8 > this.len)
+        throw indexOutOfRange(this, 8);
+      return new LongBits(readFixed32_end(this.buf, this.pos += 4), readFixed32_end(this.buf, this.pos += 4));
+    }
+    Reader2.prototype.float = function read_float() {
+      if (this.pos + 4 > this.len)
+        throw indexOutOfRange(this, 4);
+      var value = util2.float.readFloatLE(this.buf, this.pos);
+      this.pos += 4;
+      return value;
+    };
+    Reader2.prototype.double = function read_double() {
+      if (this.pos + 8 > this.len)
+        throw indexOutOfRange(this, 4);
+      var value = util2.float.readDoubleLE(this.buf, this.pos);
+      this.pos += 8;
+      return value;
+    };
+    Reader2.prototype.bytes = function read_bytes() {
+      var length = this.uint32(), start = this.pos, end = this.pos + length;
+      if (end > this.len)
+        throw indexOutOfRange(this, length);
+      this.pos += length;
+      if (Array.isArray(this.buf))
+        return this.buf.slice(start, end);
+      return start === end ? new this.buf.constructor(0) : this._slice.call(this.buf, start, end);
+    };
+    Reader2.prototype.string = function read_string() {
+      var bytes = this.bytes();
+      return utf8.read(bytes, 0, bytes.length);
+    };
+    Reader2.prototype.skip = function skip(length) {
+      if (typeof length === "number") {
+        if (this.pos + length > this.len)
+          throw indexOutOfRange(this, length);
+        this.pos += length;
+      } else {
+        do {
+          if (this.pos >= this.len)
+            throw indexOutOfRange(this);
+        } while (this.buf[this.pos++] & 128);
+      }
+      return this;
+    };
+    Reader2.prototype.skipType = function(wireType) {
+      switch (wireType) {
+        case 0:
+          this.skip();
+          break;
+        case 1:
+          this.skip(8);
+          break;
+        case 2:
+          this.skip(this.uint32());
+          break;
+        case 3:
+          while ((wireType = this.uint32() & 7) !== 4) {
+            this.skipType(wireType);
+          }
+          break;
+        case 5:
+          this.skip(4);
+          break;
+        default:
+          throw Error("invalid wire type " + wireType + " at offset " + this.pos);
+      }
+      return this;
+    };
+    Reader2._configure = function(BufferReader_) {
+      BufferReader = BufferReader_;
+      Reader2.create = create();
+      BufferReader._configure();
+      var fn = util2.Long ? "toLong" : "toNumber";
+      util2.merge(Reader2.prototype, {
+        int64: function read_int64() {
+          return readLongVarint.call(this)[fn](false);
+        },
+        uint64: function read_uint64() {
+          return readLongVarint.call(this)[fn](true);
+        },
+        sint64: function read_sint64() {
+          return readLongVarint.call(this).zzDecode()[fn](false);
+        },
+        fixed64: function read_fixed64() {
+          return readFixed64.call(this)[fn](true);
+        },
+        sfixed64: function read_sfixed64() {
+          return readFixed64.call(this)[fn](false);
+        }
+      });
+    };
+  }
+});
+
+// node_modules/protobufjs/src/reader_buffer.js
+var require_reader_buffer = __commonJS({
+  "node_modules/protobufjs/src/reader_buffer.js"(exports2, module2) {
+    "use strict";
+    module2.exports = BufferReader;
+    var Reader2 = require_reader();
+    (BufferReader.prototype = Object.create(Reader2.prototype)).constructor = BufferReader;
+    var util2 = require_minimal();
+    function BufferReader(buffer) {
+      Reader2.call(this, buffer);
+    }
+    BufferReader._configure = function() {
+      if (util2.Buffer)
+        BufferReader.prototype._slice = util2.Buffer.prototype.slice;
+    };
+    BufferReader.prototype.string = function read_string_buffer() {
+      var len = this.uint32();
+      return this.buf.utf8Slice ? this.buf.utf8Slice(this.pos, this.pos = Math.min(this.pos + len, this.len)) : this.buf.toString("utf-8", this.pos, this.pos = Math.min(this.pos + len, this.len));
+    };
+    BufferReader._configure();
+  }
+});
+
+// node_modules/protobufjs/src/rpc/service.js
+var require_service = __commonJS({
+  "node_modules/protobufjs/src/rpc/service.js"(exports2, module2) {
+    "use strict";
+    module2.exports = Service;
+    var util2 = require_minimal();
+    (Service.prototype = Object.create(util2.EventEmitter.prototype)).constructor = Service;
+    function Service(rpcImpl, requestDelimited, responseDelimited) {
+      if (typeof rpcImpl !== "function")
+        throw TypeError("rpcImpl must be a function");
+      util2.EventEmitter.call(this);
+      this.rpcImpl = rpcImpl;
+      this.requestDelimited = Boolean(requestDelimited);
+      this.responseDelimited = Boolean(responseDelimited);
+    }
+    Service.prototype.rpcCall = function rpcCall(method, requestCtor, responseCtor, request, callback) {
+      if (!request)
+        throw TypeError("request must be specified");
+      var self2 = this;
+      if (!callback)
+        return util2.asPromise(rpcCall, self2, method, requestCtor, responseCtor, request);
+      if (!self2.rpcImpl) {
+        setTimeout(function() {
+          callback(Error("already ended"));
+        }, 0);
+        return void 0;
+      }
+      try {
+        return self2.rpcImpl(method, requestCtor[self2.requestDelimited ? "encodeDelimited" : "encode"](request).finish(), function rpcCallback(err, response) {
+          if (err) {
+            self2.emit("error", err, method);
+            return callback(err);
+          }
+          if (response === null) {
+            self2.end(true);
+            return void 0;
+          }
+          if (!(response instanceof responseCtor)) {
+            try {
+              response = responseCtor[self2.responseDelimited ? "decodeDelimited" : "decode"](response);
+            } catch (err2) {
+              self2.emit("error", err2, method);
+              return callback(err2);
+            }
+          }
+          self2.emit("data", response, method);
+          return callback(null, response);
+        });
+      } catch (err) {
+        self2.emit("error", err, method);
+        setTimeout(function() {
+          callback(err);
+        }, 0);
+        return void 0;
+      }
+    };
+    Service.prototype.end = function end(endedByRPC) {
+      if (this.rpcImpl) {
+        if (!endedByRPC)
+          this.rpcImpl(null, null, null);
+        this.rpcImpl = null;
+        this.emit("end").off();
+      }
+      return this;
+    };
+  }
+});
+
+// node_modules/protobufjs/src/rpc.js
+var require_rpc = __commonJS({
+  "node_modules/protobufjs/src/rpc.js"(exports2) {
+    "use strict";
+    var rpc = exports2;
+    rpc.Service = require_service();
+  }
+});
+
+// node_modules/protobufjs/src/roots.js
+var require_roots = __commonJS({
+  "node_modules/protobufjs/src/roots.js"(exports2, module2) {
+    "use strict";
+    module2.exports = {};
+  }
+});
+
+// node_modules/protobufjs/src/index-minimal.js
+var require_index_minimal = __commonJS({
+  "node_modules/protobufjs/src/index-minimal.js"(exports2) {
+    "use strict";
+    var protobuf = exports2;
+    protobuf.build = "minimal";
+    protobuf.Writer = require_writer();
+    protobuf.BufferWriter = require_writer_buffer();
+    protobuf.Reader = require_reader();
+    protobuf.BufferReader = require_reader_buffer();
+    protobuf.util = require_minimal();
+    protobuf.rpc = require_rpc();
+    protobuf.roots = require_roots();
+    protobuf.configure = configure;
+    function configure() {
+      protobuf.util._configure();
+      protobuf.Writer._configure(protobuf.BufferWriter);
+      protobuf.Reader._configure(protobuf.BufferReader);
+    }
+    configure();
+  }
+});
+
+// node_modules/protobufjs/minimal.js
+var require_minimal2 = __commonJS({
+  "node_modules/protobufjs/minimal.js"(exports2, module2) {
+    "use strict";
+    module2.exports = require_index_minimal();
+  }
+});
+
+// node_modules/ua-parser-js/src/ua-parser.js
+var require_ua_parser = __commonJS({
+  "node_modules/ua-parser-js/src/ua-parser.js"(exports2, module2) {
+    (function(window2, undefined2) {
+      "use strict";
+      var LIBVERSION = "1.0.2", EMPTY = "", UNKNOWN = "?", FUNC_TYPE = "function", UNDEF_TYPE = "undefined", OBJ_TYPE = "object", STR_TYPE = "string", MAJOR = "major", MODEL = "model", NAME = "name", TYPE = "type", VENDOR = "vendor", VERSION = "version", ARCHITECTURE = "architecture", CONSOLE = "console", MOBILE = "mobile", TABLET = "tablet", SMARTTV = "smarttv", WEARABLE = "wearable", EMBEDDED = "embedded", UA_MAX_LENGTH = 255;
+      var AMAZON = "Amazon", APPLE = "Apple", ASUS = "ASUS", BLACKBERRY = "BlackBerry", BROWSER = "Browser", CHROME = "Chrome", EDGE = "Edge", FIREFOX = "Firefox", GOOGLE = "Google", HUAWEI = "Huawei", LG = "LG", MICROSOFT = "Microsoft", MOTOROLA = "Motorola", OPERA = "Opera", SAMSUNG = "Samsung", SONY = "Sony", XIAOMI = "Xiaomi", ZEBRA = "Zebra", FACEBOOK = "Facebook";
+      var extend = function(regexes2, extensions) {
+        var mergedRegexes = {};
+        for (var i in regexes2) {
+          if (extensions[i] && extensions[i].length % 2 === 0) {
+            mergedRegexes[i] = extensions[i].concat(regexes2[i]);
+          } else {
+            mergedRegexes[i] = regexes2[i];
+          }
+        }
+        return mergedRegexes;
+      }, enumerize = function(arr) {
+        var enums = {};
+        for (var i = 0; i < arr.length; i++) {
+          enums[arr[i].toUpperCase()] = arr[i];
+        }
+        return enums;
+      }, has = function(str1, str2) {
+        return typeof str1 === STR_TYPE ? lowerize(str2).indexOf(lowerize(str1)) !== -1 : false;
+      }, lowerize = function(str) {
+        return str.toLowerCase();
+      }, majorize = function(version) {
+        return typeof version === STR_TYPE ? version.replace(/[^\d\.]/g, EMPTY).split(".")[0] : undefined2;
+      }, trim = function(str, len) {
+        if (typeof str === STR_TYPE) {
+          str = str.replace(/^\s\s*/, EMPTY).replace(/\s\s*$/, EMPTY);
+          return typeof len === UNDEF_TYPE ? str : str.substring(0, UA_MAX_LENGTH);
+        }
+      };
+      var rgxMapper = function(ua, arrays) {
+        var i = 0, j, k, p, q, matches, match;
+        while (i < arrays.length && !matches) {
+          var regex = arrays[i], props = arrays[i + 1];
+          j = k = 0;
+          while (j < regex.length && !matches) {
+            matches = regex[j++].exec(ua);
+            if (!!matches) {
+              for (p = 0; p < props.length; p++) {
+                match = matches[++k];
+                q = props[p];
+                if (typeof q === OBJ_TYPE && q.length > 0) {
+                  if (q.length === 2) {
+                    if (typeof q[1] == FUNC_TYPE) {
+                      this[q[0]] = q[1].call(this, match);
+                    } else {
+                      this[q[0]] = q[1];
+                    }
+                  } else if (q.length === 3) {
+                    if (typeof q[1] === FUNC_TYPE && !(q[1].exec && q[1].test)) {
+                      this[q[0]] = match ? q[1].call(this, match, q[2]) : undefined2;
+                    } else {
+                      this[q[0]] = match ? match.replace(q[1], q[2]) : undefined2;
+                    }
+                  } else if (q.length === 4) {
+                    this[q[0]] = match ? q[3].call(this, match.replace(q[1], q[2])) : undefined2;
+                  }
+                } else {
+                  this[q] = match ? match : undefined2;
+                }
+              }
+            }
+          }
+          i += 2;
+        }
+      }, strMapper = function(str, map) {
+        for (var i in map) {
+          if (typeof map[i] === OBJ_TYPE && map[i].length > 0) {
+            for (var j = 0; j < map[i].length; j++) {
+              if (has(map[i][j], str)) {
+                return i === UNKNOWN ? undefined2 : i;
+              }
+            }
+          } else if (has(map[i], str)) {
+            return i === UNKNOWN ? undefined2 : i;
+          }
+        }
+        return str;
+      };
+      var oldSafariMap = {
+        "1.0": "/8",
+        "1.2": "/1",
+        "1.3": "/3",
+        "2.0": "/412",
+        "2.0.2": "/416",
+        "2.0.3": "/417",
+        "2.0.4": "/419",
+        "?": "/"
+      }, windowsVersionMap = {
+        "ME": "4.90",
+        "NT 3.11": "NT3.51",
+        "NT 4.0": "NT4.0",
+        "2000": "NT 5.0",
+        "XP": ["NT 5.1", "NT 5.2"],
+        "Vista": "NT 6.0",
+        "7": "NT 6.1",
+        "8": "NT 6.2",
+        "8.1": "NT 6.3",
+        "10": ["NT 6.4", "NT 10.0"],
+        "RT": "ARM"
+      };
+      var regexes = {
+        browser: [
+          [
+            /\b(?:crmo|crios)\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Chrome"]],
+          [
+            /edg(?:e|ios|a)?\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Edge"]],
+          [
+            /(opera mini)\/([-\w\.]+)/i,
+            /(opera [mobiletab]{3,6})\b.+version\/([-\w\.]+)/i,
+            /(opera)(?:.+version\/|[\/ ]+)([\w\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /opios[\/ ]+([\w\.]+)/i
+          ],
+          [VERSION, [NAME, OPERA + " Mini"]],
+          [
+            /\bopr\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, OPERA]],
+          [
+            /(kindle)\/([\w\.]+)/i,
+            /(lunascape|maxthon|netfront|jasmine|blazer)[\/ ]?([\w\.]*)/i,
+            /(avant |iemobile|slim)(?:browser)?[\/ ]?([\w\.]*)/i,
+            /(ba?idubrowser)[\/ ]?([\w\.]+)/i,
+            /(?:ms|\()(ie) ([\w\.]+)/i,
+            /(flock|rockmelt|midori|epiphany|silk|skyfire|ovibrowser|bolt|iron|vivaldi|iridium|phantomjs|bowser|quark|qupzilla|falkon|rekonq|puffin|brave|whale|qqbrowserlite|qq)\/([-\w\.]+)/i,
+            /(weibo)__([\d\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /(?:\buc? ?browser|(?:juc.+)ucweb)[\/ ]?([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "UC" + BROWSER]],
+          [
+            /\bqbcore\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "WeChat(Win) Desktop"]],
+          [
+            /micromessenger\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "WeChat"]],
+          [
+            /konqueror\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Konqueror"]],
+          [
+            /trident.+rv[: ]([\w\.]{1,9})\b.+like gecko/i
+          ],
+          [VERSION, [NAME, "IE"]],
+          [
+            /yabrowser\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Yandex"]],
+          [
+            /(avast|avg)\/([\w\.]+)/i
+          ],
+          [[NAME, /(.+)/, "$1 Secure " + BROWSER], VERSION],
+          [
+            /\bfocus\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, FIREFOX + " Focus"]],
+          [
+            /\bopt\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, OPERA + " Touch"]],
+          [
+            /coc_coc\w+\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Coc Coc"]],
+          [
+            /dolfin\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Dolphin"]],
+          [
+            /coast\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, OPERA + " Coast"]],
+          [
+            /miuibrowser\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "MIUI " + BROWSER]],
+          [
+            /fxios\/([-\w\.]+)/i
+          ],
+          [VERSION, [NAME, FIREFOX]],
+          [
+            /\bqihu|(qi?ho?o?|360)browser/i
+          ],
+          [[NAME, "360 " + BROWSER]],
+          [
+            /(oculus|samsung|sailfish)browser\/([\w\.]+)/i
+          ],
+          [[NAME, /(.+)/, "$1 " + BROWSER], VERSION],
+          [
+            /(comodo_dragon)\/([\w\.]+)/i
+          ],
+          [[NAME, /_/g, " "], VERSION],
+          [
+            /(electron)\/([\w\.]+) safari/i,
+            /(tesla)(?: qtcarbrowser|\/(20\d\d\.[-\w\.]+))/i,
+            /m?(qqbrowser|baiduboxapp|2345Explorer)[\/ ]?([\w\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /(metasr)[\/ ]?([\w\.]+)/i,
+            /(lbbrowser)/i
+          ],
+          [NAME],
+          [
+            /((?:fban\/fbios|fb_iab\/fb4a)(?!.+fbav)|;fbav\/([\w\.]+);)/i
+          ],
+          [[NAME, FACEBOOK], VERSION],
+          [
+            /safari (line)\/([\w\.]+)/i,
+            /\b(line)\/([\w\.]+)\/iab/i,
+            /(chromium|instagram)[\/ ]([-\w\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /\bgsa\/([\w\.]+) .*safari\//i
+          ],
+          [VERSION, [NAME, "GSA"]],
+          [
+            /headlesschrome(?:\/([\w\.]+)| )/i
+          ],
+          [VERSION, [NAME, CHROME + " Headless"]],
+          [
+            / wv\).+(chrome)\/([\w\.]+)/i
+          ],
+          [[NAME, CHROME + " WebView"], VERSION],
+          [
+            /droid.+ version\/([\w\.]+)\b.+(?:mobile safari|safari)/i
+          ],
+          [VERSION, [NAME, "Android " + BROWSER]],
+          [
+            /(chrome|omniweb|arora|[tizenoka]{5} ?browser)\/v?([\w\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /version\/([\w\.]+) .*mobile\/\w+ (safari)/i
+          ],
+          [VERSION, [NAME, "Mobile Safari"]],
+          [
+            /version\/([\w\.]+) .*(mobile ?safari|safari)/i
+          ],
+          [VERSION, NAME],
+          [
+            /webkit.+?(mobile ?safari|safari)(\/[\w\.]+)/i
+          ],
+          [NAME, [VERSION, strMapper, oldSafariMap]],
+          [
+            /(webkit|khtml)\/([\w\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /(navigator|netscape\d?)\/([-\w\.]+)/i
+          ],
+          [[NAME, "Netscape"], VERSION],
+          [
+            /mobile vr; rv:([\w\.]+)\).+firefox/i
+          ],
+          [VERSION, [NAME, FIREFOX + " Reality"]],
+          [
+            /ekiohf.+(flow)\/([\w\.]+)/i,
+            /(swiftfox)/i,
+            /(icedragon|iceweasel|camino|chimera|fennec|maemo browser|minimo|conkeror|klar)[\/ ]?([\w\.\+]+)/i,
+            /(seamonkey|k-meleon|icecat|iceape|firebird|phoenix|palemoon|basilisk|waterfox)\/([-\w\.]+)$/i,
+            /(firefox)\/([\w\.]+)/i,
+            /(mozilla)\/([\w\.]+) .+rv\:.+gecko\/\d+/i,
+            /(polaris|lynx|dillo|icab|doris|amaya|w3m|netsurf|sleipnir|obigo|mosaic|(?:go|ice|up)[\. ]?browser)[-\/ ]?v?([\w\.]+)/i,
+            /(links) \(([\w\.]+)/i
+          ],
+          [NAME, VERSION]
+        ],
+        cpu: [
+          [
+            /(?:(amd|x(?:(?:86|64)[-_])?|wow|win)64)[;\)]/i
+          ],
+          [[ARCHITECTURE, "amd64"]],
+          [
+            /(ia32(?=;))/i
+          ],
+          [[ARCHITECTURE, lowerize]],
+          [
+            /((?:i[346]|x)86)[;\)]/i
+          ],
+          [[ARCHITECTURE, "ia32"]],
+          [
+            /\b(aarch64|arm(v?8e?l?|_?64))\b/i
+          ],
+          [[ARCHITECTURE, "arm64"]],
+          [
+            /\b(arm(?:v[67])?ht?n?[fl]p?)\b/i
+          ],
+          [[ARCHITECTURE, "armhf"]],
+          [
+            /windows (ce|mobile); ppc;/i
+          ],
+          [[ARCHITECTURE, "arm"]],
+          [
+            /((?:ppc|powerpc)(?:64)?)(?: mac|;|\))/i
+          ],
+          [[ARCHITECTURE, /ower/, EMPTY, lowerize]],
+          [
+            /(sun4\w)[;\)]/i
+          ],
+          [[ARCHITECTURE, "sparc"]],
+          [
+            /((?:avr32|ia64(?=;))|68k(?=\))|\barm(?=v(?:[1-7]|[5-7]1)l?|;|eabi)|(?=atmel )avr|(?:irix|mips|sparc)(?:64)?\b|pa-risc)/i
+          ],
+          [[ARCHITECTURE, lowerize]]
+        ],
+        device: [
+          [
+            /\b(sch-i[89]0\d|shw-m380s|sm-[pt]\w{2,4}|gt-[pn]\d{2,4}|sgh-t8[56]9|nexus 10)/i
+          ],
+          [MODEL, [VENDOR, SAMSUNG], [TYPE, TABLET]],
+          [
+            /\b((?:s[cgp]h|gt|sm)-\w+|galaxy nexus)/i,
+            /samsung[- ]([-\w]+)/i,
+            /sec-(sgh\w+)/i
+          ],
+          [MODEL, [VENDOR, SAMSUNG], [TYPE, MOBILE]],
+          [
+            /\((ip(?:hone|od)[\w ]*);/i
+          ],
+          [MODEL, [VENDOR, APPLE], [TYPE, MOBILE]],
+          [
+            /\((ipad);[-\w\),; ]+apple/i,
+            /applecoremedia\/[\w\.]+ \((ipad)/i,
+            /\b(ipad)\d\d?,\d\d?[;\]].+ios/i
+          ],
+          [MODEL, [VENDOR, APPLE], [TYPE, TABLET]],
+          [
+            /\b((?:ag[rs][23]?|bah2?|sht?|btv)-a?[lw]\d{2})\b(?!.+d\/s)/i
+          ],
+          [MODEL, [VENDOR, HUAWEI], [TYPE, TABLET]],
+          [
+            /(?:huawei|honor)([-\w ]+)[;\)]/i,
+            /\b(nexus 6p|\w{2,4}-[atu]?[ln][01259x][012359][an]?)\b(?!.+d\/s)/i
+          ],
+          [MODEL, [VENDOR, HUAWEI], [TYPE, MOBILE]],
+          [
+            /\b(poco[\w ]+)(?: bui|\))/i,
+            /\b; (\w+) build\/hm\1/i,
+            /\b(hm[-_ ]?note?[_ ]?(?:\d\w)?) bui/i,
+            /\b(redmi[\-_ ]?(?:note|k)?[\w_ ]+)(?: bui|\))/i,
+            /\b(mi[-_ ]?(?:a\d|one|one[_ ]plus|note lte|max)?[_ ]?(?:\d?\w?)[_ ]?(?:plus|se|lite)?)(?: bui|\))/i
+          ],
+          [[MODEL, /_/g, " "], [VENDOR, XIAOMI], [TYPE, MOBILE]],
+          [
+            /\b(mi[-_ ]?(?:pad)(?:[\w_ ]+))(?: bui|\))/i
+          ],
+          [[MODEL, /_/g, " "], [VENDOR, XIAOMI], [TYPE, TABLET]],
+          [
+            /; (\w+) bui.+ oppo/i,
+            /\b(cph[12]\d{3}|p(?:af|c[al]|d\w|e[ar])[mt]\d0|x9007|a101op)\b/i
+          ],
+          [MODEL, [VENDOR, "OPPO"], [TYPE, MOBILE]],
+          [
+            /vivo (\w+)(?: bui|\))/i,
+            /\b(v[12]\d{3}\w?[at])(?: bui|;)/i
+          ],
+          [MODEL, [VENDOR, "Vivo"], [TYPE, MOBILE]],
+          [
+            /\b(rmx[12]\d{3})(?: bui|;|\))/i
+          ],
+          [MODEL, [VENDOR, "Realme"], [TYPE, MOBILE]],
+          [
+            /\b(milestone|droid(?:[2-4x]| (?:bionic|x2|pro|razr))?:?( 4g)?)\b[\w ]+build\//i,
+            /\bmot(?:orola)?[- ](\w*)/i,
+            /((?:moto[\w\(\) ]+|xt\d{3,4}|nexus 6)(?= bui|\)))/i
+          ],
+          [MODEL, [VENDOR, MOTOROLA], [TYPE, MOBILE]],
+          [
+            /\b(mz60\d|xoom[2 ]{0,2}) build\//i
+          ],
+          [MODEL, [VENDOR, MOTOROLA], [TYPE, TABLET]],
+          [
+            /((?=lg)?[vl]k\-?\d{3}) bui| 3\.[-\w; ]{10}lg?-([06cv9]{3,4})/i
+          ],
+          [MODEL, [VENDOR, LG], [TYPE, TABLET]],
+          [
+            /(lm(?:-?f100[nv]?|-[\w\.]+)(?= bui|\))|nexus [45])/i,
+            /\blg[-e;\/ ]+((?!browser|netcast|android tv)\w+)/i,
+            /\blg-?([\d\w]+) bui/i
+          ],
+          [MODEL, [VENDOR, LG], [TYPE, MOBILE]],
+          [
+            /(ideatab[-\w ]+)/i,
+            /lenovo ?(s[56]000[-\w]+|tab(?:[\w ]+)|yt[-\d\w]{6}|tb[-\d\w]{6})/i
+          ],
+          [MODEL, [VENDOR, "Lenovo"], [TYPE, TABLET]],
+          [
+            /(?:maemo|nokia).*(n900|lumia \d+)/i,
+            /nokia[-_ ]?([-\w\.]*)/i
+          ],
+          [[MODEL, /_/g, " "], [VENDOR, "Nokia"], [TYPE, MOBILE]],
+          [
+            /(pixel c)\b/i
+          ],
+          [MODEL, [VENDOR, GOOGLE], [TYPE, TABLET]],
+          [
+            /droid.+; (pixel[\daxl ]{0,6})(?: bui|\))/i
+          ],
+          [MODEL, [VENDOR, GOOGLE], [TYPE, MOBILE]],
+          [
+            /droid.+ ([c-g]\d{4}|so[-gl]\w+|xq-a\w[4-7][12])(?= bui|\).+chrome\/(?![1-6]{0,1}\d\.))/i
+          ],
+          [MODEL, [VENDOR, SONY], [TYPE, MOBILE]],
+          [
+            /sony tablet [ps]/i,
+            /\b(?:sony)?sgp\w+(?: bui|\))/i
+          ],
+          [[MODEL, "Xperia Tablet"], [VENDOR, SONY], [TYPE, TABLET]],
+          [
+            / (kb2005|in20[12]5|be20[12][59])\b/i,
+            /(?:one)?(?:plus)? (a\d0\d\d)(?: b|\))/i
+          ],
+          [MODEL, [VENDOR, "OnePlus"], [TYPE, MOBILE]],
+          [
+            /(alexa)webm/i,
+            /(kf[a-z]{2}wi)( bui|\))/i,
+            /(kf[a-z]+)( bui|\)).+silk\//i
+          ],
+          [MODEL, [VENDOR, AMAZON], [TYPE, TABLET]],
+          [
+            /((?:sd|kf)[0349hijorstuw]+)( bui|\)).+silk\//i
+          ],
+          [[MODEL, /(.+)/g, "Fire Phone $1"], [VENDOR, AMAZON], [TYPE, MOBILE]],
+          [
+            /(playbook);[-\w\),; ]+(rim)/i
+          ],
+          [MODEL, VENDOR, [TYPE, TABLET]],
+          [
+            /\b((?:bb[a-f]|st[hv])100-\d)/i,
+            /\(bb10; (\w+)/i
+          ],
+          [MODEL, [VENDOR, BLACKBERRY], [TYPE, MOBILE]],
+          [
+            /(?:\b|asus_)(transfo[prime ]{4,10} \w+|eeepc|slider \w+|nexus 7|padfone|p00[cj])/i
+          ],
+          [MODEL, [VENDOR, ASUS], [TYPE, TABLET]],
+          [
+            / (z[bes]6[027][012][km][ls]|zenfone \d\w?)\b/i
+          ],
+          [MODEL, [VENDOR, ASUS], [TYPE, MOBILE]],
+          [
+            /(nexus 9)/i
+          ],
+          [MODEL, [VENDOR, "HTC"], [TYPE, TABLET]],
+          [
+            /(htc)[-;_ ]{1,2}([\w ]+(?=\)| bui)|\w+)/i,
+            /(zte)[- ]([\w ]+?)(?: bui|\/|\))/i,
+            /(alcatel|geeksphone|nexian|panasonic|sony)[-_ ]?([-\w]*)/i
+          ],
+          [VENDOR, [MODEL, /_/g, " "], [TYPE, MOBILE]],
+          [
+            /droid.+; ([ab][1-7]-?[0178a]\d\d?)/i
+          ],
+          [MODEL, [VENDOR, "Acer"], [TYPE, TABLET]],
+          [
+            /droid.+; (m[1-5] note) bui/i,
+            /\bmz-([-\w]{2,})/i
+          ],
+          [MODEL, [VENDOR, "Meizu"], [TYPE, MOBILE]],
+          [
+            /\b(sh-?[altvz]?\d\d[a-ekm]?)/i
+          ],
+          [MODEL, [VENDOR, "Sharp"], [TYPE, MOBILE]],
+          [
+            /(blackberry|benq|palm(?=\-)|sonyericsson|acer|asus|dell|meizu|motorola|polytron)[-_ ]?([-\w]*)/i,
+            /(hp) ([\w ]+\w)/i,
+            /(asus)-?(\w+)/i,
+            /(microsoft); (lumia[\w ]+)/i,
+            /(lenovo)[-_ ]?([-\w]+)/i,
+            /(jolla)/i,
+            /(oppo) ?([\w ]+) bui/i
+          ],
+          [VENDOR, MODEL, [TYPE, MOBILE]],
+          [
+            /(archos) (gamepad2?)/i,
+            /(hp).+(touchpad(?!.+tablet)|tablet)/i,
+            /(kindle)\/([\w\.]+)/i,
+            /(nook)[\w ]+build\/(\w+)/i,
+            /(dell) (strea[kpr\d ]*[\dko])/i,
+            /(le[- ]+pan)[- ]+(\w{1,9}) bui/i,
+            /(trinity)[- ]*(t\d{3}) bui/i,
+            /(gigaset)[- ]+(q\w{1,9}) bui/i,
+            /(vodafone) ([\w ]+)(?:\)| bui)/i
+          ],
+          [VENDOR, MODEL, [TYPE, TABLET]],
+          [
+            /(surface duo)/i
+          ],
+          [MODEL, [VENDOR, MICROSOFT], [TYPE, TABLET]],
+          [
+            /droid [\d\.]+; (fp\du?)(?: b|\))/i
+          ],
+          [MODEL, [VENDOR, "Fairphone"], [TYPE, MOBILE]],
+          [
+            /(u304aa)/i
+          ],
+          [MODEL, [VENDOR, "AT&T"], [TYPE, MOBILE]],
+          [
+            /\bsie-(\w*)/i
+          ],
+          [MODEL, [VENDOR, "Siemens"], [TYPE, MOBILE]],
+          [
+            /\b(rct\w+) b/i
+          ],
+          [MODEL, [VENDOR, "RCA"], [TYPE, TABLET]],
+          [
+            /\b(venue[\d ]{2,7}) b/i
+          ],
+          [MODEL, [VENDOR, "Dell"], [TYPE, TABLET]],
+          [
+            /\b(q(?:mv|ta)\w+) b/i
+          ],
+          [MODEL, [VENDOR, "Verizon"], [TYPE, TABLET]],
+          [
+            /\b(?:barnes[& ]+noble |bn[rt])([\w\+ ]*) b/i
+          ],
+          [MODEL, [VENDOR, "Barnes & Noble"], [TYPE, TABLET]],
+          [
+            /\b(tm\d{3}\w+) b/i
+          ],
+          [MODEL, [VENDOR, "NuVision"], [TYPE, TABLET]],
+          [
+            /\b(k88) b/i
+          ],
+          [MODEL, [VENDOR, "ZTE"], [TYPE, TABLET]],
+          [
+            /\b(nx\d{3}j) b/i
+          ],
+          [MODEL, [VENDOR, "ZTE"], [TYPE, MOBILE]],
+          [
+            /\b(gen\d{3}) b.+49h/i
+          ],
+          [MODEL, [VENDOR, "Swiss"], [TYPE, MOBILE]],
+          [
+            /\b(zur\d{3}) b/i
+          ],
+          [MODEL, [VENDOR, "Swiss"], [TYPE, TABLET]],
+          [
+            /\b((zeki)?tb.*\b) b/i
+          ],
+          [MODEL, [VENDOR, "Zeki"], [TYPE, TABLET]],
+          [
+            /\b([yr]\d{2}) b/i,
+            /\b(dragon[- ]+touch |dt)(\w{5}) b/i
+          ],
+          [[VENDOR, "Dragon Touch"], MODEL, [TYPE, TABLET]],
+          [
+            /\b(ns-?\w{0,9}) b/i
+          ],
+          [MODEL, [VENDOR, "Insignia"], [TYPE, TABLET]],
+          [
+            /\b((nxa|next)-?\w{0,9}) b/i
+          ],
+          [MODEL, [VENDOR, "NextBook"], [TYPE, TABLET]],
+          [
+            /\b(xtreme\_)?(v(1[045]|2[015]|[3469]0|7[05])) b/i
+          ],
+          [[VENDOR, "Voice"], MODEL, [TYPE, MOBILE]],
+          [
+            /\b(lvtel\-)?(v1[12]) b/i
+          ],
+          [[VENDOR, "LvTel"], MODEL, [TYPE, MOBILE]],
+          [
+            /\b(ph-1) /i
+          ],
+          [MODEL, [VENDOR, "Essential"], [TYPE, MOBILE]],
+          [
+            /\b(v(100md|700na|7011|917g).*\b) b/i
+          ],
+          [MODEL, [VENDOR, "Envizen"], [TYPE, TABLET]],
+          [
+            /\b(trio[-\w\. ]+) b/i
+          ],
+          [MODEL, [VENDOR, "MachSpeed"], [TYPE, TABLET]],
+          [
+            /\btu_(1491) b/i
+          ],
+          [MODEL, [VENDOR, "Rotor"], [TYPE, TABLET]],
+          [
+            /(shield[\w ]+) b/i
+          ],
+          [MODEL, [VENDOR, "Nvidia"], [TYPE, TABLET]],
+          [
+            /(sprint) (\w+)/i
+          ],
+          [VENDOR, MODEL, [TYPE, MOBILE]],
+          [
+            /(kin\.[onetw]{3})/i
+          ],
+          [[MODEL, /\./g, " "], [VENDOR, MICROSOFT], [TYPE, MOBILE]],
+          [
+            /droid.+; (cc6666?|et5[16]|mc[239][23]x?|vc8[03]x?)\)/i
+          ],
+          [MODEL, [VENDOR, ZEBRA], [TYPE, TABLET]],
+          [
+            /droid.+; (ec30|ps20|tc[2-8]\d[kx])\)/i
+          ],
+          [MODEL, [VENDOR, ZEBRA], [TYPE, MOBILE]],
+          [
+            /(ouya)/i,
+            /(nintendo) ([wids3utch]+)/i
+          ],
+          [VENDOR, MODEL, [TYPE, CONSOLE]],
+          [
+            /droid.+; (shield) bui/i
+          ],
+          [MODEL, [VENDOR, "Nvidia"], [TYPE, CONSOLE]],
+          [
+            /(playstation [345portablevi]+)/i
+          ],
+          [MODEL, [VENDOR, SONY], [TYPE, CONSOLE]],
+          [
+            /\b(xbox(?: one)?(?!; xbox))[\); ]/i
+          ],
+          [MODEL, [VENDOR, MICROSOFT], [TYPE, CONSOLE]],
+          [
+            /smart-tv.+(samsung)/i
+          ],
+          [VENDOR, [TYPE, SMARTTV]],
+          [
+            /hbbtv.+maple;(\d+)/i
+          ],
+          [[MODEL, /^/, "SmartTV"], [VENDOR, SAMSUNG], [TYPE, SMARTTV]],
+          [
+            /(nux; netcast.+smarttv|lg (netcast\.tv-201\d|android tv))/i
+          ],
+          [[VENDOR, LG], [TYPE, SMARTTV]],
+          [
+            /(apple) ?tv/i
+          ],
+          [VENDOR, [MODEL, APPLE + " TV"], [TYPE, SMARTTV]],
+          [
+            /crkey/i
+          ],
+          [[MODEL, CHROME + "cast"], [VENDOR, GOOGLE], [TYPE, SMARTTV]],
+          [
+            /droid.+aft(\w)( bui|\))/i
+          ],
+          [MODEL, [VENDOR, AMAZON], [TYPE, SMARTTV]],
+          [
+            /\(dtv[\);].+(aquos)/i
+          ],
+          [MODEL, [VENDOR, "Sharp"], [TYPE, SMARTTV]],
+          [
+            /\b(roku)[\dx]*[\)\/]((?:dvp-)?[\d\.]*)/i,
+            /hbbtv\/\d+\.\d+\.\d+ +\([\w ]*; *(\w[^;]*);([^;]*)/i
+          ],
+          [[VENDOR, trim], [MODEL, trim], [TYPE, SMARTTV]],
+          [
+            /\b(android tv|smart[- ]?tv|opera tv|tv; rv:)\b/i
+          ],
+          [[TYPE, SMARTTV]],
+          [
+            /((pebble))app/i
+          ],
+          [VENDOR, MODEL, [TYPE, WEARABLE]],
+          [
+            /droid.+; (glass) \d/i
+          ],
+          [MODEL, [VENDOR, GOOGLE], [TYPE, WEARABLE]],
+          [
+            /droid.+; (wt63?0{2,3})\)/i
+          ],
+          [MODEL, [VENDOR, ZEBRA], [TYPE, WEARABLE]],
+          [
+            /(quest( 2)?)/i
+          ],
+          [MODEL, [VENDOR, FACEBOOK], [TYPE, WEARABLE]],
+          [
+            /(tesla)(?: qtcarbrowser|\/[-\w\.]+)/i
+          ],
+          [VENDOR, [TYPE, EMBEDDED]],
+          [
+            /droid .+?; ([^;]+?)(?: bui|\) applew).+? mobile safari/i
+          ],
+          [MODEL, [TYPE, MOBILE]],
+          [
+            /droid .+?; ([^;]+?)(?: bui|\) applew).+?(?! mobile) safari/i
+          ],
+          [MODEL, [TYPE, TABLET]],
+          [
+            /\b((tablet|tab)[;\/]|focus\/\d(?!.+mobile))/i
+          ],
+          [[TYPE, TABLET]],
+          [
+            /(phone|mobile(?:[;\/]| safari)|pda(?=.+windows ce))/i
+          ],
+          [[TYPE, MOBILE]],
+          [
+            /(android[-\w\. ]{0,9});.+buil/i
+          ],
+          [MODEL, [VENDOR, "Generic"]]
+        ],
+        engine: [
+          [
+            /windows.+ edge\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, EDGE + "HTML"]],
+          [
+            /webkit\/537\.36.+chrome\/(?!27)([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "Blink"]],
+          [
+            /(presto)\/([\w\.]+)/i,
+            /(webkit|trident|netfront|netsurf|amaya|lynx|w3m|goanna)\/([\w\.]+)/i,
+            /ekioh(flow)\/([\w\.]+)/i,
+            /(khtml|tasman|links)[\/ ]\(?([\w\.]+)/i,
+            /(icab)[\/ ]([23]\.[\d\.]+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /rv\:([\w\.]{1,9})\b.+(gecko)/i
+          ],
+          [VERSION, NAME]
+        ],
+        os: [
+          [
+            /microsoft (windows) (vista|xp)/i
+          ],
+          [NAME, VERSION],
+          [
+            /(windows) nt 6\.2; (arm)/i,
+            /(windows (?:phone(?: os)?|mobile))[\/ ]?([\d\.\w ]*)/i,
+            /(windows)[\/ ]?([ntce\d\. ]+\w)(?!.+xbox)/i
+          ],
+          [NAME, [VERSION, strMapper, windowsVersionMap]],
+          [
+            /(win(?=3|9|n)|win 9x )([nt\d\.]+)/i
+          ],
+          [[NAME, "Windows"], [VERSION, strMapper, windowsVersionMap]],
+          [
+            /ip[honead]{2,4}\b(?:.*os ([\w]+) like mac|; opera)/i,
+            /cfnetwork\/.+darwin/i
+          ],
+          [[VERSION, /_/g, "."], [NAME, "iOS"]],
+          [
+            /(mac os x) ?([\w\. ]*)/i,
+            /(macintosh|mac_powerpc\b)(?!.+haiku)/i
+          ],
+          [[NAME, "Mac OS"], [VERSION, /_/g, "."]],
+          [
+            /droid ([\w\.]+)\b.+(android[- ]x86)/i
+          ],
+          [VERSION, NAME],
+          [
+            /(android|webos|qnx|bada|rim tablet os|maemo|meego|sailfish)[-\/ ]?([\w\.]*)/i,
+            /(blackberry)\w*\/([\w\.]*)/i,
+            /(tizen|kaios)[\/ ]([\w\.]+)/i,
+            /\((series40);/i
+          ],
+          [NAME, VERSION],
+          [
+            /\(bb(10);/i
+          ],
+          [VERSION, [NAME, BLACKBERRY]],
+          [
+            /(?:symbian ?os|symbos|s60(?=;)|series60)[-\/ ]?([\w\.]*)/i
+          ],
+          [VERSION, [NAME, "Symbian"]],
+          [
+            /mozilla\/[\d\.]+ \((?:mobile|tablet|tv|mobile; [\w ]+); rv:.+ gecko\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, FIREFOX + " OS"]],
+          [
+            /web0s;.+rt(tv)/i,
+            /\b(?:hp)?wos(?:browser)?\/([\w\.]+)/i
+          ],
+          [VERSION, [NAME, "webOS"]],
+          [
+            /crkey\/([\d\.]+)/i
+          ],
+          [VERSION, [NAME, CHROME + "cast"]],
+          [
+            /(cros) [\w]+ ([\w\.]+\w)/i
+          ],
+          [[NAME, "Chromium OS"], VERSION],
+          [
+            /(nintendo|playstation) ([wids345portablevuch]+)/i,
+            /(xbox); +xbox ([^\);]+)/i,
+            /\b(joli|palm)\b ?(?:os)?\/?([\w\.]*)/i,
+            /(mint)[\/\(\) ]?(\w*)/i,
+            /(mageia|vectorlinux)[; ]/i,
+            /([kxln]?ubuntu|debian|suse|opensuse|gentoo|arch(?= linux)|slackware|fedora|mandriva|centos|pclinuxos|red ?hat|zenwalk|linpus|raspbian|plan 9|minix|risc os|contiki|deepin|manjaro|elementary os|sabayon|linspire)(?: gnu\/linux)?(?: enterprise)?(?:[- ]linux)?(?:-gnu)?[-\/ ]?(?!chrom|package)([-\w\.]*)/i,
+            /(hurd|linux) ?([\w\.]*)/i,
+            /(gnu) ?([\w\.]*)/i,
+            /\b([-frentopcghs]{0,5}bsd|dragonfly)[\/ ]?(?!amd|[ix346]{1,2}86)([\w\.]*)/i,
+            /(haiku) (\w+)/i
+          ],
+          [NAME, VERSION],
+          [
+            /(sunos) ?([\w\.\d]*)/i
+          ],
+          [[NAME, "Solaris"], VERSION],
+          [
+            /((?:open)?solaris)[-\/ ]?([\w\.]*)/i,
+            /(aix) ((\d)(?=\.|\)| )[\w\.])*/i,
+            /\b(beos|os\/2|amigaos|morphos|openvms|fuchsia|hp-ux)/i,
+            /(unix) ?([\w\.]*)/i
+          ],
+          [NAME, VERSION]
+        ]
+      };
+      var UAParser2 = function(ua, extensions) {
+        if (typeof ua === OBJ_TYPE) {
+          extensions = ua;
+          ua = undefined2;
+        }
+        if (!(this instanceof UAParser2)) {
+          return new UAParser2(ua, extensions).getResult();
+        }
+        var _ua = ua || (typeof window2 !== UNDEF_TYPE && window2.navigator && window2.navigator.userAgent ? window2.navigator.userAgent : EMPTY);
+        var _rgxmap = extensions ? extend(regexes, extensions) : regexes;
+        this.getBrowser = function() {
+          var _browser = {};
+          _browser[NAME] = undefined2;
+          _browser[VERSION] = undefined2;
+          rgxMapper.call(_browser, _ua, _rgxmap.browser);
+          _browser.major = majorize(_browser.version);
+          return _browser;
+        };
+        this.getCPU = function() {
+          var _cpu = {};
+          _cpu[ARCHITECTURE] = undefined2;
+          rgxMapper.call(_cpu, _ua, _rgxmap.cpu);
+          return _cpu;
+        };
+        this.getDevice = function() {
+          var _device = {};
+          _device[VENDOR] = undefined2;
+          _device[MODEL] = undefined2;
+          _device[TYPE] = undefined2;
+          rgxMapper.call(_device, _ua, _rgxmap.device);
+          return _device;
+        };
+        this.getEngine = function() {
+          var _engine = {};
+          _engine[NAME] = undefined2;
+          _engine[VERSION] = undefined2;
+          rgxMapper.call(_engine, _ua, _rgxmap.engine);
+          return _engine;
+        };
+        this.getOS = function() {
+          var _os = {};
+          _os[NAME] = undefined2;
+          _os[VERSION] = undefined2;
+          rgxMapper.call(_os, _ua, _rgxmap.os);
+          return _os;
+        };
+        this.getResult = function() {
+          return {
+            ua: this.getUA(),
+            browser: this.getBrowser(),
+            engine: this.getEngine(),
+            os: this.getOS(),
+            device: this.getDevice(),
+            cpu: this.getCPU()
+          };
+        };
+        this.getUA = function() {
+          return _ua;
+        };
+        this.setUA = function(ua2) {
+          _ua = typeof ua2 === STR_TYPE && ua2.length > UA_MAX_LENGTH ? trim(ua2, UA_MAX_LENGTH) : ua2;
+          return this;
+        };
+        this.setUA(_ua);
+        return this;
+      };
+      UAParser2.VERSION = LIBVERSION;
+      UAParser2.BROWSER = enumerize([NAME, VERSION, MAJOR]);
+      UAParser2.CPU = enumerize([ARCHITECTURE]);
+      UAParser2.DEVICE = enumerize([MODEL, VENDOR, TYPE, CONSOLE, MOBILE, SMARTTV, TABLET, WEARABLE, EMBEDDED]);
+      UAParser2.ENGINE = UAParser2.OS = enumerize([NAME, VERSION]);
+      if (typeof exports2 !== UNDEF_TYPE) {
+        if (typeof module2 !== UNDEF_TYPE && module2.exports) {
+          exports2 = module2.exports = UAParser2;
+        }
+        exports2.UAParser = UAParser2;
+      } else {
+        if (typeof define === FUNC_TYPE && define.amd) {
+          define(function() {
+            return UAParser2;
+          });
+        } else if (typeof window2 !== UNDEF_TYPE) {
+          window2.UAParser = UAParser2;
+        }
+      }
+      var $ = typeof window2 !== UNDEF_TYPE && (window2.jQuery || window2.Zepto);
+      if ($ && !$.ua) {
+        var parser = new UAParser2();
+        $.ua = parser.getResult();
+        $.ua.get = function() {
+          return parser.getUA();
+        };
+        $.ua.set = function(ua) {
+          parser.setUA(ua);
+          var result = parser.getResult();
+          for (var prop in result) {
+            $.ua[prop] = result[prop];
+          }
+        };
+      }
+    })(typeof window === "object" ? window : exports2);
+  }
+});
+
+// src/err.js
+var badPlatform = new Error("Unsupported platform");
+var invalidArg = new Error("Invalid argument");
+var unexpected = new Error("Unexpected error");
+var invalidKey = new Error("Invalid key");
+var invalidSignature = new Error("Invalid signature");
+var operationBlocked = new Error("Operation blocked");
+
+// src/idb.js
+var idb_transaction = {
+  readonly: "readonly",
+  readwrite: "readwrite"
+};
+function idb_open_db(name, version, runMigrations2) {
+  if (!window.indexedDB)
+    Promise.reject(badPlatform);
+  return new Promise((resolve, reject) => {
+    try {
+      let rejected = false;
+      let reject_once2 = (err) => {
+        if (!rejected) {
+          rejected = true;
+          reject(err);
+        }
+      };
+      let rq = window.indexedDB.open(name, version);
+      rq.onupgradeneeded = (e) => {
+        try {
+          runMigrations2(e.target.result, e.target.transaction, e.newVersion, e.oldVersion);
+        } catch (err) {
+          reject_once2(err);
+        }
+      };
+      rq.onblocked = (e) => {
+        reject_once2(operationBlocked);
+      };
+      rq.onerror = (e) => {
+        reject_once2(e.target.error);
+      };
+      rq.onsuccess = (e) => {
+        if (!rejected) {
+          let db = e.target.result;
+          db.onversionchange = (e2) => {
+            db.close();
+          };
+          resolve(db);
+        }
+      };
+    } catch (err) {
+      reject_once(err);
+    }
+  });
+}
+function idb_close_db(db) {
+  db.close();
+}
+function idb_delete_db(name) {
+  return new Promise((resolve, reject) => {
+    let rq = window.indexedDB.deleteDatabase(name);
+    rq.onerror = (e) => {
+      reject(unexpected);
+    };
+    rq.onsuccess = (e) => {
+      resolve();
+    };
+    rq.onblocked = (e) => {
+      reject(operationBlocked);
+    };
+  });
+}
+function idb_begin_transaction(db, scope, mode) {
+  let tx = db.transaction(scope, mode);
+  tx.result = null;
+  tx.promise = new Promise((resolve, reject) => {
+    tx.oncomplete = (e) => {
+      resolve(tx.result);
+    };
+    tx.onerror = (e) => {
+      reject(tx.error ? tx.error : e.target.error);
+    };
+    tx.onabort = (e) => {
+      reject(tx.result);
+    };
+  });
+  return tx;
+}
+function idb_finish_transaction(tx) {
+  if (tx.error) {
+    return Promise.reject(tx.error);
+  }
+  return tx.promise;
+}
+function idb_get(tx, store, key) {
+  try {
+    let os = tx.objectStore(store);
+    let rq = os.get(key);
+    rq.onsuccess = (e) => {
+      tx.result = rq.result;
+    };
+    rq.onerror = (e) => {
+      tx.result = e.target.error;
+      tx.abort();
+    };
+  } catch (err) {
+    tx.result = err;
+    tx.abort();
+  }
+}
+function idb_get_now(tx, store, key) {
+  return new Promise((resolve, reject) => {
+    try {
+      let os = tx.objectStore(store);
+      let rq = os.get(key);
+      rq.onsuccess = (e) => {
+        resolve(rq.result);
+      };
+      rq.onerror = (e) => {
+        tx.result = e.target.error;
+        reject(e.error);
+      };
+    } catch (err) {
+      tx.result = err;
+      reject(err);
+    }
+  });
+}
+function idb_getall(tx, store) {
+  try {
+    let os = tx.objectStore(store);
+    let rq = os.getAll();
+    rq.onsuccess = (e) => {
+      tx.result = rq.result;
+    };
+    rq.onerror = (e) => {
+      tx.result = e.target.error;
+      tx.abort();
+    };
+  } catch (err) {
+    tx.result = err;
+    tx.abort();
+  }
+}
+function idb_getall_now(tx, store) {
+  return new Promise((resolve, reject) => {
+    try {
+      let os = tx.objectStore(store);
+      let rq = os.getAll();
+      rq.onsuccess = (e) => {
+        resolve(rq.result);
+      };
+      rq.onerror = (e) => {
+        tx.result = e.target.error;
+        reject(e.error);
+      };
+    } catch (err) {
+      tx.result = err;
+      reject(err);
+    }
+  });
+}
+function idb_put(tx, store, value, key) {
+  try {
+    let os = tx.objectStore(store);
+    let rq = os.put(value, key);
+    rq.onsuccess = (e) => {
+      tx.result = rq.result;
+    };
+    rq.onerror = (e) => {
+      tx.result = e.target.error;
+      tx.abort();
+    };
+  } catch (err) {
+    tx.result = err;
+    tx.abort();
+  }
+}
+function idb_delete(tx, store, key) {
+  try {
+    let os = tx.objectStore(store);
+    let rq = os.delete(key);
+    rq.onsuccess = (e) => {
+      tx.result = rq.result;
+    };
+    rq.onerror = (e) => {
+      tx.result = e.target.error;
+      tx.abort();
+    };
+  } catch (err) {
+    tx.result = err;
+    tx.abort();
+  }
+}
+function idb_clear(tx, store) {
+  try {
+    let os = tx.objectStore(store);
+    let rq = os.clear();
+    rq.onsuccess = (e) => {
+      tx.result = rq.result;
+    };
+    rq.onerror = (e) => {
+      tx.result = e.target.error;
+      tx.abort();
+    };
+  } catch (err) {
+    tx.result = err;
+    tx.abort();
+  }
+}
+
+// src/kmc-db.js
+var kmcDbName = "keymaker";
+var kmcDbVersions = [v1, v2, v3, v4, v5, v6];
+var kmcCertStore = "certificates";
+var kmcKeyStore = "keys";
+var kmcProfileStore = "credentials";
+var kmcProfileIndex = "id";
+var kmcAppSettings = "appSettings";
+function kmc_open_db(version) {
+  return new Promise(async (resolve, reject) => {
+    if (version === void 0)
+      version = kmcDbVersions.length;
+    try {
+      let db = await idb_open_db(kmcDbName, version, runMigrations);
+      resolve(db);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_close_db(db) {
+  idb_close_db(db);
+  db = null;
+}
+function kmc_reset_db() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await idb_delete_db(kmcDbName);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function runMigrations(db, tx, version, oldVersion) {
+  if (!db || !version)
+    throw invalidArg;
+  if (version > kmcDbVersions.length) {
+    throw invalidArg;
+  }
+  for (; oldVersion < version; oldVersion++) {
+    kmcDbVersions[oldVersion](db, tx);
+  }
+}
+function v1(db, tx) {
+  db.createObjectStore(kmcProfileStore, { keyPath: "handle" });
+  db.createObjectStore(kmcCertStore);
+  db.createObjectStore(kmcKeyStore);
+}
+function v2(db, tx) {
+  db.createObjectStore(kmcAppSettings, { keyPath: "instanceId" });
+}
+function v3(db, tx) {
+  let store = tx.objectStore(kmcProfileStore);
+  let rq = store.openCursor();
+  rq.onsuccess = (ev) => {
+    let cursor = ev.target.result;
+    if (cursor) {
+      if (!cursor.value.state) {
+        cursor.value.state = "Active";
+        cursor.update(cursor.value);
+      }
+      cursor.continue();
+    }
+  };
+}
+function v4(db, tx) {
+}
+function v5(db, tx) {
+  let store = tx.objectStore(kmcProfileStore);
+  let rq = store.openCursor();
+  rq.onsuccess = (ev) => {
+    let cursor = ev.target.result;
+    if (cursor) {
+      if (!cursor.value.id) {
+        cursor.value.id = generateHandle(16, "cr");
+        cursor.update(cursor.value);
+      }
+      cursor.continue();
+    }
+  };
+}
+function v6(db, tx) {
+  let store = tx.objectStore(kmcProfileStore);
+  store.createIndex(kmcProfileIndex, "id", { unique: true });
+}
+function randomBytes(len) {
+  let buf = new Uint8Array(len);
+  window.crypto.getRandomValues(buf);
+  return buf;
+}
+function generateHandle(len, prefix) {
+  return (prefix ?? "") + [...randomBytes(len / 2)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// src/kmc-certstore.js
+function kmc_get_cert(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcCertStore, idb_transaction.readonly);
+      idb_get(tx, kmcCertStore, handle);
+      let data2 = await idb_finish_transaction(tx);
+      resolve(new Uint8Array(data2));
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_put_cert(db, handle, bytes) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcCertStore, idb_transaction.readwrite);
+      idb_put(tx, kmcCertStore, bytes, handle);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_delete_cert(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcCertStore, idb_transaction.readwrite);
+      idb_delete(tx, kmcCertStore, handle);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+// src/kmc-keystore.js
+function kmc_save_key(db, handle, key) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcKeyStore, idb_transaction.readwrite);
+      idb_put(tx, kmcKeyStore, key, handle);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_get_key(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcKeyStore, idb_transaction.readonly);
+      idb_get(tx, kmcKeyStore, handle);
+      let key = await idb_finish_transaction(tx);
+      if (key)
+        resolve(key);
+      else
+        reject(invalidKey);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_delete_key(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcKeyStore, idb_transaction.readwrite);
+      idb_delete(tx, kmcKeyStore, handle);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+// src/subtle.js
+function random_bytes(buffer) {
+  window.crypto.getRandomValues(buffer);
+}
+function key_export(key, format) {
+  return new Promise((resolve, reject) => {
+    window.crypto.subtle.exportKey(format, key).then((data2) => {
+      resolve(new Uint8Array(data2));
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsa_generate_key_pair(curve) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "ECDSA",
+      namedCurve: curve
+    };
+    window.crypto.subtle.generateKey(params, false, ["sign", "verify"]).then((keyPair) => {
+      resolve(keyPair);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsa_import_key(format, curve, bits, use) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "ECDSA",
+      namedCurve: curve
+    };
+    window.crypto.subtle.importKey(format, bits, params, true, [use]).then((keyPair) => {
+      resolve(keyPair);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsa_sign(key, hash, data2) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "ECDSA",
+      hash
+    };
+    window.crypto.subtle.sign(params, key, data2).then((signature) => {
+      signature = new Uint8Array(signature);
+      resolve(signature);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsa_verify(key, hash, signature, message) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "ECDSA",
+      hash
+    };
+    window.crypto.subtle.verify(params, key, signature, message).then((ok) => {
+      resolve(ok);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function aesgcm_generate_key() {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "AES-GCM",
+      length: 256
+    };
+    window.crypto.subtle.generateKey(params, false, ["encrypt", "decrypt"]).then((key) => {
+      resolve(key);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function aesgcm_encrypt(key, iv, data2) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "AES-GCM",
+      iv
+    };
+    window.crypto.subtle.encrypt(params, key, data2).then((signature) => {
+      resolve(new Uint8Array(signature));
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function aesgcm_decrypt(key, iv, data2) {
+  return new Promise((resolve, reject) => {
+    let params = {
+      name: "AES-GCM",
+      iv
+    };
+    window.crypto.subtle.decrypt(params, key, data2).then((signature) => {
+      resolve(new Uint8Array(signature));
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+
+// src/kmc-crypto.js
+var subtleProvider = "subtle";
+function kmc_generate_key(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let api = await queryCryptoCapabilities();
+      let key = await api.generateKey(handle);
+      await kmc_save_key(db, handle, key);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_is_key_webauthn_backed(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      resolve(provider === webauthn);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_sign(db, handle, data2) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let signature = await provider.sign(key, data2);
+      resolve(signature);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function decode_signature(signature) {
+  if (signature.subtle !== void 0) {
+    signature = signature.subtle.signature;
+    if (signature.length == 64)
+      return signature;
+    if (signature.length < 64)
+      throw invalidSignature;
+    if (signature[0] != 48)
+      throw invalidSignature;
+    let rawSignature = new Uint8Array(64);
+    let pos = 2;
+    if (signature[pos++] != 2)
+      throw invalidSignature;
+    let len = signature[pos++];
+    if (len == 33)
+      pos++;
+    else if (len != 32)
+      throw invalidSignature;
+    rawSignature.set(signature.slice(pos, pos + 32), 0);
+    pos += 32;
+    if (signature[pos++] != 2)
+      throw invalidSignature;
+    len = signature[pos++];
+    if (len == 33)
+      pos++;
+    else if (len != 32)
+      throw invalidSignature;
+    rawSignature.set(signature.slice(pos, pos + 32), 32);
+    return rawSignature;
+  } else if (signature.webauthn !== void 0) {
+    throw new Error("Not implemented");
+  } else {
+    throw invalidSignature;
+  }
+}
+function kmc_verify(db, handle, signature, data2) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let bits = await kmc_public_key(db, handle);
+      let key = await ecdsa_import_key("raw", "P-256", bits, "verify");
+      signature = decode_signature(signature);
+      let ok = await ecdsa_verify(key, "SHA-256", signature, data2);
+      resolve(ok);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_public_key(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let pubkey = await provider.publicKey(key);
+      resolve(new Uint8Array(pubkey));
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_encrypt(db, handle, plaintext) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let ciphertext = await provider.encrypt(key, plaintext);
+      resolve(ciphertext);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_decrypt(db, handle, ciphertext) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let plaintext = await provider.decrypt(key, data);
+      resolve(plaintext);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function hasSubtleCrypto() {
+  return !!window.crypto.subtle;
+}
+async function queryCryptoCapabilities(provider) {
+  if (hasSubtleCrypto())
+    return subtle;
+  else
+    throw badPlatform;
+}
+function keySanityCheck(key, provider) {
+  return provider in key;
+}
+function keyProvider(key) {
+  if ("subtle" in key)
+    return subtle;
+  else if ("webauthn" in key)
+    return webauthn;
+  else
+    throw invalidArg;
+}
+var subtle = new class Subtle {
+  extractKeys(key) {
+    if (keySanityCheck(key, subtleProvider))
+      return key.subtle;
+    throw invalidKey;
+  }
+  async generateKey(handle) {
+    let signingKey = await ecdsa_generate_key_pair("P-256");
+    let encryptionKey = await aesgcm_generate_key();
+    return {
+      subtle: {
+        signingKey,
+        encryptionKey
+      }
+    };
+  }
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
+    return await key_export(keys.signingKey.publicKey, "raw");
+  }
+  async sign(key, data2) {
+    let keys = this.extractKeys(key);
+    let signature = await ecdsa_sign(keys.signingKey.privateKey, "SHA-256", data2);
+    return {
+      subtle: {
+        signature
+      }
+    };
+  }
+  async encrypt(key, plaintext) {
+    let keys = this.extractKeys(key);
+    let iv = new Uint8Array(12);
+    random_bytes(iv);
+    let ciphertext = await aesgcm_encrypt(keys.encryptionKey, iv, plaintext);
+    let result = new Uint8Array(iv.length + ciphertext.length);
+    result.set(iv);
+    result.set(ciphertext, iv.length);
+    return result;
+  }
+  async decrypt(key, ciphertext) {
+    let keys = this.extractKeys(key);
+    let iv = ciphertext.slice(0, 12);
+    ciphertext = ciphertext.slice(12);
+    return await aesgcm_decrypt(keys.encryptionKey, iv, ciphertext);
+  }
+}();
+var webauthn = new class WebAuthn {
+  extractKeys(key) {
+    if (keySanityCheck(key, webAuthnProvider))
+      return key.webauthn;
+    throw invalidKey;
+  }
+  async generateKey(handle) {
+    throw badPlatform;
+  }
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
+    return await key_export(keys.signingKey.publicKey, "raw");
+  }
+  async sign(key, data2) {
+    let keys = this.extractKeys(key);
+    const publicKeyOptions = {
+      challenge: data2,
+      allowCredentials: [
+        {
+          id: keys.signingKey.rawId,
+          type: "public-key",
+          transports: keys.signingKey.transports
+        }
+      ],
+      userVerification: "required",
+      timeout: 6e4
+    };
+    let cred = await navigator.credentials.get({ publicKey: publicKeyOptions });
+    if (!cred)
+      return Promise.reject(invalidArg);
+    let response = cred.response;
+    return {
+      webauthn: {
+        authenticatorData: response.authenticatorData,
+        clientDataJSON: response.clientDataJSON,
+        signature: response.signature
+      }
+    };
+  }
+  async encrypt(key, plaintext) {
+    let keys = this.extractKeys(key);
+    let iv = new Uint8Array(12);
+    random_bytes(iv);
+    let ciphertext = await aesgcm_encrypt(keys.encryptionKey, iv, plaintext);
+    let result = new Uint8Array(iv.length + ciphertext.length);
+    result.set(iv);
+    result.set(ciphertext, iv.length);
+    return result;
+  }
+  async decrypt(key, ciphertext) {
+    let keys = this.extractKeys(key);
+    let iv = ciphertext.slice(0, 12);
+    ciphertext = ciphertext.slice(12);
+    return await aesgcm_decrypt(keys.encryptionKey, iv, ciphertext);
+  }
+}();
+
+// node_modules/uuid/dist/esm-browser/rng.js
+var getRandomValues;
+var rnds8 = new Uint8Array(16);
+function rng() {
+  if (!getRandomValues) {
+    getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== "undefined" && typeof msCrypto.getRandomValues === "function" && msCrypto.getRandomValues.bind(msCrypto);
+    if (!getRandomValues) {
+      throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+    }
+  }
+  return getRandomValues(rnds8);
+}
+
+// node_modules/uuid/dist/esm-browser/regex.js
+var regex_default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+
+// node_modules/uuid/dist/esm-browser/validate.js
+function validate(uuid) {
+  return typeof uuid === "string" && regex_default.test(uuid);
+}
+var validate_default = validate;
+
+// node_modules/uuid/dist/esm-browser/stringify.js
+var byteToHex = [];
+for (i = 0; i < 256; ++i) {
+  byteToHex.push((i + 256).toString(16).substr(1));
+}
+var i;
+function stringify(arr) {
+  var offset = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
+  var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+  if (!validate_default(uuid)) {
+    throw TypeError("Stringified UUID is invalid");
+  }
+  return uuid;
+}
+var stringify_default = stringify;
+
+// node_modules/uuid/dist/esm-browser/v4.js
+function v42(options, buf, offset) {
+  options = options || {};
+  var rnds = options.random || (options.rng || rng)();
+  rnds[6] = rnds[6] & 15 | 64;
+  rnds[8] = rnds[8] & 63 | 128;
+  if (buf) {
+    offset = offset || 0;
+    for (var i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+    return buf;
+  }
+  return stringify_default(rnds);
+}
+var v4_default = v42;
+
+// src/kmc-storage.js
+function kmc_write_profile(db, profile) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      idb_put(tx, kmcProfileStore, profile);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_write_profile_id(db, profile) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      let store = tx.objectStore(kmcProfileStore);
+      let index = store.index(kmcProfileIndex);
+      let updated = false;
+      let cursor = index.openCursor().on_success = (ev) => {
+        if (cursor) {
+          if (!update && cursor.value.id == profile.id) {
+            cursor.update(profile);
+            updated = true;
+          }
+          cursor.continue();
+        }
+      };
+      if (!updated) {
+        store.put(profile);
+      }
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_update_profile_metadata(db, handle, metadata) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      let profile = await idb_get_now(tx, kmcProfileStore, handle);
+      profile.name = metadata.name;
+      profile.image_url = metadata.image_url;
+      profile.enroll_uri = metadata.enroll_uri;
+      profile.login_uri = metadata.login_uri;
+      profile.desktop_login_url = metadata.desktop_login_url;
+      profile.device_gateway_url = metadata.device_gateway_url;
+      profile.migrate_addr = metadata.migrate_addr;
+      idb_put(tx, kmcProfileStore, profile);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_has_profile(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      resolve(!!await kmc_get_profile(db, handle));
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_get_profile(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readonly);
+      idb_get(tx, kmcProfileStore, handle);
+      let profile = await idb_finish_transaction(tx);
+      resolve(profile);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_get_profile_by_id(db, profile_id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let all_profiles = await kmc_get_all_profiles(db);
+      let profile = all_profiles.find((profile2) => profile2.id === profile_id);
+      resolve(profile);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_get_all_profiles(db) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readonly);
+      idb_getall(tx, kmcProfileStore);
+      let profiles = await idb_finish_transaction(tx);
+      resolve(profiles);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_delete_profile(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      idb_delete(tx, kmcProfileStore, handle);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_add_authenticator_client_id(db, handle, authenticator_client_id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      let profile = await idb_get_now(tx, kmcProfileStore, handle);
+      profile.auth_client_ids.push(authenticator_client_id);
+      idb_put(tx, kmcProfileStore, profile);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function kmc_delete_all_authenticator_client_ids(db, handle) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tx = idb_begin_transaction(db, kmcProfileStore, idb_transaction.readwrite);
+      let profile = await idb_get_now(tx, kmcProfileStore, handle);
+      profile.auth_client_ids = [];
+      idb_put(tx, kmcProfileStore, profile);
+      await idb_finish_transaction(tx);
+      resolve();
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+async function kmc_get_app_settings(db) {
+  return await get_update_app_settings(db, void 0);
+}
+async function kmc_put_app_settings(db, settings) {
+  await get_update_app_settings(db, settings);
+}
+async function get_update_app_settings(db, appSettings) {
+  let tx = idb_begin_transaction(db, kmcAppSettings, idb_transaction.readwrite);
+  let settings = () => {
+    if (appSettings === void 0) {
+      appSettings = {
+        instanceId: v4_default()
+      };
+    }
+    return appSettings;
+  };
+  let allSettings = await idb_getall_now(tx, kmcAppSettings);
+  if (allSettings.length === 0) {
+    idb_put(tx, kmcAppSettings, settings());
+  } else if (allSettings.length > 1) {
+    idb_clear(tx, kmcAppSettings);
+    idb_put(tx, kmcAppSettings, settings());
+  } else {
+    if (appSettings !== void 0) {
+      if (appSettings.instanceId !== allSettings[0].instanceId) {
+        idb_clear();
+      }
+      idb_put(tx, kmcAppSettings, settings());
+    }
+  }
+  idb_getall(tx, kmcAppSettings);
+  allSettings = await idb_finish_transaction(tx);
+  if (allSettings.length !== 1) {
+    throw new Error("Transaction failure");
+  }
+  return allSettings[0];
+}
+
+// node_modules/device/device.js
+var $protobuf = __toModule(require_minimal2());
+var $Reader = $protobuf.Reader;
+var $Writer = $protobuf.Writer;
+var $util = $protobuf.util;
+var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
+var device = $root.device = (() => {
+  const device2 = {};
+  device2.Platform = function() {
+    const valuesById = {}, values = Object.create(valuesById);
+    values[valuesById[0] = "UNSPECIFIED"] = 0;
+    values[valuesById[1] = "MACOS"] = 1;
+    values[valuesById[2] = "IOS"] = 2;
+    values[valuesById[3] = "ANDROID"] = 3;
+    values[valuesById[4] = "WINDOWS"] = 4;
+    values[valuesById[5] = "LINUX"] = 5;
+    values[valuesById[6] = "WEB"] = 6;
+    values[valuesById[7] = "CHROMEOS"] = 7;
+    return values;
+  }();
+  device2.Core = function() {
+    const valuesById = {}, values = Object.create(valuesById);
+    values[valuesById[0] = "GO"] = 0;
+    values[valuesById[1] = "RUST"] = 1;
+    return values;
+  }();
+  device2.AnswerType = function() {
+    const valuesById = {}, values = Object.create(valuesById);
+    values[valuesById[0] = "UNSUPPORTED"] = 0;
+    values[valuesById[1] = "UNKNOWN"] = 1;
+    values[valuesById[2] = "ERROR"] = 2;
+    values[valuesById[3] = "VALUE"] = 3;
+    return values;
+  }();
+  device2.Answer = function() {
+    function Answer(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    Answer.prototype.type = 0;
+    Answer.prototype.error = "";
+    Answer.create = function create(properties) {
+      return new Answer(properties);
+    };
+    Answer.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+        writer.uint32(8).int32(message.type);
+      if (message.error != null && Object.hasOwnProperty.call(message, "error"))
+        writer.uint32(18).string(message.error);
+      return writer;
+    };
+    Answer.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    Answer.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.Answer();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.type = reader.int32();
+            break;
+          case 2:
+            message.error = reader.string();
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    Answer.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    Answer.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.type != null && message.hasOwnProperty("type"))
+        switch (message.type) {
+          default:
+            return "type: enum value expected";
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+            break;
+        }
+      if (message.error != null && message.hasOwnProperty("error")) {
+        if (!$util.isString(message.error))
+          return "error: string expected";
+      }
+      return null;
+    };
+    Answer.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.Answer)
+        return object;
+      let message = new $root.device.Answer();
+      switch (object.type) {
+        case "UNSUPPORTED":
+        case 0:
+          message.type = 0;
+          break;
+        case "UNKNOWN":
+        case 1:
+          message.type = 1;
+          break;
+        case "ERROR":
+        case 2:
+          message.type = 2;
+          break;
+        case "VALUE":
+        case 3:
+          message.type = 3;
+          break;
+      }
+      if (object.error != null)
+        message.error = String(object.error);
+      return message;
+    };
+    Answer.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.type = options.enums === String ? "UNSUPPORTED" : 0;
+        object.error = "";
+      }
+      if (message.type != null && message.hasOwnProperty("type"))
+        object.type = options.enums === String ? $root.device.AnswerType[message.type] : message.type;
+      if (message.error != null && message.hasOwnProperty("error"))
+        object.error = message.error;
+      return object;
+    };
+    Answer.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    return Answer;
+  }();
+  device2.StringMaybe = function() {
+    function StringMaybe(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    StringMaybe.prototype.answer = null;
+    StringMaybe.prototype.value = "";
+    StringMaybe.create = function create(properties) {
+      return new StringMaybe(properties);
+    };
+    StringMaybe.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+        $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+      if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+        writer.uint32(18).string(message.value);
+      return writer;
+    };
+    StringMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    StringMaybe.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.StringMaybe();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.answer = $root.device.Answer.decode(reader, reader.uint32());
+            break;
+          case 2:
+            message.value = reader.string();
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    StringMaybe.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    StringMaybe.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.answer != null && message.hasOwnProperty("answer")) {
+        let error = $root.device.Answer.verify(message.answer);
+        if (error)
+          return "answer." + error;
+      }
+      if (message.value != null && message.hasOwnProperty("value")) {
+        if (!$util.isString(message.value))
+          return "value: string expected";
+      }
+      return null;
+    };
+    StringMaybe.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.StringMaybe)
+        return object;
+      let message = new $root.device.StringMaybe();
+      if (object.answer != null) {
+        if (typeof object.answer !== "object")
+          throw TypeError(".device.StringMaybe.answer: object expected");
+        message.answer = $root.device.Answer.fromObject(object.answer);
+      }
+      if (object.value != null)
+        message.value = String(object.value);
+      return message;
+    };
+    StringMaybe.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.answer = null;
+        object.value = "";
+      }
+      if (message.answer != null && message.hasOwnProperty("answer"))
+        object.answer = $root.device.Answer.toObject(message.answer, options);
+      if (message.value != null && message.hasOwnProperty("value"))
+        object.value = message.value;
+      return object;
+    };
+    StringMaybe.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    return StringMaybe;
+  }();
+  device2.Int32Maybe = function() {
+    function Int32Maybe(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    Int32Maybe.prototype.answer = null;
+    Int32Maybe.prototype.value = 0;
+    Int32Maybe.create = function create(properties) {
+      return new Int32Maybe(properties);
+    };
+    Int32Maybe.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+        $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+      if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+        writer.uint32(16).int32(message.value);
+      return writer;
+    };
+    Int32Maybe.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    Int32Maybe.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.Int32Maybe();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.answer = $root.device.Answer.decode(reader, reader.uint32());
+            break;
+          case 2:
+            message.value = reader.int32();
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    Int32Maybe.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    Int32Maybe.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.answer != null && message.hasOwnProperty("answer")) {
+        let error = $root.device.Answer.verify(message.answer);
+        if (error)
+          return "answer." + error;
+      }
+      if (message.value != null && message.hasOwnProperty("value")) {
+        if (!$util.isInteger(message.value))
+          return "value: integer expected";
+      }
+      return null;
+    };
+    Int32Maybe.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.Int32Maybe)
+        return object;
+      let message = new $root.device.Int32Maybe();
+      if (object.answer != null) {
+        if (typeof object.answer !== "object")
+          throw TypeError(".device.Int32Maybe.answer: object expected");
+        message.answer = $root.device.Answer.fromObject(object.answer);
+      }
+      if (object.value != null)
+        message.value = object.value | 0;
+      return message;
+    };
+    Int32Maybe.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.answer = null;
+        object.value = 0;
+      }
+      if (message.answer != null && message.hasOwnProperty("answer"))
+        object.answer = $root.device.Answer.toObject(message.answer, options);
+      if (message.value != null && message.hasOwnProperty("value"))
+        object.value = message.value;
+      return object;
+    };
+    Int32Maybe.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    return Int32Maybe;
+  }();
+  device2.Int64Maybe = function() {
+    function Int64Maybe(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    Int64Maybe.prototype.answer = null;
+    Int64Maybe.prototype.value = $util.Long ? $util.Long.fromBits(0, 0, false) : 0;
+    Int64Maybe.create = function create(properties) {
+      return new Int64Maybe(properties);
+    };
+    Int64Maybe.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+        $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+      if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+        writer.uint32(16).int64(message.value);
+      return writer;
+    };
+    Int64Maybe.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    Int64Maybe.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.Int64Maybe();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.answer = $root.device.Answer.decode(reader, reader.uint32());
+            break;
+          case 2:
+            message.value = reader.int64();
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    Int64Maybe.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    Int64Maybe.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.answer != null && message.hasOwnProperty("answer")) {
+        let error = $root.device.Answer.verify(message.answer);
+        if (error)
+          return "answer." + error;
+      }
+      if (message.value != null && message.hasOwnProperty("value")) {
+        if (!$util.isInteger(message.value) && !(message.value && $util.isInteger(message.value.low) && $util.isInteger(message.value.high)))
+          return "value: integer|Long expected";
+      }
+      return null;
+    };
+    Int64Maybe.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.Int64Maybe)
+        return object;
+      let message = new $root.device.Int64Maybe();
+      if (object.answer != null) {
+        if (typeof object.answer !== "object")
+          throw TypeError(".device.Int64Maybe.answer: object expected");
+        message.answer = $root.device.Answer.fromObject(object.answer);
+      }
+      if (object.value != null) {
+        if ($util.Long)
+          (message.value = $util.Long.fromValue(object.value)).unsigned = false;
+        else if (typeof object.value === "string")
+          message.value = parseInt(object.value, 10);
+        else if (typeof object.value === "number")
+          message.value = object.value;
+        else if (typeof object.value === "object")
+          message.value = new $util.LongBits(object.value.low >>> 0, object.value.high >>> 0).toNumber();
+      }
+      return message;
+    };
+    Int64Maybe.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.answer = null;
+        if ($util.Long) {
+          let long = new $util.Long(0, 0, false);
+          object.value = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+        } else
+          object.value = options.longs === String ? "0" : 0;
+      }
+      if (message.answer != null && message.hasOwnProperty("answer"))
+        object.answer = $root.device.Answer.toObject(message.answer, options);
+      if (message.value != null && message.hasOwnProperty("value"))
+        if (typeof message.value === "number")
+          object.value = options.longs === String ? String(message.value) : message.value;
+        else
+          object.value = options.longs === String ? $util.Long.prototype.toString.call(message.value) : options.longs === Number ? new $util.LongBits(message.value.low >>> 0, message.value.high >>> 0).toNumber() : message.value;
+      return object;
+    };
+    Int64Maybe.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    return Int64Maybe;
+  }();
+  device2.BoolMaybe = function() {
+    function BoolMaybe(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    BoolMaybe.prototype.answer = null;
+    BoolMaybe.prototype.value = false;
+    BoolMaybe.create = function create(properties) {
+      return new BoolMaybe(properties);
+    };
+    BoolMaybe.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+        $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+      if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+        writer.uint32(16).bool(message.value);
+      return writer;
+    };
+    BoolMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    BoolMaybe.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.BoolMaybe();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.answer = $root.device.Answer.decode(reader, reader.uint32());
+            break;
+          case 2:
+            message.value = reader.bool();
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    BoolMaybe.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    BoolMaybe.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.answer != null && message.hasOwnProperty("answer")) {
+        let error = $root.device.Answer.verify(message.answer);
+        if (error)
+          return "answer." + error;
+      }
+      if (message.value != null && message.hasOwnProperty("value")) {
+        if (typeof message.value !== "boolean")
+          return "value: boolean expected";
+      }
+      return null;
+    };
+    BoolMaybe.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.BoolMaybe)
+        return object;
+      let message = new $root.device.BoolMaybe();
+      if (object.answer != null) {
+        if (typeof object.answer !== "object")
+          throw TypeError(".device.BoolMaybe.answer: object expected");
+        message.answer = $root.device.Answer.fromObject(object.answer);
+      }
+      if (object.value != null)
+        message.value = Boolean(object.value);
+      return message;
+    };
+    BoolMaybe.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.answer = null;
+        object.value = false;
+      }
+      if (message.answer != null && message.hasOwnProperty("answer"))
+        object.answer = $root.device.Answer.toObject(message.answer, options);
+      if (message.value != null && message.hasOwnProperty("value"))
+        object.value = message.value;
+      return object;
+    };
+    BoolMaybe.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    return BoolMaybe;
+  }();
+  device2.DeviceInfo = function() {
+    function DeviceInfo(properties) {
+      if (properties) {
+        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+          if (properties[keys[i]] != null)
+            this[keys[i]] = properties[keys[i]];
+      }
+    }
+    DeviceInfo.prototype.answer = null;
+    DeviceInfo.prototype.platform = 0;
+    DeviceInfo.prototype.appVersion = null;
+    DeviceInfo.prototype.core = 0;
+    DeviceInfo.prototype.osVersion = null;
+    DeviceInfo.prototype.deviceType = null;
+    DeviceInfo.prototype.authentication = null;
+    DeviceInfo.prototype.volumes = null;
+    DeviceInfo.prototype.securitySoftware = null;
+    DeviceInfo.prototype.authorizationSettings = null;
+    DeviceInfo.prototype.applications = null;
+    DeviceInfo.prototype.appInstanceId = null;
+    DeviceInfo.prototype.hardwareUuid = null;
+    DeviceInfo.prototype.intuneManagedDeviceId = null;
+    DeviceInfo.prototype.osDomainName = null;
+    DeviceInfo.prototype.hostname = null;
+    DeviceInfo.prototype.hardwareSerialNum = null;
+    DeviceInfo.prototype.tpmInfo = null;
+    DeviceInfo.prototype.crowdstrikeAgentId = null;
+    DeviceInfo.prototype.biSdkInfo = null;
+    DeviceInfo.prototype.keyProvenances = null;
+    DeviceInfo.prototype.isHalEnabled = null;
+    DeviceInfo.prototype.locale = null;
+    DeviceInfo.prototype.intuneManagedDeviceName = null;
+    DeviceInfo.prototype.intuneDeviceId = null;
+    DeviceInfo.create = function create(properties) {
+      return new DeviceInfo(properties);
+    };
+    DeviceInfo.encode = function encode(message, writer) {
+      if (!writer)
+        writer = $Writer.create();
+      if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+        $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+      if (message.platform != null && Object.hasOwnProperty.call(message, "platform"))
+        writer.uint32(16).int32(message.platform);
+      if (message.appVersion != null && Object.hasOwnProperty.call(message, "appVersion"))
+        $root.device.StringMaybe.encode(message.appVersion, writer.uint32(26).fork()).ldelim();
+      if (message.osVersion != null && Object.hasOwnProperty.call(message, "osVersion"))
+        $root.device.DeviceInfo.OSVersion.encode(message.osVersion, writer.uint32(34).fork()).ldelim();
+      if (message.deviceType != null && Object.hasOwnProperty.call(message, "deviceType"))
+        $root.device.DeviceInfo.DeviceType.encode(message.deviceType, writer.uint32(42).fork()).ldelim();
+      if (message.authentication != null && Object.hasOwnProperty.call(message, "authentication"))
+        $root.device.DeviceInfo.Authentication.encode(message.authentication, writer.uint32(50).fork()).ldelim();
+      if (message.volumes != null && Object.hasOwnProperty.call(message, "volumes"))
+        $root.device.DeviceInfo.Volumes.encode(message.volumes, writer.uint32(58).fork()).ldelim();
+      if (message.securitySoftware != null && Object.hasOwnProperty.call(message, "securitySoftware"))
+        $root.device.DeviceInfo.SecuritySoftware.encode(message.securitySoftware, writer.uint32(66).fork()).ldelim();
+      if (message.authorizationSettings != null && Object.hasOwnProperty.call(message, "authorizationSettings"))
+        $root.device.DeviceInfo.AuthorizationSettings.encode(message.authorizationSettings, writer.uint32(74).fork()).ldelim();
+      if (message.applications != null && Object.hasOwnProperty.call(message, "applications"))
+        $root.device.DeviceInfo.Applications.encode(message.applications, writer.uint32(82).fork()).ldelim();
+      if (message.appInstanceId != null && Object.hasOwnProperty.call(message, "appInstanceId"))
+        $root.device.StringMaybe.encode(message.appInstanceId, writer.uint32(90).fork()).ldelim();
+      if (message.hardwareUuid != null && Object.hasOwnProperty.call(message, "hardwareUuid"))
+        $root.device.StringMaybe.encode(message.hardwareUuid, writer.uint32(98).fork()).ldelim();
+      if (message.core != null && Object.hasOwnProperty.call(message, "core"))
+        writer.uint32(104).int32(message.core);
+      if (message.intuneManagedDeviceId != null && Object.hasOwnProperty.call(message, "intuneManagedDeviceId"))
+        $root.device.StringMaybe.encode(message.intuneManagedDeviceId, writer.uint32(114).fork()).ldelim();
+      if (message.osDomainName != null && Object.hasOwnProperty.call(message, "osDomainName"))
+        $root.device.StringMaybe.encode(message.osDomainName, writer.uint32(122).fork()).ldelim();
+      if (message.hostname != null && Object.hasOwnProperty.call(message, "hostname"))
+        $root.device.StringMaybe.encode(message.hostname, writer.uint32(130).fork()).ldelim();
+      if (message.hardwareSerialNum != null && Object.hasOwnProperty.call(message, "hardwareSerialNum"))
+        $root.device.StringMaybe.encode(message.hardwareSerialNum, writer.uint32(138).fork()).ldelim();
+      if (message.tpmInfo != null && Object.hasOwnProperty.call(message, "tpmInfo"))
+        $root.device.DeviceInfo.TPMInfo.encode(message.tpmInfo, writer.uint32(146).fork()).ldelim();
+      if (message.crowdstrikeAgentId != null && Object.hasOwnProperty.call(message, "crowdstrikeAgentId"))
+        $root.device.StringMaybe.encode(message.crowdstrikeAgentId, writer.uint32(154).fork()).ldelim();
+      if (message.biSdkInfo != null && Object.hasOwnProperty.call(message, "biSdkInfo"))
+        $root.device.DeviceInfo.BiSdkInfo.encode(message.biSdkInfo, writer.uint32(162).fork()).ldelim();
+      if (message.keyProvenances != null && Object.hasOwnProperty.call(message, "keyProvenances"))
+        $root.device.DeviceInfo.KeyProvenances.encode(message.keyProvenances, writer.uint32(170).fork()).ldelim();
+      if (message.isHalEnabled != null && Object.hasOwnProperty.call(message, "isHalEnabled"))
+        $root.device.BoolMaybe.encode(message.isHalEnabled, writer.uint32(178).fork()).ldelim();
+      if (message.locale != null && Object.hasOwnProperty.call(message, "locale"))
+        $root.device.DeviceInfo.Locale.encode(message.locale, writer.uint32(186).fork()).ldelim();
+      if (message.intuneManagedDeviceName != null && Object.hasOwnProperty.call(message, "intuneManagedDeviceName"))
+        $root.device.StringMaybe.encode(message.intuneManagedDeviceName, writer.uint32(194).fork()).ldelim();
+      if (message.intuneDeviceId != null && Object.hasOwnProperty.call(message, "intuneDeviceId"))
+        $root.device.StringMaybe.encode(message.intuneDeviceId, writer.uint32(202).fork()).ldelim();
+      return writer;
+    };
+    DeviceInfo.encodeDelimited = function encodeDelimited(message, writer) {
+      return this.encode(message, writer).ldelim();
+    };
+    DeviceInfo.decode = function decode(reader, length) {
+      if (!(reader instanceof $Reader))
+        reader = $Reader.create(reader);
+      let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo();
+      while (reader.pos < end) {
+        let tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.answer = $root.device.Answer.decode(reader, reader.uint32());
+            break;
+          case 2:
+            message.platform = reader.int32();
+            break;
+          case 3:
+            message.appVersion = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 13:
+            message.core = reader.int32();
+            break;
+          case 4:
+            message.osVersion = $root.device.DeviceInfo.OSVersion.decode(reader, reader.uint32());
+            break;
+          case 5:
+            message.deviceType = $root.device.DeviceInfo.DeviceType.decode(reader, reader.uint32());
+            break;
+          case 6:
+            message.authentication = $root.device.DeviceInfo.Authentication.decode(reader, reader.uint32());
+            break;
+          case 7:
+            message.volumes = $root.device.DeviceInfo.Volumes.decode(reader, reader.uint32());
+            break;
+          case 8:
+            message.securitySoftware = $root.device.DeviceInfo.SecuritySoftware.decode(reader, reader.uint32());
+            break;
+          case 9:
+            message.authorizationSettings = $root.device.DeviceInfo.AuthorizationSettings.decode(reader, reader.uint32());
+            break;
+          case 10:
+            message.applications = $root.device.DeviceInfo.Applications.decode(reader, reader.uint32());
+            break;
+          case 11:
+            message.appInstanceId = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 12:
+            message.hardwareUuid = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 14:
+            message.intuneManagedDeviceId = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 15:
+            message.osDomainName = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 16:
+            message.hostname = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 17:
+            message.hardwareSerialNum = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 18:
+            message.tpmInfo = $root.device.DeviceInfo.TPMInfo.decode(reader, reader.uint32());
+            break;
+          case 19:
+            message.crowdstrikeAgentId = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 20:
+            message.biSdkInfo = $root.device.DeviceInfo.BiSdkInfo.decode(reader, reader.uint32());
+            break;
+          case 21:
+            message.keyProvenances = $root.device.DeviceInfo.KeyProvenances.decode(reader, reader.uint32());
+            break;
+          case 22:
+            message.isHalEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+            break;
+          case 23:
+            message.locale = $root.device.DeviceInfo.Locale.decode(reader, reader.uint32());
+            break;
+          case 24:
+            message.intuneManagedDeviceName = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 25:
+            message.intuneDeviceId = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+      return message;
+    };
+    DeviceInfo.decodeDelimited = function decodeDelimited(reader) {
+      if (!(reader instanceof $Reader))
+        reader = new $Reader(reader);
+      return this.decode(reader, reader.uint32());
+    };
+    DeviceInfo.verify = function verify(message) {
+      if (typeof message !== "object" || message === null)
+        return "object expected";
+      if (message.answer != null && message.hasOwnProperty("answer")) {
+        let error = $root.device.Answer.verify(message.answer);
+        if (error)
+          return "answer." + error;
+      }
+      if (message.platform != null && message.hasOwnProperty("platform"))
+        switch (message.platform) {
+          default:
+            return "platform: enum value expected";
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+            break;
+        }
+      if (message.appVersion != null && message.hasOwnProperty("appVersion")) {
+        let error = $root.device.StringMaybe.verify(message.appVersion);
+        if (error)
+          return "appVersion." + error;
+      }
+      if (message.core != null && message.hasOwnProperty("core"))
+        switch (message.core) {
+          default:
+            return "core: enum value expected";
+          case 0:
+          case 1:
+            break;
+        }
+      if (message.osVersion != null && message.hasOwnProperty("osVersion")) {
+        let error = $root.device.DeviceInfo.OSVersion.verify(message.osVersion);
+        if (error)
+          return "osVersion." + error;
+      }
+      if (message.deviceType != null && message.hasOwnProperty("deviceType")) {
+        let error = $root.device.DeviceInfo.DeviceType.verify(message.deviceType);
+        if (error)
+          return "deviceType." + error;
+      }
+      if (message.authentication != null && message.hasOwnProperty("authentication")) {
+        let error = $root.device.DeviceInfo.Authentication.verify(message.authentication);
+        if (error)
+          return "authentication." + error;
+      }
+      if (message.volumes != null && message.hasOwnProperty("volumes")) {
+        let error = $root.device.DeviceInfo.Volumes.verify(message.volumes);
+        if (error)
+          return "volumes." + error;
+      }
+      if (message.securitySoftware != null && message.hasOwnProperty("securitySoftware")) {
+        let error = $root.device.DeviceInfo.SecuritySoftware.verify(message.securitySoftware);
+        if (error)
+          return "securitySoftware." + error;
+      }
+      if (message.authorizationSettings != null && message.hasOwnProperty("authorizationSettings")) {
+        let error = $root.device.DeviceInfo.AuthorizationSettings.verify(message.authorizationSettings);
+        if (error)
+          return "authorizationSettings." + error;
+      }
+      if (message.applications != null && message.hasOwnProperty("applications")) {
+        let error = $root.device.DeviceInfo.Applications.verify(message.applications);
+        if (error)
+          return "applications." + error;
+      }
+      if (message.appInstanceId != null && message.hasOwnProperty("appInstanceId")) {
+        let error = $root.device.StringMaybe.verify(message.appInstanceId);
+        if (error)
+          return "appInstanceId." + error;
+      }
+      if (message.hardwareUuid != null && message.hasOwnProperty("hardwareUuid")) {
+        let error = $root.device.StringMaybe.verify(message.hardwareUuid);
+        if (error)
+          return "hardwareUuid." + error;
+      }
+      if (message.intuneManagedDeviceId != null && message.hasOwnProperty("intuneManagedDeviceId")) {
+        let error = $root.device.StringMaybe.verify(message.intuneManagedDeviceId);
+        if (error)
+          return "intuneManagedDeviceId." + error;
+      }
+      if (message.osDomainName != null && message.hasOwnProperty("osDomainName")) {
+        let error = $root.device.StringMaybe.verify(message.osDomainName);
+        if (error)
+          return "osDomainName." + error;
+      }
+      if (message.hostname != null && message.hasOwnProperty("hostname")) {
+        let error = $root.device.StringMaybe.verify(message.hostname);
+        if (error)
+          return "hostname." + error;
+      }
+      if (message.hardwareSerialNum != null && message.hasOwnProperty("hardwareSerialNum")) {
+        let error = $root.device.StringMaybe.verify(message.hardwareSerialNum);
+        if (error)
+          return "hardwareSerialNum." + error;
+      }
+      if (message.tpmInfo != null && message.hasOwnProperty("tpmInfo")) {
+        let error = $root.device.DeviceInfo.TPMInfo.verify(message.tpmInfo);
+        if (error)
+          return "tpmInfo." + error;
+      }
+      if (message.crowdstrikeAgentId != null && message.hasOwnProperty("crowdstrikeAgentId")) {
+        let error = $root.device.StringMaybe.verify(message.crowdstrikeAgentId);
+        if (error)
+          return "crowdstrikeAgentId." + error;
+      }
+      if (message.biSdkInfo != null && message.hasOwnProperty("biSdkInfo")) {
+        let error = $root.device.DeviceInfo.BiSdkInfo.verify(message.biSdkInfo);
+        if (error)
+          return "biSdkInfo." + error;
+      }
+      if (message.keyProvenances != null && message.hasOwnProperty("keyProvenances")) {
+        let error = $root.device.DeviceInfo.KeyProvenances.verify(message.keyProvenances);
+        if (error)
+          return "keyProvenances." + error;
+      }
+      if (message.isHalEnabled != null && message.hasOwnProperty("isHalEnabled")) {
+        let error = $root.device.BoolMaybe.verify(message.isHalEnabled);
+        if (error)
+          return "isHalEnabled." + error;
+      }
+      if (message.locale != null && message.hasOwnProperty("locale")) {
+        let error = $root.device.DeviceInfo.Locale.verify(message.locale);
+        if (error)
+          return "locale." + error;
+      }
+      if (message.intuneManagedDeviceName != null && message.hasOwnProperty("intuneManagedDeviceName")) {
+        let error = $root.device.StringMaybe.verify(message.intuneManagedDeviceName);
+        if (error)
+          return "intuneManagedDeviceName." + error;
+      }
+      if (message.intuneDeviceId != null && message.hasOwnProperty("intuneDeviceId")) {
+        let error = $root.device.StringMaybe.verify(message.intuneDeviceId);
+        if (error)
+          return "intuneDeviceId." + error;
+      }
+      return null;
+    };
+    DeviceInfo.fromObject = function fromObject(object) {
+      if (object instanceof $root.device.DeviceInfo)
+        return object;
+      let message = new $root.device.DeviceInfo();
+      if (object.answer != null) {
+        if (typeof object.answer !== "object")
+          throw TypeError(".device.DeviceInfo.answer: object expected");
+        message.answer = $root.device.Answer.fromObject(object.answer);
+      }
+      switch (object.platform) {
+        case "UNSPECIFIED":
+        case 0:
+          message.platform = 0;
+          break;
+        case "MACOS":
+        case 1:
+          message.platform = 1;
+          break;
+        case "IOS":
+        case 2:
+          message.platform = 2;
+          break;
+        case "ANDROID":
+        case 3:
+          message.platform = 3;
+          break;
+        case "WINDOWS":
+        case 4:
+          message.platform = 4;
+          break;
+        case "LINUX":
+        case 5:
+          message.platform = 5;
+          break;
+        case "WEB":
+        case 6:
+          message.platform = 6;
+          break;
+        case "CHROMEOS":
+        case 7:
+          message.platform = 7;
+          break;
+      }
+      if (object.appVersion != null) {
+        if (typeof object.appVersion !== "object")
+          throw TypeError(".device.DeviceInfo.appVersion: object expected");
+        message.appVersion = $root.device.StringMaybe.fromObject(object.appVersion);
+      }
+      switch (object.core) {
+        case "GO":
+        case 0:
+          message.core = 0;
+          break;
+        case "RUST":
+        case 1:
+          message.core = 1;
+          break;
+      }
+      if (object.osVersion != null) {
+        if (typeof object.osVersion !== "object")
+          throw TypeError(".device.DeviceInfo.osVersion: object expected");
+        message.osVersion = $root.device.DeviceInfo.OSVersion.fromObject(object.osVersion);
+      }
+      if (object.deviceType != null) {
+        if (typeof object.deviceType !== "object")
+          throw TypeError(".device.DeviceInfo.deviceType: object expected");
+        message.deviceType = $root.device.DeviceInfo.DeviceType.fromObject(object.deviceType);
+      }
+      if (object.authentication != null) {
+        if (typeof object.authentication !== "object")
+          throw TypeError(".device.DeviceInfo.authentication: object expected");
+        message.authentication = $root.device.DeviceInfo.Authentication.fromObject(object.authentication);
+      }
+      if (object.volumes != null) {
+        if (typeof object.volumes !== "object")
+          throw TypeError(".device.DeviceInfo.volumes: object expected");
+        message.volumes = $root.device.DeviceInfo.Volumes.fromObject(object.volumes);
+      }
+      if (object.securitySoftware != null) {
+        if (typeof object.securitySoftware !== "object")
+          throw TypeError(".device.DeviceInfo.securitySoftware: object expected");
+        message.securitySoftware = $root.device.DeviceInfo.SecuritySoftware.fromObject(object.securitySoftware);
+      }
+      if (object.authorizationSettings != null) {
+        if (typeof object.authorizationSettings !== "object")
+          throw TypeError(".device.DeviceInfo.authorizationSettings: object expected");
+        message.authorizationSettings = $root.device.DeviceInfo.AuthorizationSettings.fromObject(object.authorizationSettings);
+      }
+      if (object.applications != null) {
+        if (typeof object.applications !== "object")
+          throw TypeError(".device.DeviceInfo.applications: object expected");
+        message.applications = $root.device.DeviceInfo.Applications.fromObject(object.applications);
+      }
+      if (object.appInstanceId != null) {
+        if (typeof object.appInstanceId !== "object")
+          throw TypeError(".device.DeviceInfo.appInstanceId: object expected");
+        message.appInstanceId = $root.device.StringMaybe.fromObject(object.appInstanceId);
+      }
+      if (object.hardwareUuid != null) {
+        if (typeof object.hardwareUuid !== "object")
+          throw TypeError(".device.DeviceInfo.hardwareUuid: object expected");
+        message.hardwareUuid = $root.device.StringMaybe.fromObject(object.hardwareUuid);
+      }
+      if (object.intuneManagedDeviceId != null) {
+        if (typeof object.intuneManagedDeviceId !== "object")
+          throw TypeError(".device.DeviceInfo.intuneManagedDeviceId: object expected");
+        message.intuneManagedDeviceId = $root.device.StringMaybe.fromObject(object.intuneManagedDeviceId);
+      }
+      if (object.osDomainName != null) {
+        if (typeof object.osDomainName !== "object")
+          throw TypeError(".device.DeviceInfo.osDomainName: object expected");
+        message.osDomainName = $root.device.StringMaybe.fromObject(object.osDomainName);
+      }
+      if (object.hostname != null) {
+        if (typeof object.hostname !== "object")
+          throw TypeError(".device.DeviceInfo.hostname: object expected");
+        message.hostname = $root.device.StringMaybe.fromObject(object.hostname);
+      }
+      if (object.hardwareSerialNum != null) {
+        if (typeof object.hardwareSerialNum !== "object")
+          throw TypeError(".device.DeviceInfo.hardwareSerialNum: object expected");
+        message.hardwareSerialNum = $root.device.StringMaybe.fromObject(object.hardwareSerialNum);
+      }
+      if (object.tpmInfo != null) {
+        if (typeof object.tpmInfo !== "object")
+          throw TypeError(".device.DeviceInfo.tpmInfo: object expected");
+        message.tpmInfo = $root.device.DeviceInfo.TPMInfo.fromObject(object.tpmInfo);
+      }
+      if (object.crowdstrikeAgentId != null) {
+        if (typeof object.crowdstrikeAgentId !== "object")
+          throw TypeError(".device.DeviceInfo.crowdstrikeAgentId: object expected");
+        message.crowdstrikeAgentId = $root.device.StringMaybe.fromObject(object.crowdstrikeAgentId);
+      }
+      if (object.biSdkInfo != null) {
+        if (typeof object.biSdkInfo !== "object")
+          throw TypeError(".device.DeviceInfo.biSdkInfo: object expected");
+        message.biSdkInfo = $root.device.DeviceInfo.BiSdkInfo.fromObject(object.biSdkInfo);
+      }
+      if (object.keyProvenances != null) {
+        if (typeof object.keyProvenances !== "object")
+          throw TypeError(".device.DeviceInfo.keyProvenances: object expected");
+        message.keyProvenances = $root.device.DeviceInfo.KeyProvenances.fromObject(object.keyProvenances);
+      }
+      if (object.isHalEnabled != null) {
+        if (typeof object.isHalEnabled !== "object")
+          throw TypeError(".device.DeviceInfo.isHalEnabled: object expected");
+        message.isHalEnabled = $root.device.BoolMaybe.fromObject(object.isHalEnabled);
+      }
+      if (object.locale != null) {
+        if (typeof object.locale !== "object")
+          throw TypeError(".device.DeviceInfo.locale: object expected");
+        message.locale = $root.device.DeviceInfo.Locale.fromObject(object.locale);
+      }
+      if (object.intuneManagedDeviceName != null) {
+        if (typeof object.intuneManagedDeviceName !== "object")
+          throw TypeError(".device.DeviceInfo.intuneManagedDeviceName: object expected");
+        message.intuneManagedDeviceName = $root.device.StringMaybe.fromObject(object.intuneManagedDeviceName);
+      }
+      if (object.intuneDeviceId != null) {
+        if (typeof object.intuneDeviceId !== "object")
+          throw TypeError(".device.DeviceInfo.intuneDeviceId: object expected");
+        message.intuneDeviceId = $root.device.StringMaybe.fromObject(object.intuneDeviceId);
+      }
+      return message;
+    };
+    DeviceInfo.toObject = function toObject(message, options) {
+      if (!options)
+        options = {};
+      let object = {};
+      if (options.defaults) {
+        object.answer = null;
+        object.platform = options.enums === String ? "UNSPECIFIED" : 0;
+        object.appVersion = null;
+        object.osVersion = null;
+        object.deviceType = null;
+        object.authentication = null;
+        object.volumes = null;
+        object.securitySoftware = null;
+        object.authorizationSettings = null;
+        object.applications = null;
+        object.appInstanceId = null;
+        object.hardwareUuid = null;
+        object.core = options.enums === String ? "GO" : 0;
+        object.intuneManagedDeviceId = null;
+        object.osDomainName = null;
+        object.hostname = null;
+        object.hardwareSerialNum = null;
+        object.tpmInfo = null;
+        object.crowdstrikeAgentId = null;
+        object.biSdkInfo = null;
+        object.keyProvenances = null;
+        object.isHalEnabled = null;
+        object.locale = null;
+        object.intuneManagedDeviceName = null;
+        object.intuneDeviceId = null;
+      }
+      if (message.answer != null && message.hasOwnProperty("answer"))
+        object.answer = $root.device.Answer.toObject(message.answer, options);
+      if (message.platform != null && message.hasOwnProperty("platform"))
+        object.platform = options.enums === String ? $root.device.Platform[message.platform] : message.platform;
+      if (message.appVersion != null && message.hasOwnProperty("appVersion"))
+        object.appVersion = $root.device.StringMaybe.toObject(message.appVersion, options);
+      if (message.osVersion != null && message.hasOwnProperty("osVersion"))
+        object.osVersion = $root.device.DeviceInfo.OSVersion.toObject(message.osVersion, options);
+      if (message.deviceType != null && message.hasOwnProperty("deviceType"))
+        object.deviceType = $root.device.DeviceInfo.DeviceType.toObject(message.deviceType, options);
+      if (message.authentication != null && message.hasOwnProperty("authentication"))
+        object.authentication = $root.device.DeviceInfo.Authentication.toObject(message.authentication, options);
+      if (message.volumes != null && message.hasOwnProperty("volumes"))
+        object.volumes = $root.device.DeviceInfo.Volumes.toObject(message.volumes, options);
+      if (message.securitySoftware != null && message.hasOwnProperty("securitySoftware"))
+        object.securitySoftware = $root.device.DeviceInfo.SecuritySoftware.toObject(message.securitySoftware, options);
+      if (message.authorizationSettings != null && message.hasOwnProperty("authorizationSettings"))
+        object.authorizationSettings = $root.device.DeviceInfo.AuthorizationSettings.toObject(message.authorizationSettings, options);
+      if (message.applications != null && message.hasOwnProperty("applications"))
+        object.applications = $root.device.DeviceInfo.Applications.toObject(message.applications, options);
+      if (message.appInstanceId != null && message.hasOwnProperty("appInstanceId"))
+        object.appInstanceId = $root.device.StringMaybe.toObject(message.appInstanceId, options);
+      if (message.hardwareUuid != null && message.hasOwnProperty("hardwareUuid"))
+        object.hardwareUuid = $root.device.StringMaybe.toObject(message.hardwareUuid, options);
+      if (message.core != null && message.hasOwnProperty("core"))
+        object.core = options.enums === String ? $root.device.Core[message.core] : message.core;
+      if (message.intuneManagedDeviceId != null && message.hasOwnProperty("intuneManagedDeviceId"))
+        object.intuneManagedDeviceId = $root.device.StringMaybe.toObject(message.intuneManagedDeviceId, options);
+      if (message.osDomainName != null && message.hasOwnProperty("osDomainName"))
+        object.osDomainName = $root.device.StringMaybe.toObject(message.osDomainName, options);
+      if (message.hostname != null && message.hasOwnProperty("hostname"))
+        object.hostname = $root.device.StringMaybe.toObject(message.hostname, options);
+      if (message.hardwareSerialNum != null && message.hasOwnProperty("hardwareSerialNum"))
+        object.hardwareSerialNum = $root.device.StringMaybe.toObject(message.hardwareSerialNum, options);
+      if (message.tpmInfo != null && message.hasOwnProperty("tpmInfo"))
+        object.tpmInfo = $root.device.DeviceInfo.TPMInfo.toObject(message.tpmInfo, options);
+      if (message.crowdstrikeAgentId != null && message.hasOwnProperty("crowdstrikeAgentId"))
+        object.crowdstrikeAgentId = $root.device.StringMaybe.toObject(message.crowdstrikeAgentId, options);
+      if (message.biSdkInfo != null && message.hasOwnProperty("biSdkInfo"))
+        object.biSdkInfo = $root.device.DeviceInfo.BiSdkInfo.toObject(message.biSdkInfo, options);
+      if (message.keyProvenances != null && message.hasOwnProperty("keyProvenances"))
+        object.keyProvenances = $root.device.DeviceInfo.KeyProvenances.toObject(message.keyProvenances, options);
+      if (message.isHalEnabled != null && message.hasOwnProperty("isHalEnabled"))
+        object.isHalEnabled = $root.device.BoolMaybe.toObject(message.isHalEnabled, options);
+      if (message.locale != null && message.hasOwnProperty("locale"))
+        object.locale = $root.device.DeviceInfo.Locale.toObject(message.locale, options);
+      if (message.intuneManagedDeviceName != null && message.hasOwnProperty("intuneManagedDeviceName"))
+        object.intuneManagedDeviceName = $root.device.StringMaybe.toObject(message.intuneManagedDeviceName, options);
+      if (message.intuneDeviceId != null && message.hasOwnProperty("intuneDeviceId"))
+        object.intuneDeviceId = $root.device.StringMaybe.toObject(message.intuneDeviceId, options);
+      return object;
+    };
+    DeviceInfo.prototype.toJSON = function toJSON() {
+      return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+    DeviceInfo.Applications = function() {
+      function Applications(properties) {
+        this.software = [];
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      Applications.prototype.answer = null;
+      Applications.prototype.software = $util.emptyArray;
+      Applications.create = function create(properties) {
+        return new Applications(properties);
+      };
+      Applications.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.software != null && message.software.length)
+          for (let i = 0; i < message.software.length; ++i)
+            $root.device.DeviceInfo.Applications.Software.encode(message.software[i], writer.uint32(18).fork()).ldelim();
+        return writer;
+      };
+      Applications.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      Applications.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Applications();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              if (!(message.software && message.software.length))
+                message.software = [];
+              message.software.push($root.device.DeviceInfo.Applications.Software.decode(reader, reader.uint32()));
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      Applications.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      Applications.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.software != null && message.hasOwnProperty("software")) {
+          if (!Array.isArray(message.software))
+            return "software: array expected";
+          for (let i = 0; i < message.software.length; ++i) {
+            let error = $root.device.DeviceInfo.Applications.Software.verify(message.software[i]);
+            if (error)
+              return "software." + error;
+          }
+        }
+        return null;
+      };
+      Applications.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.Applications)
+          return object;
+        let message = new $root.device.DeviceInfo.Applications();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.Applications.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.software) {
+          if (!Array.isArray(object.software))
+            throw TypeError(".device.DeviceInfo.Applications.software: array expected");
+          message.software = [];
+          for (let i = 0; i < object.software.length; ++i) {
+            if (typeof object.software[i] !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.software: object expected");
+            message.software[i] = $root.device.DeviceInfo.Applications.Software.fromObject(object.software[i]);
+          }
+        }
+        return message;
+      };
+      Applications.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.arrays || options.defaults)
+          object.software = [];
+        if (options.defaults)
+          object.answer = null;
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.software && message.software.length) {
+          object.software = [];
+          for (let j = 0; j < message.software.length; ++j)
+            object.software[j] = $root.device.DeviceInfo.Applications.Software.toObject(message.software[j], options);
+        }
+        return object;
+      };
+      Applications.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      Applications.Software = function() {
+        function Software(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        Software.prototype.answer = null;
+        Software.prototype.architecture = 0;
+        Software.prototype.installDomain = 0;
+        Software.prototype.identifier = null;
+        Software.prototype.name = null;
+        Software.prototype.version = null;
+        Software.prototype.publisher = null;
+        Software.prototype.installLocation = null;
+        Software.prototype.installDate = null;
+        Software.prototype.language = null;
+        Software.create = function create(properties) {
+          return new Software(properties);
+        };
+        Software.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.architecture != null && Object.hasOwnProperty.call(message, "architecture"))
+            writer.uint32(16).int32(message.architecture);
+          if (message.installDomain != null && Object.hasOwnProperty.call(message, "installDomain"))
+            writer.uint32(24).int32(message.installDomain);
+          if (message.identifier != null && Object.hasOwnProperty.call(message, "identifier"))
+            $root.device.StringMaybe.encode(message.identifier, writer.uint32(34).fork()).ldelim();
+          if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            $root.device.StringMaybe.encode(message.name, writer.uint32(42).fork()).ldelim();
+          if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+            $root.device.StringMaybe.encode(message.version, writer.uint32(50).fork()).ldelim();
+          if (message.publisher != null && Object.hasOwnProperty.call(message, "publisher"))
+            $root.device.StringMaybe.encode(message.publisher, writer.uint32(58).fork()).ldelim();
+          if (message.installLocation != null && Object.hasOwnProperty.call(message, "installLocation"))
+            $root.device.StringMaybe.encode(message.installLocation, writer.uint32(66).fork()).ldelim();
+          if (message.installDate != null && Object.hasOwnProperty.call(message, "installDate"))
+            $root.device.StringMaybe.encode(message.installDate, writer.uint32(74).fork()).ldelim();
+          if (message.language != null && Object.hasOwnProperty.call(message, "language"))
+            $root.device.StringMaybe.encode(message.language, writer.uint32(82).fork()).ldelim();
+          return writer;
+        };
+        Software.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        Software.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Applications.Software();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.architecture = reader.int32();
+                break;
+              case 3:
+                message.installDomain = reader.int32();
+                break;
+              case 4:
+                message.identifier = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 5:
+                message.name = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 6:
+                message.version = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 7:
+                message.publisher = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 8:
+                message.installLocation = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 9:
+                message.installDate = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 10:
+                message.language = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        Software.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        Software.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.architecture != null && message.hasOwnProperty("architecture"))
+            switch (message.architecture) {
+              default:
+                return "architecture: enum value expected";
+              case 0:
+              case 1:
+              case 2:
+              case 3:
+                break;
+            }
+          if (message.installDomain != null && message.hasOwnProperty("installDomain"))
+            switch (message.installDomain) {
+              default:
+                return "installDomain: enum value expected";
+              case 0:
+              case 1:
+              case 2:
+              case 3:
+                break;
+            }
+          if (message.identifier != null && message.hasOwnProperty("identifier")) {
+            let error = $root.device.StringMaybe.verify(message.identifier);
+            if (error)
+              return "identifier." + error;
+          }
+          if (message.name != null && message.hasOwnProperty("name")) {
+            let error = $root.device.StringMaybe.verify(message.name);
+            if (error)
+              return "name." + error;
+          }
+          if (message.version != null && message.hasOwnProperty("version")) {
+            let error = $root.device.StringMaybe.verify(message.version);
+            if (error)
+              return "version." + error;
+          }
+          if (message.publisher != null && message.hasOwnProperty("publisher")) {
+            let error = $root.device.StringMaybe.verify(message.publisher);
+            if (error)
+              return "publisher." + error;
+          }
+          if (message.installLocation != null && message.hasOwnProperty("installLocation")) {
+            let error = $root.device.StringMaybe.verify(message.installLocation);
+            if (error)
+              return "installLocation." + error;
+          }
+          if (message.installDate != null && message.hasOwnProperty("installDate")) {
+            let error = $root.device.StringMaybe.verify(message.installDate);
+            if (error)
+              return "installDate." + error;
+          }
+          if (message.language != null && message.hasOwnProperty("language")) {
+            let error = $root.device.StringMaybe.verify(message.language);
+            if (error)
+              return "language." + error;
+          }
+          return null;
+        };
+        Software.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.Applications.Software)
+            return object;
+          let message = new $root.device.DeviceInfo.Applications.Software();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          switch (object.architecture) {
+            case "ARCH_UNSUPPORTED":
+            case 0:
+              message.architecture = 0;
+              break;
+            case "ARCH_UNKNOWN":
+            case 1:
+              message.architecture = 1;
+              break;
+            case "ARCH_BIT32":
+            case 2:
+              message.architecture = 2;
+              break;
+            case "ARCH_BIT64":
+            case 3:
+              message.architecture = 3;
+              break;
+          }
+          switch (object.installDomain) {
+            case "DOMAIN_UNSUPPORTED":
+            case 0:
+              message.installDomain = 0;
+              break;
+            case "DOMAIN_UNKNOWN":
+            case 1:
+              message.installDomain = 1;
+              break;
+            case "DOMAIN_USER":
+            case 2:
+              message.installDomain = 2;
+              break;
+            case "DOMAIN_MACHINE":
+            case 3:
+              message.installDomain = 3;
+              break;
+          }
+          if (object.identifier != null) {
+            if (typeof object.identifier !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.identifier: object expected");
+            message.identifier = $root.device.StringMaybe.fromObject(object.identifier);
+          }
+          if (object.name != null) {
+            if (typeof object.name !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.name: object expected");
+            message.name = $root.device.StringMaybe.fromObject(object.name);
+          }
+          if (object.version != null) {
+            if (typeof object.version !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.version: object expected");
+            message.version = $root.device.StringMaybe.fromObject(object.version);
+          }
+          if (object.publisher != null) {
+            if (typeof object.publisher !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.publisher: object expected");
+            message.publisher = $root.device.StringMaybe.fromObject(object.publisher);
+          }
+          if (object.installLocation != null) {
+            if (typeof object.installLocation !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.installLocation: object expected");
+            message.installLocation = $root.device.StringMaybe.fromObject(object.installLocation);
+          }
+          if (object.installDate != null) {
+            if (typeof object.installDate !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.installDate: object expected");
+            message.installDate = $root.device.StringMaybe.fromObject(object.installDate);
+          }
+          if (object.language != null) {
+            if (typeof object.language !== "object")
+              throw TypeError(".device.DeviceInfo.Applications.Software.language: object expected");
+            message.language = $root.device.StringMaybe.fromObject(object.language);
+          }
+          return message;
+        };
+        Software.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.architecture = options.enums === String ? "ARCH_UNSUPPORTED" : 0;
+            object.installDomain = options.enums === String ? "DOMAIN_UNSUPPORTED" : 0;
+            object.identifier = null;
+            object.name = null;
+            object.version = null;
+            object.publisher = null;
+            object.installLocation = null;
+            object.installDate = null;
+            object.language = null;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.architecture != null && message.hasOwnProperty("architecture"))
+            object.architecture = options.enums === String ? $root.device.DeviceInfo.Applications.Arch[message.architecture] : message.architecture;
+          if (message.installDomain != null && message.hasOwnProperty("installDomain"))
+            object.installDomain = options.enums === String ? $root.device.DeviceInfo.Applications.InstallDomain[message.installDomain] : message.installDomain;
+          if (message.identifier != null && message.hasOwnProperty("identifier"))
+            object.identifier = $root.device.StringMaybe.toObject(message.identifier, options);
+          if (message.name != null && message.hasOwnProperty("name"))
+            object.name = $root.device.StringMaybe.toObject(message.name, options);
+          if (message.version != null && message.hasOwnProperty("version"))
+            object.version = $root.device.StringMaybe.toObject(message.version, options);
+          if (message.publisher != null && message.hasOwnProperty("publisher"))
+            object.publisher = $root.device.StringMaybe.toObject(message.publisher, options);
+          if (message.installLocation != null && message.hasOwnProperty("installLocation"))
+            object.installLocation = $root.device.StringMaybe.toObject(message.installLocation, options);
+          if (message.installDate != null && message.hasOwnProperty("installDate"))
+            object.installDate = $root.device.StringMaybe.toObject(message.installDate, options);
+          if (message.language != null && message.hasOwnProperty("language"))
+            object.language = $root.device.StringMaybe.toObject(message.language, options);
+          return object;
+        };
+        Software.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        return Software;
+      }();
+      Applications.InstallDomain = function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "DOMAIN_UNSUPPORTED"] = 0;
+        values[valuesById[1] = "DOMAIN_UNKNOWN"] = 1;
+        values[valuesById[2] = "DOMAIN_USER"] = 2;
+        values[valuesById[3] = "DOMAIN_MACHINE"] = 3;
+        return values;
+      }();
+      Applications.Arch = function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "ARCH_UNSUPPORTED"] = 0;
+        values[valuesById[1] = "ARCH_UNKNOWN"] = 1;
+        values[valuesById[2] = "ARCH_BIT32"] = 2;
+        values[valuesById[3] = "ARCH_BIT64"] = 3;
+        return values;
+      }();
+      return Applications;
+    }();
+    DeviceInfo.OSVersion = function() {
+      function OSVersion(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      OSVersion.prototype.answer = null;
+      OSVersion.prototype.major = null;
+      OSVersion.prototype.minor = null;
+      OSVersion.prototype.build = null;
+      OSVersion.prototype.patch = null;
+      OSVersion.prototype.revision = null;
+      OSVersion.prototype.servicePack = null;
+      OSVersion.prototype.isServer = null;
+      OSVersion.prototype.sdk = null;
+      OSVersion.prototype.previewSdk = null;
+      OSVersion.prototype.incremental = null;
+      OSVersion.prototype.securityPatch = null;
+      OSVersion.prototype.userAgent = null;
+      OSVersion.prototype.userAgentData = null;
+      OSVersion.create = function create(properties) {
+        return new OSVersion(properties);
+      };
+      OSVersion.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.major != null && Object.hasOwnProperty.call(message, "major"))
+          $root.device.Int32Maybe.encode(message.major, writer.uint32(18).fork()).ldelim();
+        if (message.minor != null && Object.hasOwnProperty.call(message, "minor"))
+          $root.device.Int32Maybe.encode(message.minor, writer.uint32(26).fork()).ldelim();
+        if (message.build != null && Object.hasOwnProperty.call(message, "build"))
+          $root.device.StringMaybe.encode(message.build, writer.uint32(34).fork()).ldelim();
+        if (message.patch != null && Object.hasOwnProperty.call(message, "patch"))
+          $root.device.Int32Maybe.encode(message.patch, writer.uint32(42).fork()).ldelim();
+        if (message.revision != null && Object.hasOwnProperty.call(message, "revision"))
+          $root.device.Int32Maybe.encode(message.revision, writer.uint32(50).fork()).ldelim();
+        if (message.servicePack != null && Object.hasOwnProperty.call(message, "servicePack"))
+          $root.device.StringMaybe.encode(message.servicePack, writer.uint32(58).fork()).ldelim();
+        if (message.isServer != null && Object.hasOwnProperty.call(message, "isServer"))
+          $root.device.BoolMaybe.encode(message.isServer, writer.uint32(66).fork()).ldelim();
+        if (message.sdk != null && Object.hasOwnProperty.call(message, "sdk"))
+          $root.device.Int32Maybe.encode(message.sdk, writer.uint32(74).fork()).ldelim();
+        if (message.previewSdk != null && Object.hasOwnProperty.call(message, "previewSdk"))
+          $root.device.Int32Maybe.encode(message.previewSdk, writer.uint32(82).fork()).ldelim();
+        if (message.incremental != null && Object.hasOwnProperty.call(message, "incremental"))
+          $root.device.StringMaybe.encode(message.incremental, writer.uint32(90).fork()).ldelim();
+        if (message.securityPatch != null && Object.hasOwnProperty.call(message, "securityPatch"))
+          $root.device.StringMaybe.encode(message.securityPatch, writer.uint32(98).fork()).ldelim();
+        if (message.userAgent != null && Object.hasOwnProperty.call(message, "userAgent"))
+          $root.device.StringMaybe.encode(message.userAgent, writer.uint32(106).fork()).ldelim();
+        if (message.userAgentData != null && Object.hasOwnProperty.call(message, "userAgentData"))
+          $root.device.DeviceInfo.OSVersion.UserAgentData.encode(message.userAgentData, writer.uint32(114).fork()).ldelim();
+        return writer;
+      };
+      OSVersion.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      OSVersion.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.major = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.minor = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 4:
+              message.build = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 5:
+              message.patch = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 6:
+              message.revision = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 7:
+              message.servicePack = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 8:
+              message.isServer = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 9:
+              message.sdk = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 10:
+              message.previewSdk = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 11:
+              message.incremental = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 12:
+              message.securityPatch = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 13:
+              message.userAgent = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 14:
+              message.userAgentData = $root.device.DeviceInfo.OSVersion.UserAgentData.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      OSVersion.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      OSVersion.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.major != null && message.hasOwnProperty("major")) {
+          let error = $root.device.Int32Maybe.verify(message.major);
+          if (error)
+            return "major." + error;
+        }
+        if (message.minor != null && message.hasOwnProperty("minor")) {
+          let error = $root.device.Int32Maybe.verify(message.minor);
+          if (error)
+            return "minor." + error;
+        }
+        if (message.build != null && message.hasOwnProperty("build")) {
+          let error = $root.device.StringMaybe.verify(message.build);
+          if (error)
+            return "build." + error;
+        }
+        if (message.patch != null && message.hasOwnProperty("patch")) {
+          let error = $root.device.Int32Maybe.verify(message.patch);
+          if (error)
+            return "patch." + error;
+        }
+        if (message.revision != null && message.hasOwnProperty("revision")) {
+          let error = $root.device.Int32Maybe.verify(message.revision);
+          if (error)
+            return "revision." + error;
+        }
+        if (message.servicePack != null && message.hasOwnProperty("servicePack")) {
+          let error = $root.device.StringMaybe.verify(message.servicePack);
+          if (error)
+            return "servicePack." + error;
+        }
+        if (message.isServer != null && message.hasOwnProperty("isServer")) {
+          let error = $root.device.BoolMaybe.verify(message.isServer);
+          if (error)
+            return "isServer." + error;
+        }
+        if (message.sdk != null && message.hasOwnProperty("sdk")) {
+          let error = $root.device.Int32Maybe.verify(message.sdk);
+          if (error)
+            return "sdk." + error;
+        }
+        if (message.previewSdk != null && message.hasOwnProperty("previewSdk")) {
+          let error = $root.device.Int32Maybe.verify(message.previewSdk);
+          if (error)
+            return "previewSdk." + error;
+        }
+        if (message.incremental != null && message.hasOwnProperty("incremental")) {
+          let error = $root.device.StringMaybe.verify(message.incremental);
+          if (error)
+            return "incremental." + error;
+        }
+        if (message.securityPatch != null && message.hasOwnProperty("securityPatch")) {
+          let error = $root.device.StringMaybe.verify(message.securityPatch);
+          if (error)
+            return "securityPatch." + error;
+        }
+        if (message.userAgent != null && message.hasOwnProperty("userAgent")) {
+          let error = $root.device.StringMaybe.verify(message.userAgent);
+          if (error)
+            return "userAgent." + error;
+        }
+        if (message.userAgentData != null && message.hasOwnProperty("userAgentData")) {
+          let error = $root.device.DeviceInfo.OSVersion.UserAgentData.verify(message.userAgentData);
+          if (error)
+            return "userAgentData." + error;
+        }
+        return null;
+      };
+      OSVersion.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.OSVersion)
+          return object;
+        let message = new $root.device.DeviceInfo.OSVersion();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.major != null) {
+          if (typeof object.major !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.major: object expected");
+          message.major = $root.device.Int32Maybe.fromObject(object.major);
+        }
+        if (object.minor != null) {
+          if (typeof object.minor !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.minor: object expected");
+          message.minor = $root.device.Int32Maybe.fromObject(object.minor);
+        }
+        if (object.build != null) {
+          if (typeof object.build !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.build: object expected");
+          message.build = $root.device.StringMaybe.fromObject(object.build);
+        }
+        if (object.patch != null) {
+          if (typeof object.patch !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.patch: object expected");
+          message.patch = $root.device.Int32Maybe.fromObject(object.patch);
+        }
+        if (object.revision != null) {
+          if (typeof object.revision !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.revision: object expected");
+          message.revision = $root.device.Int32Maybe.fromObject(object.revision);
+        }
+        if (object.servicePack != null) {
+          if (typeof object.servicePack !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.servicePack: object expected");
+          message.servicePack = $root.device.StringMaybe.fromObject(object.servicePack);
+        }
+        if (object.isServer != null) {
+          if (typeof object.isServer !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.isServer: object expected");
+          message.isServer = $root.device.BoolMaybe.fromObject(object.isServer);
+        }
+        if (object.sdk != null) {
+          if (typeof object.sdk !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.sdk: object expected");
+          message.sdk = $root.device.Int32Maybe.fromObject(object.sdk);
+        }
+        if (object.previewSdk != null) {
+          if (typeof object.previewSdk !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.previewSdk: object expected");
+          message.previewSdk = $root.device.Int32Maybe.fromObject(object.previewSdk);
+        }
+        if (object.incremental != null) {
+          if (typeof object.incremental !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.incremental: object expected");
+          message.incremental = $root.device.StringMaybe.fromObject(object.incremental);
+        }
+        if (object.securityPatch != null) {
+          if (typeof object.securityPatch !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.securityPatch: object expected");
+          message.securityPatch = $root.device.StringMaybe.fromObject(object.securityPatch);
+        }
+        if (object.userAgent != null) {
+          if (typeof object.userAgent !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.userAgent: object expected");
+          message.userAgent = $root.device.StringMaybe.fromObject(object.userAgent);
+        }
+        if (object.userAgentData != null) {
+          if (typeof object.userAgentData !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.userAgentData: object expected");
+          message.userAgentData = $root.device.DeviceInfo.OSVersion.UserAgentData.fromObject(object.userAgentData);
+        }
+        return message;
+      };
+      OSVersion.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.major = null;
+          object.minor = null;
+          object.build = null;
+          object.patch = null;
+          object.revision = null;
+          object.servicePack = null;
+          object.isServer = null;
+          object.sdk = null;
+          object.previewSdk = null;
+          object.incremental = null;
+          object.securityPatch = null;
+          object.userAgent = null;
+          object.userAgentData = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.major != null && message.hasOwnProperty("major"))
+          object.major = $root.device.Int32Maybe.toObject(message.major, options);
+        if (message.minor != null && message.hasOwnProperty("minor"))
+          object.minor = $root.device.Int32Maybe.toObject(message.minor, options);
+        if (message.build != null && message.hasOwnProperty("build"))
+          object.build = $root.device.StringMaybe.toObject(message.build, options);
+        if (message.patch != null && message.hasOwnProperty("patch"))
+          object.patch = $root.device.Int32Maybe.toObject(message.patch, options);
+        if (message.revision != null && message.hasOwnProperty("revision"))
+          object.revision = $root.device.Int32Maybe.toObject(message.revision, options);
+        if (message.servicePack != null && message.hasOwnProperty("servicePack"))
+          object.servicePack = $root.device.StringMaybe.toObject(message.servicePack, options);
+        if (message.isServer != null && message.hasOwnProperty("isServer"))
+          object.isServer = $root.device.BoolMaybe.toObject(message.isServer, options);
+        if (message.sdk != null && message.hasOwnProperty("sdk"))
+          object.sdk = $root.device.Int32Maybe.toObject(message.sdk, options);
+        if (message.previewSdk != null && message.hasOwnProperty("previewSdk"))
+          object.previewSdk = $root.device.Int32Maybe.toObject(message.previewSdk, options);
+        if (message.incremental != null && message.hasOwnProperty("incremental"))
+          object.incremental = $root.device.StringMaybe.toObject(message.incremental, options);
+        if (message.securityPatch != null && message.hasOwnProperty("securityPatch"))
+          object.securityPatch = $root.device.StringMaybe.toObject(message.securityPatch, options);
+        if (message.userAgent != null && message.hasOwnProperty("userAgent"))
+          object.userAgent = $root.device.StringMaybe.toObject(message.userAgent, options);
+        if (message.userAgentData != null && message.hasOwnProperty("userAgentData"))
+          object.userAgentData = $root.device.DeviceInfo.OSVersion.UserAgentData.toObject(message.userAgentData, options);
+        return object;
+      };
+      OSVersion.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      OSVersion.UserAgentData = function() {
+        function UserAgentData(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        UserAgentData.prototype.answer = null;
+        UserAgentData.prototype.browser = null;
+        UserAgentData.prototype.platform = null;
+        UserAgentData.prototype.hostPlatform = null;
+        UserAgentData.prototype.device = null;
+        UserAgentData.prototype.clientData = null;
+        UserAgentData.create = function create(properties) {
+          return new UserAgentData(properties);
+        };
+        UserAgentData.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.browser != null && Object.hasOwnProperty.call(message, "browser"))
+            $root.device.DeviceInfo.OSVersion.UserAgentData.Browser.encode(message.browser, writer.uint32(18).fork()).ldelim();
+          if (message.platform != null && Object.hasOwnProperty.call(message, "platform"))
+            $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.encode(message.platform, writer.uint32(26).fork()).ldelim();
+          if (message.device != null && Object.hasOwnProperty.call(message, "device"))
+            $root.device.DeviceInfo.OSVersion.UserAgentData.Device.encode(message.device, writer.uint32(34).fork()).ldelim();
+          if (message.clientData != null && Object.hasOwnProperty.call(message, "clientData"))
+            $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData.encode(message.clientData, writer.uint32(42).fork()).ldelim();
+          if (message.hostPlatform != null && Object.hasOwnProperty.call(message, "hostPlatform"))
+            $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.encode(message.hostPlatform, writer.uint32(50).fork()).ldelim();
+          return writer;
+        };
+        UserAgentData.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        UserAgentData.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion.UserAgentData();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.browser = $root.device.DeviceInfo.OSVersion.UserAgentData.Browser.decode(reader, reader.uint32());
+                break;
+              case 3:
+                message.platform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.decode(reader, reader.uint32());
+                break;
+              case 6:
+                message.hostPlatform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.decode(reader, reader.uint32());
+                break;
+              case 4:
+                message.device = $root.device.DeviceInfo.OSVersion.UserAgentData.Device.decode(reader, reader.uint32());
+                break;
+              case 5:
+                message.clientData = $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData.decode(reader, reader.uint32());
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        UserAgentData.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        UserAgentData.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.browser != null && message.hasOwnProperty("browser")) {
+            let error = $root.device.DeviceInfo.OSVersion.UserAgentData.Browser.verify(message.browser);
+            if (error)
+              return "browser." + error;
+          }
+          if (message.platform != null && message.hasOwnProperty("platform")) {
+            let error = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.verify(message.platform);
+            if (error)
+              return "platform." + error;
+          }
+          if (message.hostPlatform != null && message.hasOwnProperty("hostPlatform")) {
+            let error = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.verify(message.hostPlatform);
+            if (error)
+              return "hostPlatform." + error;
+          }
+          if (message.device != null && message.hasOwnProperty("device")) {
+            let error = $root.device.DeviceInfo.OSVersion.UserAgentData.Device.verify(message.device);
+            if (error)
+              return "device." + error;
+          }
+          if (message.clientData != null && message.hasOwnProperty("clientData")) {
+            let error = $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData.verify(message.clientData);
+            if (error)
+              return "clientData." + error;
+          }
+          return null;
+        };
+        UserAgentData.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.OSVersion.UserAgentData)
+            return object;
+          let message = new $root.device.DeviceInfo.OSVersion.UserAgentData();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          if (object.browser != null) {
+            if (typeof object.browser !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.browser: object expected");
+            message.browser = $root.device.DeviceInfo.OSVersion.UserAgentData.Browser.fromObject(object.browser);
+          }
+          if (object.platform != null) {
+            if (typeof object.platform !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.platform: object expected");
+            message.platform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.fromObject(object.platform);
+          }
+          if (object.hostPlatform != null) {
+            if (typeof object.hostPlatform !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.hostPlatform: object expected");
+            message.hostPlatform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.fromObject(object.hostPlatform);
+          }
+          if (object.device != null) {
+            if (typeof object.device !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.device: object expected");
+            message.device = $root.device.DeviceInfo.OSVersion.UserAgentData.Device.fromObject(object.device);
+          }
+          if (object.clientData != null) {
+            if (typeof object.clientData !== "object")
+              throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.clientData: object expected");
+            message.clientData = $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData.fromObject(object.clientData);
+          }
+          return message;
+        };
+        UserAgentData.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.browser = null;
+            object.platform = null;
+            object.device = null;
+            object.clientData = null;
+            object.hostPlatform = null;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.browser != null && message.hasOwnProperty("browser"))
+            object.browser = $root.device.DeviceInfo.OSVersion.UserAgentData.Browser.toObject(message.browser, options);
+          if (message.platform != null && message.hasOwnProperty("platform"))
+            object.platform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.toObject(message.platform, options);
+          if (message.device != null && message.hasOwnProperty("device"))
+            object.device = $root.device.DeviceInfo.OSVersion.UserAgentData.Device.toObject(message.device, options);
+          if (message.clientData != null && message.hasOwnProperty("clientData"))
+            object.clientData = $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData.toObject(message.clientData, options);
+          if (message.hostPlatform != null && message.hasOwnProperty("hostPlatform"))
+            object.hostPlatform = $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.toObject(message.hostPlatform, options);
+          return object;
+        };
+        UserAgentData.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        UserAgentData.Browser = function() {
+          function Browser(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          Browser.prototype.answer = null;
+          Browser.prototype.name = null;
+          Browser.prototype.version = null;
+          Browser.prototype.engineName = null;
+          Browser.prototype.engineVersion = null;
+          Browser.create = function create(properties) {
+            return new Browser(properties);
+          };
+          Browser.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+              $root.device.StringMaybe.encode(message.name, writer.uint32(18).fork()).ldelim();
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+              $root.device.StringMaybe.encode(message.version, writer.uint32(26).fork()).ldelim();
+            if (message.engineName != null && Object.hasOwnProperty.call(message, "engineName"))
+              $root.device.StringMaybe.encode(message.engineName, writer.uint32(34).fork()).ldelim();
+            if (message.engineVersion != null && Object.hasOwnProperty.call(message, "engineVersion"))
+              $root.device.StringMaybe.encode(message.engineVersion, writer.uint32(42).fork()).ldelim();
+            return writer;
+          };
+          Browser.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          Browser.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion.UserAgentData.Browser();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.name = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 3:
+                  message.version = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 4:
+                  message.engineName = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 5:
+                  message.engineVersion = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          Browser.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          Browser.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.name != null && message.hasOwnProperty("name")) {
+              let error = $root.device.StringMaybe.verify(message.name);
+              if (error)
+                return "name." + error;
+            }
+            if (message.version != null && message.hasOwnProperty("version")) {
+              let error = $root.device.StringMaybe.verify(message.version);
+              if (error)
+                return "version." + error;
+            }
+            if (message.engineName != null && message.hasOwnProperty("engineName")) {
+              let error = $root.device.StringMaybe.verify(message.engineName);
+              if (error)
+                return "engineName." + error;
+            }
+            if (message.engineVersion != null && message.hasOwnProperty("engineVersion")) {
+              let error = $root.device.StringMaybe.verify(message.engineVersion);
+              if (error)
+                return "engineVersion." + error;
+            }
+            return null;
+          };
+          Browser.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.OSVersion.UserAgentData.Browser)
+              return object;
+            let message = new $root.device.DeviceInfo.OSVersion.UserAgentData.Browser();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            if (object.name != null) {
+              if (typeof object.name !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.name: object expected");
+              message.name = $root.device.StringMaybe.fromObject(object.name);
+            }
+            if (object.version != null) {
+              if (typeof object.version !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.version: object expected");
+              message.version = $root.device.StringMaybe.fromObject(object.version);
+            }
+            if (object.engineName != null) {
+              if (typeof object.engineName !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.engineName: object expected");
+              message.engineName = $root.device.StringMaybe.fromObject(object.engineName);
+            }
+            if (object.engineVersion != null) {
+              if (typeof object.engineVersion !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Browser.engineVersion: object expected");
+              message.engineVersion = $root.device.StringMaybe.fromObject(object.engineVersion);
+            }
+            return message;
+          };
+          Browser.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.name = null;
+              object.version = null;
+              object.engineName = null;
+              object.engineVersion = null;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.name != null && message.hasOwnProperty("name"))
+              object.name = $root.device.StringMaybe.toObject(message.name, options);
+            if (message.version != null && message.hasOwnProperty("version"))
+              object.version = $root.device.StringMaybe.toObject(message.version, options);
+            if (message.engineName != null && message.hasOwnProperty("engineName"))
+              object.engineName = $root.device.StringMaybe.toObject(message.engineName, options);
+            if (message.engineVersion != null && message.hasOwnProperty("engineVersion"))
+              object.engineVersion = $root.device.StringMaybe.toObject(message.engineVersion, options);
+            return object;
+          };
+          Browser.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return Browser;
+        }();
+        UserAgentData.HostPlatform = function() {
+          function HostPlatform(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          HostPlatform.prototype.answer = null;
+          HostPlatform.prototype.name = null;
+          HostPlatform.prototype.version = null;
+          HostPlatform.create = function create(properties) {
+            return new HostPlatform(properties);
+          };
+          HostPlatform.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+              $root.device.StringMaybe.encode(message.name, writer.uint32(18).fork()).ldelim();
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+              $root.device.StringMaybe.encode(message.version, writer.uint32(26).fork()).ldelim();
+            return writer;
+          };
+          HostPlatform.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          HostPlatform.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.name = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 3:
+                  message.version = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          HostPlatform.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          HostPlatform.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.name != null && message.hasOwnProperty("name")) {
+              let error = $root.device.StringMaybe.verify(message.name);
+              if (error)
+                return "name." + error;
+            }
+            if (message.version != null && message.hasOwnProperty("version")) {
+              let error = $root.device.StringMaybe.verify(message.version);
+              if (error)
+                return "version." + error;
+            }
+            return null;
+          };
+          HostPlatform.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform)
+              return object;
+            let message = new $root.device.DeviceInfo.OSVersion.UserAgentData.HostPlatform();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            if (object.name != null) {
+              if (typeof object.name !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.name: object expected");
+              message.name = $root.device.StringMaybe.fromObject(object.name);
+            }
+            if (object.version != null) {
+              if (typeof object.version !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.HostPlatform.version: object expected");
+              message.version = $root.device.StringMaybe.fromObject(object.version);
+            }
+            return message;
+          };
+          HostPlatform.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.name = null;
+              object.version = null;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.name != null && message.hasOwnProperty("name"))
+              object.name = $root.device.StringMaybe.toObject(message.name, options);
+            if (message.version != null && message.hasOwnProperty("version"))
+              object.version = $root.device.StringMaybe.toObject(message.version, options);
+            return object;
+          };
+          HostPlatform.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return HostPlatform;
+        }();
+        UserAgentData.Device = function() {
+          function Device(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          Device.prototype.answer = null;
+          Device.prototype.architecture = null;
+          Device.prototype.model = null;
+          Device.prototype.type = null;
+          Device.prototype.vendor = null;
+          Device.create = function create(properties) {
+            return new Device(properties);
+          };
+          Device.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.architecture != null && Object.hasOwnProperty.call(message, "architecture"))
+              $root.device.StringMaybe.encode(message.architecture, writer.uint32(18).fork()).ldelim();
+            if (message.model != null && Object.hasOwnProperty.call(message, "model"))
+              $root.device.StringMaybe.encode(message.model, writer.uint32(26).fork()).ldelim();
+            if (message.type != null && Object.hasOwnProperty.call(message, "type"))
+              $root.device.StringMaybe.encode(message.type, writer.uint32(34).fork()).ldelim();
+            if (message.vendor != null && Object.hasOwnProperty.call(message, "vendor"))
+              $root.device.StringMaybe.encode(message.vendor, writer.uint32(42).fork()).ldelim();
+            return writer;
+          };
+          Device.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          Device.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion.UserAgentData.Device();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.architecture = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 3:
+                  message.model = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 4:
+                  message.type = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 5:
+                  message.vendor = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          Device.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          Device.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.architecture != null && message.hasOwnProperty("architecture")) {
+              let error = $root.device.StringMaybe.verify(message.architecture);
+              if (error)
+                return "architecture." + error;
+            }
+            if (message.model != null && message.hasOwnProperty("model")) {
+              let error = $root.device.StringMaybe.verify(message.model);
+              if (error)
+                return "model." + error;
+            }
+            if (message.type != null && message.hasOwnProperty("type")) {
+              let error = $root.device.StringMaybe.verify(message.type);
+              if (error)
+                return "type." + error;
+            }
+            if (message.vendor != null && message.hasOwnProperty("vendor")) {
+              let error = $root.device.StringMaybe.verify(message.vendor);
+              if (error)
+                return "vendor." + error;
+            }
+            return null;
+          };
+          Device.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.OSVersion.UserAgentData.Device)
+              return object;
+            let message = new $root.device.DeviceInfo.OSVersion.UserAgentData.Device();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            if (object.architecture != null) {
+              if (typeof object.architecture !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.architecture: object expected");
+              message.architecture = $root.device.StringMaybe.fromObject(object.architecture);
+            }
+            if (object.model != null) {
+              if (typeof object.model !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.model: object expected");
+              message.model = $root.device.StringMaybe.fromObject(object.model);
+            }
+            if (object.type != null) {
+              if (typeof object.type !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.type: object expected");
+              message.type = $root.device.StringMaybe.fromObject(object.type);
+            }
+            if (object.vendor != null) {
+              if (typeof object.vendor !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.Device.vendor: object expected");
+              message.vendor = $root.device.StringMaybe.fromObject(object.vendor);
+            }
+            return message;
+          };
+          Device.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.architecture = null;
+              object.model = null;
+              object.type = null;
+              object.vendor = null;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.architecture != null && message.hasOwnProperty("architecture"))
+              object.architecture = $root.device.StringMaybe.toObject(message.architecture, options);
+            if (message.model != null && message.hasOwnProperty("model"))
+              object.model = $root.device.StringMaybe.toObject(message.model, options);
+            if (message.type != null && message.hasOwnProperty("type"))
+              object.type = $root.device.StringMaybe.toObject(message.type, options);
+            if (message.vendor != null && message.hasOwnProperty("vendor"))
+              object.vendor = $root.device.StringMaybe.toObject(message.vendor, options);
+            return object;
+          };
+          Device.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return Device;
+        }();
+        UserAgentData.ClientData = function() {
+          function ClientData(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          ClientData.prototype.answer = null;
+          ClientData.prototype.platform = null;
+          ClientData.prototype.mobile = null;
+          ClientData.prototype.architecture = null;
+          ClientData.prototype.bitness = null;
+          ClientData.prototype.model = null;
+          ClientData.prototype.platformVersion = null;
+          ClientData.prototype.uaFullVerson = null;
+          ClientData.create = function create(properties) {
+            return new ClientData(properties);
+          };
+          ClientData.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.platform != null && Object.hasOwnProperty.call(message, "platform"))
+              $root.device.StringMaybe.encode(message.platform, writer.uint32(18).fork()).ldelim();
+            if (message.mobile != null && Object.hasOwnProperty.call(message, "mobile"))
+              $root.device.BoolMaybe.encode(message.mobile, writer.uint32(26).fork()).ldelim();
+            if (message.architecture != null && Object.hasOwnProperty.call(message, "architecture"))
+              $root.device.StringMaybe.encode(message.architecture, writer.uint32(34).fork()).ldelim();
+            if (message.bitness != null && Object.hasOwnProperty.call(message, "bitness"))
+              $root.device.StringMaybe.encode(message.bitness, writer.uint32(42).fork()).ldelim();
+            if (message.model != null && Object.hasOwnProperty.call(message, "model"))
+              $root.device.StringMaybe.encode(message.model, writer.uint32(50).fork()).ldelim();
+            if (message.platformVersion != null && Object.hasOwnProperty.call(message, "platformVersion"))
+              $root.device.StringMaybe.encode(message.platformVersion, writer.uint32(58).fork()).ldelim();
+            if (message.uaFullVerson != null && Object.hasOwnProperty.call(message, "uaFullVerson"))
+              $root.device.StringMaybe.encode(message.uaFullVerson, writer.uint32(66).fork()).ldelim();
+            return writer;
+          };
+          ClientData.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          ClientData.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.platform = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 3:
+                  message.mobile = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                  break;
+                case 4:
+                  message.architecture = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 5:
+                  message.bitness = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 6:
+                  message.model = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 7:
+                  message.platformVersion = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                case 8:
+                  message.uaFullVerson = $root.device.StringMaybe.decode(reader, reader.uint32());
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          ClientData.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          ClientData.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.platform != null && message.hasOwnProperty("platform")) {
+              let error = $root.device.StringMaybe.verify(message.platform);
+              if (error)
+                return "platform." + error;
+            }
+            if (message.mobile != null && message.hasOwnProperty("mobile")) {
+              let error = $root.device.BoolMaybe.verify(message.mobile);
+              if (error)
+                return "mobile." + error;
+            }
+            if (message.architecture != null && message.hasOwnProperty("architecture")) {
+              let error = $root.device.StringMaybe.verify(message.architecture);
+              if (error)
+                return "architecture." + error;
+            }
+            if (message.bitness != null && message.hasOwnProperty("bitness")) {
+              let error = $root.device.StringMaybe.verify(message.bitness);
+              if (error)
+                return "bitness." + error;
+            }
+            if (message.model != null && message.hasOwnProperty("model")) {
+              let error = $root.device.StringMaybe.verify(message.model);
+              if (error)
+                return "model." + error;
+            }
+            if (message.platformVersion != null && message.hasOwnProperty("platformVersion")) {
+              let error = $root.device.StringMaybe.verify(message.platformVersion);
+              if (error)
+                return "platformVersion." + error;
+            }
+            if (message.uaFullVerson != null && message.hasOwnProperty("uaFullVerson")) {
+              let error = $root.device.StringMaybe.verify(message.uaFullVerson);
+              if (error)
+                return "uaFullVerson." + error;
+            }
+            return null;
+          };
+          ClientData.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData)
+              return object;
+            let message = new $root.device.DeviceInfo.OSVersion.UserAgentData.ClientData();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            if (object.platform != null) {
+              if (typeof object.platform !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.platform: object expected");
+              message.platform = $root.device.StringMaybe.fromObject(object.platform);
+            }
+            if (object.mobile != null) {
+              if (typeof object.mobile !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.mobile: object expected");
+              message.mobile = $root.device.BoolMaybe.fromObject(object.mobile);
+            }
+            if (object.architecture != null) {
+              if (typeof object.architecture !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.architecture: object expected");
+              message.architecture = $root.device.StringMaybe.fromObject(object.architecture);
+            }
+            if (object.bitness != null) {
+              if (typeof object.bitness !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.bitness: object expected");
+              message.bitness = $root.device.StringMaybe.fromObject(object.bitness);
+            }
+            if (object.model != null) {
+              if (typeof object.model !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.model: object expected");
+              message.model = $root.device.StringMaybe.fromObject(object.model);
+            }
+            if (object.platformVersion != null) {
+              if (typeof object.platformVersion !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.platformVersion: object expected");
+              message.platformVersion = $root.device.StringMaybe.fromObject(object.platformVersion);
+            }
+            if (object.uaFullVerson != null) {
+              if (typeof object.uaFullVerson !== "object")
+                throw TypeError(".device.DeviceInfo.OSVersion.UserAgentData.ClientData.uaFullVerson: object expected");
+              message.uaFullVerson = $root.device.StringMaybe.fromObject(object.uaFullVerson);
+            }
+            return message;
+          };
+          ClientData.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.platform = null;
+              object.mobile = null;
+              object.architecture = null;
+              object.bitness = null;
+              object.model = null;
+              object.platformVersion = null;
+              object.uaFullVerson = null;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.platform != null && message.hasOwnProperty("platform"))
+              object.platform = $root.device.StringMaybe.toObject(message.platform, options);
+            if (message.mobile != null && message.hasOwnProperty("mobile"))
+              object.mobile = $root.device.BoolMaybe.toObject(message.mobile, options);
+            if (message.architecture != null && message.hasOwnProperty("architecture"))
+              object.architecture = $root.device.StringMaybe.toObject(message.architecture, options);
+            if (message.bitness != null && message.hasOwnProperty("bitness"))
+              object.bitness = $root.device.StringMaybe.toObject(message.bitness, options);
+            if (message.model != null && message.hasOwnProperty("model"))
+              object.model = $root.device.StringMaybe.toObject(message.model, options);
+            if (message.platformVersion != null && message.hasOwnProperty("platformVersion"))
+              object.platformVersion = $root.device.StringMaybe.toObject(message.platformVersion, options);
+            if (message.uaFullVerson != null && message.hasOwnProperty("uaFullVerson"))
+              object.uaFullVerson = $root.device.StringMaybe.toObject(message.uaFullVerson, options);
+            return object;
+          };
+          ClientData.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return ClientData;
+        }();
+        return UserAgentData;
+      }();
+      return OSVersion;
+    }();
+    DeviceInfo.BiSdkInfo = function() {
+      function BiSdkInfo(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      BiSdkInfo.prototype.answer = null;
+      BiSdkInfo.prototype.sdkVersion = null;
+      BiSdkInfo.prototype.appVersion = null;
+      BiSdkInfo.prototype.clientId = null;
+      BiSdkInfo.create = function create(properties) {
+        return new BiSdkInfo(properties);
+      };
+      BiSdkInfo.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.sdkVersion != null && Object.hasOwnProperty.call(message, "sdkVersion"))
+          $root.device.StringMaybe.encode(message.sdkVersion, writer.uint32(18).fork()).ldelim();
+        if (message.appVersion != null && Object.hasOwnProperty.call(message, "appVersion"))
+          $root.device.StringMaybe.encode(message.appVersion, writer.uint32(26).fork()).ldelim();
+        if (message.clientId != null && Object.hasOwnProperty.call(message, "clientId"))
+          $root.device.StringMaybe.encode(message.clientId, writer.uint32(34).fork()).ldelim();
+        return writer;
+      };
+      BiSdkInfo.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      BiSdkInfo.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.BiSdkInfo();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.sdkVersion = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.appVersion = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 4:
+              message.clientId = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      BiSdkInfo.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      BiSdkInfo.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.sdkVersion != null && message.hasOwnProperty("sdkVersion")) {
+          let error = $root.device.StringMaybe.verify(message.sdkVersion);
+          if (error)
+            return "sdkVersion." + error;
+        }
+        if (message.appVersion != null && message.hasOwnProperty("appVersion")) {
+          let error = $root.device.StringMaybe.verify(message.appVersion);
+          if (error)
+            return "appVersion." + error;
+        }
+        if (message.clientId != null && message.hasOwnProperty("clientId")) {
+          let error = $root.device.StringMaybe.verify(message.clientId);
+          if (error)
+            return "clientId." + error;
+        }
+        return null;
+      };
+      BiSdkInfo.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.BiSdkInfo)
+          return object;
+        let message = new $root.device.DeviceInfo.BiSdkInfo();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.BiSdkInfo.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.sdkVersion != null) {
+          if (typeof object.sdkVersion !== "object")
+            throw TypeError(".device.DeviceInfo.BiSdkInfo.sdkVersion: object expected");
+          message.sdkVersion = $root.device.StringMaybe.fromObject(object.sdkVersion);
+        }
+        if (object.appVersion != null) {
+          if (typeof object.appVersion !== "object")
+            throw TypeError(".device.DeviceInfo.BiSdkInfo.appVersion: object expected");
+          message.appVersion = $root.device.StringMaybe.fromObject(object.appVersion);
+        }
+        if (object.clientId != null) {
+          if (typeof object.clientId !== "object")
+            throw TypeError(".device.DeviceInfo.BiSdkInfo.clientId: object expected");
+          message.clientId = $root.device.StringMaybe.fromObject(object.clientId);
+        }
+        return message;
+      };
+      BiSdkInfo.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.sdkVersion = null;
+          object.appVersion = null;
+          object.clientId = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.sdkVersion != null && message.hasOwnProperty("sdkVersion"))
+          object.sdkVersion = $root.device.StringMaybe.toObject(message.sdkVersion, options);
+        if (message.appVersion != null && message.hasOwnProperty("appVersion"))
+          object.appVersion = $root.device.StringMaybe.toObject(message.appVersion, options);
+        if (message.clientId != null && message.hasOwnProperty("clientId"))
+          object.clientId = $root.device.StringMaybe.toObject(message.clientId, options);
+        return object;
+      };
+      BiSdkInfo.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return BiSdkInfo;
+    }();
+    DeviceInfo.DeviceType = function() {
+      function DeviceType(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      DeviceType.prototype.answer = null;
+      DeviceType.prototype.model = null;
+      DeviceType.prototype.isJailbroken = null;
+      DeviceType.prototype.manufacturer = null;
+      DeviceType.prototype.isRooted = null;
+      DeviceType.create = function create(properties) {
+        return new DeviceType(properties);
+      };
+      DeviceType.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.model != null && Object.hasOwnProperty.call(message, "model"))
+          $root.device.StringMaybe.encode(message.model, writer.uint32(18).fork()).ldelim();
+        if (message.isJailbroken != null && Object.hasOwnProperty.call(message, "isJailbroken"))
+          $root.device.BoolMaybe.encode(message.isJailbroken, writer.uint32(26).fork()).ldelim();
+        if (message.manufacturer != null && Object.hasOwnProperty.call(message, "manufacturer"))
+          $root.device.StringMaybe.encode(message.manufacturer, writer.uint32(34).fork()).ldelim();
+        if (message.isRooted != null && Object.hasOwnProperty.call(message, "isRooted"))
+          $root.device.BoolMaybe.encode(message.isRooted, writer.uint32(42).fork()).ldelim();
+        return writer;
+      };
+      DeviceType.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      DeviceType.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.DeviceType();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.model = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.isJailbroken = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 4:
+              message.manufacturer = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 5:
+              message.isRooted = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      DeviceType.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      DeviceType.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.model != null && message.hasOwnProperty("model")) {
+          let error = $root.device.StringMaybe.verify(message.model);
+          if (error)
+            return "model." + error;
+        }
+        if (message.isJailbroken != null && message.hasOwnProperty("isJailbroken")) {
+          let error = $root.device.BoolMaybe.verify(message.isJailbroken);
+          if (error)
+            return "isJailbroken." + error;
+        }
+        if (message.manufacturer != null && message.hasOwnProperty("manufacturer")) {
+          let error = $root.device.StringMaybe.verify(message.manufacturer);
+          if (error)
+            return "manufacturer." + error;
+        }
+        if (message.isRooted != null && message.hasOwnProperty("isRooted")) {
+          let error = $root.device.BoolMaybe.verify(message.isRooted);
+          if (error)
+            return "isRooted." + error;
+        }
+        return null;
+      };
+      DeviceType.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.DeviceType)
+          return object;
+        let message = new $root.device.DeviceInfo.DeviceType();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.DeviceType.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.model != null) {
+          if (typeof object.model !== "object")
+            throw TypeError(".device.DeviceInfo.DeviceType.model: object expected");
+          message.model = $root.device.StringMaybe.fromObject(object.model);
+        }
+        if (object.isJailbroken != null) {
+          if (typeof object.isJailbroken !== "object")
+            throw TypeError(".device.DeviceInfo.DeviceType.isJailbroken: object expected");
+          message.isJailbroken = $root.device.BoolMaybe.fromObject(object.isJailbroken);
+        }
+        if (object.manufacturer != null) {
+          if (typeof object.manufacturer !== "object")
+            throw TypeError(".device.DeviceInfo.DeviceType.manufacturer: object expected");
+          message.manufacturer = $root.device.StringMaybe.fromObject(object.manufacturer);
+        }
+        if (object.isRooted != null) {
+          if (typeof object.isRooted !== "object")
+            throw TypeError(".device.DeviceInfo.DeviceType.isRooted: object expected");
+          message.isRooted = $root.device.BoolMaybe.fromObject(object.isRooted);
+        }
+        return message;
+      };
+      DeviceType.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.model = null;
+          object.isJailbroken = null;
+          object.manufacturer = null;
+          object.isRooted = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.model != null && message.hasOwnProperty("model"))
+          object.model = $root.device.StringMaybe.toObject(message.model, options);
+        if (message.isJailbroken != null && message.hasOwnProperty("isJailbroken"))
+          object.isJailbroken = $root.device.BoolMaybe.toObject(message.isJailbroken, options);
+        if (message.manufacturer != null && message.hasOwnProperty("manufacturer"))
+          object.manufacturer = $root.device.StringMaybe.toObject(message.manufacturer, options);
+        if (message.isRooted != null && message.hasOwnProperty("isRooted"))
+          object.isRooted = $root.device.BoolMaybe.toObject(message.isRooted, options);
+        return object;
+      };
+      DeviceType.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return DeviceType;
+    }();
+    DeviceInfo.Authentication = function() {
+      function Authentication(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      Authentication.prototype.answer = null;
+      Authentication.prototype.loginProviderName = null;
+      Authentication.prototype.loginProviderGuid = null;
+      Authentication.prototype.isTpmAvailable = null;
+      Authentication.prototype.isPasswordSet = null;
+      Authentication.prototype.isBiometricsSet = null;
+      Authentication.prototype.isWatchAuthenticationEnabled = null;
+      Authentication.prototype.isSecureEnclaveAvailable = null;
+      Authentication.prototype.isWebauthnAvailable = null;
+      Authentication.prototype.isPlatformAuthenticatorAvailable = null;
+      Authentication.create = function create(properties) {
+        return new Authentication(properties);
+      };
+      Authentication.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.loginProviderName != null && Object.hasOwnProperty.call(message, "loginProviderName"))
+          $root.device.StringMaybe.encode(message.loginProviderName, writer.uint32(18).fork()).ldelim();
+        if (message.loginProviderGuid != null && Object.hasOwnProperty.call(message, "loginProviderGuid"))
+          $root.device.StringMaybe.encode(message.loginProviderGuid, writer.uint32(26).fork()).ldelim();
+        if (message.isTpmAvailable != null && Object.hasOwnProperty.call(message, "isTpmAvailable"))
+          $root.device.BoolMaybe.encode(message.isTpmAvailable, writer.uint32(34).fork()).ldelim();
+        if (message.isPasswordSet != null && Object.hasOwnProperty.call(message, "isPasswordSet"))
+          $root.device.BoolMaybe.encode(message.isPasswordSet, writer.uint32(42).fork()).ldelim();
+        if (message.isBiometricsSet != null && Object.hasOwnProperty.call(message, "isBiometricsSet"))
+          $root.device.BoolMaybe.encode(message.isBiometricsSet, writer.uint32(50).fork()).ldelim();
+        if (message.isWatchAuthenticationEnabled != null && Object.hasOwnProperty.call(message, "isWatchAuthenticationEnabled"))
+          $root.device.BoolMaybe.encode(message.isWatchAuthenticationEnabled, writer.uint32(58).fork()).ldelim();
+        if (message.isSecureEnclaveAvailable != null && Object.hasOwnProperty.call(message, "isSecureEnclaveAvailable"))
+          $root.device.BoolMaybe.encode(message.isSecureEnclaveAvailable, writer.uint32(66).fork()).ldelim();
+        if (message.isWebauthnAvailable != null && Object.hasOwnProperty.call(message, "isWebauthnAvailable"))
+          $root.device.BoolMaybe.encode(message.isWebauthnAvailable, writer.uint32(74).fork()).ldelim();
+        if (message.isPlatformAuthenticatorAvailable != null && Object.hasOwnProperty.call(message, "isPlatformAuthenticatorAvailable"))
+          $root.device.BoolMaybe.encode(message.isPlatformAuthenticatorAvailable, writer.uint32(82).fork()).ldelim();
+        return writer;
+      };
+      Authentication.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      Authentication.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Authentication();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.loginProviderName = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.loginProviderGuid = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 4:
+              message.isTpmAvailable = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 5:
+              message.isPasswordSet = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 6:
+              message.isBiometricsSet = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 7:
+              message.isWatchAuthenticationEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 8:
+              message.isSecureEnclaveAvailable = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 9:
+              message.isWebauthnAvailable = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 10:
+              message.isPlatformAuthenticatorAvailable = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      Authentication.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      Authentication.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.loginProviderName != null && message.hasOwnProperty("loginProviderName")) {
+          let error = $root.device.StringMaybe.verify(message.loginProviderName);
+          if (error)
+            return "loginProviderName." + error;
+        }
+        if (message.loginProviderGuid != null && message.hasOwnProperty("loginProviderGuid")) {
+          let error = $root.device.StringMaybe.verify(message.loginProviderGuid);
+          if (error)
+            return "loginProviderGuid." + error;
+        }
+        if (message.isTpmAvailable != null && message.hasOwnProperty("isTpmAvailable")) {
+          let error = $root.device.BoolMaybe.verify(message.isTpmAvailable);
+          if (error)
+            return "isTpmAvailable." + error;
+        }
+        if (message.isPasswordSet != null && message.hasOwnProperty("isPasswordSet")) {
+          let error = $root.device.BoolMaybe.verify(message.isPasswordSet);
+          if (error)
+            return "isPasswordSet." + error;
+        }
+        if (message.isBiometricsSet != null && message.hasOwnProperty("isBiometricsSet")) {
+          let error = $root.device.BoolMaybe.verify(message.isBiometricsSet);
+          if (error)
+            return "isBiometricsSet." + error;
+        }
+        if (message.isWatchAuthenticationEnabled != null && message.hasOwnProperty("isWatchAuthenticationEnabled")) {
+          let error = $root.device.BoolMaybe.verify(message.isWatchAuthenticationEnabled);
+          if (error)
+            return "isWatchAuthenticationEnabled." + error;
+        }
+        if (message.isSecureEnclaveAvailable != null && message.hasOwnProperty("isSecureEnclaveAvailable")) {
+          let error = $root.device.BoolMaybe.verify(message.isSecureEnclaveAvailable);
+          if (error)
+            return "isSecureEnclaveAvailable." + error;
+        }
+        if (message.isWebauthnAvailable != null && message.hasOwnProperty("isWebauthnAvailable")) {
+          let error = $root.device.BoolMaybe.verify(message.isWebauthnAvailable);
+          if (error)
+            return "isWebauthnAvailable." + error;
+        }
+        if (message.isPlatformAuthenticatorAvailable != null && message.hasOwnProperty("isPlatformAuthenticatorAvailable")) {
+          let error = $root.device.BoolMaybe.verify(message.isPlatformAuthenticatorAvailable);
+          if (error)
+            return "isPlatformAuthenticatorAvailable." + error;
+        }
+        return null;
+      };
+      Authentication.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.Authentication)
+          return object;
+        let message = new $root.device.DeviceInfo.Authentication();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.loginProviderName != null) {
+          if (typeof object.loginProviderName !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.loginProviderName: object expected");
+          message.loginProviderName = $root.device.StringMaybe.fromObject(object.loginProviderName);
+        }
+        if (object.loginProviderGuid != null) {
+          if (typeof object.loginProviderGuid !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.loginProviderGuid: object expected");
+          message.loginProviderGuid = $root.device.StringMaybe.fromObject(object.loginProviderGuid);
+        }
+        if (object.isTpmAvailable != null) {
+          if (typeof object.isTpmAvailable !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isTpmAvailable: object expected");
+          message.isTpmAvailable = $root.device.BoolMaybe.fromObject(object.isTpmAvailable);
+        }
+        if (object.isPasswordSet != null) {
+          if (typeof object.isPasswordSet !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isPasswordSet: object expected");
+          message.isPasswordSet = $root.device.BoolMaybe.fromObject(object.isPasswordSet);
+        }
+        if (object.isBiometricsSet != null) {
+          if (typeof object.isBiometricsSet !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isBiometricsSet: object expected");
+          message.isBiometricsSet = $root.device.BoolMaybe.fromObject(object.isBiometricsSet);
+        }
+        if (object.isWatchAuthenticationEnabled != null) {
+          if (typeof object.isWatchAuthenticationEnabled !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isWatchAuthenticationEnabled: object expected");
+          message.isWatchAuthenticationEnabled = $root.device.BoolMaybe.fromObject(object.isWatchAuthenticationEnabled);
+        }
+        if (object.isSecureEnclaveAvailable != null) {
+          if (typeof object.isSecureEnclaveAvailable !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isSecureEnclaveAvailable: object expected");
+          message.isSecureEnclaveAvailable = $root.device.BoolMaybe.fromObject(object.isSecureEnclaveAvailable);
+        }
+        if (object.isWebauthnAvailable != null) {
+          if (typeof object.isWebauthnAvailable !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isWebauthnAvailable: object expected");
+          message.isWebauthnAvailable = $root.device.BoolMaybe.fromObject(object.isWebauthnAvailable);
+        }
+        if (object.isPlatformAuthenticatorAvailable != null) {
+          if (typeof object.isPlatformAuthenticatorAvailable !== "object")
+            throw TypeError(".device.DeviceInfo.Authentication.isPlatformAuthenticatorAvailable: object expected");
+          message.isPlatformAuthenticatorAvailable = $root.device.BoolMaybe.fromObject(object.isPlatformAuthenticatorAvailable);
+        }
+        return message;
+      };
+      Authentication.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.loginProviderName = null;
+          object.loginProviderGuid = null;
+          object.isTpmAvailable = null;
+          object.isPasswordSet = null;
+          object.isBiometricsSet = null;
+          object.isWatchAuthenticationEnabled = null;
+          object.isSecureEnclaveAvailable = null;
+          object.isWebauthnAvailable = null;
+          object.isPlatformAuthenticatorAvailable = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.loginProviderName != null && message.hasOwnProperty("loginProviderName"))
+          object.loginProviderName = $root.device.StringMaybe.toObject(message.loginProviderName, options);
+        if (message.loginProviderGuid != null && message.hasOwnProperty("loginProviderGuid"))
+          object.loginProviderGuid = $root.device.StringMaybe.toObject(message.loginProviderGuid, options);
+        if (message.isTpmAvailable != null && message.hasOwnProperty("isTpmAvailable"))
+          object.isTpmAvailable = $root.device.BoolMaybe.toObject(message.isTpmAvailable, options);
+        if (message.isPasswordSet != null && message.hasOwnProperty("isPasswordSet"))
+          object.isPasswordSet = $root.device.BoolMaybe.toObject(message.isPasswordSet, options);
+        if (message.isBiometricsSet != null && message.hasOwnProperty("isBiometricsSet"))
+          object.isBiometricsSet = $root.device.BoolMaybe.toObject(message.isBiometricsSet, options);
+        if (message.isWatchAuthenticationEnabled != null && message.hasOwnProperty("isWatchAuthenticationEnabled"))
+          object.isWatchAuthenticationEnabled = $root.device.BoolMaybe.toObject(message.isWatchAuthenticationEnabled, options);
+        if (message.isSecureEnclaveAvailable != null && message.hasOwnProperty("isSecureEnclaveAvailable"))
+          object.isSecureEnclaveAvailable = $root.device.BoolMaybe.toObject(message.isSecureEnclaveAvailable, options);
+        if (message.isWebauthnAvailable != null && message.hasOwnProperty("isWebauthnAvailable"))
+          object.isWebauthnAvailable = $root.device.BoolMaybe.toObject(message.isWebauthnAvailable, options);
+        if (message.isPlatformAuthenticatorAvailable != null && message.hasOwnProperty("isPlatformAuthenticatorAvailable"))
+          object.isPlatformAuthenticatorAvailable = $root.device.BoolMaybe.toObject(message.isPlatformAuthenticatorAvailable, options);
+        return object;
+      };
+      Authentication.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return Authentication;
+    }();
+    DeviceInfo.SecuritySoftware = function() {
+      function SecuritySoftware(properties) {
+        this.software = [];
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      SecuritySoftware.prototype.answer = null;
+      SecuritySoftware.prototype.software = $util.emptyArray;
+      SecuritySoftware.create = function create(properties) {
+        return new SecuritySoftware(properties);
+      };
+      SecuritySoftware.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.software != null && message.software.length)
+          for (let i = 0; i < message.software.length; ++i)
+            $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.encode(message.software[i], writer.uint32(18).fork()).ldelim();
+        return writer;
+      };
+      SecuritySoftware.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      SecuritySoftware.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.SecuritySoftware();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              if (!(message.software && message.software.length))
+                message.software = [];
+              message.software.push($root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.decode(reader, reader.uint32()));
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      SecuritySoftware.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      SecuritySoftware.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.software != null && message.hasOwnProperty("software")) {
+          if (!Array.isArray(message.software))
+            return "software: array expected";
+          for (let i = 0; i < message.software.length; ++i) {
+            let error = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.verify(message.software[i]);
+            if (error)
+              return "software." + error;
+          }
+        }
+        return null;
+      };
+      SecuritySoftware.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.SecuritySoftware)
+          return object;
+        let message = new $root.device.DeviceInfo.SecuritySoftware();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.SecuritySoftware.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.software) {
+          if (!Array.isArray(object.software))
+            throw TypeError(".device.DeviceInfo.SecuritySoftware.software: array expected");
+          message.software = [];
+          for (let i = 0; i < object.software.length; ++i) {
+            if (typeof object.software[i] !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.software: object expected");
+            message.software[i] = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.fromObject(object.software[i]);
+          }
+        }
+        return message;
+      };
+      SecuritySoftware.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.arrays || options.defaults)
+          object.software = [];
+        if (options.defaults)
+          object.answer = null;
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.software && message.software.length) {
+          object.software = [];
+          for (let j = 0; j < message.software.length; ++j)
+            object.software[j] = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.toObject(message.software[j], options);
+        }
+        return object;
+      };
+      SecuritySoftware.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      SecuritySoftware.SoftwareInfo = function() {
+        function SoftwareInfo(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        SoftwareInfo.prototype.answer = null;
+        SoftwareInfo.prototype.category = null;
+        SoftwareInfo.prototype.name = null;
+        SoftwareInfo.prototype.version = null;
+        SoftwareInfo.prototype.enabled = null;
+        SoftwareInfo.prototype.status = null;
+        SoftwareInfo.create = function create(properties) {
+          return new SoftwareInfo(properties);
+        };
+        SoftwareInfo.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.category != null && Object.hasOwnProperty.call(message, "category"))
+            $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.encode(message.category, writer.uint32(18).fork()).ldelim();
+          if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            $root.device.StringMaybe.encode(message.name, writer.uint32(26).fork()).ldelim();
+          if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+            $root.device.StringMaybe.encode(message.version, writer.uint32(34).fork()).ldelim();
+          if (message.enabled != null && Object.hasOwnProperty.call(message, "enabled"))
+            $root.device.BoolMaybe.encode(message.enabled, writer.uint32(42).fork()).ldelim();
+          if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+            $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.encode(message.status, writer.uint32(50).fork()).ldelim();
+          return writer;
+        };
+        SoftwareInfo.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        SoftwareInfo.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.category = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.decode(reader, reader.uint32());
+                break;
+              case 3:
+                message.name = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 4:
+                message.version = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 5:
+                message.enabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                break;
+              case 6:
+                message.status = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.decode(reader, reader.uint32());
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        SoftwareInfo.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        SoftwareInfo.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.category != null && message.hasOwnProperty("category")) {
+            let error = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.verify(message.category);
+            if (error)
+              return "category." + error;
+          }
+          if (message.name != null && message.hasOwnProperty("name")) {
+            let error = $root.device.StringMaybe.verify(message.name);
+            if (error)
+              return "name." + error;
+          }
+          if (message.version != null && message.hasOwnProperty("version")) {
+            let error = $root.device.StringMaybe.verify(message.version);
+            if (error)
+              return "version." + error;
+          }
+          if (message.enabled != null && message.hasOwnProperty("enabled")) {
+            let error = $root.device.BoolMaybe.verify(message.enabled);
+            if (error)
+              return "enabled." + error;
+          }
+          if (message.status != null && message.hasOwnProperty("status")) {
+            let error = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.verify(message.status);
+            if (error)
+              return "status." + error;
+          }
+          return null;
+        };
+        SoftwareInfo.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo)
+            return object;
+          let message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          if (object.category != null) {
+            if (typeof object.category !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.category: object expected");
+            message.category = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.fromObject(object.category);
+          }
+          if (object.name != null) {
+            if (typeof object.name !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.name: object expected");
+            message.name = $root.device.StringMaybe.fromObject(object.name);
+          }
+          if (object.version != null) {
+            if (typeof object.version !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.version: object expected");
+            message.version = $root.device.StringMaybe.fromObject(object.version);
+          }
+          if (object.enabled != null) {
+            if (typeof object.enabled !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.enabled: object expected");
+            message.enabled = $root.device.BoolMaybe.fromObject(object.enabled);
+          }
+          if (object.status != null) {
+            if (typeof object.status !== "object")
+              throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.status: object expected");
+            message.status = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.fromObject(object.status);
+          }
+          return message;
+        };
+        SoftwareInfo.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.category = null;
+            object.name = null;
+            object.version = null;
+            object.enabled = null;
+            object.status = null;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.category != null && message.hasOwnProperty("category"))
+            object.category = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.toObject(message.category, options);
+          if (message.name != null && message.hasOwnProperty("name"))
+            object.name = $root.device.StringMaybe.toObject(message.name, options);
+          if (message.version != null && message.hasOwnProperty("version"))
+            object.version = $root.device.StringMaybe.toObject(message.version, options);
+          if (message.enabled != null && message.hasOwnProperty("enabled"))
+            object.enabled = $root.device.BoolMaybe.toObject(message.enabled, options);
+          if (message.status != null && message.hasOwnProperty("status"))
+            object.status = $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.toObject(message.status, options);
+          return object;
+        };
+        SoftwareInfo.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        SoftwareInfo.Category = function() {
+          const valuesById = {}, values = Object.create(valuesById);
+          values[valuesById[0] = "FIREWALL"] = 0;
+          values[valuesById[1] = "ANTIMALWARE"] = 1;
+          values[valuesById[2] = "ANTISPYWARE"] = 2;
+          values[valuesById[3] = "ANTIVIRUS"] = 3;
+          return values;
+        }();
+        SoftwareInfo.CategoryMaybe = function() {
+          function CategoryMaybe(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          CategoryMaybe.prototype.answer = null;
+          CategoryMaybe.prototype.value = 0;
+          CategoryMaybe.create = function create(properties) {
+            return new CategoryMaybe(properties);
+          };
+          CategoryMaybe.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+              writer.uint32(16).int32(message.value);
+            return writer;
+          };
+          CategoryMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          CategoryMaybe.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.value = reader.int32();
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          CategoryMaybe.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          CategoryMaybe.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.value != null && message.hasOwnProperty("value"))
+              switch (message.value) {
+                default:
+                  return "value: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                  break;
+              }
+            return null;
+          };
+          CategoryMaybe.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe)
+              return object;
+            let message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.CategoryMaybe.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            switch (object.value) {
+              case "FIREWALL":
+              case 0:
+                message.value = 0;
+                break;
+              case "ANTIMALWARE":
+              case 1:
+                message.value = 1;
+                break;
+              case "ANTISPYWARE":
+              case 2:
+                message.value = 2;
+                break;
+              case "ANTIVIRUS":
+              case 3:
+                message.value = 3;
+                break;
+            }
+            return message;
+          };
+          CategoryMaybe.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.value = options.enums === String ? "FIREWALL" : 0;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.value != null && message.hasOwnProperty("value"))
+              object.value = options.enums === String ? $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.Category[message.value] : message.value;
+            return object;
+          };
+          CategoryMaybe.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return CategoryMaybe;
+        }();
+        SoftwareInfo.Status = function() {
+          const valuesById = {}, values = Object.create(valuesById);
+          values[valuesById[0] = "OFF"] = 0;
+          values[valuesById[1] = "ON"] = 1;
+          values[valuesById[2] = "SNOOZED"] = 2;
+          values[valuesById[3] = "EXPIRED"] = 3;
+          return values;
+        }();
+        SoftwareInfo.StatusMaybe = function() {
+          function StatusMaybe(properties) {
+            if (properties) {
+              for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                  this[keys[i]] = properties[keys[i]];
+            }
+          }
+          StatusMaybe.prototype.answer = null;
+          StatusMaybe.prototype.value = 0;
+          StatusMaybe.create = function create(properties) {
+            return new StatusMaybe(properties);
+          };
+          StatusMaybe.encode = function encode(message, writer) {
+            if (!writer)
+              writer = $Writer.create();
+            if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+              $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+            if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+              writer.uint32(16).int32(message.value);
+            return writer;
+          };
+          StatusMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+          };
+          StatusMaybe.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+              reader = $Reader.create(reader);
+            let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe();
+            while (reader.pos < end) {
+              let tag = reader.uint32();
+              switch (tag >>> 3) {
+                case 1:
+                  message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                  break;
+                case 2:
+                  message.value = reader.int32();
+                  break;
+                default:
+                  reader.skipType(tag & 7);
+                  break;
+              }
+            }
+            return message;
+          };
+          StatusMaybe.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+              reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+          };
+          StatusMaybe.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+              return "object expected";
+            if (message.answer != null && message.hasOwnProperty("answer")) {
+              let error = $root.device.Answer.verify(message.answer);
+              if (error)
+                return "answer." + error;
+            }
+            if (message.value != null && message.hasOwnProperty("value"))
+              switch (message.value) {
+                default:
+                  return "value: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                  break;
+              }
+            return null;
+          };
+          StatusMaybe.fromObject = function fromObject(object) {
+            if (object instanceof $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe)
+              return object;
+            let message = new $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe();
+            if (object.answer != null) {
+              if (typeof object.answer !== "object")
+                throw TypeError(".device.DeviceInfo.SecuritySoftware.SoftwareInfo.StatusMaybe.answer: object expected");
+              message.answer = $root.device.Answer.fromObject(object.answer);
+            }
+            switch (object.value) {
+              case "OFF":
+              case 0:
+                message.value = 0;
+                break;
+              case "ON":
+              case 1:
+                message.value = 1;
+                break;
+              case "SNOOZED":
+              case 2:
+                message.value = 2;
+                break;
+              case "EXPIRED":
+              case 3:
+                message.value = 3;
+                break;
+            }
+            return message;
+          };
+          StatusMaybe.toObject = function toObject(message, options) {
+            if (!options)
+              options = {};
+            let object = {};
+            if (options.defaults) {
+              object.answer = null;
+              object.value = options.enums === String ? "OFF" : 0;
+            }
+            if (message.answer != null && message.hasOwnProperty("answer"))
+              object.answer = $root.device.Answer.toObject(message.answer, options);
+            if (message.value != null && message.hasOwnProperty("value"))
+              object.value = options.enums === String ? $root.device.DeviceInfo.SecuritySoftware.SoftwareInfo.Status[message.value] : message.value;
+            return object;
+          };
+          StatusMaybe.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+          };
+          return StatusMaybe;
+        }();
+        return SoftwareInfo;
+      }();
+      return SecuritySoftware;
+    }();
+    DeviceInfo.Volumes = function() {
+      function Volumes(properties) {
+        this.volumes = [];
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      Volumes.prototype.answer = null;
+      Volumes.prototype.volumes = $util.emptyArray;
+      Volumes.prototype.filevault = null;
+      Volumes.create = function create(properties) {
+        return new Volumes(properties);
+      };
+      Volumes.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.volumes != null && message.volumes.length)
+          for (let i = 0; i < message.volumes.length; ++i)
+            $root.device.DeviceInfo.Volumes.VolumeInfo.encode(message.volumes[i], writer.uint32(18).fork()).ldelim();
+        if (message.filevault != null && Object.hasOwnProperty.call(message, "filevault"))
+          $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe.encode(message.filevault, writer.uint32(26).fork()).ldelim();
+        return writer;
+      };
+      Volumes.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      Volumes.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Volumes();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              if (!(message.volumes && message.volumes.length))
+                message.volumes = [];
+              message.volumes.push($root.device.DeviceInfo.Volumes.VolumeInfo.decode(reader, reader.uint32()));
+              break;
+            case 3:
+              message.filevault = $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      Volumes.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      Volumes.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.volumes != null && message.hasOwnProperty("volumes")) {
+          if (!Array.isArray(message.volumes))
+            return "volumes: array expected";
+          for (let i = 0; i < message.volumes.length; ++i) {
+            let error = $root.device.DeviceInfo.Volumes.VolumeInfo.verify(message.volumes[i]);
+            if (error)
+              return "volumes." + error;
+          }
+        }
+        if (message.filevault != null && message.hasOwnProperty("filevault")) {
+          let error = $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe.verify(message.filevault);
+          if (error)
+            return "filevault." + error;
+        }
+        return null;
+      };
+      Volumes.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.Volumes)
+          return object;
+        let message = new $root.device.DeviceInfo.Volumes();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.Volumes.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.volumes) {
+          if (!Array.isArray(object.volumes))
+            throw TypeError(".device.DeviceInfo.Volumes.volumes: array expected");
+          message.volumes = [];
+          for (let i = 0; i < object.volumes.length; ++i) {
+            if (typeof object.volumes[i] !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.volumes: object expected");
+            message.volumes[i] = $root.device.DeviceInfo.Volumes.VolumeInfo.fromObject(object.volumes[i]);
+          }
+        }
+        if (object.filevault != null) {
+          if (typeof object.filevault !== "object")
+            throw TypeError(".device.DeviceInfo.Volumes.filevault: object expected");
+          message.filevault = $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe.fromObject(object.filevault);
+        }
+        return message;
+      };
+      Volumes.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.arrays || options.defaults)
+          object.volumes = [];
+        if (options.defaults) {
+          object.answer = null;
+          object.filevault = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.volumes && message.volumes.length) {
+          object.volumes = [];
+          for (let j = 0; j < message.volumes.length; ++j)
+            object.volumes[j] = $root.device.DeviceInfo.Volumes.VolumeInfo.toObject(message.volumes[j], options);
+        }
+        if (message.filevault != null && message.hasOwnProperty("filevault"))
+          object.filevault = $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe.toObject(message.filevault, options);
+        return object;
+      };
+      Volumes.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      Volumes.VolumeInfo = function() {
+        function VolumeInfo(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        VolumeInfo.prototype.answer = null;
+        VolumeInfo.prototype.name = null;
+        VolumeInfo.prototype.isBitlockerEnabled = null;
+        VolumeInfo.prototype.isSystemDrive = null;
+        VolumeInfo.prototype.isEncrypted = null;
+        VolumeInfo.prototype.isRemovable = null;
+        VolumeInfo.create = function create(properties) {
+          return new VolumeInfo(properties);
+        };
+        VolumeInfo.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            $root.device.StringMaybe.encode(message.name, writer.uint32(18).fork()).ldelim();
+          if (message.isBitlockerEnabled != null && Object.hasOwnProperty.call(message, "isBitlockerEnabled"))
+            $root.device.BoolMaybe.encode(message.isBitlockerEnabled, writer.uint32(26).fork()).ldelim();
+          if (message.isSystemDrive != null && Object.hasOwnProperty.call(message, "isSystemDrive"))
+            $root.device.BoolMaybe.encode(message.isSystemDrive, writer.uint32(34).fork()).ldelim();
+          if (message.isEncrypted != null && Object.hasOwnProperty.call(message, "isEncrypted"))
+            $root.device.BoolMaybe.encode(message.isEncrypted, writer.uint32(42).fork()).ldelim();
+          if (message.isRemovable != null && Object.hasOwnProperty.call(message, "isRemovable"))
+            $root.device.BoolMaybe.encode(message.isRemovable, writer.uint32(50).fork()).ldelim();
+          return writer;
+        };
+        VolumeInfo.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        VolumeInfo.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Volumes.VolumeInfo();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.name = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 3:
+                message.isBitlockerEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                break;
+              case 4:
+                message.isSystemDrive = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                break;
+              case 5:
+                message.isEncrypted = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                break;
+              case 6:
+                message.isRemovable = $root.device.BoolMaybe.decode(reader, reader.uint32());
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        VolumeInfo.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        VolumeInfo.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.name != null && message.hasOwnProperty("name")) {
+            let error = $root.device.StringMaybe.verify(message.name);
+            if (error)
+              return "name." + error;
+          }
+          if (message.isBitlockerEnabled != null && message.hasOwnProperty("isBitlockerEnabled")) {
+            let error = $root.device.BoolMaybe.verify(message.isBitlockerEnabled);
+            if (error)
+              return "isBitlockerEnabled." + error;
+          }
+          if (message.isSystemDrive != null && message.hasOwnProperty("isSystemDrive")) {
+            let error = $root.device.BoolMaybe.verify(message.isSystemDrive);
+            if (error)
+              return "isSystemDrive." + error;
+          }
+          if (message.isEncrypted != null && message.hasOwnProperty("isEncrypted")) {
+            let error = $root.device.BoolMaybe.verify(message.isEncrypted);
+            if (error)
+              return "isEncrypted." + error;
+          }
+          if (message.isRemovable != null && message.hasOwnProperty("isRemovable")) {
+            let error = $root.device.BoolMaybe.verify(message.isRemovable);
+            if (error)
+              return "isRemovable." + error;
+          }
+          return null;
+        };
+        VolumeInfo.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.Volumes.VolumeInfo)
+            return object;
+          let message = new $root.device.DeviceInfo.Volumes.VolumeInfo();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          if (object.name != null) {
+            if (typeof object.name !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.name: object expected");
+            message.name = $root.device.StringMaybe.fromObject(object.name);
+          }
+          if (object.isBitlockerEnabled != null) {
+            if (typeof object.isBitlockerEnabled !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isBitlockerEnabled: object expected");
+            message.isBitlockerEnabled = $root.device.BoolMaybe.fromObject(object.isBitlockerEnabled);
+          }
+          if (object.isSystemDrive != null) {
+            if (typeof object.isSystemDrive !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isSystemDrive: object expected");
+            message.isSystemDrive = $root.device.BoolMaybe.fromObject(object.isSystemDrive);
+          }
+          if (object.isEncrypted != null) {
+            if (typeof object.isEncrypted !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isEncrypted: object expected");
+            message.isEncrypted = $root.device.BoolMaybe.fromObject(object.isEncrypted);
+          }
+          if (object.isRemovable != null) {
+            if (typeof object.isRemovable !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.VolumeInfo.isRemovable: object expected");
+            message.isRemovable = $root.device.BoolMaybe.fromObject(object.isRemovable);
+          }
+          return message;
+        };
+        VolumeInfo.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.name = null;
+            object.isBitlockerEnabled = null;
+            object.isSystemDrive = null;
+            object.isEncrypted = null;
+            object.isRemovable = null;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.name != null && message.hasOwnProperty("name"))
+            object.name = $root.device.StringMaybe.toObject(message.name, options);
+          if (message.isBitlockerEnabled != null && message.hasOwnProperty("isBitlockerEnabled"))
+            object.isBitlockerEnabled = $root.device.BoolMaybe.toObject(message.isBitlockerEnabled, options);
+          if (message.isSystemDrive != null && message.hasOwnProperty("isSystemDrive"))
+            object.isSystemDrive = $root.device.BoolMaybe.toObject(message.isSystemDrive, options);
+          if (message.isEncrypted != null && message.hasOwnProperty("isEncrypted"))
+            object.isEncrypted = $root.device.BoolMaybe.toObject(message.isEncrypted, options);
+          if (message.isRemovable != null && message.hasOwnProperty("isRemovable"))
+            object.isRemovable = $root.device.BoolMaybe.toObject(message.isRemovable, options);
+          return object;
+        };
+        VolumeInfo.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        return VolumeInfo;
+      }();
+      Volumes.FileVaultStatus = function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "FILE_VAULT_ON"] = 0;
+        values[valuesById[1] = "FILE_VAULT_OFF"] = 1;
+        return values;
+      }();
+      Volumes.FileVaultStatusMaybe = function() {
+        function FileVaultStatusMaybe(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        FileVaultStatusMaybe.prototype.answer = null;
+        FileVaultStatusMaybe.prototype.value = 0;
+        FileVaultStatusMaybe.create = function create(properties) {
+          return new FileVaultStatusMaybe(properties);
+        };
+        FileVaultStatusMaybe.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+            writer.uint32(16).int32(message.value);
+          return writer;
+        };
+        FileVaultStatusMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        FileVaultStatusMaybe.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.value = reader.int32();
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        FileVaultStatusMaybe.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        FileVaultStatusMaybe.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.value != null && message.hasOwnProperty("value"))
+            switch (message.value) {
+              default:
+                return "value: enum value expected";
+              case 0:
+              case 1:
+                break;
+            }
+          return null;
+        };
+        FileVaultStatusMaybe.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe)
+            return object;
+          let message = new $root.device.DeviceInfo.Volumes.FileVaultStatusMaybe();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.Volumes.FileVaultStatusMaybe.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          switch (object.value) {
+            case "FILE_VAULT_ON":
+            case 0:
+              message.value = 0;
+              break;
+            case "FILE_VAULT_OFF":
+            case 1:
+              message.value = 1;
+              break;
+          }
+          return message;
+        };
+        FileVaultStatusMaybe.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.value = options.enums === String ? "FILE_VAULT_ON" : 0;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.value != null && message.hasOwnProperty("value"))
+            object.value = options.enums === String ? $root.device.DeviceInfo.Volumes.FileVaultStatus[message.value] : message.value;
+          return object;
+        };
+        FileVaultStatusMaybe.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        return FileVaultStatusMaybe;
+      }();
+      return Volumes;
+    }();
+    DeviceInfo.AuthorizationSettings = function() {
+      function AuthorizationSettings(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      AuthorizationSettings.prototype.answer = null;
+      AuthorizationSettings.prototype.isLocalhostServiceEnabled = null;
+      AuthorizationSettings.prototype.isAccessibilityServiceEnabled = null;
+      AuthorizationSettings.create = function create(properties) {
+        return new AuthorizationSettings(properties);
+      };
+      AuthorizationSettings.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.isLocalhostServiceEnabled != null && Object.hasOwnProperty.call(message, "isLocalhostServiceEnabled"))
+          $root.device.BoolMaybe.encode(message.isLocalhostServiceEnabled, writer.uint32(18).fork()).ldelim();
+        if (message.isAccessibilityServiceEnabled != null && Object.hasOwnProperty.call(message, "isAccessibilityServiceEnabled"))
+          $root.device.BoolMaybe.encode(message.isAccessibilityServiceEnabled, writer.uint32(26).fork()).ldelim();
+        return writer;
+      };
+      AuthorizationSettings.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      AuthorizationSettings.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.AuthorizationSettings();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.isLocalhostServiceEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.isAccessibilityServiceEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      AuthorizationSettings.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      AuthorizationSettings.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.isLocalhostServiceEnabled != null && message.hasOwnProperty("isLocalhostServiceEnabled")) {
+          let error = $root.device.BoolMaybe.verify(message.isLocalhostServiceEnabled);
+          if (error)
+            return "isLocalhostServiceEnabled." + error;
+        }
+        if (message.isAccessibilityServiceEnabled != null && message.hasOwnProperty("isAccessibilityServiceEnabled")) {
+          let error = $root.device.BoolMaybe.verify(message.isAccessibilityServiceEnabled);
+          if (error)
+            return "isAccessibilityServiceEnabled." + error;
+        }
+        return null;
+      };
+      AuthorizationSettings.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.AuthorizationSettings)
+          return object;
+        let message = new $root.device.DeviceInfo.AuthorizationSettings();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.AuthorizationSettings.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.isLocalhostServiceEnabled != null) {
+          if (typeof object.isLocalhostServiceEnabled !== "object")
+            throw TypeError(".device.DeviceInfo.AuthorizationSettings.isLocalhostServiceEnabled: object expected");
+          message.isLocalhostServiceEnabled = $root.device.BoolMaybe.fromObject(object.isLocalhostServiceEnabled);
+        }
+        if (object.isAccessibilityServiceEnabled != null) {
+          if (typeof object.isAccessibilityServiceEnabled !== "object")
+            throw TypeError(".device.DeviceInfo.AuthorizationSettings.isAccessibilityServiceEnabled: object expected");
+          message.isAccessibilityServiceEnabled = $root.device.BoolMaybe.fromObject(object.isAccessibilityServiceEnabled);
+        }
+        return message;
+      };
+      AuthorizationSettings.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.isLocalhostServiceEnabled = null;
+          object.isAccessibilityServiceEnabled = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.isLocalhostServiceEnabled != null && message.hasOwnProperty("isLocalhostServiceEnabled"))
+          object.isLocalhostServiceEnabled = $root.device.BoolMaybe.toObject(message.isLocalhostServiceEnabled, options);
+        if (message.isAccessibilityServiceEnabled != null && message.hasOwnProperty("isAccessibilityServiceEnabled"))
+          object.isAccessibilityServiceEnabled = $root.device.BoolMaybe.toObject(message.isAccessibilityServiceEnabled, options);
+        return object;
+      };
+      AuthorizationSettings.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return AuthorizationSettings;
+    }();
+    DeviceInfo.TPMInfo = function() {
+      function TPMInfo(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      TPMInfo.prototype.answer = null;
+      TPMInfo.prototype.Version = null;
+      TPMInfo.prototype.Level = null;
+      TPMInfo.prototype.Revision = null;
+      TPMInfo.prototype.VendorID = null;
+      TPMInfo.prototype.Firmware = null;
+      TPMInfo.create = function create(properties) {
+        return new TPMInfo(properties);
+      };
+      TPMInfo.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.Version != null && Object.hasOwnProperty.call(message, "Version"))
+          $root.device.StringMaybe.encode(message.Version, writer.uint32(18).fork()).ldelim();
+        if (message.Level != null && Object.hasOwnProperty.call(message, "Level"))
+          $root.device.StringMaybe.encode(message.Level, writer.uint32(26).fork()).ldelim();
+        if (message.Revision != null && Object.hasOwnProperty.call(message, "Revision"))
+          $root.device.StringMaybe.encode(message.Revision, writer.uint32(34).fork()).ldelim();
+        if (message.VendorID != null && Object.hasOwnProperty.call(message, "VendorID"))
+          $root.device.StringMaybe.encode(message.VendorID, writer.uint32(42).fork()).ldelim();
+        if (message.Firmware != null && Object.hasOwnProperty.call(message, "Firmware"))
+          $root.device.StringMaybe.encode(message.Firmware, writer.uint32(50).fork()).ldelim();
+        return writer;
+      };
+      TPMInfo.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      TPMInfo.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.TPMInfo();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.Version = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 3:
+              message.Level = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 4:
+              message.Revision = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 5:
+              message.VendorID = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 6:
+              message.Firmware = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      TPMInfo.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      TPMInfo.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.Version != null && message.hasOwnProperty("Version")) {
+          let error = $root.device.StringMaybe.verify(message.Version);
+          if (error)
+            return "Version." + error;
+        }
+        if (message.Level != null && message.hasOwnProperty("Level")) {
+          let error = $root.device.StringMaybe.verify(message.Level);
+          if (error)
+            return "Level." + error;
+        }
+        if (message.Revision != null && message.hasOwnProperty("Revision")) {
+          let error = $root.device.StringMaybe.verify(message.Revision);
+          if (error)
+            return "Revision." + error;
+        }
+        if (message.VendorID != null && message.hasOwnProperty("VendorID")) {
+          let error = $root.device.StringMaybe.verify(message.VendorID);
+          if (error)
+            return "VendorID." + error;
+        }
+        if (message.Firmware != null && message.hasOwnProperty("Firmware")) {
+          let error = $root.device.StringMaybe.verify(message.Firmware);
+          if (error)
+            return "Firmware." + error;
+        }
+        return null;
+      };
+      TPMInfo.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.TPMInfo)
+          return object;
+        let message = new $root.device.DeviceInfo.TPMInfo();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.Version != null) {
+          if (typeof object.Version !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.Version: object expected");
+          message.Version = $root.device.StringMaybe.fromObject(object.Version);
+        }
+        if (object.Level != null) {
+          if (typeof object.Level !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.Level: object expected");
+          message.Level = $root.device.StringMaybe.fromObject(object.Level);
+        }
+        if (object.Revision != null) {
+          if (typeof object.Revision !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.Revision: object expected");
+          message.Revision = $root.device.StringMaybe.fromObject(object.Revision);
+        }
+        if (object.VendorID != null) {
+          if (typeof object.VendorID !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.VendorID: object expected");
+          message.VendorID = $root.device.StringMaybe.fromObject(object.VendorID);
+        }
+        if (object.Firmware != null) {
+          if (typeof object.Firmware !== "object")
+            throw TypeError(".device.DeviceInfo.TPMInfo.Firmware: object expected");
+          message.Firmware = $root.device.StringMaybe.fromObject(object.Firmware);
+        }
+        return message;
+      };
+      TPMInfo.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.Version = null;
+          object.Level = null;
+          object.Revision = null;
+          object.VendorID = null;
+          object.Firmware = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.Version != null && message.hasOwnProperty("Version"))
+          object.Version = $root.device.StringMaybe.toObject(message.Version, options);
+        if (message.Level != null && message.hasOwnProperty("Level"))
+          object.Level = $root.device.StringMaybe.toObject(message.Level, options);
+        if (message.Revision != null && message.hasOwnProperty("Revision"))
+          object.Revision = $root.device.StringMaybe.toObject(message.Revision, options);
+        if (message.VendorID != null && message.hasOwnProperty("VendorID"))
+          object.VendorID = $root.device.StringMaybe.toObject(message.VendorID, options);
+        if (message.Firmware != null && message.hasOwnProperty("Firmware"))
+          object.Firmware = $root.device.StringMaybe.toObject(message.Firmware, options);
+        return object;
+      };
+      TPMInfo.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return TPMInfo;
+    }();
+    DeviceInfo.KeyProvenances = function() {
+      function KeyProvenances(properties) {
+        this.info = [];
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      KeyProvenances.prototype.answer = null;
+      KeyProvenances.prototype.info = $util.emptyArray;
+      KeyProvenances.create = function create(properties) {
+        return new KeyProvenances(properties);
+      };
+      KeyProvenances.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.info != null && message.info.length)
+          for (let i = 0; i < message.info.length; ++i)
+            $root.device.DeviceInfo.KeyProvenances.Info.encode(message.info[i], writer.uint32(18).fork()).ldelim();
+        return writer;
+      };
+      KeyProvenances.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      KeyProvenances.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.KeyProvenances();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              if (!(message.info && message.info.length))
+                message.info = [];
+              message.info.push($root.device.DeviceInfo.KeyProvenances.Info.decode(reader, reader.uint32()));
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      KeyProvenances.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      KeyProvenances.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.info != null && message.hasOwnProperty("info")) {
+          if (!Array.isArray(message.info))
+            return "info: array expected";
+          for (let i = 0; i < message.info.length; ++i) {
+            let error = $root.device.DeviceInfo.KeyProvenances.Info.verify(message.info[i]);
+            if (error)
+              return "info." + error;
+          }
+        }
+        return null;
+      };
+      KeyProvenances.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.KeyProvenances)
+          return object;
+        let message = new $root.device.DeviceInfo.KeyProvenances();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.KeyProvenances.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.info) {
+          if (!Array.isArray(object.info))
+            throw TypeError(".device.DeviceInfo.KeyProvenances.info: array expected");
+          message.info = [];
+          for (let i = 0; i < object.info.length; ++i) {
+            if (typeof object.info[i] !== "object")
+              throw TypeError(".device.DeviceInfo.KeyProvenances.info: object expected");
+            message.info[i] = $root.device.DeviceInfo.KeyProvenances.Info.fromObject(object.info[i]);
+          }
+        }
+        return message;
+      };
+      KeyProvenances.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.arrays || options.defaults)
+          object.info = [];
+        if (options.defaults)
+          object.answer = null;
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.info && message.info.length) {
+          object.info = [];
+          for (let j = 0; j < message.info.length; ++j)
+            object.info[j] = $root.device.DeviceInfo.KeyProvenances.Info.toObject(message.info[j], options);
+        }
+        return object;
+      };
+      KeyProvenances.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      KeyProvenances.KeyProvenance = function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "UNKNOWN"] = 0;
+        values[valuesById[1] = "TEE"] = 1;
+        values[valuesById[2] = "FILE"] = 2;
+        return values;
+      }();
+      KeyProvenances.KeyProvenanceMaybe = function() {
+        function KeyProvenanceMaybe(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        KeyProvenanceMaybe.prototype.answer = null;
+        KeyProvenanceMaybe.prototype.value = 0;
+        KeyProvenanceMaybe.create = function create(properties) {
+          return new KeyProvenanceMaybe(properties);
+        };
+        KeyProvenanceMaybe.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+            $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+          if (message.value != null && Object.hasOwnProperty.call(message, "value"))
+            writer.uint32(16).int32(message.value);
+          return writer;
+        };
+        KeyProvenanceMaybe.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        KeyProvenanceMaybe.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.answer = $root.device.Answer.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.value = reader.int32();
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        KeyProvenanceMaybe.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        KeyProvenanceMaybe.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.answer != null && message.hasOwnProperty("answer")) {
+            let error = $root.device.Answer.verify(message.answer);
+            if (error)
+              return "answer." + error;
+          }
+          if (message.value != null && message.hasOwnProperty("value"))
+            switch (message.value) {
+              default:
+                return "value: enum value expected";
+              case 0:
+              case 1:
+              case 2:
+                break;
+            }
+          return null;
+        };
+        KeyProvenanceMaybe.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe)
+            return object;
+          let message = new $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe();
+          if (object.answer != null) {
+            if (typeof object.answer !== "object")
+              throw TypeError(".device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.answer: object expected");
+            message.answer = $root.device.Answer.fromObject(object.answer);
+          }
+          switch (object.value) {
+            case "UNKNOWN":
+            case 0:
+              message.value = 0;
+              break;
+            case "TEE":
+            case 1:
+              message.value = 1;
+              break;
+            case "FILE":
+            case 2:
+              message.value = 2;
+              break;
+          }
+          return message;
+        };
+        KeyProvenanceMaybe.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.answer = null;
+            object.value = options.enums === String ? "UNKNOWN" : 0;
+          }
+          if (message.answer != null && message.hasOwnProperty("answer"))
+            object.answer = $root.device.Answer.toObject(message.answer, options);
+          if (message.value != null && message.hasOwnProperty("value"))
+            object.value = options.enums === String ? $root.device.DeviceInfo.KeyProvenances.KeyProvenance[message.value] : message.value;
+          return object;
+        };
+        KeyProvenanceMaybe.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        return KeyProvenanceMaybe;
+      }();
+      KeyProvenances.Info = function() {
+        function Info(properties) {
+          if (properties) {
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+              if (properties[keys[i]] != null)
+                this[keys[i]] = properties[keys[i]];
+          }
+        }
+        Info.prototype.profileHandle = null;
+        Info.prototype.keyHandle = null;
+        Info.prototype.keyProvenance = null;
+        Info.create = function create(properties) {
+          return new Info(properties);
+        };
+        Info.encode = function encode(message, writer) {
+          if (!writer)
+            writer = $Writer.create();
+          if (message.profileHandle != null && Object.hasOwnProperty.call(message, "profileHandle"))
+            $root.device.StringMaybe.encode(message.profileHandle, writer.uint32(10).fork()).ldelim();
+          if (message.keyHandle != null && Object.hasOwnProperty.call(message, "keyHandle"))
+            $root.device.StringMaybe.encode(message.keyHandle, writer.uint32(18).fork()).ldelim();
+          if (message.keyProvenance != null && Object.hasOwnProperty.call(message, "keyProvenance"))
+            $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.encode(message.keyProvenance, writer.uint32(26).fork()).ldelim();
+          return writer;
+        };
+        Info.encodeDelimited = function encodeDelimited(message, writer) {
+          return this.encode(message, writer).ldelim();
+        };
+        Info.decode = function decode(reader, length) {
+          if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+          let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.KeyProvenances.Info();
+          while (reader.pos < end) {
+            let tag = reader.uint32();
+            switch (tag >>> 3) {
+              case 1:
+                message.profileHandle = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 2:
+                message.keyHandle = $root.device.StringMaybe.decode(reader, reader.uint32());
+                break;
+              case 3:
+                message.keyProvenance = $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.decode(reader, reader.uint32());
+                break;
+              default:
+                reader.skipType(tag & 7);
+                break;
+            }
+          }
+          return message;
+        };
+        Info.decodeDelimited = function decodeDelimited(reader) {
+          if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+          return this.decode(reader, reader.uint32());
+        };
+        Info.verify = function verify(message) {
+          if (typeof message !== "object" || message === null)
+            return "object expected";
+          if (message.profileHandle != null && message.hasOwnProperty("profileHandle")) {
+            let error = $root.device.StringMaybe.verify(message.profileHandle);
+            if (error)
+              return "profileHandle." + error;
+          }
+          if (message.keyHandle != null && message.hasOwnProperty("keyHandle")) {
+            let error = $root.device.StringMaybe.verify(message.keyHandle);
+            if (error)
+              return "keyHandle." + error;
+          }
+          if (message.keyProvenance != null && message.hasOwnProperty("keyProvenance")) {
+            let error = $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.verify(message.keyProvenance);
+            if (error)
+              return "keyProvenance." + error;
+          }
+          return null;
+        };
+        Info.fromObject = function fromObject(object) {
+          if (object instanceof $root.device.DeviceInfo.KeyProvenances.Info)
+            return object;
+          let message = new $root.device.DeviceInfo.KeyProvenances.Info();
+          if (object.profileHandle != null) {
+            if (typeof object.profileHandle !== "object")
+              throw TypeError(".device.DeviceInfo.KeyProvenances.Info.profileHandle: object expected");
+            message.profileHandle = $root.device.StringMaybe.fromObject(object.profileHandle);
+          }
+          if (object.keyHandle != null) {
+            if (typeof object.keyHandle !== "object")
+              throw TypeError(".device.DeviceInfo.KeyProvenances.Info.keyHandle: object expected");
+            message.keyHandle = $root.device.StringMaybe.fromObject(object.keyHandle);
+          }
+          if (object.keyProvenance != null) {
+            if (typeof object.keyProvenance !== "object")
+              throw TypeError(".device.DeviceInfo.KeyProvenances.Info.keyProvenance: object expected");
+            message.keyProvenance = $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.fromObject(object.keyProvenance);
+          }
+          return message;
+        };
+        Info.toObject = function toObject(message, options) {
+          if (!options)
+            options = {};
+          let object = {};
+          if (options.defaults) {
+            object.profileHandle = null;
+            object.keyHandle = null;
+            object.keyProvenance = null;
+          }
+          if (message.profileHandle != null && message.hasOwnProperty("profileHandle"))
+            object.profileHandle = $root.device.StringMaybe.toObject(message.profileHandle, options);
+          if (message.keyHandle != null && message.hasOwnProperty("keyHandle"))
+            object.keyHandle = $root.device.StringMaybe.toObject(message.keyHandle, options);
+          if (message.keyProvenance != null && message.hasOwnProperty("keyProvenance"))
+            object.keyProvenance = $root.device.DeviceInfo.KeyProvenances.KeyProvenanceMaybe.toObject(message.keyProvenance, options);
+          return object;
+        };
+        Info.prototype.toJSON = function toJSON() {
+          return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+        return Info;
+      }();
+      return KeyProvenances;
+    }();
+    DeviceInfo.Locale = function() {
+      function Locale(properties) {
+        if (properties) {
+          for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            if (properties[keys[i]] != null)
+              this[keys[i]] = properties[keys[i]];
+        }
+      }
+      Locale.prototype.answer = null;
+      Locale.prototype.current = null;
+      Locale.create = function create(properties) {
+        return new Locale(properties);
+      };
+      Locale.encode = function encode(message, writer) {
+        if (!writer)
+          writer = $Writer.create();
+        if (message.answer != null && Object.hasOwnProperty.call(message, "answer"))
+          $root.device.Answer.encode(message.answer, writer.uint32(10).fork()).ldelim();
+        if (message.current != null && Object.hasOwnProperty.call(message, "current"))
+          $root.device.StringMaybe.encode(message.current, writer.uint32(18).fork()).ldelim();
+        return writer;
+      };
+      Locale.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+      };
+      Locale.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+          reader = $Reader.create(reader);
+        let end = length === void 0 ? reader.len : reader.pos + length, message = new $root.device.DeviceInfo.Locale();
+        while (reader.pos < end) {
+          let tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.answer = $root.device.Answer.decode(reader, reader.uint32());
+              break;
+            case 2:
+              message.current = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+        return message;
+      };
+      Locale.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+          reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+      };
+      Locale.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+          return "object expected";
+        if (message.answer != null && message.hasOwnProperty("answer")) {
+          let error = $root.device.Answer.verify(message.answer);
+          if (error)
+            return "answer." + error;
+        }
+        if (message.current != null && message.hasOwnProperty("current")) {
+          let error = $root.device.StringMaybe.verify(message.current);
+          if (error)
+            return "current." + error;
+        }
+        return null;
+      };
+      Locale.fromObject = function fromObject(object) {
+        if (object instanceof $root.device.DeviceInfo.Locale)
+          return object;
+        let message = new $root.device.DeviceInfo.Locale();
+        if (object.answer != null) {
+          if (typeof object.answer !== "object")
+            throw TypeError(".device.DeviceInfo.Locale.answer: object expected");
+          message.answer = $root.device.Answer.fromObject(object.answer);
+        }
+        if (object.current != null) {
+          if (typeof object.current !== "object")
+            throw TypeError(".device.DeviceInfo.Locale.current: object expected");
+          message.current = $root.device.StringMaybe.fromObject(object.current);
+        }
+        return message;
+      };
+      Locale.toObject = function toObject(message, options) {
+        if (!options)
+          options = {};
+        let object = {};
+        if (options.defaults) {
+          object.answer = null;
+          object.current = null;
+        }
+        if (message.answer != null && message.hasOwnProperty("answer"))
+          object.answer = $root.device.Answer.toObject(message.answer, options);
+        if (message.current != null && message.hasOwnProperty("current"))
+          object.current = $root.device.StringMaybe.toObject(message.current, options);
+        return object;
+      };
+      Locale.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+      };
+      return Locale;
+    }();
+    return DeviceInfo;
+  }();
+  return device2;
+})();
+
+// src/kmc-device.js
+var import_ua_parser_js = __toModule(require_ua_parser());
+var Data = class {
+  constructor(ua, ch, appSettings) {
+    this.ua = ua;
+    this.ch = ch;
+    this.appSettings = appSettings;
+  }
+  static async collect(db) {
+    let ua = new import_ua_parser_js.UAParser().getResult();
+    let ch = {};
+    if (navigator.userAgentData) {
+      const le = {
+        brands: navigator.userAgentData.brands,
+        mobile: navigator.userAgentData.mobile,
+        platform: navigator.userAgentData.platform
+      };
+      const he = await navigator.userAgentData.getHighEntropyValues([
+        "architecture",
+        "bitness",
+        "model",
+        "platformVersion",
+        "uaFullVersion"
+      ]);
+      ch = { ...le, ...he };
+    }
+    let appSettings = {};
+    if (db)
+      appSettings = await kmc_get_app_settings(db);
+    return new Data(ua, ch, appSettings);
+  }
+  getUserAgent() {
+    return {
+      browser: {
+        name: this.ua.browser.name,
+        version: this.ua.browser.version,
+        engineName: this.ua.engine.name,
+        engineVersion: this.ua.engine.version
+      },
+      platform: {
+        name: this.ua.os.name,
+        version: this.ua.os.version
+      },
+      device: {
+        architecture: this.ua.cpu.architecture,
+        model: this.ua.device.model,
+        type: this.ua.device.type,
+        vendor: this.ua.device.vendor
+      },
+      clientData: {
+        ...this.ch
+      }
+    };
+  }
+  getClientHints() {
+    return this.ch;
+  }
+  async getAppInstanceId() {
+    return this.appSettings ? { answer: { type: device.AnswerType.VALUE }, value: this.appSettings.instanceId } : void 0;
+  }
+  getOsVersion() {
+    let ua = this.getUserAgent();
+    let ch = {};
+    if (ua.clientData) {
+      ch.answer = { type: device.AnswerType.VALUE };
+      for (const key in ua.clientData) {
+        if (key === "brands")
+          continue;
+        ch[key] = { value: ua.clientData[key] };
+      }
+    } else {
+      ch.answer = { type: device.AnswerType.UNSUPPORTED };
+    }
+    return {
+      answer: { type: device.AnswerType.VALUE },
+      userAgent: {
+        type: device.AnswerType.VALUE,
+        value: navigator.userAgent
+      },
+      userAgentData: {
+        answer: { type: device.AnswerType.VALUE },
+        browser: {
+          answer: { type: device.AnswerType.VALUE },
+          name: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.browser.name
+          },
+          version: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.browser.version
+          },
+          engineName: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.engine.name
+          },
+          engineVersion: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.engine.version
+          }
+        },
+        platform: {
+          answer: { type: device.AnswerType.VALUE },
+          name: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.os.name
+          },
+          version: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.os.version
+          }
+        },
+        hostPlatform: {
+          answer: { type: device.AnswerType.VALUE },
+          name: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.os.name
+          },
+          version: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.os.version
+          }
+        },
+        device: {
+          answer: { type: device.AnswerType.VALUE },
+          architecture: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.cpu.architecture
+          },
+          model: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.device.model
+          },
+          type: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.device.type
+          },
+          vendor: {
+            answer: { type: device.AnswerType.VALUE },
+            value: this.ua.device.vendor
+          }
+        },
+        clientData: ch
+      }
+    };
+  }
+  async getAuthentication() {
+    const webAuthn = !!window.PublicKeyCredential;
+    const platformAuthn = webAuthn && await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    return {
+      answer: { type: device.AnswerType.VALUE },
+      isWebauthnAvailable: { answer: { type: device.AnswerType.VALUE }, value: webAuthn },
+      isPlatformAuthenticatorAvailable: {
+        answer: { type: device.AnswerType.VALUE },
+        value: platformAuthn
+      }
+    };
+  }
+};
+async function kmc_get_user_agent() {
+  let data2 = await Data.collect();
+  return data2.getUserAgent();
+}
+async function kmc_get_device_info(db) {
+  let deviceInfo = new device.DeviceInfo();
+  let data2 = await Data.collect(db);
+  deviceInfo.answer = { type: device.AnswerType.VALUE };
+  deviceInfo.platform = device.Platform.WEB;
+  deviceInfo.osVersion = data2.getOsVersion();
+  deviceInfo.core = device.Core.RUST;
+  const appVersion = "1.0.0";
+  const biVersion = "1.0.0";
+  deviceInfo.appVersion = {
+    answer: { type: device.AnswerType.VALUE },
+    value: appVersion
+  };
+  deviceInfo.appInstanceId = await data2.getAppInstanceId();
+  deviceInfo.authentication = await data2.getAuthentication();
+  return kmc_encode_device_info(deviceInfo);
+}
+function kmc_encode_device_info(info) {
+  return device.DeviceInfo.encode(info).finish();
+}
+function kmc_decode_device_info(buf) {
+  return device.DeviceInfo.decode(buf);
+}
+export {
+  kmc_add_authenticator_client_id,
+  kmc_close_db,
+  kmc_decode_device_info,
+  kmc_decrypt,
+  kmc_delete_all_authenticator_client_ids,
+  kmc_delete_cert,
+  kmc_delete_key,
+  kmc_delete_profile,
+  kmc_encode_device_info,
+  kmc_encrypt,
+  kmc_generate_key,
+  kmc_get_all_profiles,
+  kmc_get_app_settings,
+  kmc_get_cert,
+  kmc_get_device_info,
+  kmc_get_key,
+  kmc_get_profile,
+  kmc_get_profile_by_id,
+  kmc_get_user_agent,
+  kmc_has_profile,
+  kmc_is_key_webauthn_backed,
+  kmc_open_db,
+  kmc_public_key,
+  kmc_put_app_settings,
+  kmc_put_cert,
+  kmc_reset_db,
+  kmc_save_key,
+  kmc_sign,
+  kmc_update_profile_metadata,
+  kmc_verify,
+  kmc_write_profile,
+  kmc_write_profile_id
+};

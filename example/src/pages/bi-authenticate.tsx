@@ -27,17 +27,17 @@ const AuthenticateWithBeyondIdentity = () => {
     const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
     let embedded = new BeyondIdentityEmbeddedSdk.default();
 
-    // Display credentials so user can select one
-    let credentials = await embedded.getCredentials();
-    let promptText = credentials.map((credential, index) => {
-      return `${index}: ${credential.identity.username}`;
+    // Display passkeys so user can select one
+    let passkeys = await embedded.getPasskeys();
+    let promptText = passkeys.map((passkey, index) => {
+      return `${index}: ${passkey.identity.username}`;
     }).join("\n");
     let selectedIndex = parseInt(prompt(promptText, "index")!!);
-    if (selectedIndex >= 0 && selectedIndex < credentials.length) {
-      let selectedId = credentials[selectedIndex].id;
+    if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
+      let selectedId = passkeys[selectedIndex].id;
       // Perform authentication using selected id
       let result = await embedded.authenticate(url, selectedId);
-      return Promise.resolve(result.redirectURL);
+      return Promise.resolve(result.redirectUrl);
     } else {
       // This will fail in core as it won't match to any id
       return Promise.resolve("unknown_id");

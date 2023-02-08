@@ -80,7 +80,7 @@ export interface HandleBiAuthenticateUrlResponse {
     message?: string;
 }
 export interface HandleBindCredentialUrlResponse {
-    credential: CredentialV1;
+    credential: CoreCredentialV1;
     post_binding_redirect_uri?: string;
 }
 export declare type HandleUrlResponse = {
@@ -92,7 +92,7 @@ export declare type HandleUrlResponse = {
 } | {
     BindCredential: HandleBindCredentialUrlResponse;
 };
-/** Helper method for constructing UrlResponse from rust HandleUrlRespone objects. */
+/** Helper method for constructing UrlResponse from rust HandleUrlResponse objects. */
 export declare function toUrlResponse(rsp: HandleUrlResponse): UrlResponse;
 export interface HostFilePath {
     path_type: PathType;
