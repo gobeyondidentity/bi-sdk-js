@@ -14,14 +14,16 @@
 
 ### Embedded SDK
 
-Goodbye, passwords! The Beyond Identity SDKs allow you to embed the Passwordless experience into your product. Users will not need to download the Beyond Identity Authenticator. These SDKs supports OIDC and OAuth2.
+Goodbye, passwords! The Beyond Identity SDKs allow you to embed the Passwordless experience into your product. A set of functions are provided to you through the Embedded namespace. These SDKs supports OIDC and OAuth 2.0.
 
 ## Installation
 
 ```
 yarn add @beyondidentity/bi-sdk-js
 ```
+
 or
+
 ```
 npm install @beyondidentity/bi-sdk-js
 ```

@@ -196,9 +196,15 @@ class KmcDispatch implements CoreDispatch {
     credentialId: CredentialId | undefined,
     trusted: TrustedSource
   ): Promise<BIAuthenticateUrlResponse> => {
-    const rsp = await kmc_handle_url(url, credentialId, undefined, trusted, (msg: string) => {
-      return hostCall(this.host, msg);
-    });
+    const rsp = await kmc_handle_url(
+      url,
+      credentialId,
+      undefined,
+      trusted,
+      (msg: string) => {
+        return hostCall(this.host, msg);
+      }
+    );
     let urlResponse = Messaging.toUrlResponse(rsp);
     switch (urlResponse.type) {
       case "biAuthenticate": {
@@ -306,9 +312,15 @@ class KmcDispatch implements CoreDispatch {
     url: string,
     trusted: TrustedSource
   ): Promise<UrlResponse> => {
-    let rsp = await kmc_handle_url(url, undefined, undefined, trusted, (msg: string) => {
-      return hostCall(this.host, msg);
-    });
+    let rsp = await kmc_handle_url(
+      url,
+      undefined,
+      undefined,
+      trusted,
+      (msg: string) => {
+        return hostCall(this.host, msg);
+      }
+    );
     return Messaging.toUrlResponse(rsp);
   };
 
@@ -327,9 +339,15 @@ class KmcDispatch implements CoreDispatch {
     url: string,
     trusted: TrustedSource
   ): Promise<UrlResponse> => {
-    let rsp = await kmc_handle_url(url, undefined, undefined, trusted, (msg: string) => {
-      return hostCall(this.host, msg);
-    });
+    let rsp = await kmc_handle_url(
+      url,
+      undefined,
+      undefined,
+      trusted,
+      (msg: string) => {
+        return hostCall(this.host, msg);
+      }
+    );
     return Messaging.toUrlResponse(rsp);
   };
 
@@ -379,9 +397,9 @@ let __migrate_db: Promise<any> | undefined = undefined;
 /**
  * one-time-call for kmc-migrate-database.
  * This function exists because in the WebAuthenticator,
- * reactJS in development mode, will initialize core 
+ * reactJS in development mode, will initialize core
  * twice, which will induce a panic in kmc_migrate_database.
- * @param allowedDomains 
+ * @param allowedDomains
  */
 async function migrate_db(allowedDomains?: string) {
   if (__migrate_db === undefined) {

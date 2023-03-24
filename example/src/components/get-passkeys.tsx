@@ -10,11 +10,23 @@ class GetPasskeys extends Component<{}, { passkeys: Passkey[] }> {
 
   async componentDidMount() {
     const BeyondIdentityEmbeddedSdk = await import("../utils/BeyondIdentityEmbeddedSdk");
-    let embedded = new BeyondIdentityEmbeddedSdk.default();
-    this.setState({ passkeys: await embedded.getPasskeys() });
+    let embedded = new BeyondIdentityEmbeddedSdk.default
+
+    try {
+      this.setState({ passkeys: await embedded.getPasskeys() });
+    }
+    catch (err) {
+      console.log("Failed to get passkeys:", err);
+    }
+
     window.addEventListener("message", async (event) => {
       if (event.data === "update-passkeys") {
-        this.setState({ passkeys: await embedded.getPasskeys() });
+        try {
+          this.setState({ passkeys: await embedded.getPasskeys() });
+        }
+        catch (err) {
+          console.log("Failed to get passkeys:", err);
+        }
       } else {
         console.log("Unknown event data received:", event.data);
       }
@@ -27,8 +39,13 @@ class GetPasskeys extends Component<{}, { passkeys: Passkey[] }> {
     let embedded = new BeyondIdentityEmbeddedSdk.default();
     let result = window.confirm(`Are you sure you want to delete credential with username \"${passkey.identity.username}\"?`);
     if (result) {
-      await embedded.deletePasskey(passkey.id);
-      this.setState({ passkeys: await embedded.getPasskeys() });
+      try {
+        await embedded.deletePasskey(passkey.id);
+        this.setState({ passkeys: await embedded.getPasskeys() });
+        }
+      catch (err) {
+        console.log("Failed to delete passkey:", err);
+      }
     }
   }
 

@@ -29,19 +29,29 @@ const AuthenticateWithBeyondIdentity = () => {
 
     // Display passkeys so user can select one
     let passkeys = await embedded.getPasskeys();
-    let promptText = passkeys.map((passkey, index) => {
-      return `${index}: ${passkey.identity.username}`;
-    }).join("\n");
-    let selectedIndex = parseInt(prompt(promptText, "index")!!);
-    if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
-      let selectedId = passkeys[selectedIndex].id;
-      // Perform authentication using selected id
-      let result = await embedded.authenticate(url, selectedId);
-      return Promise.resolve(result.redirectUrl);
-    } else {
-      // This will fail in core as it won't match to any id
-      return Promise.resolve("unknown_id");
+    if (passkeys && passkeys.length === 0) {
+      return Promise.reject(new Error("There are no passkeys on this browser. Please bind a passkey before authenticating."));
     }
+    
+    let selectedIndex = 0;
+    if (passkeys.length > 1) {
+      let promptText = passkeys.map((passkey, index) => {
+        return `${index}: ${passkey.identity.username}`;
+      }).join("\n");
+      selectedIndex = parseInt(prompt(promptText, "index")!!);
+    }
+
+    // Note: If the selected Id was out of bounds or the 
+    // the prompt was cancelled, supply a default Id to 
+    // `authenticate` and let it fail in Core.
+    let selectedId = "";
+    if (selectedIndex >= 0 && selectedIndex < passkeys.length) {
+      selectedId = passkeys[selectedIndex].id;
+    }
+
+    // Perform authentication using selected id
+    let result = await embedded.authenticate(url, selectedId);
+    return Promise.resolve(result.redirectUrl);
   }
 
   return (

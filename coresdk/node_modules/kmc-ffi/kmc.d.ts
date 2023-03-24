@@ -20,11 +20,11 @@ export function kmc_get_app_instance_id(): Promise<string>;
 */
 export function kmc_migrate_database(allowed_domains?: string): Promise<any>;
 /**
-* @param {string} token
-* @param {Function} cb
+* @param {string} _token
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_import(token: string, cb: Function): Promise<any>;
+export function kmc_import(_token: string, _cb: Function): Promise<any>;
 /**
 * @param {string} url
 * @param {string | undefined} credential_id
@@ -35,51 +35,51 @@ export function kmc_import(token: string, cb: Function): Promise<any>;
 */
 export function kmc_handle_url(url: string, credential_id: string | undefined, allowed_domains: string | undefined, trusted_source: string, cb: Function): Promise<any>;
 /**
-* @param {string} auth_url
-* @param {string} token_url
-* @param {string} client_id
-* @param {string} redirect_uri
-* @param {string | undefined} nonce
-* @param {Function} cb
+* @param {string} _auth_url
+* @param {string} _token_url
+* @param {string} _client_id
+* @param {string} _redirect_uri
+* @param {string | undefined} _nonce
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_embedded_public_oidc(auth_url: string, token_url: string, client_id: string, redirect_uri: string, nonce: string | undefined, cb: Function): Promise<any>;
+export function kmc_embedded_public_oidc(_auth_url: string, _token_url: string, _client_id: string, _redirect_uri: string, _nonce: string | undefined, _cb: Function): Promise<any>;
 /**
-* @param {string} auth_url
-* @param {string} client_id
-* @param {string} redirect_uri
-* @param {string} scope
-* @param {any} pkce_challenge
-* @param {string | undefined} nonce
-* @param {Function} cb
+* @param {string} _auth_url
+* @param {string} _client_id
+* @param {string} _redirect_uri
+* @param {string} _scope
+* @param {any} _pkce_challenge
+* @param {string | undefined} _nonce
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_embedded_confidential_oidc(auth_url: string, client_id: string, redirect_uri: string, scope: string, pkce_challenge: any, nonce: string | undefined, cb: Function): Promise<any>;
+export function kmc_embedded_confidential_oidc(_auth_url: string, _client_id: string, _redirect_uri: string, _scope: string, _pkce_challenge: any, _nonce: string | undefined, _cb: Function): Promise<any>;
 /**
-* @param {string} handle
-* @param {Function} cb
+* @param {string} _handle
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_export(handle: string, cb: Function): Promise<any>;
+export function kmc_export(_handle: string, _cb: Function): Promise<any>;
 /**
-* @param {string} handle
-* @param {Function} cb
+* @param {string} _handle
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_delete_profile(handle: string, cb: Function): Promise<any>;
+export function kmc_delete_profile(_handle: string, _cb: Function): Promise<any>;
 /**
-* @param {string} handle
-* @param {string} name
-* @param {string} image_url
-* @param {string | undefined} enroll_uri
-* @param {string | undefined} login_uri
-* @param {string | undefined} desktop_login_url
-* @param {string | undefined} device_gateway_url
-* @param {string | undefined} migrate_addr
-* @param {Function} cb
+* @param {string} _handle
+* @param {string} _name
+* @param {string} _image_url
+* @param {string | undefined} _enroll_uri
+* @param {string | undefined} _login_uri
+* @param {string | undefined} _desktop_login_url
+* @param {string | undefined} _device_gateway_url
+* @param {string | undefined} _migrate_addr
+* @param {Function} _cb
 * @returns {Promise<any>}
 */
-export function kmc_create_profile(handle: string, name: string, image_url: string, enroll_uri: string | undefined, login_uri: string | undefined, desktop_login_url: string | undefined, device_gateway_url: string | undefined, migrate_addr: string | undefined, cb: Function): Promise<any>;
+export function kmc_create_profile(_handle: string, _name: string, _image_url: string, _enroll_uri: string | undefined, _login_uri: string | undefined, _desktop_login_url: string | undefined, _device_gateway_url: string | undefined, _migrate_addr: string | undefined, _cb: Function): Promise<any>;
 /**
 * @returns {Promise<any>}
 */
@@ -134,13 +134,13 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hba2a80105f7f36c3: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h4f46b99fa6148235: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h29c46999e2028121: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h30dde08fec25eef2: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h13c9ee9e465ef39b: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h8250fbe5e901b07b: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h7bb17e2ae7f7581b: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h36814b257cb21bb3: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h3c1ea71b79f0e337: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h14beb388b4b6a1c5: (a: number, b: number, c: number, d: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

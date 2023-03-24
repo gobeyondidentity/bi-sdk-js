@@ -155,6 +155,7 @@ export class Embedded {
    * Initialize the Embedded SDK. This function must
    * be called first.
    * @returns An instance of the Embedded SDK.
+   * @throws Will throw an error if the operation fails.
    */
   static initialize = async (config?: Config): Promise<Embedded> => {
     const defaults = {
@@ -179,6 +180,7 @@ export class Embedded {
    * Identity API or a passkey binding instruction from an email/sms.
    * @returns A Promise that resolves to a BindPasskeyResponse which
    * contains a passkey as well as a post bind redirect uri.
+   * @throws Will throw an error if the operation fails.
    */
   bindPasskey = async (url: string): Promise<BindPasskeyResponse> => {
     const response: BindCredentialV1Result = await this.core.bindCredentialUrl(url);
@@ -191,6 +193,7 @@ export class Embedded {
   /**
    * @returns A Promise that resolves to a list of all passkeys bound
    * to this browser.
+   * @throws Will throw an error if the operation fails.
    */
   getPasskeys = async (): Promise<Passkey[]> => {
     return await this.core.listCredentials();
@@ -199,6 +202,7 @@ export class Embedded {
   /**
    * Deletes a passkey from this browser.
    * @param id The id to the passkey to be deleted.
+   * @throws Will throw an error if the operation fails.
    */
   deletePasskey = async (id: string): Promise<void> => {
     return await this.core.deleteCredentialV1(id);
@@ -211,6 +215,7 @@ export class Embedded {
    * Identity API or a passkey binding instruction from an email/sms.
    * @returns A boolean indicating if the url passed in is a well formatted
    * bind passkey url.
+   * @throws Will throw an error if the operation fails.
    */
   isBindPasskeyUrl = (url: string): boolean => {
     try {
@@ -228,6 +233,7 @@ export class Embedded {
    * @param url The url in order authenticate against a bound passkey.
    * @returns A boolean indicating if the url passed in is a well formatted
    * authenticate url.
+   * @throws Will throw an error if the operation fails.
    */
   isAuthenticateUrl = (url: string): boolean => {
     try {
@@ -246,6 +252,7 @@ export class Embedded {
    * @param passkeyId The ID of the passkey with which to authenticate.
    * @returns A Promise that resolves to an AuthenticateResponse which
    * contains a redirectUrl as well as a message.
+   * @throws Will throw an error if the operation fails.
    */
   authenticate = async (
     url: string,
