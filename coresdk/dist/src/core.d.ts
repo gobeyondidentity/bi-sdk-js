@@ -1,7 +1,7 @@
 import { Configuration } from "./configuration";
 import { MockConfiguration } from "./mock";
 import { CoreDispatch } from "./coreDispatch";
-import { Credential, CredentialV1, BindCredentialV1Result, PkceCodeChallenge, Pkce, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, CredentialId } from "./types";
+import { Credential, CredentialV1, BindCredentialV1Result, PkceCodeChallenge, Pkce, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo } from "./types";
 import { Log } from "./log";
 import { HostEvents, ExportEvent, ImportEvent } from "./host";
 import { BIAuthenticateUrlResponse } from "./types/credential";
@@ -40,12 +40,12 @@ export declare class Core {
     createPKCE: () => Promise<Pkce>;
     createCredential: (handle: string, name: string, imageUrl: string, loginUri?: string | undefined, enrollUri?: string | undefined) => Promise<Credential>;
     deleteCredential: (handle: string) => Promise<void>;
-    deleteCredentialV1: (id: CredentialId) => Promise<void>;
+    deleteCredentialV1: (id: string) => Promise<void>;
     authenticateConfidential: (authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge | undefined, nonce?: string | undefined) => Promise<AuthorizationCode>;
     /**
      * Authenticates a credential.
      */
-    authenticate: (url: string, credentialId: CredentialId | undefined, trusted: TrustedSource, onSelectCredential?: ((credentials: CredentialV1[]) => Promise<string | undefined>) | undefined) => Promise<BIAuthenticateUrlResponse>;
+    authenticate: (url: string, credentialId: string | undefined, trusted: TrustedSource, onSelectCredential?: ((credentials: CredentialV1[]) => Promise<string | undefined>) | undefined) => Promise<BIAuthenticateUrlResponse>;
     authenticatePublic: (authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string | undefined) => Promise<TokenResponse>;
     /**
      * Begins an export of the specified credential.

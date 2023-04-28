@@ -1,6 +1,6 @@
 import { Configuration } from "./configuration";
 import { Types as Messaging } from "./messaging";
-import { Pkce, PkceCodeChallenge, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, Credential, BindCredentialV1Result, CredentialV1, KeyType, CredentialId } from "./types";
+import { Pkce, PkceCodeChallenge, TrustedSource, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, Credential, BindCredentialV1Result, CredentialV1, KeyType } from "./types";
 import { Host } from "./host";
 import { BIAuthenticateUrlResponse } from "./types/credential";
 /**
@@ -16,8 +16,8 @@ export interface CoreDispatch {
     createPkce(): Promise<Pkce>;
     createCredential(handle: string, name: string, imageUrl: string, loginUri?: string, enrollUri?: string): Promise<Credential>;
     deleteCredential(handle: string): Promise<void>;
-    deleteCredentialV1(id: CredentialId): Promise<void>;
-    authenticate(url: string, credentialId: CredentialId | undefined, trusted: TrustedSource, onSelectCredential?: (credentials: CredentialV1[]) => Promise<string | undefined>): Promise<BIAuthenticateUrlResponse>;
+    deleteCredentialV1(id: string): Promise<void>;
+    authenticate(url: string, credentialId: string | undefined, trusted: TrustedSource, onSelectCredential?: (credentials: CredentialV1[]) => Promise<string | undefined>): Promise<BIAuthenticateUrlResponse>;
     authenticateConfidential(authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge, nonce?: string): Promise<AuthorizationCode>;
     authenticatePublic(authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string): Promise<TokenResponse>;
     export(handle: string): Promise<void>;

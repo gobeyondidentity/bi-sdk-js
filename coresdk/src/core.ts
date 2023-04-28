@@ -11,13 +11,7 @@ import {
   AuthorizationCode,
   UrlResponse,
   TokenResponse,
-  CheckRetireResponse,
   BrowserInfo,
-  CredentialId,
-  IdentityId,
-  RealmId,
-  TenantId,
-  CredentialBindingJobId,
 } from "./types";
 import { Log } from "./log";
 import { HostEvents, ExportEvent, ImportEvent } from "./host";
@@ -112,7 +106,7 @@ export class Core {
   deleteCredential = async (handle: string): Promise<void> =>
     this.dispatch.deleteCredential(handle);
 
-  deleteCredentialV1 = async (id: CredentialId): Promise<void> =>
+  deleteCredentialV1 = async (id: string): Promise<void> =>
     this.dispatch.deleteCredentialV1(id);
 
   authenticateConfidential = async (
@@ -137,7 +131,7 @@ export class Core {
    */
   authenticate = async (
     url: string,
-    credentialId: CredentialId | undefined,
+    credentialId: string | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]

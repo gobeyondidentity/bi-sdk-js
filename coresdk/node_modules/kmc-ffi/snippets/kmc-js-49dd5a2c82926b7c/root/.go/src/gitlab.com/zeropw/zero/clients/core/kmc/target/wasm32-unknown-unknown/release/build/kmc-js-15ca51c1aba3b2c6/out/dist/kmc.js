@@ -3802,6 +3802,7 @@ var device = $root.device = (() => {
     DeviceInfo.prototype.locale = null;
     DeviceInfo.prototype.intuneManagedDeviceName = null;
     DeviceInfo.prototype.intuneDeviceId = null;
+    DeviceInfo.prototype.jamfProId = null;
     DeviceInfo.create = function create(properties) {
       return new DeviceInfo(properties);
     };
@@ -3858,6 +3859,8 @@ var device = $root.device = (() => {
         $root.device.StringMaybe.encode(message.intuneManagedDeviceName, writer.uint32(194).fork()).ldelim();
       if (message.intuneDeviceId != null && Object.hasOwnProperty.call(message, "intuneDeviceId"))
         $root.device.StringMaybe.encode(message.intuneDeviceId, writer.uint32(202).fork()).ldelim();
+      if (message.jamfProId != null && Object.hasOwnProperty.call(message, "jamfProId"))
+        $root.device.StringMaybe.encode(message.jamfProId, writer.uint32(210).fork()).ldelim();
       return writer;
     };
     DeviceInfo.encodeDelimited = function encodeDelimited(message, writer) {
@@ -3944,6 +3947,9 @@ var device = $root.device = (() => {
             break;
           case 25:
             message.intuneDeviceId = $root.device.StringMaybe.decode(reader, reader.uint32());
+            break;
+          case 26:
+            message.jamfProId = $root.device.StringMaybe.decode(reader, reader.uint32());
             break;
           default:
             reader.skipType(tag & 7);
@@ -4096,6 +4102,11 @@ var device = $root.device = (() => {
         let error = $root.device.StringMaybe.verify(message.intuneDeviceId);
         if (error)
           return "intuneDeviceId." + error;
+      }
+      if (message.jamfProId != null && message.hasOwnProperty("jamfProId")) {
+        let error = $root.device.StringMaybe.verify(message.jamfProId);
+        if (error)
+          return "jamfProId." + error;
       }
       return null;
     };
@@ -4262,6 +4273,11 @@ var device = $root.device = (() => {
           throw TypeError(".device.DeviceInfo.intuneDeviceId: object expected");
         message.intuneDeviceId = $root.device.StringMaybe.fromObject(object.intuneDeviceId);
       }
+      if (object.jamfProId != null) {
+        if (typeof object.jamfProId !== "object")
+          throw TypeError(".device.DeviceInfo.jamfProId: object expected");
+        message.jamfProId = $root.device.StringMaybe.fromObject(object.jamfProId);
+      }
       return message;
     };
     DeviceInfo.toObject = function toObject(message, options) {
@@ -4294,6 +4310,7 @@ var device = $root.device = (() => {
         object.locale = null;
         object.intuneManagedDeviceName = null;
         object.intuneDeviceId = null;
+        object.jamfProId = null;
       }
       if (message.answer != null && message.hasOwnProperty("answer"))
         object.answer = $root.device.Answer.toObject(message.answer, options);
@@ -4345,6 +4362,8 @@ var device = $root.device = (() => {
         object.intuneManagedDeviceName = $root.device.StringMaybe.toObject(message.intuneManagedDeviceName, options);
       if (message.intuneDeviceId != null && message.hasOwnProperty("intuneDeviceId"))
         object.intuneDeviceId = $root.device.StringMaybe.toObject(message.intuneDeviceId, options);
+      if (message.jamfProId != null && message.hasOwnProperty("jamfProId"))
+        object.jamfProId = $root.device.StringMaybe.toObject(message.jamfProId, options);
       return object;
     };
     DeviceInfo.prototype.toJSON = function toJSON() {

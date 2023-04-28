@@ -1,10 +1,5 @@
 import { KeyType } from "./credential";
 import { KeyHandle } from "./handles";
-export declare type TenantId = string;
-export declare type RealmId = string;
-export declare type IdentityId = string;
-export declare type CredentialId = string;
-export declare type CredentialBindingJobId = string;
 /**
  * Credential in the directory V1 sense
  */
@@ -24,11 +19,11 @@ export interface CredentialV1 {
     theme: ThemeV1;
 }
 export interface RealmV1 {
-    id: RealmId;
+    id: string;
     displayName: string;
 }
 export interface IdentityV1 {
-    id: IdentityId;
+    id: string;
     displayName: string;
     username: string;
     primaryEmailAddress?: string;
@@ -39,7 +34,7 @@ export interface ThemeV1 {
     supportUrl: string;
 }
 export interface TenantV1 {
-    id: TenantId;
+    id: string;
     displayName: string;
 }
 /**

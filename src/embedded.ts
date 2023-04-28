@@ -3,12 +3,9 @@ import {
   BindCredentialV1Result,
   Core,
   CoreBuilder,
-  IdentityId,
   KeyHandle,
   KeyType,
   Log,
-  RealmId,
-  TenantId,
 } from "coresdk";
 
 export interface Config {
@@ -74,7 +71,7 @@ export interface Passkey {
  * Application, and Branding objects.
 */
 export interface Realm {
-  id: RealmId;
+  id: string;
   displayName: string;
 }
 
@@ -85,7 +82,7 @@ export interface Realm {
  * may have multiple identities. A Realm can have many Identities.
 */
 export interface Identity {
-  id: IdentityId;
+  id: string;
   displayName: string;
   username: string;
   primaryEmailAddress?: string;
@@ -106,7 +103,7 @@ export interface Theme {
  * for all other cloud components in your configuration.
 */
 export interface Tenant {
-  id: TenantId;
+  id: string;
   displayName: string;
 }
 

@@ -15,7 +15,6 @@ import {
   BindCredentialV1Result,
   CredentialV1,
   KeyType,
-  CredentialId,
 } from "../types";
 import { UrlType } from "../messaging/types";
 import { Configuration } from "../configuration";
@@ -171,13 +170,13 @@ export class MockDispatch implements CoreDispatch {
     return Promise.resolve();
   }
 
-  deleteCredentialV1(id: CredentialId): Promise<void> {
+  deleteCredentialV1(id: string): Promise<void> {
     return Promise.resolve();
   }
 
   async authenticate(
     url: string,
-    credentialId: CredentialId | undefined,
+    credentialId: string | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]

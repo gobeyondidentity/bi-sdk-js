@@ -4425,10 +4425,8 @@ async function getWebAuthnSupport() {
   return false;
 }
 async function hasWebAuthn() {
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-  const isAndroid = /android/im.test(navigator.userAgent);
   const windowsVersion = await getWindowsVersion();
-  return !!(!isSafari && !isAndroid && windowsVersion < 0 && await getWebAuthnSupport());
+  return !!((windowsVersion < 0 || windowsVersion >= 11) && await getWebAuthnSupport());
 }
 function hasSubtleCrypto() {
   return !!window.crypto.subtle;

@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unpublished
 
+## [2.0.2] - 2023-04-20
+
+### Added
+
+- Support for Webauthn in Safari
+- Support for Webauthn on Android devices using SafetyNet
+- Support for Webauthn on Windows 11 devices 
+
+### Changed
+
+- Removed remaining typealiases as they were unnecessary.
+
+### Fixed
+
+- Issue where the SDK was failing to compile in Angular applications.
+
 ## [2.0.1] - 2023-03-22
 
 ### Changed

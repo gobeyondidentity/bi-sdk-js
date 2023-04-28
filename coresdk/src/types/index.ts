@@ -6,11 +6,6 @@ export {
   ThemeV1,
   IdentityV1,
   BindCredentialV1Result,
-  CredentialId,
-  RealmId,
-  TenantId,
-  IdentityId,
-  CredentialBindingJobId,
 } from "./v1";
 export { State, KeyType, IntegrityFailureError } from "./credential";
 export { Pkce, PkceCodeChallenge } from "./pkce";

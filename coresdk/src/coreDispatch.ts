@@ -13,7 +13,6 @@ import {
   BindCredentialV1Result,
   CredentialV1,
   KeyType,
-  CredentialId,
 } from "./types";
 import { Host, hostCall } from "./host";
 import init, {
@@ -59,10 +58,10 @@ export interface CoreDispatch {
     enrollUri?: string
   ): Promise<Credential>;
   deleteCredential(handle: string): Promise<void>;
-  deleteCredentialV1(id: CredentialId): Promise<void>;
+  deleteCredentialV1(id: string): Promise<void>;
   authenticate(
     url: string,
-    credentialId: CredentialId | undefined,
+    credentialId: string | undefined,
     trusted: TrustedSource,
     onSelectCredential?: (
       credentials: CredentialV1[]
@@ -186,14 +185,14 @@ class KmcDispatch implements CoreDispatch {
       return hostCall(this.host, msg);
     });
 
-  deleteCredentialV1 = async (id: CredentialId): Promise<void> =>
+  deleteCredentialV1 = async (id: string): Promise<void> =>
     await kmc_delete_credential(id, (msg: string) => {
       return hostCall(this.host, msg);
     });
 
   authenticate = async (
     url: string,
-    credentialId: CredentialId | undefined,
+    credentialId: string | undefined,
     trusted: TrustedSource
   ): Promise<BIAuthenticateUrlResponse> => {
     const rsp = await kmc_handle_url(

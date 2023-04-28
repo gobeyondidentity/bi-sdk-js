@@ -1,6 +1,6 @@
 export { CertHandle, KeyHandle, ProfileHandle } from "./handles";
 export { Credential, UrlResponse, BIAuthenticateUrlResponse } from "./credential";
-export { CredentialV1, RealmV1, ThemeV1, IdentityV1, BindCredentialV1Result, CredentialId, RealmId, TenantId, IdentityId, CredentialBindingJobId, } from "./v1";
+export { CredentialV1, RealmV1, ThemeV1, IdentityV1, BindCredentialV1Result, } from "./v1";
 export { State, KeyType, IntegrityFailureError } from "./credential";
 export { Pkce, PkceCodeChallenge } from "./pkce";
 export { BrowserInfo } from "./browserInfo";
