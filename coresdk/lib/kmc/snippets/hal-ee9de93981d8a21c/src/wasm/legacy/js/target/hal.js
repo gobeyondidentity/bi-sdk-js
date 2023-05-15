@@ -4415,6 +4415,27 @@ async function getWindowsVersion() {
   }
   return -1;
 }
+function getSafariVersion() {
+  const isSafari = navigator.vendor && navigator.vendor.indexOf("Apple") > -1 && navigator.userAgent && navigator.userAgent.indexOf("CriOS") == -1 && navigator.userAgent.indexOf("FxiOS") == -1;
+  if (isSafari) {
+    let versionIndex = navigator.userAgent.indexOf("Version/");
+    if (versionIndex >= 0) {
+      let version = parseInt(navigator.userAgent.substring(versionIndex + 8), 10);
+      return isNaN(version) ? 0 : version;
+    }
+  }
+  return -1;
+}
+function isMobileFirefox() {
+  let ua = (navigator.userAgent || "").toLowerCase();
+  if (ua.indexOf("fxios") >= 0)
+    return true;
+  if (ua.indexOf("firefox") < 0)
+    return false;
+  if (ua.indexOf("android") >= 0)
+    return true;
+  return false;
+}
 async function getWebAuthnSupport() {
   if (window.PublicKeyCredential) {
     try {
@@ -4426,7 +4447,8 @@ async function getWebAuthnSupport() {
 }
 async function hasWebAuthn() {
   const windowsVersion = await getWindowsVersion();
-  return !!((windowsVersion < 0 || windowsVersion >= 11) && await getWebAuthnSupport());
+  const safariVersion = getSafariVersion();
+  return !!((windowsVersion < 0 || windowsVersion >= 11) && (safariVersion < 0 || safariVersion >= 16) && !isMobileFirefox() && await getWebAuthnSupport());
 }
 function hasSubtleCrypto() {
   return !!window.crypto.subtle;

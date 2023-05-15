@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unpublished
 
+## [2.0.3] - 2023-04-20
+
+### Fixed
+
+- Error during Credential Binding in Safari 15 and earlier. 
+- Error using WebAuthn in Firefox on Android and iOS.
+
 ## [2.0.2] - 2023-04-20
 
 ### Added
