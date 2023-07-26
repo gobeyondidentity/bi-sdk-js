@@ -1,5 +1,7 @@
+import { CredentialV1 } from "./v1";
+
 export { CertHandle, KeyHandle, ProfileHandle } from "./handles";
-export { Credential, UrlResponse, BIAuthenticateUrlResponse } from "./credential";
+export { Credential, UrlResponse, BiAuthenticateResponse } from "./credential";
 export {
   CredentialV1,
   RealmV1,
@@ -11,17 +13,6 @@ export { State, KeyType, IntegrityFailureError } from "./credential";
 export { Pkce, PkceCodeChallenge } from "./pkce";
 export { BrowserInfo } from "./browserInfo";
 
-export type TrustedSource =
-  // This feature is inactive either because it is behind a feature flag or
-  // not used by the tenant.
-  | "InactiveFeature"
-  // The HandleUrl request is coming from an untrusted source.
-  | "UntrustedSource"
-  // The HandleUrl request is coming from a trusted source.
-  | "TrustedSource"
-  // The HandleUrl request is coming from the Embedded SDK.
-  | "EmbeddedSource";
-
 export interface AuthorizationCode {
   code: string;
 }
@@ -32,8 +23,6 @@ export interface RegistrationRequest {
   username: string;
   displayName: string;
 }
-
-export type RecoverRequest = { ExternalID: string } | { InternalID: string };
 
 export type FeatureFlagRequest = "IsInternalBuild";
 
@@ -81,3 +70,39 @@ export interface ClientEnvironment {
   cryptoSource: CryptoSource;
   keyStorageStrategy: KeyStorageStrategy;
 }
+
+/**
+ * Describes a Credential and method with which to authenticate.
+ * * `credentialId` - the referenced Credential is a passkey
+ * * `emailOtp` - email OTP
+ * * `credentialSelect` - the supplied callback will be invoked during prior to authentication.
+ */
+export type CredentialDescriptor =
+  | { credentialId: string }
+  | { beginEmailOtp: string }
+  | { redeemOtp: string }
+  | {
+      credentialSelect: (
+        credentials: CredentialV1[]
+      ) => Promise<string | undefined>;
+    };
+
+export interface AuthenticationContext {
+  authUrl: string;
+  authMethods?: AuthenticationMethod[];
+  application: {
+    id: string;
+    displayName?: string;
+  };
+  origin: {
+    sourceIp?: string;
+    userAgent?: string;
+    geolocation?: string;
+    referer?: string;
+  };
+}
+
+export type AuthenticationMethod = 
+| { type: "webauthn_passkey" }
+| { type: "software_passkey" }
+| { type: "email_one_time_password" };

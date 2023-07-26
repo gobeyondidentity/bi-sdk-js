@@ -1,11 +1,5 @@
 import * as Messaging from "./types";
-import {
-  RegistrationRequest,
-  RecoverRequest,
-  PkceCodeChallenge,
-  TrustedSource,
-  ClientEnvironment,
-} from "../types";
+import { ClientEnvironment } from "../types";
 
 function makeError(err: any) {
   if (typeof err === "string") return new Error(err);

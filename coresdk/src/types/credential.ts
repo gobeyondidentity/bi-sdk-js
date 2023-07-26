@@ -123,10 +123,20 @@ export interface RegistrationUrlResponse {
   credential: Credential;
 }
 
-export interface BIAuthenticateUrlResponse {
-  redirectURL: string;
-  message?: string;
-}
+export type BiAuthenticateResponse =
+  | {
+      allow: {
+        redirectURL: string;
+        message?: string;
+        passkeyBindingToken?: string;
+      };
+    }
+  | {
+      continue: {
+        reason: string;
+        url: string;
+      };
+    };
 
 export interface BindCredentialUrlResponse {
   credential: CredentialV1;
@@ -136,7 +146,5 @@ export interface BindCredentialUrlResponse {
 export type UrlResponse =
   | { type: "selfIssue"; selfIssue: SelfIssueUrlResponse }
   | { type: "registration"; registration: RegistrationUrlResponse }
-  | { type: "biAuthenticate"; biAuthenticate: BIAuthenticateUrlResponse }
+  | { type: "biAuthenticate"; biAuthenticate: BiAuthenticateResponse }
   | { type: "bindCredential"; bindCredential: BindCredentialUrlResponse };
-
-

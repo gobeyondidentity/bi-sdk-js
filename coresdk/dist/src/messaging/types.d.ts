@@ -6,8 +6,8 @@
  * Some types have the same spelling, so they are re-exports
  * of the application types.
  */
-import { Credential, CredentialV1, PkceCodeChallenge, UrlResponse, CryptoSource, KeyStorageStrategy, PathType, State, IntegrityFailureError } from "../types";
-export { TrustedSource, PkceCodeChallenge, RegistrationStatus, PromptDetail, FeatureFlagRequest, FeatureFlagResponse, PathType, } from "../types";
+import { Credential, CredentialV1, PkceCodeChallenge, UrlResponse, CryptoSource, KeyStorageStrategy, PathType, State, IntegrityFailureError, AuthenticationContext } from "../types";
+export { PkceCodeChallenge, RegistrationStatus, PromptDetail, FeatureFlagRequest, FeatureFlagResponse, PathType, } from "../types";
 /**
  * A Profile is identical to a Credential, but
  * is named differently for legacy reasons.
@@ -78,6 +78,11 @@ export interface HandleBiAuthenticateUrlResponse {
     operation: string;
     redirect_url: string;
     message?: string;
+    passkey_binding_token?: string;
+}
+export interface HandleBiContinueResponse {
+    reason: string;
+    url: string;
 }
 export interface HandleBindCredentialUrlResponse {
     credential: CoreCredentialV1;
@@ -89,6 +94,8 @@ export declare type HandleUrlResponse = {
     Registration: HandleRegisterUrlResponse;
 } | {
     BiAuthenticate: HandleBiAuthenticateUrlResponse;
+} | {
+    BiContinue: HandleBiContinueResponse;
 } | {
     BindCredential: HandleBindCredentialUrlResponse;
 };
@@ -122,11 +129,6 @@ export interface RegistrationRequest {
     user_name: string;
     display_name: string;
 }
-export declare type RecoverRequest = {
-    external_id: string;
-} | {
-    internal_id: string;
-};
 export interface Pkce {
     code_verifier: string;
     code_challenge: PkceCodeChallenge;
@@ -176,3 +178,43 @@ export declare type UrlType = {
 };
 /** Helper method for constructing UrlType from string. */
 export declare function toUrlType(rawUrlType: string): UrlType;
+export declare function toAuthContext(coreContext: CoreAuthenticationRequestContext): AuthenticationContext;
+export interface CoreAuthenticationRequestContext {
+    config: CoreAuthenticatorConfig;
+    origin: CoreRequestOrigin;
+    application: CoreApplication;
+    auth_url: string;
+}
+interface CoreAuthenticatorConfig {
+    id: string;
+    tenant_id: string;
+    realm_id: string;
+    config: CoreAuthenticatorProfileConfig;
+}
+declare type CoreAuthenticatorProfileConfig = {
+    type: "hosted_web";
+} | {
+    type: "hosted_login";
+    authentication_methods: CoreAuthenticationMethod[];
+} | {
+    type: "platform";
+} | {
+    type: "embedded";
+};
+declare type CoreAuthenticationMethod = {
+    type: "webauthn_passkey";
+} | {
+    type: "software_passkey";
+} | {
+    type: "email_one_time_password";
+};
+interface CoreRequestOrigin {
+    ip?: string;
+    ua?: string;
+    geo?: string;
+    ref?: string;
+}
+interface CoreApplication {
+    id: string;
+    display_name?: string;
+}

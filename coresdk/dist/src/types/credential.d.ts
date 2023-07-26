@@ -103,10 +103,18 @@ export interface SelfIssueUrlResponse {
 export interface RegistrationUrlResponse {
     credential: Credential;
 }
-export interface BIAuthenticateUrlResponse {
-    redirectURL: string;
-    message?: string;
-}
+export declare type BiAuthenticateResponse = {
+    allow: {
+        redirectURL: string;
+        message?: string;
+        passkeyBindingToken?: string;
+    };
+} | {
+    continue: {
+        reason: string;
+        url: string;
+    };
+};
 export interface BindCredentialUrlResponse {
     credential: CredentialV1;
     postBindRedirect?: string;
@@ -119,7 +127,7 @@ export declare type UrlResponse = {
     registration: RegistrationUrlResponse;
 } | {
     type: "biAuthenticate";
-    biAuthenticate: BIAuthenticateUrlResponse;
+    biAuthenticate: BiAuthenticateResponse;
 } | {
     type: "bindCredential";
     bindCredential: BindCredentialUrlResponse;

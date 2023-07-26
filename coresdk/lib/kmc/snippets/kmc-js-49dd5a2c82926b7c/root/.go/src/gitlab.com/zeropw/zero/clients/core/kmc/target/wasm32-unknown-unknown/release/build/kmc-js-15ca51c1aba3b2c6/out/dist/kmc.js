@@ -4802,6 +4802,8 @@ var device = $root.device = (() => {
       OSVersion.prototype.minor = null;
       OSVersion.prototype.build = null;
       OSVersion.prototype.patch = null;
+      OSVersion.prototype.rsrPatch = null;
+      OSVersion.prototype.versionExtra = null;
       OSVersion.prototype.revision = null;
       OSVersion.prototype.servicePack = null;
       OSVersion.prototype.isServer = null;
@@ -4845,6 +4847,10 @@ var device = $root.device = (() => {
           $root.device.StringMaybe.encode(message.userAgent, writer.uint32(106).fork()).ldelim();
         if (message.userAgentData != null && Object.hasOwnProperty.call(message, "userAgentData"))
           $root.device.DeviceInfo.OSVersion.UserAgentData.encode(message.userAgentData, writer.uint32(114).fork()).ldelim();
+        if (message.rsrPatch != null && Object.hasOwnProperty.call(message, "rsrPatch"))
+          $root.device.StringMaybe.encode(message.rsrPatch, writer.uint32(122).fork()).ldelim();
+        if (message.versionExtra != null && Object.hasOwnProperty.call(message, "versionExtra"))
+          $root.device.StringMaybe.encode(message.versionExtra, writer.uint32(130).fork()).ldelim();
         return writer;
       };
       OSVersion.encodeDelimited = function encodeDelimited(message, writer) {
@@ -4871,6 +4877,12 @@ var device = $root.device = (() => {
               break;
             case 5:
               message.patch = $root.device.Int32Maybe.decode(reader, reader.uint32());
+              break;
+            case 15:
+              message.rsrPatch = $root.device.StringMaybe.decode(reader, reader.uint32());
+              break;
+            case 16:
+              message.versionExtra = $root.device.StringMaybe.decode(reader, reader.uint32());
               break;
             case 6:
               message.revision = $root.device.Int32Maybe.decode(reader, reader.uint32());
@@ -4938,6 +4950,16 @@ var device = $root.device = (() => {
           let error = $root.device.Int32Maybe.verify(message.patch);
           if (error)
             return "patch." + error;
+        }
+        if (message.rsrPatch != null && message.hasOwnProperty("rsrPatch")) {
+          let error = $root.device.StringMaybe.verify(message.rsrPatch);
+          if (error)
+            return "rsrPatch." + error;
+        }
+        if (message.versionExtra != null && message.hasOwnProperty("versionExtra")) {
+          let error = $root.device.StringMaybe.verify(message.versionExtra);
+          if (error)
+            return "versionExtra." + error;
         }
         if (message.revision != null && message.hasOwnProperty("revision")) {
           let error = $root.device.Int32Maybe.verify(message.revision);
@@ -5015,6 +5037,16 @@ var device = $root.device = (() => {
             throw TypeError(".device.DeviceInfo.OSVersion.patch: object expected");
           message.patch = $root.device.Int32Maybe.fromObject(object.patch);
         }
+        if (object.rsrPatch != null) {
+          if (typeof object.rsrPatch !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.rsrPatch: object expected");
+          message.rsrPatch = $root.device.StringMaybe.fromObject(object.rsrPatch);
+        }
+        if (object.versionExtra != null) {
+          if (typeof object.versionExtra !== "object")
+            throw TypeError(".device.DeviceInfo.OSVersion.versionExtra: object expected");
+          message.versionExtra = $root.device.StringMaybe.fromObject(object.versionExtra);
+        }
         if (object.revision != null) {
           if (typeof object.revision !== "object")
             throw TypeError(".device.DeviceInfo.OSVersion.revision: object expected");
@@ -5081,6 +5113,8 @@ var device = $root.device = (() => {
           object.securityPatch = null;
           object.userAgent = null;
           object.userAgentData = null;
+          object.rsrPatch = null;
+          object.versionExtra = null;
         }
         if (message.answer != null && message.hasOwnProperty("answer"))
           object.answer = $root.device.Answer.toObject(message.answer, options);
@@ -5110,6 +5144,10 @@ var device = $root.device = (() => {
           object.userAgent = $root.device.StringMaybe.toObject(message.userAgent, options);
         if (message.userAgentData != null && message.hasOwnProperty("userAgentData"))
           object.userAgentData = $root.device.DeviceInfo.OSVersion.UserAgentData.toObject(message.userAgentData, options);
+        if (message.rsrPatch != null && message.hasOwnProperty("rsrPatch"))
+          object.rsrPatch = $root.device.StringMaybe.toObject(message.rsrPatch, options);
+        if (message.versionExtra != null && message.hasOwnProperty("versionExtra"))
+          object.versionExtra = $root.device.StringMaybe.toObject(message.versionExtra, options);
         return object;
       };
       OSVersion.prototype.toJSON = function toJSON() {
@@ -6250,6 +6288,7 @@ var device = $root.device = (() => {
       Authentication.prototype.isPasswordSet = null;
       Authentication.prototype.isBiometricsSet = null;
       Authentication.prototype.isWatchAuthenticationEnabled = null;
+      Authentication.prototype.watchDeviceState = 0;
       Authentication.prototype.isSecureEnclaveAvailable = null;
       Authentication.prototype.isWebauthnAvailable = null;
       Authentication.prototype.isPlatformAuthenticatorAvailable = null;
@@ -6279,6 +6318,8 @@ var device = $root.device = (() => {
           $root.device.BoolMaybe.encode(message.isWebauthnAvailable, writer.uint32(74).fork()).ldelim();
         if (message.isPlatformAuthenticatorAvailable != null && Object.hasOwnProperty.call(message, "isPlatformAuthenticatorAvailable"))
           $root.device.BoolMaybe.encode(message.isPlatformAuthenticatorAvailable, writer.uint32(82).fork()).ldelim();
+        if (message.watchDeviceState != null && Object.hasOwnProperty.call(message, "watchDeviceState"))
+          writer.uint32(88).int32(message.watchDeviceState);
         return writer;
       };
       Authentication.encodeDelimited = function encodeDelimited(message, writer) {
@@ -6311,6 +6352,9 @@ var device = $root.device = (() => {
               break;
             case 7:
               message.isWatchAuthenticationEnabled = $root.device.BoolMaybe.decode(reader, reader.uint32());
+              break;
+            case 11:
+              message.watchDeviceState = reader.int32();
               break;
             case 8:
               message.isSecureEnclaveAvailable = $root.device.BoolMaybe.decode(reader, reader.uint32());
@@ -6371,6 +6415,19 @@ var device = $root.device = (() => {
           if (error)
             return "isWatchAuthenticationEnabled." + error;
         }
+        if (message.watchDeviceState != null && message.hasOwnProperty("watchDeviceState"))
+          switch (message.watchDeviceState) {
+            default:
+              return "watchDeviceState: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+              break;
+          }
         if (message.isSecureEnclaveAvailable != null && message.hasOwnProperty("isSecureEnclaveAvailable")) {
           let error = $root.device.BoolMaybe.verify(message.isSecureEnclaveAvailable);
           if (error)
@@ -6427,6 +6484,36 @@ var device = $root.device = (() => {
             throw TypeError(".device.DeviceInfo.Authentication.isWatchAuthenticationEnabled: object expected");
           message.isWatchAuthenticationEnabled = $root.device.BoolMaybe.fromObject(object.isWatchAuthenticationEnabled);
         }
+        switch (object.watchDeviceState) {
+          case "UNKNOWN":
+          case 0:
+            message.watchDeviceState = 0;
+            break;
+          case "AVAILABLE":
+          case 1:
+            message.watchDeviceState = 1;
+            break;
+          case "UNSUPPORTED":
+          case 2:
+            message.watchDeviceState = 2;
+            break;
+          case "NOTENROLLED":
+          case 3:
+            message.watchDeviceState = 3;
+            break;
+          case "NOTAVAILABLE":
+          case 4:
+            message.watchDeviceState = 4;
+            break;
+          case "NOTPAIRED":
+          case 5:
+            message.watchDeviceState = 5;
+            break;
+          case "DISCONNECTED":
+          case 6:
+            message.watchDeviceState = 6;
+            break;
+        }
         if (object.isSecureEnclaveAvailable != null) {
           if (typeof object.isSecureEnclaveAvailable !== "object")
             throw TypeError(".device.DeviceInfo.Authentication.isSecureEnclaveAvailable: object expected");
@@ -6459,6 +6546,7 @@ var device = $root.device = (() => {
           object.isSecureEnclaveAvailable = null;
           object.isWebauthnAvailable = null;
           object.isPlatformAuthenticatorAvailable = null;
+          object.watchDeviceState = options.enums === String ? "UNKNOWN" : 0;
         }
         if (message.answer != null && message.hasOwnProperty("answer"))
           object.answer = $root.device.Answer.toObject(message.answer, options);
@@ -6480,11 +6568,24 @@ var device = $root.device = (() => {
           object.isWebauthnAvailable = $root.device.BoolMaybe.toObject(message.isWebauthnAvailable, options);
         if (message.isPlatformAuthenticatorAvailable != null && message.hasOwnProperty("isPlatformAuthenticatorAvailable"))
           object.isPlatformAuthenticatorAvailable = $root.device.BoolMaybe.toObject(message.isPlatformAuthenticatorAvailable, options);
+        if (message.watchDeviceState != null && message.hasOwnProperty("watchDeviceState"))
+          object.watchDeviceState = options.enums === String ? $root.device.DeviceInfo.Authentication.WatchState[message.watchDeviceState] : message.watchDeviceState;
         return object;
       };
       Authentication.prototype.toJSON = function toJSON() {
         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
       };
+      Authentication.WatchState = function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "UNKNOWN"] = 0;
+        values[valuesById[1] = "AVAILABLE"] = 1;
+        values[valuesById[2] = "UNSUPPORTED"] = 2;
+        values[valuesById[3] = "NOTENROLLED"] = 3;
+        values[valuesById[4] = "NOTAVAILABLE"] = 4;
+        values[valuesById[5] = "NOTPAIRED"] = 5;
+        values[valuesById[6] = "DISCONNECTED"] = 6;
+        return values;
+      }();
       return Authentication;
     }();
     DeviceInfo.SecuritySoftware = function() {

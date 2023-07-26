@@ -27,13 +27,20 @@ export function kmc_migrate_database(allowed_domains?: string): Promise<any>;
 export function kmc_import(_token: string, _cb: Function): Promise<any>;
 /**
 * @param {string} url
-* @param {string | undefined} credential_id
+* @param {string | undefined} allowed_domains
+* @param {Function} cb
+* @returns {Promise<any>}
+*/
+export function kmc_get_auth_context(url: string, allowed_domains: string | undefined, cb: Function): Promise<any>;
+/**
+* @param {string} url
+* @param {any} cred_desc
 * @param {string | undefined} allowed_domains
 * @param {string} trusted_source
 * @param {Function} cb
 * @returns {Promise<any>}
 */
-export function kmc_handle_url(url: string, credential_id: string | undefined, allowed_domains: string | undefined, trusted_source: string, cb: Function): Promise<any>;
+export function kmc_handle_url(url: string, cred_desc: any, allowed_domains: string | undefined, trusted_source: string, cb: Function): Promise<any>;
 /**
 * @param {string} _auth_url
 * @param {string} _token_url
@@ -119,6 +126,7 @@ export interface InitOutput {
   readonly kmc_get_app_instance_id: () => number;
   readonly kmc_migrate_database: (a: number) => number;
   readonly kmc_import: (a: number, b: number) => number;
+  readonly kmc_get_auth_context: (a: number, b: number, c: number, d: number) => number;
   readonly kmc_handle_url: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly kmc_embedded_public_oidc: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
   readonly kmc_embedded_confidential_oidc: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => number;
@@ -134,13 +142,13 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h575f466fd3df8cf7: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h4691b603d0d1cb19: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h50d3b1eaa155f953: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hc71e64e004c44ff0: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h9ebfed479af5581e: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h912c53d1f6acdc2f: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h4e06280f8a18b9d8: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb87b29f834ffcd67: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h22c2f0768bc2fe65: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h2867fcaadcf0d58d: (a: number, b: number, c: number, d: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

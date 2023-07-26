@@ -5,13 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unpublished
+## [2.0.4] - 2023-07-25
+
+### Changed
+
+- Export all public Interfaces.
+- Disabled hardware key generation on Safari. Universal passkeys should not be syncable.
+
+### Added
+
+- New function authenticateWithOtp to enable authentication with a one time password.
+- New function redeemOtp to enable redeeming a one time password.
+- New function getAuthenticationContext to retrieve authentication parameters for the ongoing transaction.
 
 ## [2.0.3] - 2023-04-20
 
 ### Fixed
 
-- Error during Credential Binding in Safari 15 and earlier. 
+- Error during Credential Binding in Safari 15 and earlier.
 - Error using WebAuthn in Firefox on Android and iOS.
 
 ## [2.0.2] - 2023-04-20
@@ -20,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Webauthn in Safari
 - Support for Webauthn on Android devices using SafetyNet
-- Support for Webauthn on Windows 11 devices 
+- Support for Webauthn on Windows 11 devices
 
 ### Changed
 
@@ -37,12 +48,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The following errors will now be reported as `FlattenedError`s. These errors have a `type` field, which is the value on the right side of the arrow, and an optional `data` field for additional context about the error.
   - `BiAuthenticate(Deny(...))` => `PolicyDenied`,
   - `BiAuthenticate(SelectCredentialCanceled` => `SelectCredentialCanceled`,
-  - `MissingCredentialInRealm` => `CredentialNotFound` 
+  - `MissingCredentialInRealm` => `CredentialNotFound`
   - `BindCredential(AuthLib(CredentialBinding(Service(...))))` => `V1ServiceError`,
   - `BindCredential(AuthLib(InvokeAuthenticator(Service(...))))` => `V1ServiceError`,
   - `BindCredential(InvalidUrl(...))` => `InvalidUrl`,
-  - `BiAuthenticate(AuthLib(AssertionEncode(Hal(Internal(...))))` => `BiometricsCanceled` 
-  - `BindCredential(AuthLib(AssertionEncode(Hal(Internal(...))))` =>  `BiometricsCanceled`,
+  - `BiAuthenticate(AuthLib(AssertionEncode(Hal(Internal(...))))` => `BiometricsCanceled`
+  - `BindCredential(AuthLib(AssertionEncode(Hal(Internal(...))))` => `BiometricsCanceled`,
 
 ## [2.0.0] - 2023-01-09
 

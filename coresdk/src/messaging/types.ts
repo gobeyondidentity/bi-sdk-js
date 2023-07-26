@@ -17,10 +17,10 @@ import {
   PathType,
   State,
   IntegrityFailureError,
+  AuthenticationContext,
 } from "../types";
 
 export {
-  TrustedSource,
   PkceCodeChallenge,
   RegistrationStatus,
   PromptDetail,
@@ -166,6 +166,12 @@ export interface HandleBiAuthenticateUrlResponse {
   operation: string;
   redirect_url: string;
   message?: string;
+  passkey_binding_token?: string;
+}
+
+export interface HandleBiContinueResponse {
+  reason: string;
+  url: string,
 }
 
 export interface HandleBindCredentialUrlResponse {
@@ -177,6 +183,7 @@ export type HandleUrlResponse =
   | { SelfIssue: HandleSelfIssueUrlResponse }
   | { Registration: HandleRegisterUrlResponse }
   | { BiAuthenticate: HandleBiAuthenticateUrlResponse }
+  | { BiContinue: HandleBiContinueResponse }
   | { BindCredential: HandleBindCredentialUrlResponse };
 
 /** Helper method for constructing UrlResponse from rust HandleUrlResponse objects. */
@@ -201,15 +208,30 @@ export function toUrlResponse(rsp: HandleUrlResponse): UrlResponse {
     return {
       type: "biAuthenticate",
       biAuthenticate: {
-        redirectURL: rsp["BiAuthenticate"].redirect_url,
-        message: rsp["BiAuthenticate"].message,
+        allow: {
+          redirectURL: rsp["BiAuthenticate"].redirect_url,
+          message: rsp["BiAuthenticate"].message,
+          passkeyBindingToken: rsp["BiAuthenticate"].passkey_binding_token,
+        },
+      },
+    };
+  } else if ("BiContinue" in rsp) {
+    return {
+      type: "biAuthenticate",
+      biAuthenticate: {
+        continue: {
+          reason: rsp["BiContinue"].reason,
+          url: rsp["BiContinue"].url,
+        },
       },
     };
   } else if ("BindCredential" in rsp) {
     return {
       type: "bindCredential",
       bindCredential: {
-        credential: credentialV1FromCredential(rsp["BindCredential"].credential),
+        credential: credentialV1FromCredential(
+          rsp["BindCredential"].credential
+        ),
         postBindRedirect: rsp["BindCredential"].post_binding_redirect_uri,
       },
     };
@@ -250,8 +272,6 @@ export interface RegistrationRequest {
   user_name: string;
   display_name: string;
 }
-
-export type RecoverRequest = { external_id: string } | { internal_id: string };
 
 export interface Pkce {
   code_verifier: string;
@@ -340,7 +360,7 @@ export type UrlType = { type: "Authenticate" } | { type: "Bind" };
 
 /** Helper method for constructing UrlType from string. */
 export function toUrlType(rawUrlType: string): UrlType {
-  switch(rawUrlType) {
+  switch (rawUrlType) {
     case "Authenticate": {
       return { type: "Authenticate" };
     }
@@ -351,4 +371,65 @@ export function toUrlType(rawUrlType: string): UrlType {
       throw new Error("Unexpected Url Type");
     }
   }
+}
+
+export function toAuthContext(
+  coreContext: CoreAuthenticationRequestContext
+): AuthenticationContext {
+  let context: AuthenticationContext = {
+    authUrl: coreContext.auth_url,
+    application: {
+      id: coreContext.application.id,
+      displayName: coreContext.application.display_name,
+    },
+    origin: {
+      sourceIp: coreContext.origin.ip,
+      userAgent: coreContext.origin.ua,
+      geolocation: coreContext.origin.geo,
+      referer: coreContext.origin.ref,
+    },
+  };
+
+  if (coreContext.config.config.type == "hosted_login") {
+    context.authMethods = coreContext.config.config.authentication_methods;
+  }
+
+  return context;
+}
+
+export interface CoreAuthenticationRequestContext {
+  config: CoreAuthenticatorConfig;
+  origin: CoreRequestOrigin;
+  application: CoreApplication;
+  auth_url: string;
+}
+
+interface CoreAuthenticatorConfig {
+  id: string;
+  tenant_id: string;
+  realm_id: string;
+  config: CoreAuthenticatorProfileConfig;
+}
+
+type CoreAuthenticatorProfileConfig =
+  | { type: "hosted_web" }
+  | { type: "hosted_login"; authentication_methods: CoreAuthenticationMethod[] }
+  | { type: "platform" }
+  | { type: "embedded" };
+
+type CoreAuthenticationMethod =
+  | { type: "webauthn_passkey" }
+  | { type: "software_passkey" }
+  | { type: "email_one_time_password" };
+
+interface CoreRequestOrigin {
+  ip?: string;
+  ua?: string;
+  geo?: string;
+  ref?: string;
+}
+
+interface CoreApplication {
+  id: string;
+  display_name?: string;
 }

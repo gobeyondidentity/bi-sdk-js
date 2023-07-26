@@ -28,6 +28,10 @@ class BeyondIdentityEmbeddedSdk {
     return (await this.initialized()).isAuthenticateUrl(url);
   };
 
+  getAuthenticationContext = async (url: string) => {
+    return (await this.initialized()).getAuthenticationContext(url);
+  };
+
   isBindPasskeyUrl = async (url: string) => {
     return (await this.initialized()).isBindPasskeyUrl(url);
   };
@@ -36,7 +40,24 @@ class BeyondIdentityEmbeddedSdk {
     url: string,
     passkeyId: string
   ) => {
+    let cxt = await this.getAuthenticationContext(url);
+    console.log(JSON.stringify(cxt));
+    
     return (await this.initialized()).authenticate(url, passkeyId);
+  };
+
+  authenticateOtp = async (
+    url: string,
+    emailAddress: string
+  ) => {
+    return (await this.initialized()).authenticateOtp(url, emailAddress);
+  };
+
+  redeemOtp = async (
+    otp: string,
+    state: any
+  ) => {
+    return (await this.initialized()).redeemOtp(otp, state);
   };
 }
 

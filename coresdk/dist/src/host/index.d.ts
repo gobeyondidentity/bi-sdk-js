@@ -1,3 +1,3 @@
-export { Host, HostEvents, ExportEvent, ImportEvent, hostCall } from "./host";
-import { Configuration } from "../configuration";
-export declare function createHost(config: Configuration): import("./host").Host;
+export { Host } from "./host";
+export { HostEvents, ExportEvent, ImportEvent } from "./hostEvents";
+export { hostCall } from "./hostCall";

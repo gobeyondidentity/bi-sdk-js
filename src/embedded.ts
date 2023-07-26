@@ -1,5 +1,5 @@
 import {
-  BIAuthenticateUrlResponse,
+  BiAuthenticateResponse,
   BindCredentialV1Result,
   Core,
   CoreBuilder,
@@ -30,13 +30,13 @@ export interface Passkey {
    * The time when this passkey was created locally. This could be different
    * from "created" which is the time when this passkey was created on
    * the server.
- */
+   */
   localCreated: string;
   /**
    * The last time when this passkey was updated locally. This could be
    * different from "updated" which is the last time when this passkey
    * was updated on the server.
-  */
+   */
   localUpdated: string;
   /** The base url for all binding & auth requests */
   apiBaseUrl: string;
@@ -45,7 +45,7 @@ export interface Passkey {
   /**
    * KeyType indicates where the key was created. This can be either "subtle"
    * or "webauthn".
-  */
+   */
   keyType?: KeyType;
   /** The current state of this passkey */
   state: "Active" | "Revoked";
@@ -69,7 +69,7 @@ export interface Passkey {
  * the use of a single Realm, in this case a Realm and a Tenant may seem
  * synonymous. Each Realm contains a unique set of Directory, Policy, Event,
  * Application, and Branding objects.
-*/
+ */
 export interface Realm {
   id: string;
   displayName: string;
@@ -80,7 +80,7 @@ export interface Realm {
  * identifier that may be used by an end-user to gain access governed by
  * Beyond Identity. An Identity is created at the Realm level. An end-user
  * may have multiple identities. A Realm can have many Identities.
-*/
+ */
 export interface Identity {
   id: string;
   displayName: string;
@@ -90,7 +90,7 @@ export interface Identity {
 
 /**
  * Theme associated with a `Passkey`.
-*/
+ */
 export interface Theme {
   logoUrlLight: string;
   logoUrlDark: string;
@@ -101,44 +101,87 @@ export interface Theme {
  * Tenant information associated with a `Passkey`. A Tenant represents an
  * organization in the Beyond Identity Cloud and serves as a root container
  * for all other cloud components in your configuration.
-*/
+ */
 export interface Tenant {
   id: string;
   displayName: string;
 }
 
 /**
+ * Information associated with the current authentication request returned
+ * from `getAuthenticationContext`.
+ *
+ * Note that the `authUrl` field may differ from the URL passed into
+ * `getAuthenticationContext`. In this event, the new `authUrl` must be
+ * passed into `authenticate` or `authenticateOtp`, rather than the
+ * original URL.
+ */
+export interface AuthenticationContext {
+  authUrl: string;
+  authMethods?: AuthenticationMethod[];
+  application: {
+    id: string;
+    displayName?: string;
+  };
+  origin: {
+    sourceIp?: string;
+    userAgent?: string;
+    geolocation?: string;
+    referer?: string;
+  };
+}
+
+export type AuthenticationMethod =
+  | { type: "webauthn_passkey" }
+  | { type: "software_passkey" }
+  | { type: "email_one_time_password" };
+
+/**
  * A response returned after successfully binding a passkey to a device.
-*/
+ */
 export interface BindPasskeyResponse {
   /**
    * The `Passkey` bound to the device.
-  */
+   */
   passkey: Passkey;
   /**
    * A URI that can be redirected to once a passkey is bound. This could
    * be a URI that automatically logs the user in with the newly bound
    * passkey, or a success page indicating that a passkey has been bound.
-  */
+   */
   postBindingRedirectUri?: string;
 }
 
 /**
  * A response returned after successfully authenticating.
-*/
+ */
 export interface AuthenticateResponse {
   /**
    * The redirect URL that originates from the /authorize call's
    * `redirect_uri` parameter. The OAuth2 authorization `code` and
    * the `state` parameter of the /authorize call are attached with the
    * "code" and "state" parameters to this URL.
-  */
+   */
   redirectUrl: string;
   /**
    * An optional displayable message defined by policy returned by the
    * cloud on success.
-  */
+   */
   message?: string;
+  /**
+   * A one-time-token that may be redeemed for a CredentialBindingLink.
+   */
+  passkeyBindingToken?: string;
+}
+
+/**
+ * A response returned if the SDK requires an OTP.
+ */
+export interface OtpChallengeResponse {
+  /**
+   * A URL containing the state of the authentication.
+   */
+  url: string;
 }
 
 export class Embedded {
@@ -149,10 +192,11 @@ export class Embedded {
   }
 
   /**
-   * Initialize the Embedded SDK. This function must
-   * be called first.
-   * @returns An instance of the Embedded SDK.
-   * @throws Will throw an error if the operation fails.
+   * Initializes the Embedded SDK. This function must
+   * be called before any other function.
+   * @param {Config} config The optional configuration for the Embedded SDK.
+   * @returns {Promise<Embedded>} A promise that resolves to an instance of the Embedded SDK.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   static initialize = async (config?: Config): Promise<Embedded> => {
     const defaults = {
@@ -162,6 +206,7 @@ export class Embedded {
     let allowedDomains = config.allowedDomains
       ? config.allowedDomains
       : defaults.allowedDomains;
+    allowedDomains.push(window.location.host);
     let builder = new CoreBuilder()
       .allowedDomains(allowedDomains.join(","))
       .log(config.logger);
@@ -172,15 +217,18 @@ export class Embedded {
 
   /**
    * Binds a passkey to this browser.
-   * @param url The url in order to bind a passkey. This can either
+   * @param {string} url The URL to bind a passkey. This can either
    * be a passkey binding link generated from a call to the Beyond
    * Identity API or a passkey binding instruction from an email/sms.
-   * @returns A Promise that resolves to a BindPasskeyResponse which
-   * contains a passkey as well as a post bind redirect uri.
-   * @throws Will throw an error if the operation fails.
+   * @returns {Promise<BindPasskeyResponse>} A promise that resolves
+   * to a BindPasskeyResponse containing the bound passkey and the
+   * post-binding redirect URI.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   bindPasskey = async (url: string): Promise<BindPasskeyResponse> => {
-    const response: BindCredentialV1Result = await this.core.bindCredentialUrl(url);
+    const response: BindCredentialV1Result = await this.core.bindCredential(
+      url
+    );
     return {
       passkey: response.credential,
       postBindingRedirectUri: response.postBindRedirect,
@@ -188,9 +236,10 @@ export class Embedded {
   };
 
   /**
-   * @returns A Promise that resolves to a list of all passkeys bound
-   * to this browser.
-   * @throws Will throw an error if the operation fails.
+   * Returns a list of all passkeys bound to this browser.
+   * @returns {Promise<Passkey[]>} A promise that resolves to a
+   * list of all passkeys bound to this browser.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   getPasskeys = async (): Promise<Passkey[]> => {
     return await this.core.listCredentials();
@@ -198,21 +247,23 @@ export class Embedded {
 
   /**
    * Deletes a passkey from this browser.
-   * @param id The id to the passkey to be deleted.
-   * @throws Will throw an error if the operation fails.
+   * @param {string} id The ID of the passkey to be deleted.
+   * @returns {Promise<void>} A promise that resolves when the
+   * passkey is successfully deleted.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   deletePasskey = async (id: string): Promise<void> => {
     return await this.core.deleteCredentialV1(id);
   };
 
   /**
-   * Returns true if the URL passed in is a bind passkey url.
-   * @param url The url in order to bind a passkey. This can either
+   * Checks if the given URL is a bind passkey URL.
+   * @param {string} url The URL to be checked. This can either
    * be a passkey binding link generated from a call to the Beyond
    * Identity API or a passkey binding instruction from an email/sms.
-   * @returns A boolean indicating if the url passed in is a well formatted
-   * bind passkey url.
-   * @throws Will throw an error if the operation fails.
+   * @returns {boolean} Returns true if the URL is a bind passkey URL,
+   * otherwise false.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   isBindPasskeyUrl = (url: string): boolean => {
     try {
@@ -226,11 +277,11 @@ export class Embedded {
   };
 
   /**
-   * Returns true if the URL passed in is an authenticate url.
-   * @param url The url in order authenticate against a bound passkey.
-   * @returns A boolean indicating if the url passed in is a well formatted
-   * authenticate url.
-   * @throws Will throw an error if the operation fails.
+   * Checks if the given URL is an authenticate URL.
+   * @param {string} url The URL to be checked.
+   * @returns {boolean} Returns true if the URL is an authenticate URL,
+   * otherwise false.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   isAuthenticateUrl = (url: string): boolean => {
     try {
@@ -244,26 +295,106 @@ export class Embedded {
   };
 
   /**
+   * Returns the Authentication Context for the current transaction.
+   * The Authentication Context contains the Authenticator Config,
+   * Authentication Method Configuration, request origin, and the
+   * authenticating application.
+   * @param {string} url The authentication URL of the current transaction.
+   * @returns {Promise<AuthenticationContext>} A promise that resolves to
+   * the Authentication Context.
+   */
+  getAuthenticationContext = async (
+    url: string
+  ): Promise<AuthenticationContext> => {
+    const authContext = await this.core.getAuthenticationContext(url);
+    return {
+      authUrl: authContext.authUrl,
+      authMethods: authContext.authMethods,
+      application: authContext.application,
+      origin: authContext.origin,
+    };
+  };
+
+  /**
    * Authenticates against the specified passkey bound to the browser.
-   * @param url The url in order to authenticate against a passkey.
-   * @param passkeyId The ID of the passkey with which to authenticate.
-   * @returns A Promise that resolves to an AuthenticateResponse which
-   * contains a redirectUrl as well as a message.
-   * @throws Will throw an error if the operation fails.
+   * @param {string} url The authentication URL of the current transaction.
+   * @param {string} passkeyId The ID of the passkey to authenticate with.
+   * @returns {Promise<AuthenticateResponse>} A promise that resolves to an
+   * AuthenticateResponse containing a redirect URL and a message.
+   * @throws {Error} Will throw an error if the operation fails.
    */
   authenticate = async (
     url: string,
     passkeyId: string
   ): Promise<AuthenticateResponse> => {
-    const response: BIAuthenticateUrlResponse = await this.core.authenticate(
-      url,
-      passkeyId,
-      "EmbeddedSource",
-      undefined
-    );
-    return {
-      redirectUrl: response.redirectURL,
-      message: response.message,
-    };
+    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+      credentialId: passkeyId,
+    });
+
+    if ("allow" in response) {
+      return {
+        redirectUrl: response.allow.redirectURL,
+        message: response.allow.message,
+      };
+    } else {
+      throw new Error("unexpected response");
+    }
+  };
+
+  /**
+   * Initiates authentication using an OTP, which will be sent to the
+   * provided email address.
+   * @param {string} url The authentication URL of the current transaction.
+   * @param {string} email The email address where the OTP will be sent.
+   * @returns {Promise<OtpChallengeResponse>} A promise that resolves to an
+   * OtpChallengeResponse containing a URL with the state of the authentication.
+   * @throws {Error} Will throw an error if the operation fails.
+   */
+  authenticateOtp = async (
+    url: string,
+    email: string
+  ): Promise<OtpChallengeResponse> => {
+    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+      beginEmailOtp: email,
+    });
+
+    if ("continue" in response) {
+      return {
+        url: response.continue.url,
+      };
+    } else {
+      throw new Error("unexpected response");
+    }
+  };
+
+  /**
+   * Redeems an OTP for a grant code.
+   * @param {string} url The authentication URL of the current transaction.
+   * @param {string} otp The OTP to redeem.
+   * @returns {Promise<AuthenticateResponse | OtpChallengeResponse>} A promise that resolves
+   * to an AuthenticateResponse on success or an OtpChallengeResponse on failure.
+   * @throws {Error} Will throw an error if the operation fails.
+   */
+  redeemOtp = async (
+    url: string,
+    otp: string
+  ): Promise<AuthenticateResponse | OtpChallengeResponse> => {
+    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+      redeemOtp: otp,
+    });
+
+    if ("allow" in response) {
+      return {
+        redirectUrl: response.allow.redirectURL,
+        message: response.allow.message,
+        passkeyBindingToken: response.allow.passkeyBindingToken,
+      };
+    } else if ("continue" in response) {
+      return {
+        url: response.continue.url,
+      };
+    } else {
+      throw new Error("unexpected response");
+    }
   };
 }

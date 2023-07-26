@@ -50,3 +50,4 @@ export interface BindCredentialV1Result {
   credential: CredentialV1;
   postBindRedirect?: string;
 }
+

@@ -1,18 +1,18 @@
 import { Log } from "./log";
-import { MockConfiguration } from "./mock";
 /**
- * TODO: Doc
+ * The configuration supplied to Core.
  */
 export declare class Configuration {
-    /**
-     * Assigning this to `{}` will create the mock environmnent.
-     * TODO: Assign to something like `{ auth: {...}, }` to
-     * mock specific flows.
-     */
-    mock?: MockConfiguration;
     /**
      * The logging facility. Defaults to `ConsoleLog`.
      */
     log?: Log;
+    /**
+     * Domains trusted by Core. A comma separated list of domains.
+     *
+     * If Core is required to make an
+     * API call, the domain of the called API must be present
+     * in this list.
+     */
     allowedDomains?: string;
 }
