@@ -1,5 +1,5 @@
 const path = require("path");
-const webpack = require("webpack")
+const webpack = require("webpack");
 const base = require("./webpack.base");
 
 module.exports = (env) => {
@@ -11,7 +11,11 @@ module.exports = (env) => {
         {
           test: /\.tsx?$/,
           use: "ts-loader",
-          exclude: [/node_modules/, path.resolve(__dirname, "coresdk")],
+          exclude: [
+            /node_modules/,
+            path.resolve(__dirname, "coresdk"),
+            path.resolve(__dirname, "scripts"),
+          ],
         },
       ],
     },

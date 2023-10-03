@@ -1,0 +1,18 @@
+[
+    { "platform": "windows",                                            "result": false,    "reason": "Windows 10 and previous cannot use WebAuthn." }, 
+    { "platform": "windows",    "version": 10,  "browser": "firefox",   "result": true,     "reason": "Firefox on Windows 10 MAY use WebAuthn." }, 
+    { "platform": "windows",    "version": 13,  "browser": "firefox",   "result": true,     "reason": "Firefox on Windows 11 (13) MAY use WebAuthn." }, 
+    { "platform": "windows",    "version": 14,  "browser": "firefox",   "result": true,     "reason": "Firefox on Windows 11 (14) MAY use WebAuthn." }, 
+    { "platform": "windows",    "version": 15,                          "result": true,     "reason": "All browsers on Windows 11 (15) support WebAuthn. "}, 
+    
+    { "platform": "macos",                                              "result": false,    "reason": "Browsers MacOS prior to Monterey (12) do not support WebAuthn using a platform authenticator." }, 
+    { "platform": "macos",      "version": 12,  "browser": "safari",    "result": false,    "reason": "Safari on MacOS Monterey (12) requires user interaction to invoke WebAuthn APIs, which is incompatible with how Beyond Identity uses WebAuthn." }, 
+    { "platform": "macos",      "version": 12,                          "result": true },   
+    { "platform": "macos",      "version": 13,  "browser": "safari",    "result": false,    "reason": "Safari on MacOS Ventura (13) requires a user to enable iCloud Keychain, which cannot, in general, be done with a managed AppleId." }, 
+    { "platform": "macos",      "version": 13,                          "result": true }, 
+    
+    { "platform": "ios",                                                "result": false,    "reason": "Browsers on iOS devices requires a user to enable iCloud Keychain, which cannot, in general, be done with a managed AppleId." },
+    
+    { "platform": "android",                    "browser": "firefox",   "result": false },
+    { "platform": "android",                                            "result": true }
+]

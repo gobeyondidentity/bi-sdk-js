@@ -1,0 +1,23 @@
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_ACCESS_KEY}
+platforms:
+# Only doing Safari Mac for now. Once test runs stably in pipeline, will uncomment out other platforms
+#  - os: Windows
+#    osVersion: 11
+#    browserName: Chrome
+#    browserVersion: latest
+#  - os: Windows
+#    osVersion: 10
+#    browserName: Firefox
+#    browserVersion: 102.0
+  - os: OS X
+    osVersion: Big Sur
+    browserName: Safari
+    browserVersion: 14.1
+  - os: OS X
+    osVersion: Big Sur
+    browserName: Chrome
+    browserVersion: latest
+browserstackLocal: false
+buildName: browserstack-build-1
+projectName: BrowserStack Sample

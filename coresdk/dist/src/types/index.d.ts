@@ -47,6 +47,7 @@ export declare type KeyStorageStrategy = "TeeIfAvailable" | "ForceSoftware";
 export interface ClientEnvironment {
     cryptoSource: CryptoSource;
     keyStorageStrategy: KeyStorageStrategy;
+    gdcUrl: string;
 }
 /**
  * Describes a Credential and method with which to authenticate.

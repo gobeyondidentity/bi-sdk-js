@@ -37,12 +37,16 @@ export declare class Core {
      */
     authenticate: (url: string, credDesc: CredentialDescriptor) => Promise<BiAuthenticateResponse>;
     /**
-     * Returns the type of a URL. The url may be a Credential Binding Link
-     * or an Authentication request.
+     * Returns the Authentication Context for the current transaction.
+     *
+     * The Authentication Context contains the Authenticator Config,
+     * Authentication Method Configuration, request origin, and the
+     * authenticating application.
      */
     getAuthenticationContext: (url: string) => Promise<AuthenticationContext>;
     /**
-     * TODO: doc
+     * Returns the type of a URL. The url may be a Credential Binding Link
+     * or an Authentication request.
      */
     getUrlType: (url: string) => Types.UrlType;
     /**

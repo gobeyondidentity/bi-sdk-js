@@ -89,6 +89,7 @@ export class Host implements HostEvents {
     return {
       cryptoSource: "Host",
       keyStorageStrategy: "TeeIfAvailable",
+      gdcUrl: Environment.deviceGatewayUrl + "/device",
     };
   }
 

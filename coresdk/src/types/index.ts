@@ -69,6 +69,7 @@ export type KeyStorageStrategy = "TeeIfAvailable" | "ForceSoftware";
 export interface ClientEnvironment {
   cryptoSource: CryptoSource;
   keyStorageStrategy: KeyStorageStrategy;
+  gdcUrl: string;
 }
 
 /**

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2023-09-25
+
+### Changed
+
+- Do not propagate binding token if passkeys cannot be bound
+
+### Fixed
+
+- Missing exports for AuthenticationContext & AuthenticationMethod
+- Resume auth url does not contain the port from the original request
+
 ## [2.0.4] - 2023-07-25
 
 ### Changed
@@ -14,9 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- New function authenticateWithOtp to enable authentication with a one time password.
-- New function redeemOtp to enable redeeming a one time password.
 - New function getAuthenticationContext to retrieve authentication parameters for the ongoing transaction.
+- New function authenticateOtp to enable authentication with a one time password.
+- New function redeemOtp to enable redeeming a one time password.
 
 ## [2.0.3] - 2023-04-20
 

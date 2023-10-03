@@ -1,6 +1,10 @@
 dist
 docs
 node_modules
-test/__pycache__
-test-automation
-test/BrowserStackLocal**
+/sdk_test/.pytest_cache/
+/sdk_test/env/
+/sdk_test/tests/.pytest_cache/
+/sdk_test/__pycache__/
+/sdk_test/tests/__pycache__/
+/webauthn_tests/target/
+/webauthn_tests/src/main/resources/

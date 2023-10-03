@@ -18,8 +18,7 @@ export default function Login() {
             <div className={styles.signedInStatus}>
               <h3 className="fw-light">Sign in with Local Passkey</h3>
               <p className="lead text-muted">Click Sign in to initiate the OpenID Connect flow and sign in with the Passkey(s) created in step 1.
-                <br /><br />
-                Note: If you are signing in using Okta, you must recover the the username &quot;difficult-coat@email.com&quot; in the &quot;Existing User&quot; tab before continuing. This user has been configured to authenticate with Okta.</p>
+              </p>
               <div className={`nojs-show ${!session && loading ? styles.loading : styles.loaded}`}>
                 {!session && (
                   <>
@@ -33,28 +32,6 @@ export default function Login() {
                       }}
                     >
                       Beyond Identity
-                    </a>
-                    <a
-                      id="authCredButton"
-                      href={`/api/auth/signin`}
-                      className="btn btn-primary btn-lg px-4 m-1"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        signIn("auth0")
-                      }}
-                    >
-                      Auth0
-                    </a>
-                    <a
-                      id="authCredButton"
-                      href={`/api/auth/signin`}
-                      className="btn btn-primary btn-lg px-4 m-1"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        signIn("okta")
-                      }}
-                    >
-                      Okta
                     </a>
                   </>
                 )}

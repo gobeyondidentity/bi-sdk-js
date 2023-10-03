@@ -136,6 +136,7 @@ export interface Pkce {
 export interface ClientEnvironment {
     crypto_source: CryptoSource;
     key_storage_strategy: KeyStorageStrategy;
+    gdc_url: string;
 }
 export interface CoreCredentialV1 {
     id: string;
@@ -191,8 +192,13 @@ interface CoreAuthenticatorConfig {
     realm_id: string;
     config: CoreAuthenticatorProfileConfig;
 }
+/** Authenticator Profile configuration.
+ * Note that `hosted_login` is only provided for backwards compatibility,
+ * and has been renamed to `hosted_web`.
+ */
 declare type CoreAuthenticatorProfileConfig = {
     type: "hosted_web";
+    authentication_methods: CoreAuthenticationMethod[];
 } | {
     type: "hosted_login";
     authentication_methods: CoreAuthenticationMethod[];

@@ -1,0 +1,21 @@
+{
+  "name": "detect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --outfile=www/canIUse.js",
+    "start": "yarn build && http-server www",
+    "test": "npx jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.4",
+    "esbuild": "^0.18.17",
+    "jest": "^29.6.4",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6",
+    "user-agent-data-types": "^0.3.1"
+  }
+}

@@ -1,0 +1,7 @@
+jsonmerge
+selenium==4.*
+psutil
+pytest
+pytest-variables
+pytest-selenium
+browserstack-sdk

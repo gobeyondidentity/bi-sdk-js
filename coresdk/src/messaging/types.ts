@@ -171,7 +171,7 @@ export interface HandleBiAuthenticateUrlResponse {
 
 export interface HandleBiContinueResponse {
   reason: string;
-  url: string,
+  url: string;
 }
 
 export interface HandleBindCredentialUrlResponse {
@@ -281,6 +281,7 @@ export interface Pkce {
 export interface ClientEnvironment {
   crypto_source: CryptoSource;
   key_storage_strategy: KeyStorageStrategy;
+  gdc_url: string;
 }
 
 export interface CoreCredentialV1 {
@@ -390,7 +391,10 @@ export function toAuthContext(
     },
   };
 
-  if (coreContext.config.config.type == "hosted_login") {
+  if (
+    coreContext.config.config.type == "hosted_web" ||
+    coreContext.config.config.type == "hosted_login"
+  ) {
     context.authMethods = coreContext.config.config.authentication_methods;
   }
 
@@ -411,8 +415,12 @@ interface CoreAuthenticatorConfig {
   config: CoreAuthenticatorProfileConfig;
 }
 
+/** Authenticator Profile configuration. 
+ * Note that `hosted_login` is only provided for backwards compatibility,
+ * and has been renamed to `hosted_web`.
+ */
 type CoreAuthenticatorProfileConfig =
-  | { type: "hosted_web" }
+  | { type: "hosted_web"; authentication_methods: CoreAuthenticationMethod[] }
   | { type: "hosted_login"; authentication_methods: CoreAuthenticationMethod[] }
   | { type: "platform" }
   | { type: "embedded" };

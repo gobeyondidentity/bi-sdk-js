@@ -82,8 +82,11 @@ export class Core {
     v1.authenticate(url, credDesc, this.host);
 
   /**
-   * Returns the type of a URL. The url may be a Credential Binding Link
-   * or an Authentication request.
+   * Returns the Authentication Context for the current transaction.
+   * 
+   * The Authentication Context contains the Authenticator Config,
+   * Authentication Method Configuration, request origin, and the
+   * authenticating application.
    */
   getAuthenticationContext = async (
     url: string
@@ -91,7 +94,8 @@ export class Core {
     v1.getAuthenticationContext(url, this.host);
 
   /**
-   * TODO: doc
+   * Returns the type of a URL. The url may be a Credential Binding Link
+   * or an Authentication request.
    */
   getUrlType = (url: string): Types.UrlType => v1.getUrlType(url);
 

@@ -4432,6 +4432,14 @@ function isMobileFirefox() {
     return true;
   return false;
 }
+function isIos() {
+  let ua = (navigator.userAgent || "").toLowerCase();
+  if (ua.indexOf("crios") >= 0)
+    return true;
+  if (ua.indexOf("fxios") >= 0)
+    return true;
+  return false;
+}
 async function getWebAuthnSupport() {
   if (window.PublicKeyCredential) {
     try {
@@ -4444,7 +4452,7 @@ async function getWebAuthnSupport() {
 async function hasWebAuthn() {
   const windowsVersion = await getWindowsVersion();
   const safariVersion = getSafariVersion();
-  return !!((windowsVersion < 0 || windowsVersion >= 11) && (safariVersion < 0 || safariVersion >= 16) && !isMobileFirefox() && await getWebAuthnSupport());
+  return !!((windowsVersion < 0 || windowsVersion >= 11) && (safariVersion < 0 || safariVersion >= 16) && !isMobileFirefox() && !isIos() && await getWebAuthnSupport());
 }
 function hasSubtleCrypto() {
   return !!window.crypto.subtle;

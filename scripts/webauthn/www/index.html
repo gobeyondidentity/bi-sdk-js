@@ -1,0 +1,144 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module">
+      import { collectEvidence, canIUseWebAuthn } from "./canIUse.js";
+
+      const evidence = await collectEvidence();
+      const platform = evidence.userAgent.platform;
+      const browser = evidence.userAgent.browser;
+      const response = await canIUseWebAuthn(platform, browser);
+
+      let responseText;
+      let tryItOutText;
+      if (response) {
+        responseText = "Yes! You can use WebAuthn.";
+        tryItOutText = "Try it out";
+      } else {
+        responseText = "No! You have to use SubtleCrypto.";
+        tryItOutText = "Try it out anyways";
+      }
+
+      document.getElementById("response").innerText = responseText;
+      document.getElementById("tryItOut").innerText = tryItOutText;
+      document.getElementById("evidence").innerText = JSON.stringify(
+        evidence,
+        null,
+        2
+      );
+    </script>
+
+    <script type="application/javascript">
+      function webauthnTest() {
+        const challenge = new Uint32Array(10);
+        const id = new Uint32Array(10);
+        self.crypto.getRandomValues(challenge);
+
+        const publicKeyCredentialCreationOptions = {
+          challenge: challenge,
+          rp: {
+            name: "Beyond Identity, Inc.",
+          },
+          user: {
+            id: id,
+            name: "bob@beyondidentity.com",
+            displayName: "Bob",
+          },
+          pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",
+          },
+          timeout: 60000,
+          attestation: "direct",
+        };
+
+        console.log("Registering with ", publicKeyCredentialCreationOptions);
+
+        navigator.credentials
+          .create({
+            publicKey: publicKeyCredentialCreationOptions,
+          })
+          .then((cred) => {
+            alert("It works!");
+          })
+          .catch((err) => {
+            alert(`It doesn't work.\n${err.message}`);
+          });
+      }
+    </script>
+
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
+            Can I Use WebAuthn?
+          </h1>
+          <div
+            class="col-md-10 mx-auto col-lg-5 border rounded-3 bg-body-tertiary"
+          >
+            <h1 class="py-2" id="response"></h1>
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="tryItOut"
+                onclick="webauthnTest()"
+              >
+                Try it out
+              </button>
+            </div>
+
+            <div class="text-start">
+              <h3 class="mx-2">Supporting evidence</h3>
+              <pre
+                class="border rounded-2 bg-dark-subtle mx-3 my-2"
+                id="evidence"
+              ></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-10 mx-auto col-lg-5">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+            <p class="text-center">No!</p>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                placeholder="name@example.com"
+              />
+              <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="floatingPassword"
+                placeholder="Password"
+              />
+              <label for="floatingPassword">Password</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">
+              Submit Results
+            </button>
+            <hr class="my-4" />
+          </form>
+        </div> -->
+      </div>
+    </div>
+  </body>
+</html>

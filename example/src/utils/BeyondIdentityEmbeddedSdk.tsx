@@ -54,10 +54,10 @@ class BeyondIdentityEmbeddedSdk {
   };
 
   redeemOtp = async (
-    otp: string,
-    state: any
+    url: string,
+    otp: string 
   ) => {
-    return (await this.initialized()).redeemOtp(otp, state);
+    return (await this.initialized()).redeemOtp(url, otp);
   };
 }
 

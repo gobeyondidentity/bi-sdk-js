@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 
 import Login from '../components/login';
+import LoginOtp from '../components/otp';
 import GetPasskeys from "../components/get-passkeys";
 import BindPasskey from "../components/bind-passkey";
 import RecoverPasskey from "../components/recover-passkey";
@@ -32,6 +33,9 @@ export default function IndexPage() {
             </Tab>
             <Tab eventKey="recover" title="4. Existing User">
               <RecoverPasskey></RecoverPasskey>
+            </Tab>
+            <Tab eventKey="otp" title="5. Sign in with OTP">
+              <LoginOtp></LoginOtp>
             </Tab>
         </Tabs>
       </main>
