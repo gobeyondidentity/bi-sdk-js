@@ -4271,6 +4271,19 @@ async function webauthnGenerateKeyPair(data, user) {
   randomBytes(userId);
   let challenge = data !== void 0 ? data : new Uint8Array(0);
   let attestationMethod = data !== void 0 ? "direct" : "none";
+  let webAuthnConfig = window.localStorage.getItem("webAuthnConfig");
+  let attachment = void 0;
+  switch (webAuthnConfig) {
+    case "roaming":
+      attachment = "cross-platform";
+      break;
+    case "any":
+      break;
+    case "platform":
+    default:
+      attachment = "platform";
+      break;
+  }
   const createOptions = {
     rp: {
       name: "Beyond Identity, Inc.",
@@ -4290,7 +4303,7 @@ async function webauthnGenerateKeyPair(data, user) {
     ],
     attestation: attestationMethod,
     authenticatorSelection: {
-      authenticatorAttachment: "platform",
+      authenticatorAttachment: attachment,
       userVerification: "required"
     }
   };
@@ -4390,203 +4403,6 @@ function validateKey(key) {
   return void 0;
 }
 
-// src/crypto.js
-var subtleProvider = "subtle";
-var webAuthnProvider = "webauthn";
-async function getWindowsVersion() {
-  if (navigator.userAgentData && navigator.userAgentData.platform === "Windows") {
-    try {
-      const ua = await navigator.userAgentData.getHighEntropyValues([
-        "platform",
-        "platformVersion"
-      ]);
-      const winVer = parseInt(ua.platformVersion.split(".")[0]);
-      if (winVer >= 15) {
-        return 11;
-      } else if (winVer > 10) {
-        return 10.5;
-      } else if (winVer > 0) {
-        return 10;
-      } else {
-        return 0;
-      }
-    } catch (err) {
-    }
-  }
-  return -1;
-}
-function getSafariVersion() {
-  const isSafari = navigator.vendor && navigator.vendor.indexOf("Apple") > -1 && navigator.userAgent && navigator.userAgent.indexOf("CriOS") == -1 && navigator.userAgent.indexOf("FxiOS") == -1;
-  if (isSafari) {
-    return 0;
-  }
-  return -1;
-}
-function isMobileFirefox() {
-  let ua = (navigator.userAgent || "").toLowerCase();
-  if (ua.indexOf("fxios") >= 0)
-    return true;
-  if (ua.indexOf("firefox") < 0)
-    return false;
-  if (ua.indexOf("android") >= 0)
-    return true;
-  return false;
-}
-function isIos() {
-  let ua = (navigator.userAgent || "").toLowerCase();
-  if (ua.indexOf("crios") >= 0)
-    return true;
-  if (ua.indexOf("fxios") >= 0)
-    return true;
-  return false;
-}
-async function getWebAuthnSupport() {
-  if (window.PublicKeyCredential) {
-    try {
-      return await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-    } catch (err) {
-    }
-  }
-  return false;
-}
-async function hasWebAuthn() {
-  const windowsVersion = await getWindowsVersion();
-  const safariVersion = getSafariVersion();
-  return !!((windowsVersion < 0 || windowsVersion >= 11) && (safariVersion < 0 || safariVersion >= 16) && !isMobileFirefox() && !isIos() && await getWebAuthnSupport());
-}
-function hasSubtleCrypto() {
-  return !!window.crypto.subtle;
-}
-async function queryCryptoCapabilities(provider) {
-  if (!validateProvider(provider))
-    throw new InvalidArg("provider");
-  if (provider === webAuthnProvider) {
-    if (await hasWebAuthn())
-      return webauthn;
-  }
-  if (hasSubtleCrypto())
-    return subtle;
-  throw new BadPlatform("crypto");
-}
-async function generateKey(provider, data, user) {
-  let api = await queryCryptoCapabilities(provider);
-  return await api.generateKey(data, user);
-}
-async function sign(key, data) {
-  let api = keyProvider(key);
-  if (api === void 0)
-    throw new InvalidKey("sign");
-  return await api.sign(key, data);
-}
-async function publicKey(key) {
-  let api = keyProvider(key);
-  if (api === void 0)
-    throw new InvalidKey("sign");
-  return await api.publicKey(key);
-}
-function keySanityCheck(key, provider) {
-  return provider in key;
-}
-function keyProvider(key) {
-  let provider = validateKey(key);
-  if (provider === "subtle")
-    return subtle;
-  else if (provider === "webauthn")
-    return webauthn;
-  else
-    return void 0;
-}
-var subtle = new class Subtle {
-  extractKeys(key) {
-    if (keySanityCheck(key, subtleProvider))
-      return key.subtle;
-    throw new InvalidKey("");
-  }
-  async generateKey(data, user) {
-    let signingKey = await ecdsaGenerateKeyPair("P-256");
-    let key = {
-      subtle: {
-        signingKey,
-        encryptionKey: void 0
-      }
-    };
-    let signature = data !== void 0 ? sign(key, data) : void 0;
-    return [key, signature];
-  }
-  async publicKey(key) {
-    let keys = this.extractKeys(key);
-    return await exportKey(keys.signingKey.publicKey, "raw");
-  }
-  async sign(key, data) {
-    let keys = this.extractKeys(key);
-    let signature = await ecdsaSign(keys.signingKey.privateKey, "SHA-256", data);
-    return {
-      subtle: {
-        signature
-      }
-    };
-  }
-}();
-var webauthn = new class WebAuthn {
-  extractKeys(key) {
-    if (keySanityCheck(key, webAuthnProvider))
-      return key.webauthn;
-    throw new InvalidKey("");
-  }
-  async generateKey(data, user) {
-    if (!user) {
-      throw new TypeError("invalid user");
-    }
-    const cred = await webauthnGenerateKeyPair(data, user);
-    let key = {
-      webauthn: {
-        signingKey: {
-          rawId: cred.rawId,
-          transports: cred.transports,
-          publicKey: cred.publicKey
-        },
-        encryptionKey: void 0
-      }
-    };
-    let signature = data !== void 0 ? {
-      webauthn: {
-        clientDataJSON: cred.clientDataJSON,
-        attestationObject: cred.attestationObject
-      }
-    } : void 0;
-    return [key, signature];
-  }
-  async publicKey(key) {
-    let keys = this.extractKeys(key);
-    return await exportKey(keys.signingKey.publicKey, "raw");
-  }
-  async sign(key, data) {
-    let keys = this.extractKeys(key);
-    const signature = await webauthnSign(keys.signingKey, data);
-    return {
-      webauthn: {
-        authenticatorData: signature.authenticatorData,
-        clientDataJSON: signature.clientDataJSON,
-        signature: signature.signature
-      }
-    };
-  }
-}();
-
-// src/error.js
-var KeyNotFound = class extends Error {
-  constructor(handle) {
-    super(`${handle} not found`);
-    this.name = "KeyNotFound";
-  }
-};
-var KeyExists = class extends Error {
-  constructor(handle) {
-    super(`${handle} exists`);
-    this.name = "KeyExists";
-  }
-};
-
 // src/db.js
 var dbKeyStore = "keys";
 var kmcDbName = "keymaker";
@@ -4669,6 +4485,208 @@ async function resetDb() {
   await idbDeleteDb(kmcDbName);
 }
 
+// src/crypto.js
+var subtleProvider = "subtle";
+var webAuthnProvider = "webauthn";
+async function getWindowsVersion() {
+  if (navigator.userAgentData && navigator.userAgentData.platform === "Windows") {
+    try {
+      const ua = await navigator.userAgentData.getHighEntropyValues([
+        "platform",
+        "platformVersion"
+      ]);
+      const winVer = parseInt(ua.platformVersion.split(".")[0]);
+      if (winVer >= 15) {
+        return 11;
+      } else if (winVer > 10) {
+        return 10.5;
+      } else if (winVer > 0) {
+        return 10;
+      } else {
+        return 0;
+      }
+    } catch (err) {
+    }
+  }
+  return -1;
+}
+function getSafariVersion() {
+  const isSafari = navigator.vendor && navigator.vendor.indexOf("Apple") > -1 && navigator.userAgent && navigator.userAgent.indexOf("CriOS") == -1 && navigator.userAgent.indexOf("FxiOS") == -1;
+  if (isSafari) {
+    return 0;
+  }
+  return -1;
+}
+function isMobileFirefox() {
+  let ua = (navigator.userAgent || "").toLowerCase();
+  if (ua.indexOf("fxios") >= 0)
+    return true;
+  if (ua.indexOf("firefox") < 0)
+    return false;
+  if (ua.indexOf("android") >= 0)
+    return true;
+  return false;
+}
+function isIos() {
+  let ua = (navigator.userAgent || "").toLowerCase();
+  if (ua.indexOf("crios") >= 0)
+    return true;
+  if (ua.indexOf("fxios") >= 0)
+    return true;
+  return false;
+}
+async function getWebAuthnSupport() {
+  if (window.PublicKeyCredential) {
+    try {
+      return await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    } catch (err) {
+    }
+  }
+  return false;
+}
+async function hasWebAuthn() {
+  const windowsVersion = await getWindowsVersion();
+  const safariVersion = getSafariVersion();
+  return !!((windowsVersion < 0 || windowsVersion >= 11) && (safariVersion < 0 || safariVersion >= 16) && !isMobileFirefox() && !isIos() && await getWebAuthnSupport());
+}
+function hasSubtleCrypto() {
+  return !!window.crypto.subtle;
+}
+async function queryCryptoCapabilities(provider) {
+  if (!validateProvider(provider))
+    throw new InvalidArg("provider");
+  if (provider === webAuthnProvider) {
+    if (await hasWebAuthn())
+      return webauthn;
+  }
+  if (hasSubtleCrypto())
+    return subtle;
+  throw new BadPlatform("crypto");
+}
+async function generateKey(provider, data, user, handle) {
+  let api = await queryCryptoCapabilities(provider);
+  return await api.generateKey(data, user, handle);
+}
+async function sign(key, data) {
+  let api = keyProvider(key);
+  if (api === void 0)
+    throw new InvalidKey("sign");
+  return await api.sign(key, data);
+}
+async function publicKey(key) {
+  let api = keyProvider(key);
+  if (api === void 0)
+    throw new InvalidKey("sign");
+  return await api.publicKey(key);
+}
+function keySanityCheck(key, provider) {
+  return provider in key;
+}
+function keyProvider(key) {
+  let provider = validateKey(key);
+  if (provider === "subtle")
+    return subtle;
+  else if (provider === "webauthn")
+    return webauthn;
+  else
+    return void 0;
+}
+var subtle = new class Subtle {
+  extractKeys(key) {
+    if (keySanityCheck(key, subtleProvider))
+      return key.subtle;
+    throw new InvalidKey("");
+  }
+  async generateKey(data, user, handle) {
+    let signingKey = await ecdsaGenerateKeyPair("P-256");
+    let key = {
+      subtle: {
+        signingKey,
+        encryptionKey: void 0
+      }
+    };
+    let signature = data !== void 0 ? sign(key, data) : void 0;
+    return [key, signature];
+  }
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
+    return await exportKey(keys.signingKey.publicKey, "raw");
+  }
+  async sign(key, data) {
+    let keys = this.extractKeys(key);
+    let signature = await ecdsaSign(keys.signingKey.privateKey, "SHA-256", data);
+    return {
+      subtle: {
+        signature
+      }
+    };
+  }
+}();
+var webauthn = new class WebAuthn {
+  extractKeys(key) {
+    if (keySanityCheck(key, webAuthnProvider))
+      return key.webauthn;
+    throw new InvalidKey("");
+  }
+  async generateKey(data, user, handle) {
+    if (!user) {
+      user = {
+        name: handle,
+        displayName: handle
+      };
+    } else if (!user.name) {
+      user.name = handle;
+    }
+    const cred = await webauthnGenerateKeyPair(data, user);
+    let key = {
+      webauthn: {
+        signingKey: {
+          rawId: cred.rawId,
+          transports: cred.transports,
+          publicKey: cred.publicKey
+        },
+        encryptionKey: void 0
+      }
+    };
+    let signature = data !== void 0 ? {
+      webauthn: {
+        clientDataJSON: cred.clientDataJSON,
+        attestationObject: cred.attestationObject
+      }
+    } : void 0;
+    return [key, signature];
+  }
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
+    return await exportKey(keys.signingKey.publicKey, "raw");
+  }
+  async sign(key, data) {
+    let keys = this.extractKeys(key);
+    const signature = await webauthnSign(keys.signingKey, data);
+    return {
+      webauthn: {
+        authenticatorData: signature.authenticatorData,
+        clientDataJSON: signature.clientDataJSON,
+        signature: signature.signature
+      }
+    };
+  }
+}();
+
+// src/error.js
+var KeyNotFound = class extends Error {
+  constructor(handle) {
+    super(`${handle} not found`);
+    this.name = "KeyNotFound";
+  }
+};
+var KeyExists = class extends Error {
+  constructor(handle) {
+    super(`${handle} exists`);
+    this.name = "KeyExists";
+  }
+};
+
 // src/keyStore.js
 async function loadKey(db, handle) {
   if (!validateDatabase(db))
@@ -4717,7 +4735,7 @@ function FfiCreateKeyP256(handle, provider, data, user) {
         throw new KeyExists(handle);
       let signature;
       try {
-        [key, signature] = await generateKey(provider, data, user);
+        [key, signature] = await generateKey(provider, data, user, handle);
       } catch (err) {
         if (provider === "webauthn" && err instanceof WebAuthnError && err.name != "NotAllowedError") {
           console.warn(err);

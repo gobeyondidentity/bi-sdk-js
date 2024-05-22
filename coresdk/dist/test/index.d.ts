@@ -4,7 +4,6 @@ declare function testCreateCredential(core: any, handle: any, name: any, imageUr
 declare function testRegister(core: any, url: any): Promise<any>;
 declare function testGetCredentials(core: any): Promise<any>;
 declare function testAuthConfidential(core: any): Promise<any>;
-declare function testAuthPublic(core: any): Promise<any>;
 declare function testExport(core: any): Promise<void>;
 declare function testImport(core: any): Promise<void>;
 declare function append(what: any, data: any): void;

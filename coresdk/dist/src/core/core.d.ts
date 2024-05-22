@@ -1,7 +1,6 @@
 import { Configuration } from "../configuration";
-import { Credential, CredentialV1, BindCredentialV1Result, PkceCodeChallenge, Pkce, AuthorizationCode, UrlResponse, TokenResponse, BrowserInfo, CredentialDescriptor, AuthenticationContext } from "../types";
+import { Credential, PkceCodeChallenge, Pkce, AuthorizationCode, BrowserInfo, CredentialDescriptor, AuthenticationContext, AuthenticateResponse, BindResponse } from "../types";
 import { Host, HostEvents, ExportEvent, ImportEvent } from "../host";
-import { BiAuthenticateResponse } from "../types/credential";
 import { Types } from "../messaging";
 /**
  * This class encapsulates all the methods required to interact with Core
@@ -20,22 +19,22 @@ export declare class Core {
     /**
      * Binds a credential to this device
      */
-    bindCredential: (url: string) => Promise<BindCredentialV1Result>;
+    bindCredential: (url: string) => Promise<BindResponse>;
     /**
      * Deletes a Credential from the local store.
      */
-    deleteCredentialV1: (id: string) => Promise<void>;
+    deleteCredential: (id: string) => Promise<void>;
     /**
      * Returns a list of all the Credentials in the local store.
      */
-    listCredentials: () => Promise<CredentialV1[]>;
+    getCredentials: () => Promise<Credential[]>;
     /**
      * Authenticate using the specified credential.
      *
      * If the provided credential describes an OTP credential,
      * a follow up call to `redeemOtp` is required.
      */
-    authenticate: (url: string, credDesc: CredentialDescriptor) => Promise<BiAuthenticateResponse>;
+    authenticate: (url: string, credDesc: CredentialDescriptor) => Promise<AuthenticateResponse>;
     /**
      * Returns the Authentication Context for the current transaction.
      *
@@ -54,17 +53,9 @@ export declare class Core {
      */
     createCredential: (handle: string, name: string, imageUrl: string, loginUri?: string | undefined, enrollUri?: string | undefined) => Promise<Credential>;
     /**
-     * Returns all the Credentials in the local store.
-     */
-    getCredentials: () => Promise<Credential[]>;
-    /**
-     * Delete a Credential from the local store.
-     */
-    deleteCredential: (handle: string) => Promise<void>;
-    /**
      * Register a new Credential on this device.
      */
-    register: (url: string) => Promise<UrlResponse>;
+    register: (url: string) => Promise<BindResponse>;
     /**
      * Begins an export of the specified credential.
      * @param handle
@@ -95,10 +86,6 @@ export declare class Core {
      * Confidential OIDC authentication.
      */
     authenticateConfidential: (authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge | undefined, nonce?: string | undefined) => Promise<AuthorizationCode>;
-    /**
-     * TODO: We don't support this flow. Can we delete this?
-     */
-    authenticatePublic: (authURL: string, tokenURL: string, clientId: string, redirectURI: string, nonce?: string | undefined) => Promise<TokenResponse>;
     /**
      * Creates a PKCE code verifier and code challenge.
      */

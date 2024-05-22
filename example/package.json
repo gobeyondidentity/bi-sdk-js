@@ -5,7 +5,7 @@
   "bugs": {
     "url": "https://github.com/gobeyondidentity/getting-started/issues"
   },
-  "homepage": "https://developer.beyondidentity.com/docs/v1/getting-started",
+  "homepage": "https://developer.beyondidentity.com/docs/get-started",
   "scripts": {
     "clean": "rm -rf node_modules .next",
     "dev": "next build && ((sleep 0.5 ; open http://localhost:8083) & next -p 8083)",
@@ -17,7 +17,7 @@
     "Ismail Mustafa <ismail.mustafa@beyondidentity.com>"
   ],
   "dependencies": {
-    "@beyondidentity/bi-sdk-js": "2.0.5",
+    "@beyondidentity/bi-sdk-js": "3.0.0",
     "bootstrap": "^5.2.0",
     "next": "latest",
     "next-auth": "4.20.1",

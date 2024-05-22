@@ -5,7 +5,6 @@ import {
   writeResponse,
   readRequest,
 } from "../messaging";
-import { credentialV1FromCredential } from "../messaging/types";
 import { makeError } from "../util/error";
 
 /**
@@ -110,11 +109,7 @@ function dispatch(
         return CoreMessage.ok();
       } else if ("SelectAuthNCredential" in rq) {
         return host
-          .selectCredentialV1(
-            rq.SelectAuthNCredential.map((cred) =>
-              credentialV1FromCredential(cred)
-            )
-          )
+          .selectCredential(rq.SelectAuthNCredential)
           .then((id) => CoreMessage.selectedAuthNCredential(id));
       }
     }

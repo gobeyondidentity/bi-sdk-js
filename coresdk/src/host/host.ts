@@ -8,7 +8,6 @@ import {
   HostFilePath,
   PromptDetail,
   ClientEnvironment,
-  CredentialV1,
 } from "../types";
 import { Log } from "../log";
 
@@ -26,8 +25,8 @@ export class Host implements HostEvents {
   onexport?: (this: Host, ev: ExportEvent) => void;
   onimport?: (this: Host, ev: ImportEvent) => void;
 
-  onSelectCredentialV1?: (
-    credentials: CredentialV1[]
+  onSelectCredential?: (
+    credentials: Credential[]
   ) => Promise<string | undefined>;
 
   get events(): HostEvents {
@@ -59,7 +58,7 @@ export class Host implements HostEvents {
   }
 
   getClientEnvironment(): ClientEnvironment {
-    // FIXME: update this description!
+    // FIXME: update this description!!!
 
     // cryptoSource shall be set to "Host" so that Workforce flows
     // (register, import, export, oidcPublic, oidcConfidential, ...)
@@ -87,8 +86,8 @@ export class Host implements HostEvents {
     // determine key generation strategy.
 
     return {
-      cryptoSource: "Host",
-      keyStorageStrategy: "TeeIfAvailable",
+      cryptoSource: "Hal",
+      keyStorageStrategy: "ForceSoftware",
       gdcUrl: Environment.deviceGatewayUrl + "/device",
     };
   }
@@ -141,9 +140,9 @@ export class Host implements HostEvents {
     return;
   }
 
-  selectCredentialV1(credentials: CredentialV1[]): Promise<string | undefined> {
-    if (this.onSelectCredentialV1) {
-      return this.onSelectCredentialV1(credentials);
+  selectCredential(credentials: Credential[]): Promise<string | undefined> {
+    if (this.onSelectCredential) {
+      return this.onSelectCredential(credentials);
     }
     return Promise.resolve(credentials[0].id);
   }

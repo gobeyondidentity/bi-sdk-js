@@ -49,7 +49,7 @@ export default function Header() {
 
       <div className={styles.navItems}>
         <div className={styles.navItem}>
-          <a href="https://developer.beyondidentity.com/docs/v1/getting-started">Documentation</a>
+          <a href="https://developer.beyondidentity.com/docs/get-started">Documentation</a>
         </div>
         <div className={styles.navItem}>
           <a href="https://github.com/gobeyondidentity">GitHub</a>

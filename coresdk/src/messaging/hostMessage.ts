@@ -3,9 +3,7 @@ import {
   PromptDetail,
   FeatureFlagRequest,
   PathType,
-  Profile,
   Pkce,
-  CoreCredentialV1,
 } from "./types";
 
 /**
@@ -124,7 +122,7 @@ export type LogRequest = {
 };
 
 export type SelectAuthNCredentialRequest = {
-  SelectAuthNCredential: CoreCredentialV1[];
+  SelectAuthNCredential: Credential[];
 };
 
 export type HostRequest =

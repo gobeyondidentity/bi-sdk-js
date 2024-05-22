@@ -1,4 +1,3 @@
-import { updateV0CredentialInfo } from "../util";
 import { Host, hostCall, ExportEvent, ImportEvent } from "../../../host";
 import { Types } from "../../../messaging";
 import { Credential } from "../../../types";
@@ -43,14 +42,11 @@ export async function import_(
   host: Host
 ): Promise<Credential | undefined> {
   host.events.onimport = onImport;
+  // FIXME: kmc_import returns a Profile. need to update to return a VCredential.
   try {
-    let profile = await kmc_import(token, (msg: string) => {
+    let credential = await kmc_import(token, (msg: string) => {
       return hostCall(host, msg);
     });
-    if (profile === undefined) return undefined;
-
-    let credential = Types.credentialFromProfile(profile);
-    await updateV0CredentialInfo(credential);
     return credential;
   } finally {
     host.events.onimport = undefined;

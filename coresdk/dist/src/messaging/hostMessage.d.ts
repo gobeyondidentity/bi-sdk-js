@@ -1,4 +1,4 @@
-import { PromptDetail, FeatureFlagRequest, PathType, CoreCredentialV1 } from "./types";
+import { PromptDetail, FeatureFlagRequest, PathType } from "./types";
 /**
  * Host Messages
  * -------------
@@ -99,6 +99,6 @@ export declare type LogRequest = {
     Log: string;
 };
 export declare type SelectAuthNCredentialRequest = {
-    SelectAuthNCredential: CoreCredentialV1[];
+    SelectAuthNCredential: Credential[];
 };
 export declare type HostRequest = AskRequest | AuthenticationPromptRequest | CheckFeatureFlagsRequest | ExportRequestReceivedRequest | ExportStartedRequest | ExportTokenTimeoutRequest | GetDeviceGatewayUrlRequest | GetDeviceInfoRequest | GetFilePathRequest | ImportManifestReceivedRequest | ImportReceivedSignedRequest | ImportRequestsToSignRequest | ImportStartedRequest | LogRequest | SelectAuthNCredentialRequest;

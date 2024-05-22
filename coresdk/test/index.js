@@ -47,20 +47,6 @@ async function testAuthConfidential(core) {
   }
 }
 
-async function testAuthPublic(core) {
-  try {
-    let token = await core.authenticatePublic(
-      "https://www.example.com/",
-      "https://tokens.com/",
-      "12345",
-      "http://localhost:1234"
-    );
-    return token;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 async function testExport(core) {
   try {
     await core.export(["kajflkj"], "https://example.com/");

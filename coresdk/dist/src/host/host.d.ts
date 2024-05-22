@@ -1,6 +1,6 @@
 import { HostEvents, ImportEvent, ExportEvent } from "./hostEvents";
 import { Configuration } from "../configuration";
-import { FeatureFlagRequest, FeatureFlagResponse, PathType, HostFilePath, PromptDetail, ClientEnvironment, CredentialV1 } from "../types";
+import { FeatureFlagRequest, FeatureFlagResponse, PathType, HostFilePath, PromptDetail, ClientEnvironment } from "../types";
 import { Log } from "../log";
 /**
  * The host describes the system calling into KMC.
@@ -14,7 +14,7 @@ export declare class Host implements HostEvents {
     logger?: Log;
     onexport?: (this: Host, ev: ExportEvent) => void;
     onimport?: (this: Host, ev: ImportEvent) => void;
-    onSelectCredentialV1?: (credentials: CredentialV1[]) => Promise<string | undefined>;
+    onSelectCredential?: (credentials: Credential[]) => Promise<string | undefined>;
     get events(): HostEvents;
     constructor(config: Configuration);
     checkFeatureFlags(feature_flags: FeatureFlagRequest[]): FeatureFlagResponse[];
@@ -31,5 +31,5 @@ export declare class Host implements HostEvents {
     ask(profile_handle: string): boolean;
     authenticationPrompt(app_name: string, detail_list: PromptDetail[]): boolean;
     log(msg: string): void;
-    selectCredentialV1(credentials: CredentialV1[]): Promise<string | undefined>;
+    selectCredential(credentials: Credential[]): Promise<string | undefined>;
 }

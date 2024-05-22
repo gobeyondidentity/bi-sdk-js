@@ -2,14 +2,17 @@ import {
   initialize,
   getAppInstanceId,
   getBrowserInfo,
+  getServiceUrlType,
+  bindCredential,
+  deleteCredential,
+  getCredentials,
+  authenticate,
+  getAuthenticationContext,
   v0,
-  v1,
 } from "./service";
 import { Configuration } from "../configuration";
 import {
   Credential,
-  CredentialV1,
-  BindCredentialV1Result,
   PkceCodeChallenge,
   Pkce,
   AuthorizationCode,
@@ -17,16 +20,16 @@ import {
   TokenResponse,
   BrowserInfo,
   CredentialDescriptor,
-  AuthenticationContext
+  AuthenticationContext,
+  AuthenticateResponse,
+  BindResponse,
 } from "../types";
 import { Host, HostEvents, ExportEvent, ImportEvent } from "../host";
-
-import { BiAuthenticateResponse } from "../types/credential";
 import { Types } from "../messaging";
 
 /**
  * This class encapsulates all the methods required to interact with Core
- * as well as the Host interface. 
+ * as well as the Host interface.
  */
 export class Core {
   host: Host;
@@ -54,50 +57,47 @@ export class Core {
   /**
    * Binds a credential to this device
    */
-  bindCredential = async (url: string): Promise<BindCredentialV1Result> =>
-    v1.bindCredential(url, this.host);
+  bindCredential = async (url: string): Promise<BindResponse> =>
+    bindCredential(url, this.host);
 
   /**
    * Deletes a Credential from the local store.
    */
-  deleteCredentialV1 = async (id: string): Promise<void> =>
-    v1.deleteCredential(id, this.host);
+  deleteCredential = async (id: string): Promise<void> =>
+    deleteCredential(id, this.host);
 
   /**
    * Returns a list of all the Credentials in the local store.
    */
-  listCredentials = async (): Promise<CredentialV1[]> =>
-    v1.getCredentials(this.host);
+  getCredentials = async (): Promise<Credential[]> => getCredentials(this.host);
 
   /**
    * Authenticate using the specified credential.
-   * 
+   *
    * If the provided credential describes an OTP credential,
    * a follow up call to `redeemOtp` is required.
    */
   authenticate = async (
     url: string,
     credDesc: CredentialDescriptor
-  ): Promise<BiAuthenticateResponse> =>
-    v1.authenticate(url, credDesc, this.host);
+  ): Promise<AuthenticateResponse> => authenticate(url, credDesc, this.host);
 
   /**
    * Returns the Authentication Context for the current transaction.
-   * 
+   *
    * The Authentication Context contains the Authenticator Config,
    * Authentication Method Configuration, request origin, and the
    * authenticating application.
    */
   getAuthenticationContext = async (
     url: string
-  ): Promise<AuthenticationContext> =>
-    v1.getAuthenticationContext(url, this.host);
+  ): Promise<AuthenticationContext> => getAuthenticationContext(url, this.host);
 
   /**
    * Returns the type of a URL. The url may be a Credential Binding Link
    * or an Authentication request.
    */
-  getUrlType = (url: string): Types.UrlType => v1.getUrlType(url);
+  getUrlType = (url: string): Types.UrlType => getServiceUrlType(url);
 
   //
   // V0 Functions
@@ -116,22 +116,10 @@ export class Core {
     v0.createCredential(handle, name, imageUrl, loginUri, enrollUri, this.host);
 
   /**
-   * Returns all the Credentials in the local store.
-   */
-  getCredentials = async (): Promise<Credential[]> =>
-    v0.getCredentials(this.host);
-
-  /**
-   * Delete a Credential from the local store.
-   */
-  deleteCredential = async (handle: string): Promise<void> =>
-    v0.deleteCredential(handle, this.host);
-
-  /**
    * Register a new Credential on this device.
    */
-  register = async (url: string): Promise<UrlResponse> =>
-    v0.register(url, this.host);
+  register = async (url: string): Promise<BindResponse> =>
+    bindCredential(url, this.host);
 
   /**
    * Begins an export of the specified credential.
@@ -185,25 +173,6 @@ export class Core {
       redirectURI,
       scope,
       PKCECodeChallenge,
-      nonce,
-      this.host
-    );
-
-  /**
-   * TODO: We don't support this flow. Can we delete this?
-   */
-  authenticatePublic = async (
-    authURL: string,
-    tokenURL: string,
-    clientId: string,
-    redirectURI: string,
-    nonce?: string
-  ): Promise<TokenResponse> =>
-    v0.authenticatePublic(
-      authURL,
-      tokenURL,
-      clientId,
-      redirectURI,
       nonce,
       this.host
     );

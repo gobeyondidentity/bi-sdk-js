@@ -1,11 +1,9 @@
 import {
-  BiAuthenticateResponse,
-  BindCredentialV1Result,
+  BindResponse,
   Core,
   CoreBuilder,
-  KeyHandle,
-  KeyType,
   Log,
+  AuthenticateResponse as AuthResponse,
 } from "coresdk";
 
 export interface Config {
@@ -26,33 +24,30 @@ export interface Config {
 export interface Passkey {
   /** The globally unique identifier of the passkey. */
   id: string;
+
   /**
    * The time when this passkey was created locally. This could be different
    * from "created" which is the time when this passkey was created on
    * the server.
    */
-  localCreated: string;
-  /**
-   * The last time when this passkey was updated locally. This could be
-   * different from "updated" which is the last time when this passkey
-   * was updated on the server.
-   */
-  localUpdated: string;
-  /** The base url for all binding & auth requests */
-  apiBaseUrl: string;
-  /** Associated key handle */
-  keyHandle: KeyHandle;
-  /**
-   * KeyType indicates where the key was created. This can be either "subtle"
-   * or "webauthn".
-   */
-  keyType?: KeyType;
-  /** The current state of this passkey */
-  state: "Active" | "Revoked";
-  /** The time this passkey was created. */
   created: string;
-  /** The last time this passkey was updated */
-  updated: string;
+
+  /** The current state of this passkey */
+  state:
+    | "Active"
+    | "DeviceDeleted"
+    | "Invalid"
+    | "Revoked"
+    | "UserDeleted"
+    | "UserSuspended"
+    | "Unknown";
+
+  /**
+   * KeyType indicates where the key was created. This can be either "subtle" for AuthenticationMethod "software_passkey"
+   * or "webauthn" for AuthenticationMethod "webauthn_passkey".
+   */
+  keyType?: "subtle" | "webauthn";
+
   /** Tenant information associated with this passkey */
   tenant: Tenant;
   /** Realm information associated with this passkey */
@@ -61,6 +56,16 @@ export interface Passkey {
   identity: Identity;
   /** Theme information associated with this passkey */
   theme: Theme;
+}
+
+/**
+ * Tenant information associated with a `Passkey`. A Tenant represents an
+ * organization in the Beyond Identity Cloud and serves as a root container
+ * for all other cloud components in your configuration.
+ */
+export interface Tenant {
+  id: string;
+  displayName: string;
 }
 
 /**
@@ -83,9 +88,10 @@ export interface Realm {
  */
 export interface Identity {
   id: string;
-  displayName: string;
   username: string;
-  primaryEmailAddress?: string;
+  displayName?: string;
+  externalId?: string;
+  emailAddress?: string;
 }
 
 /**
@@ -94,17 +100,15 @@ export interface Identity {
 export interface Theme {
   logoUrlLight: string;
   logoUrlDark: string;
-  supportUrl: string;
+  supportUrl?: string;
 }
 
 /**
- * Tenant information associated with a `Passkey`. A Tenant represents an
- * organization in the Beyond Identity Cloud and serves as a root container
- * for all other cloud components in your configuration.
+ * A set of of URLs associated with the passkey.
  */
-export interface Tenant {
-  id: string;
-  displayName: string;
+export interface Links {
+  loginUri?: string;
+  enrollUri?: string;
 }
 
 /**
@@ -134,7 +138,8 @@ export interface AuthenticationContext {
 export type AuthenticationMethod =
   | { type: "webauthn_passkey" }
   | { type: "software_passkey" }
-  | { type: "email_one_time_password" };
+  | { type: "email_one_time_password" }
+  | { type: "fido2"; authenticator_attachment: "platform" | "cross-platform" };
 
 /**
  * A response returned after successfully binding a passkey to a device.
@@ -144,6 +149,11 @@ export interface BindPasskeyResponse {
    * The `Passkey` bound to the device.
    */
   passkey: Passkey;
+  /**
+   * An optional displayable message defined by policy returned by the
+   * cloud on success.
+   */
+  message?: string;
   /**
    * A URI that can be redirected to once a passkey is bound. This could
    * be a URI that automatically logs the user in with the newly bound
@@ -172,7 +182,28 @@ export interface AuthenticateResponse {
    * A one-time-token that may be redeemed for a CredentialBindingLink.
    */
   passkeyBindingToken?: string;
+  /**
+   * If present, the operation being authenticated.
+   */
+  operation?: string;
+  /**
+   * If present, the passkey used for authentication.
+   */
+  passkey?: Passkey;
 }
+
+/**
+ * Method of locating FIDO2 passkeys.
+ * * "local" - searches for passkeys on the local system, or sync'd through a
+ *   password manager.
+ * *  email - queries BI's directory for passkeys belonging to the user. Note:
+ *    The private key component of the passkey resides with the FIDO2
+ *    authenticator on which it was created. Only the key identifier is
+ *    stored in Beyond Identity's directory.
+ * * "autofill" - same as "local" but may be associated with a UI component. TODO:
+ *   describe this option's usage.
+ */
+export type Fido2PasskeyLocator = "local" | { email: string } | "autofill";
 
 /**
  * A response returned if the SDK requires an OTP.
@@ -226,9 +257,7 @@ export class Embedded {
    * @throws {Error} Will throw an error if the operation fails.
    */
   bindPasskey = async (url: string): Promise<BindPasskeyResponse> => {
-    const response: BindCredentialV1Result = await this.core.bindCredential(
-      url
-    );
+    const response: BindResponse = await this.core.bindCredential(url);
     return {
       passkey: response.credential,
       postBindingRedirectUri: response.postBindRedirect,
@@ -242,7 +271,7 @@ export class Embedded {
    * @throws {Error} Will throw an error if the operation fails.
    */
   getPasskeys = async (): Promise<Passkey[]> => {
-    return await this.core.listCredentials();
+    return await this.core.getCredentials();
   };
 
   /**
@@ -253,7 +282,7 @@ export class Embedded {
    * @throws {Error} Will throw an error if the operation fails.
    */
   deletePasskey = async (id: string): Promise<void> => {
-    return await this.core.deleteCredentialV1(id);
+    return await this.core.deleteCredential(id);
   };
 
   /**
@@ -316,7 +345,7 @@ export class Embedded {
   };
 
   /**
-   * Authenticates against the specified passkey bound to the browser.
+   * Authenticates using specified BI Universal passkey bound to the browser.
    * @param {string} url The authentication URL of the current transaction.
    * @param {string} passkeyId The ID of the passkey to authenticate with.
    * @returns {Promise<AuthenticateResponse>} A promise that resolves to an
@@ -327,7 +356,7 @@ export class Embedded {
     url: string,
     passkeyId: string
   ): Promise<AuthenticateResponse> => {
-    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+    const response: AuthResponse = await this.core.authenticate(url, {
       credentialId: passkeyId,
     });
 
@@ -335,6 +364,36 @@ export class Embedded {
       return {
         redirectUrl: response.allow.redirectURL,
         message: response.allow.message,
+        operation: response.allow.operation,
+        passkey: response.allow.credential,
+      };
+    } else {
+      throw new Error("unexpected response");
+    }
+  };
+
+  /**
+   * Authenticates using a FIDO2 passkey.
+   * @param {string} url The authentication URL of the current transaction.
+   * @param {string} passkeyId The ID of the passkey to authenticate with.
+   * @returns {Promise<AuthenticateResponse>} A promise that resolves to an
+   * AuthenticateResponse containing a redirect URL and a message.
+   * @throws {Error} Will throw an error if the operation fails.
+   */
+  authenticateFido2 = async (
+    url: string,
+    locator: Fido2PasskeyLocator
+  ): Promise<AuthenticateResponse> => {
+    const response: AuthResponse = await this.core.authenticate(url, {
+      fido2Locator: locator,
+    });
+
+    if ("allow" in response) {
+      return {
+        redirectUrl: response.allow.redirectURL,
+        message: response.allow.message,
+        operation: response.allow.operation,
+        passkey: response.allow.credential,
       };
     } else {
       throw new Error("unexpected response");
@@ -354,7 +413,7 @@ export class Embedded {
     url: string,
     email: string
   ): Promise<OtpChallengeResponse> => {
-    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+    const response: AuthResponse = await this.core.authenticate(url, {
       beginEmailOtp: email,
     });
 
@@ -379,7 +438,7 @@ export class Embedded {
     url: string,
     otp: string
   ): Promise<AuthenticateResponse | OtpChallengeResponse> => {
-    const response: BiAuthenticateResponse = await this.core.authenticate(url, {
+    const response: AuthResponse = await this.core.authenticate(url, {
       redeemOtp: otp,
     });
 
@@ -388,6 +447,8 @@ export class Embedded {
         redirectUrl: response.allow.redirectURL,
         message: response.allow.message,
         passkeyBindingToken: response.allow.passkeyBindingToken,
+        operation: response.allow.operation,
+        passkey: response.allow.credential,
       };
     } else if ("continue" in response) {
       return {

@@ -1,14 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function kmc_get_key_type(a: number): number;
 export function kmc_get_user_agent(): number;
 export function kmc_get_app_instance_id(): number;
 export function kmc_migrate_database(a: number): number;
 export function kmc_import(a: number, b: number): number;
 export function kmc_get_auth_context(a: number, b: number, c: number, d: number): number;
 export function kmc_handle_url(a: number, b: number, c: number, d: number, e: number, f: number): number;
-export function kmc_embedded_public_oidc(a: number, b: number, c: number, d: number, e: number, f: number): number;
 export function kmc_embedded_confidential_oidc(a: number, b: number, c: number, d: number, e: number, f: number, g: number): number;
 export function kmc_export(a: number, b: number): number;
 export function kmc_delete_profile(a: number, b: number): number;
@@ -19,13 +17,14 @@ export function kmc_all_credentials(a: number): number;
 export function kmc_delete_credential(a: number, b: number): number;
 export function kmc_list_credentials(a: number): number;
 export function kmc_url_type(a: number, b: number): void;
+export function ring_core_0_17_7_bn_mul_mont(a: number, b: number, c: number, d: number, e: number, f: number): void;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h53c7ae91175e11f6(a: number, b: number): void;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0c87589d2dc319c7(a: number, b: number): void;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h89892746f5eb5a17(a: number, b: number): void;
-export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hae4cae5d2a8ef7e8(a: number, b: number, c: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__h33efe377f8a10aca(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__h2293bae59890afd1(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__hd481a34b90376d27(a: number, b: number): void;
+export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h3f3a53b263fcc69e(a: number, b: number, c: number): void;
 export function __wbindgen_add_to_stack_pointer(a: number): number;
 export function __wbindgen_exn_store(a: number): void;
-export function wasm_bindgen__convert__closures__invoke2_mut__h0927af1473172a6f(a: number, b: number, c: number, d: number): void;
+export function wasm_bindgen__convert__closures__invoke2_mut__h7dd4bce0c1368af6(a: number, b: number, c: number, d: number): void;

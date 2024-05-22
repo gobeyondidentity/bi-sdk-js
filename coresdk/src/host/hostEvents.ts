@@ -1,4 +1,3 @@
-import { CredentialV1 } from "../types";
 import { Host } from "./host"
 
 export interface ExportEvent {
@@ -26,6 +25,6 @@ export interface HostEvents {
   onexport?: (this: Host, ev: ExportEvent) => void;
   onimport?: (this: Host, ev: ImportEvent) => void;
   onSelectCredentialV1?: (
-    credentials: CredentialV1[]
+    credentials: Credential[]
   ) => Promise<string | undefined>;
 }

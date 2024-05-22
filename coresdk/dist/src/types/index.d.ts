@@ -1,8 +1,5 @@
-import { CredentialV1 } from "./v1";
-export { CertHandle, KeyHandle, ProfileHandle } from "./handles";
-export { Credential, UrlResponse, BiAuthenticateResponse } from "./credential";
-export { CredentialV1, RealmV1, ThemeV1, IdentityV1, BindCredentialV1Result, } from "./v1";
-export { State, KeyType, IntegrityFailureError } from "./credential";
+export { Credential, UrlResponse, AuthenticateResponse, BindResponse, State, KeyType, Version, Tenant, Realm, Identity, Links, } from "./credential";
+export {} from "./credential";
 export { Pkce, PkceCodeChallenge } from "./pkce";
 export { BrowserInfo } from "./browserInfo";
 export interface AuthorizationCode {
@@ -58,11 +55,15 @@ export interface ClientEnvironment {
 export declare type CredentialDescriptor = {
     credentialId: string;
 } | {
+    fido2Locator: "local" | {
+        email: string;
+    } | "autofill";
+} | {
     beginEmailOtp: string;
 } | {
     redeemOtp: string;
 } | {
-    credentialSelect: (credentials: CredentialV1[]) => Promise<string | undefined>;
+    credentialSelect: (credentials: Credential[]) => Promise<string | undefined>;
 };
 export interface AuthenticationContext {
     authUrl: string;
@@ -84,4 +85,7 @@ export declare type AuthenticationMethod = {
     type: "software_passkey";
 } | {
     type: "email_one_time_password";
+} | {
+    type: "fido2";
+    authenticator_attachment: "platform" | "cross-platform";
 };
