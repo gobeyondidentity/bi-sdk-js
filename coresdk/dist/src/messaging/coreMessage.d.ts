@@ -14,35 +14,35 @@ import { ClientEnvironment } from "../types";
  * Unit,
  * Pending,
  */
-export declare type BoolResponse = {
+export type BoolResponse = {
     Bool: boolean;
 };
-export declare type BytesResponse = {
+export type BytesResponse = {
     Bytes: number[];
 };
-export declare type DeviceGatewayUrlResponse = {
+export type DeviceGatewayUrlResponse = {
     DeviceGatewayUrl: string;
 };
-export declare type DeviceInfoResponse = {
+export type DeviceInfoResponse = {
     DeviceInfo: string;
 };
-export declare type FeatureFlagsResponse = {
+export type FeatureFlagsResponse = {
     FeatureFlags: Messaging.FeatureFlagResponse[];
 };
-export declare type FilePathResponse = {
+export type FilePathResponse = {
     FilePath: Messaging.HostFilePath;
 };
-export declare type ClientEnvironmentResponse = {
+export type ClientEnvironmentResponse = {
     ClientEnvironment: Messaging.ClientEnvironment;
 };
-export declare type PendingResponse = {
+export type PendingResponse = {
     Pending: string;
 };
-export declare type AuthNCredentialIdResponse = {
+export type AuthNCredentialIdResponse = {
     SelectedAuthNCredentialId: string | undefined;
 };
-export declare type CoreResponse = BytesResponse | DeviceGatewayUrlResponse | DeviceInfoResponse | FeatureFlagsResponse | FilePathResponse | ClientEnvironmentResponse | AuthNCredentialIdResponse | BoolResponse | "Unit";
-export declare type CoreResult = {
+export type CoreResponse = BytesResponse | DeviceGatewayUrlResponse | DeviceInfoResponse | FeatureFlagsResponse | FilePathResponse | ClientEnvironmentResponse | AuthNCredentialIdResponse | BoolResponse | "Unit";
+export type CoreResult = {
     Ok: CoreResponse;
 } | {
     Err: string;

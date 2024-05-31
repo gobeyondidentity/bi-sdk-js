@@ -80,7 +80,7 @@ module.exports = class ContextModuleFactory extends ModuleFactory {
 
 	/**
 	 * @param {ModuleFactoryCreateData} data data object
-	 * @param {function(Error=, ModuleFactoryResult=): void} callback callback
+	 * @param {function((Error | null)=, ModuleFactoryResult=): void} callback callback
 	 * @returns {void}
 	 */
 	create(data, callback) {
@@ -95,6 +95,7 @@ module.exports = class ContextModuleFactory extends ModuleFactory {
 			{
 				context: context,
 				dependencies: dependencies,
+				layer: data.contextInfo.issuerLayer,
 				resolveOptions,
 				fileDependencies,
 				missingDependencies,
@@ -159,7 +160,7 @@ module.exports = class ContextModuleFactory extends ModuleFactory {
 								resolveOptions || EMPTY_RESOLVE_OPTIONS,
 								"dependencyType",
 								dependencies[0].category
-						  )
+							)
 						: resolveOptions
 				);
 				const loaderResolver = this.resolverFactory.get("loader");
@@ -288,7 +289,8 @@ module.exports = class ContextModuleFactory extends ModuleFactory {
 			exclude,
 			referencedExports,
 			category,
-			typePrefix
+			typePrefix,
+			attributes
 		} = options;
 		if (!regExp || !resource) return callback(null, []);
 
@@ -364,7 +366,8 @@ module.exports = class ContextModuleFactory extends ModuleFactory {
 														typePrefix,
 														category,
 														referencedExports,
-														obj.context
+														obj.context,
+														attributes
 													);
 													dep.optional = true;
 													return dep;

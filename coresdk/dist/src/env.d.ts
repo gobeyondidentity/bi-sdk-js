@@ -1,4 +1,4 @@
-declare type Channel = "devel" | "rolling" | "staging" | "production";
+type Channel = "devel" | "rolling" | "staging" | "production";
 /**
  * Environmental parameters defined at build time
  */

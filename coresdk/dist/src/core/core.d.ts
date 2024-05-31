@@ -51,7 +51,7 @@ export declare class Core {
     /**
      * Create a new Credential. Testing only.
      */
-    createCredential: (handle: string, name: string, imageUrl: string, loginUri?: string | undefined, enrollUri?: string | undefined) => Promise<Credential>;
+    createCredential: (handle: string, name: string, imageUrl: string, loginUri?: string, enrollUri?: string) => Promise<Credential>;
     /**
      * Register a new Credential on this device.
      */
@@ -85,7 +85,7 @@ export declare class Core {
     /**
      * Confidential OIDC authentication.
      */
-    authenticateConfidential: (authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge | undefined, nonce?: string | undefined) => Promise<AuthorizationCode>;
+    authenticateConfidential: (authURL: string, clientId: string, redirectURI: string, scope: string, PKCECodeChallenge?: PkceCodeChallenge, nonce?: string) => Promise<AuthorizationCode>;
     /**
      * Creates a PKCE code verifier and code challenge.
      */

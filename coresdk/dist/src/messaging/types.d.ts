@@ -32,7 +32,7 @@ export interface HandleBindCredentialUrlResponse {
     credential: Credential;
     post_binding_redirect_uri?: string;
 }
-export declare type HandleUrlResponse = {
+export type HandleUrlResponse = {
     SelfIssue: HandleSelfIssueUrlResponse;
 } | {
     Registration: HandleRegisterUrlResponse;
@@ -49,7 +49,7 @@ export interface HostFilePath {
     path_type: PathType;
     path: string;
 }
-export declare type CheckRetireResponse = {
+export type CheckRetireResponse = {
     version: number;
     is_retired: boolean;
     reason: string;
@@ -82,7 +82,7 @@ export interface ClientEnvironment {
     key_storage_strategy: KeyStorageStrategy;
     gdc_url: string;
 }
-export declare type UrlType = {
+export type UrlType = {
     type: "Authenticate";
 } | {
     type: "Bind";
@@ -106,7 +106,7 @@ interface CoreAuthenticatorConfig {
  * Note that `hosted_login` is only provided for backwards compatibility,
  * and has been renamed to `hosted_web`.
  */
-declare type CoreAuthenticatorProfileConfig = {
+type CoreAuthenticatorProfileConfig = {
     type: "hosted_web";
     authentication_methods: AuthenticationMethod[];
 } | {

@@ -9,6 +9,10 @@ const RuntimeGlobals = require("../RuntimeGlobals");
 const RuntimeModule = require("../RuntimeModule");
 const Template = require("../Template");
 
+/** @typedef {import("../Chunk")} Chunk */
+/** @typedef {import("../Chunk").ChunkId} ChunkId */
+/** @typedef {import("../ChunkGraph")} ChunkGraph */
+/** @typedef {import("../Compilation")} Compilation */
 /** @typedef {import("./RemoteModule")} RemoteModule */
 
 class RemoteRuntimeModule extends RuntimeModule {
@@ -17,20 +21,26 @@ class RemoteRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
-		const { compilation, chunkGraph } = this;
+		const compilation = /** @type {Compilation} */ (this.compilation);
+		const chunkGraph = /** @type {ChunkGraph} */ (this.chunkGraph);
 		const { runtimeTemplate, moduleGraph } = compilation;
+		/** @type {Record<ChunkId, (string | number)[]>} */
 		const chunkToRemotesMapping = {};
+		/** @type {Record<string | number, [string, string, string | number | null]>} */
 		const idToExternalAndNameMapping = {};
-		for (const chunk of this.chunk.getAllAsyncChunks()) {
+		for (const chunk of /** @type {Chunk} */ (this.chunk).getAllAsyncChunks()) {
 			const modules = chunkGraph.getChunkModulesIterableBySourceType(
 				chunk,
 				"remote"
 			);
 			if (!modules) continue;
-			const remotes = (chunkToRemotesMapping[chunk.id] = []);
+			/** @type {(string | number)[]} */
+			const remotes = (chunkToRemotesMapping[
+				/** @type {ChunkId} */ (chunk.id)
+			] = []);
 			for (const m of modules) {
 				const module = /** @type {RemoteModule} */ (m);
 				const name = module.internalRequest;
@@ -117,7 +127,7 @@ class RemoteRuntimeModule extends RuntimeModule {
 								"module.exports = factory();"
 							])}`
 						])};`,
-						"handleFunction(__webpack_require__, data[2], 0, 0, onExternal, 1);"
+						`handleFunction(${RuntimeGlobals.require}, data[2], 0, 0, onExternal, 1);`
 					])});`
 				]),
 				"}"

@@ -60,6 +60,7 @@ const GLOBALS_ON_REQUIRE = [
 	RuntimeGlobals.publicPath,
 	RuntimeGlobals.baseURI,
 	RuntimeGlobals.relativeUrl,
+	// TODO webpack 6 - rename to nonce, because we use it for CSS too
 	RuntimeGlobals.scriptNonce,
 	RuntimeGlobals.uncaughtErrorHandler,
 	RuntimeGlobals.asyncModule,
@@ -99,6 +100,10 @@ class RuntimePlugin {
 	apply(compiler) {
 		compiler.hooks.compilation.tap("RuntimePlugin", compilation => {
 			const globalChunkLoading = compilation.outputOptions.chunkLoading;
+			/**
+			 * @param {Chunk} chunk chunk
+			 * @returns {boolean} true, when chunk loading is disabled for the chunk
+			 */
 			const isChunkLoadingDisabledForChunk = chunk => {
 				const options = chunk.getEntryOptions();
 				const chunkLoading =
@@ -124,7 +129,8 @@ class RuntimePlugin {
 					});
 			}
 			for (const req of Object.keys(TREE_DEPENDENCIES)) {
-				const deps = TREE_DEPENDENCIES[req];
+				const deps =
+					TREE_DEPENDENCIES[/** @type {keyof TREE_DEPENDENCIES} */ (req)];
 				compilation.hooks.runtimeRequirementInTree
 					.for(req)
 					.tap("RuntimePlugin", (chunk, set) => {
@@ -132,7 +138,8 @@ class RuntimePlugin {
 					});
 			}
 			for (const req of Object.keys(MODULE_DEPENDENCIES)) {
-				const deps = MODULE_DEPENDENCIES[req];
+				const deps =
+					MODULE_DEPENDENCIES[/** @type {keyof MODULE_DEPENDENCIES} */ (req)];
 				compilation.hooks.runtimeRequirementInModule
 					.for(req)
 					.tap("RuntimePlugin", (chunk, set) => {
@@ -373,9 +380,10 @@ class RuntimePlugin {
 					if (withCreateScriptUrl) {
 						set.add(RuntimeGlobals.createScriptUrl);
 					}
+					const withFetchPriority = set.has(RuntimeGlobals.hasFetchPriority);
 					compilation.addRuntimeModule(
 						chunk,
-						new LoadScriptRuntimeModule(withCreateScriptUrl)
+						new LoadScriptRuntimeModule(withCreateScriptUrl, withFetchPriority)
 					);
 					return true;
 				});

@@ -11,15 +11,15 @@ export interface RegistrationRequest {
     username: string;
     displayName: string;
 }
-export declare type FeatureFlagRequest = "IsInternalBuild";
-export declare type FeatureFlagResponse = {
+export type FeatureFlagRequest = "IsInternalBuild";
+export type FeatureFlagResponse = {
     IsInternalBuild: boolean;
 };
 export interface PromptDetail {
     label: string;
     detail: string;
 }
-export declare type RegistrationStatus = "UserStatusActive" | "UserStatusSuspended" | "UserStatusDeleted";
+export type RegistrationStatus = "UserStatusActive" | "UserStatusSuspended" | "UserStatusDeleted";
 export declare enum PathType {
     osQuery = 0
 }
@@ -27,7 +27,7 @@ export interface HostFilePath {
     type: PathType;
     path: string;
 }
-export declare type CheckRetireResponse = {
+export type CheckRetireResponse = {
     version: number;
     isRetired: boolean;
     reason: string;
@@ -39,8 +39,8 @@ export interface TokenResponse {
     tokenType: string;
     expiresIn: number;
 }
-export declare type CryptoSource = "Host" | "Hal";
-export declare type KeyStorageStrategy = "TeeIfAvailable" | "ForceSoftware";
+export type CryptoSource = "Host" | "Hal";
+export type KeyStorageStrategy = "TeeIfAvailable" | "ForceSoftware";
 export interface ClientEnvironment {
     cryptoSource: CryptoSource;
     keyStorageStrategy: KeyStorageStrategy;
@@ -52,7 +52,7 @@ export interface ClientEnvironment {
  * * `emailOtp` - email OTP
  * * `credentialSelect` - the supplied callback will be invoked during prior to authentication.
  */
-export declare type CredentialDescriptor = {
+export type CredentialDescriptor = {
     credentialId: string;
 } | {
     fido2Locator: "local" | {
@@ -79,7 +79,7 @@ export interface AuthenticationContext {
         referer?: string;
     };
 }
-export declare type AuthenticationMethod = {
+export type AuthenticationMethod = {
     type: "webauthn_passkey";
 } | {
     type: "software_passkey";

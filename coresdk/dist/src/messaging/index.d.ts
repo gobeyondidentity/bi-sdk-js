@@ -3,7 +3,7 @@ export * as CoreMessage from "./coreMessage";
 export * as HostMessage from "./hostMessage";
 import { CoreResponse, CoreResult } from "./coreMessage";
 import { HostRequest } from "./hostMessage";
-declare type Message = CoreResponse | CoreResult | HostRequest;
+type Message = CoreResponse | CoreResult | HostRequest;
 /**
  * Returns the type the request/response type from the interface.
 */

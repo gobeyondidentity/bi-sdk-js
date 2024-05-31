@@ -53,52 +53,52 @@ import { PromptDetail, FeatureFlagRequest, PathType } from "./types";
  * Bool(bool),
  *
  */
-export declare type AskRequest = {
+export type AskRequest = {
     Ask: string;
 };
-export declare type AuthenticationPromptRequest = {
+export type AuthenticationPromptRequest = {
     AuthenticationPrompt: {
         appName: string;
         detailList: PromptDetail[];
     };
 };
-export declare type CheckFeatureFlagsRequest = {
+export type CheckFeatureFlagsRequest = {
     CheckFeatureFlags: FeatureFlagRequest[];
 };
-export declare type ExportRequestReceivedRequest = {
+export type ExportRequestReceivedRequest = {
     ExportRequestReceived: Map<string, Uint8Array>;
 };
-export declare type ExportStartedRequest = {
+export type ExportStartedRequest = {
     ExportStarted: string;
 };
-export declare type ExportTokenTimeoutRequest = {
+export type ExportTokenTimeoutRequest = {
     ExportTokenTimeout: string;
 };
-export declare type GetDeviceGatewayUrlRequest = {
+export type GetDeviceGatewayUrlRequest = {
     GetDeviceGatewayUrl: undefined;
 };
-export declare type GetDeviceInfoRequest = {
+export type GetDeviceInfoRequest = {
     GetDeviceInfo: undefined;
 };
-export declare type GetFilePathRequest = {
+export type GetFilePathRequest = {
     GetFilePath: PathType;
 };
-export declare type ImportManifestReceivedRequest = {
+export type ImportManifestReceivedRequest = {
     ImportManifestReceived: string;
 };
-export declare type ImportReceivedSignedRequest = {
+export type ImportReceivedSignedRequest = {
     ImportReceivedSigned: string;
 };
-export declare type ImportRequestsToSignRequest = {
+export type ImportRequestsToSignRequest = {
     ImportRequestsToSign: string;
 };
-export declare type ImportStartedRequest = {
+export type ImportStartedRequest = {
     ImportStarted: string;
 };
-export declare type LogRequest = {
+export type LogRequest = {
     Log: string;
 };
-export declare type SelectAuthNCredentialRequest = {
+export type SelectAuthNCredentialRequest = {
     SelectAuthNCredential: Credential[];
 };
-export declare type HostRequest = AskRequest | AuthenticationPromptRequest | CheckFeatureFlagsRequest | ExportRequestReceivedRequest | ExportStartedRequest | ExportTokenTimeoutRequest | GetDeviceGatewayUrlRequest | GetDeviceInfoRequest | GetFilePathRequest | ImportManifestReceivedRequest | ImportReceivedSignedRequest | ImportRequestsToSignRequest | ImportStartedRequest | LogRequest | SelectAuthNCredentialRequest;
+export type HostRequest = AskRequest | AuthenticationPromptRequest | CheckFeatureFlagsRequest | ExportRequestReceivedRequest | ExportStartedRequest | ExportTokenTimeoutRequest | GetDeviceGatewayUrlRequest | GetDeviceInfoRequest | GetFilePathRequest | ImportManifestReceivedRequest | ImportReceivedSignedRequest | ImportRequestsToSignRequest | ImportStartedRequest | LogRequest | SelectAuthNCredentialRequest;

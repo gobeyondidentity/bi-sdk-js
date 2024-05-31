@@ -1,7 +1,7 @@
-export declare type Version = "v0" | "v1";
+export type Version = "v0" | "v1";
 /** The state of a credential */
-export declare type State = "Active" | "DeviceDeleted" | "Invalid" | "Revoked" | "UserDeleted" | "UserSuspended" | "Unknown";
-export declare type KeyType = "subtle" | "webauthn";
+export type State = "Active" | "DeviceDeleted" | "Invalid" | "Revoked" | "UserDeleted" | "UserSuspended" | "Unknown";
+export type KeyType = "subtle" | "webauthn";
 /**
  * A credential.
  */
@@ -62,7 +62,7 @@ export interface BindResponse {
     message?: String;
     postBindRedirect?: string;
 }
-export declare type AuthenticateResponse = {
+export type AuthenticateResponse = {
     allow: {
         operation?: string;
         redirectURL: string;
@@ -77,7 +77,7 @@ export declare type AuthenticateResponse = {
         url: string;
     };
 };
-export declare type UrlResponse = {
+export type UrlResponse = {
     type: "authenticate";
     authenticate: AuthenticateResponse;
 } | {
