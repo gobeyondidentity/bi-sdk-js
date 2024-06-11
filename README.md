@@ -37,7 +37,7 @@ Check out the [Developer Documentation](https://developer.beyondidentity.com) an
 First, before calling the Embedded functions, make sure to initialize the SDK.
 
 ```typescript
-import { Embedded } from '@beyondidentity/bi-sdk-js';
+import { Embedded } from "@beyondidentity/bi-sdk-js";
 
 const embedded = await Embedded.initialize();
 ```

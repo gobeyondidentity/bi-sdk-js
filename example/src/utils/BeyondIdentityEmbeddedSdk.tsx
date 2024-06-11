@@ -7,7 +7,13 @@ class BeyondIdentityEmbeddedSdk {
 
   private initialized = async () => {
     if (!this.embedded) {
-      this.embedded = await Embedded.initialize();
+      this.embedded = await Embedded.initialize({
+        logger: {
+          write: function (logType: string, message: string): void {
+            console.log(`[${logType}] ${message}`);
+          }
+        }
+      });
     }
     return this.embedded as Embedded;
   };
@@ -42,7 +48,7 @@ class BeyondIdentityEmbeddedSdk {
   ) => {
     let cxt = await this.getAuthenticationContext(url);
     console.log(JSON.stringify(cxt));
-    
+
     return (await this.initialized()).authenticate(url, passkeyId);
   };
 
@@ -55,7 +61,7 @@ class BeyondIdentityEmbeddedSdk {
 
   redeemOtp = async (
     url: string,
-    otp: string 
+    otp: string
   ) => {
     return (await this.initialized()).redeemOtp(url, otp);
   };
