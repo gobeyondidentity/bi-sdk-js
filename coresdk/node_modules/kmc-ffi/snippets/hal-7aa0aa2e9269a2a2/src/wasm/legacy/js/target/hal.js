@@ -4724,6 +4724,67 @@ async function deleteKey(db, handle) {
   await idbFinishTransaction(tx);
 }
 
+// ../../js/src/err.js
+var InvalidArg2 = class extends Error {
+  constructor(arg) {
+    super(`invalid arg: ${arg}`);
+    this.name = "InvalidArg";
+  }
+};
+
+// ../../js/src/validate.js
+function validateCryptoKey2(key) {
+  return key instanceof CryptoKey;
+}
+
+// ../../js/src/subtle.js
+function getSubtleSupport() {
+  return !!window.crypto.subtle;
+}
+function exportKey2(key, format) {
+  if (!(key instanceof CryptoKey))
+    throw new InvalidArg2(key);
+  return new Promise((resolve, reject) => {
+    window.crypto.subtle.exportKey(format, key).then((data) => {
+      if (format === "jwk")
+        resolve(data);
+      else
+        resolve(new Uint8Array(data));
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsaGenerateKeyPair2(curve) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      name: "ECDSA",
+      namedCurve: curve
+    };
+    window.crypto.subtle.generateKey(params, false, ["sign", "verify"]).then((keyPair) => {
+      resolve(keyPair);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+function ecdsaSign2(key, hash, data) {
+  if (!validateCryptoKey2(key))
+    throw new InvalidArg2("key");
+  return new Promise((resolve, reject) => {
+    const params = {
+      name: "ECDSA",
+      hash
+    };
+    window.crypto.subtle.sign(params, key, data).then((signature) => {
+      signature = new Uint8Array(signature);
+      resolve(signature);
+    }, (err) => {
+      reject(err);
+    });
+  });
+}
+
 // src/index.js
 function FfiCreateKeyP256(handle, provider, data, user) {
   return new Promise(async (resolve, reject) => {
@@ -4765,7 +4826,7 @@ function FfiQueryKeyP256(handle) {
       if (type === void 0) {
         throw new InvalidKey("FfiQueryKeyP256");
       } else {
-        resolve(type);
+        resolve(key);
       }
     } catch (err) {
       reject(err);
@@ -4866,7 +4927,11 @@ export {
   KeyNotFound,
   closeDb,
   deleteKey,
+  ecdsaGenerateKeyPair2 as ecdsaGenerateKeyPair,
+  ecdsaSign2 as ecdsaSign,
+  exportKey2 as exportKey,
   generateKey,
+  getSubtleSupport,
   kmcDbVersion,
   loadKey,
   openDb,

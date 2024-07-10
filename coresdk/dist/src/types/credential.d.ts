@@ -70,6 +70,7 @@ export type AuthenticateResponse = {
         credential?: Credential;
         passkeyBindingToken?: string;
         handledRedirectExternally?: boolean;
+        redirectBundle?: string;
     };
 } | {
     continue: {

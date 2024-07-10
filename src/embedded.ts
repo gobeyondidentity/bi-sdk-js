@@ -190,6 +190,8 @@ export interface AuthenticateResponse {
    * If present, the passkey used for authentication.
    */
   passkey?: Passkey;
+
+  redirectBundle?: string;
 }
 
 /**
@@ -231,7 +233,7 @@ export class Embedded {
    */
   static initialize = async (config?: Config): Promise<Embedded> => {
     const defaults = {
-      allowedDomains: ["beyondidentity.com"],
+      allowedDomains: ["beyondidentity.com", "byndid.com"],
     };
     config = config ? config : defaults;
     let allowedDomains = config.allowedDomains
@@ -366,6 +368,7 @@ export class Embedded {
         message: response.allow.message,
         operation: response.allow.operation,
         passkey: response.allow.credential,
+        redirectBundle: response.allow.redirectBundle,
       };
     } else {
       throw new Error("unexpected response");
@@ -394,6 +397,7 @@ export class Embedded {
         message: response.allow.message,
         operation: response.allow.operation,
         passkey: response.allow.credential,
+        redirectBundle: response.allow.redirectBundle,
       };
     } else {
       throw new Error("unexpected response");
@@ -449,6 +453,7 @@ export class Embedded {
         passkeyBindingToken: response.allow.passkeyBindingToken,
         operation: response.allow.operation,
         passkey: response.allow.credential,
+        redirectBundle: response.allow.redirectBundle,
       };
     } else if ("continue" in response) {
       return {

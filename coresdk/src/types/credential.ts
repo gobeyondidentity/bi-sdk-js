@@ -87,12 +87,13 @@ export interface BindResponse {
 export type AuthenticateResponse =
   | {
       allow: {
-        operation?: string,
+        operation?: string;
         redirectURL: string;
         message?: string;
         credential?: Credential;
         passkeyBindingToken?: string;
         handledRedirectExternally?: boolean;
+        redirectBundle?: string;
       };
     }
   | {

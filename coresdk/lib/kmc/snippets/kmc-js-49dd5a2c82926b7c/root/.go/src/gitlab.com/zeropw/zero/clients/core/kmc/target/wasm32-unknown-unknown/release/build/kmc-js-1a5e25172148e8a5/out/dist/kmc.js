@@ -3252,6 +3252,7 @@ var device = $root.device = (() => {
     values[valuesById[5] = "LINUX"] = 5;
     values[valuesById[6] = "WEB"] = 6;
     values[valuesById[7] = "CHROMEOS"] = 7;
+    values[valuesById[8] = "CHROMEOSWEB"] = 8;
     return values;
   }();
   device2.Core = function() {
@@ -4001,6 +4002,7 @@ var device = $root.device = (() => {
           case 5:
           case 6:
           case 7:
+          case 8:
             break;
         }
       if (message.appVersion != null && message.hasOwnProperty("appVersion")) {
@@ -4174,6 +4176,10 @@ var device = $root.device = (() => {
         case "CHROMEOS":
         case 7:
           message.platform = 7;
+          break;
+        case "CHROMEOSWEB":
+        case 8:
+          message.platform = 8;
           break;
       }
       if (object.appVersion != null) {
@@ -8402,7 +8408,10 @@ var Data = class {
     return this.ch;
   }
   async getAppInstanceId() {
-    return this.appSettings ? { answer: { type: device.AnswerType.VALUE }, value: this.appSettings.instanceId } : void 0;
+    return this.appSettings ? {
+      answer: { type: device.AnswerType.VALUE },
+      value: this.appSettings.instanceId
+    } : void 0;
   }
   getOsVersion() {
     let ua = this.getUserAgent();
@@ -8494,7 +8503,10 @@ var Data = class {
     const platformAuthn = webAuthn && await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
     return {
       answer: { type: device.AnswerType.VALUE },
-      isWebauthnAvailable: { answer: { type: device.AnswerType.VALUE }, value: webAuthn },
+      isWebauthnAvailable: {
+        answer: { type: device.AnswerType.VALUE },
+        value: webAuthn
+      },
       isPlatformAuthenticatorAvailable: {
         answer: { type: device.AnswerType.VALUE },
         value: platformAuthn
@@ -8503,18 +8515,18 @@ var Data = class {
   }
 };
 async function kmc_get_user_agent() {
-  let data2 = await Data.collect();
+  const data2 = await Data.collect();
   return data2.getUserAgent();
 }
 async function kmc_get_device_info(db) {
-  let deviceInfo = new device.DeviceInfo();
-  let data2 = await Data.collect(db);
+  const deviceInfo = new device.DeviceInfo();
+  const data2 = await Data.collect(db);
+  const osVersion = data2.getOsVersion();
   deviceInfo.answer = { type: device.AnswerType.VALUE };
-  deviceInfo.platform = device.Platform.WEB;
-  deviceInfo.osVersion = data2.getOsVersion();
+  deviceInfo.platform = osVersion.userAgentData.platform.name === "Chrome OS" ? device.Platform.CHROMEOSWEB : device.Platform.WEB;
+  deviceInfo.osVersion = osVersion;
   deviceInfo.core = device.Core.RUST;
   const appVersion = "1.0.0";
-  const biVersion = "1.0.0";
   deviceInfo.appVersion = {
     answer: { type: device.AnswerType.VALUE },
     value: appVersion

@@ -21,9 +21,9 @@ export function ring_core_0_17_7_bn_mul_mont(a: number, b: number, c: number, d:
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
-export function wasm_bindgen__convert__closures__invoke0_mut__hbfa9410e6fab5532(a: number, b: number): void;
-export function _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h6d330484440061e0(a: number, b: number): void;
-export function wasm_bindgen__convert__closures__invoke0_mut__hd481a34b90376d27(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__hab09e0598db4003f(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__h235cb7cd70744455(a: number, b: number): void;
+export function wasm_bindgen__convert__closures__invoke0_mut__h0caf272bab10fdb9(a: number, b: number): void;
 export function _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h3f3a53b263fcc69e(a: number, b: number, c: number): void;
 export function __wbindgen_add_to_stack_pointer(a: number): number;
 export function __wbindgen_exn_store(a: number): void;

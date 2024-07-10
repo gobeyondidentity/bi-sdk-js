@@ -23,6 +23,7 @@ export interface HandleBiAuthenticateUrlResponse {
     redirect_url: string;
     message?: string;
     passkey_binding_token?: string;
+    redirect_bundle?: string;
 }
 export interface HandleBiContinueResponse {
     reason: string;

@@ -44,6 +44,7 @@ export interface HandleBiAuthenticateUrlResponse {
   redirect_url: string;
   message?: string;
   passkey_binding_token?: string;
+  redirect_bundle?: string;
 }
 
 export interface HandleBiContinueResponse {
@@ -75,6 +76,7 @@ export function toUrlResponse(rsp: HandleUrlResponse): UrlResponse {
           redirectURL: rsp["SelfIssue"].redirect_url,
           handledRedirectExternally:
             rsp["SelfIssue"].handled_redirect_externally,
+          redirectBundle: undefined,
         },
       },
     };
@@ -86,6 +88,7 @@ export function toUrlResponse(rsp: HandleUrlResponse): UrlResponse {
           redirectURL: rsp["BiAuthenticate"].redirect_url,
           message: rsp["BiAuthenticate"].message,
           passkeyBindingToken: rsp["BiAuthenticate"].passkey_binding_token,
+          redirectBundle: rsp["BiAuthenticate"].redirect_bundle,
         },
       },
     };
@@ -181,7 +184,7 @@ export function toUrlType(rawUrlType: string): UrlType {
 }
 
 export function toAuthContext(
-  coreContext: CoreAuthenticationRequestContext
+  coreContext: CoreAuthenticationRequestContext,
 ): AuthenticationContext {
   let context: AuthenticationContext = {
     authUrl: coreContext.auth_url,

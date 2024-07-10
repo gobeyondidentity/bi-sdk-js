@@ -50,14 +50,14 @@ export async function deleteCredential(id: string, host: Host): Promise<void> {
   let cred = (await getCredentials(host)).find((cred) => cred.id === id);
   if (cred) {
     if (cred.version == "v0") {
-      await kmc_delete_profile(cred.tenant.id, (msg: string) => {
-        return hostCall(host, msg);
-      });
-    } else if (cred.version == "v1") {
-      await kmc_delete_credential(id, (msg: string) => {
+      await kmc_delete_profile(cred.id, (msg: string) => {
         return hostCall(host, msg);
       });
     }
+    console.log("calling delete v1 js");
+    await kmc_delete_credential(id, (msg: string) => {
+      return hostCall(host, msg);
+    });
   }
 }
 
