@@ -32,4 +32,5 @@ export declare class Host implements HostEvents {
     authenticationPrompt(app_name: string, detail_list: PromptDetail[]): boolean;
     log(msg: string): void;
     selectCredential(credentials: Credential[]): Promise<string | undefined>;
+    credentialStateChanged(): void;
 }

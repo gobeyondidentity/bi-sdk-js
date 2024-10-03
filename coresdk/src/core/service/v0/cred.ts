@@ -22,6 +22,7 @@ export async function createCredential(
     undefined,
     undefined,
     undefined,
+    undefined,
     (msg: string) => {
       return hostCall(host, msg);
     }

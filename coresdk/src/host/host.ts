@@ -146,4 +146,10 @@ export class Host implements HostEvents {
     }
     return Promise.resolve(credentials[0].id);
   }
+
+  // can be used to trigger passkey data reload
+  // not used in HWA atm
+  credentialStateChanged(): void {
+    return;
+  }
 }

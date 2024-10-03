@@ -67,10 +67,11 @@ export function kmc_delete_profile(handle: string, cb: Function): Promise<any>;
 * @param {string | undefined} desktop_login_url
 * @param {string | undefined} device_gateway_url
 * @param {string | undefined} migrate_addr
+* @param {string | undefined} v1_api_url
 * @param {Function} cb
 * @returns {Promise<any>}
 */
-export function kmc_create_profile(handle: string, name: string, image_url: string, enroll_uri: string | undefined, login_uri: string | undefined, desktop_login_url: string | undefined, device_gateway_url: string | undefined, migrate_addr: string | undefined, cb: Function): Promise<any>;
+export function kmc_create_profile(handle: string, name: string, image_url: string, enroll_uri: string | undefined, login_uri: string | undefined, desktop_login_url: string | undefined, device_gateway_url: string | undefined, migrate_addr: string | undefined, v1_api_url: string | undefined, cb: Function): Promise<any>;
 /**
 * @returns {Promise<any>}
 */
@@ -90,6 +91,11 @@ export function kmc_all_credentials(cb: Function): Promise<any>;
 * @returns {Promise<any>}
 */
 export function kmc_delete_credential(credential_id: string, cb: Function): Promise<any>;
+/**
+* @param {Function} cb
+* @returns {Promise<any>}
+*/
+export function kmc_update_all_credentials(cb: Function): Promise<any>;
 /**
 * @param {Function} cb
 * @returns {Promise<any>}
@@ -114,24 +120,24 @@ export interface InitOutput {
   readonly kmc_embedded_confidential_oidc: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => number;
   readonly kmc_export: (a: number, b: number) => number;
   readonly kmc_delete_profile: (a: number, b: number) => number;
-  readonly kmc_create_profile: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number) => number;
+  readonly kmc_create_profile: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => number;
   readonly kmc_create_pkce: () => number;
   readonly kmc_cancel: () => number;
   readonly kmc_all_credentials: (a: number) => number;
   readonly kmc_delete_credential: (a: number, b: number) => number;
+  readonly kmc_update_all_credentials: (a: number) => number;
   readonly kmc_list_credentials: (a: number) => number;
   readonly kmc_url_type: (a: number, b: number) => void;
-  readonly ring_core_0_17_7_bn_mul_mont: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
-  readonly __wbindgen_malloc: (a: number) => number;
-  readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
+  readonly ring_core_0_17_8_bn_mul_mont: (a: number, b: number, c: number, d: number, e: number, f: number) => void;
+  readonly __wbindgen_export_0: (a: number) => number;
+  readonly __wbindgen_export_1: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly wasm_bindgen__convert__closures__invoke0_mut__hab09e0598db4003f: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke0_mut__h235cb7cd70744455: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke0_mut__h0caf272bab10fdb9: (a: number, b: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h3f3a53b263fcc69e: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_export_3: (a: number, b: number) => void;
+  readonly __wbindgen_export_4: (a: number, b: number) => void;
+  readonly __wbindgen_export_5: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
-  readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h7dd4bce0c1368af6: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbindgen_export_6: (a: number) => void;
+  readonly __wbindgen_export_7: (a: number, b: number, c: number, d: number) => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

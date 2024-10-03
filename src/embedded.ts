@@ -25,6 +25,9 @@ export interface Passkey {
   /** The globally unique identifier of the passkey. */
   id: string;
 
+  /** The external (cloud) unique identifier of the passkey. */
+  passkeyId: string;
+
   /**
    * The time when this passkey was created locally. This could be different
    * from "created" which is the time when this passkey was created on
@@ -274,6 +277,15 @@ export class Embedded {
    */
   getPasskeys = async (): Promise<Passkey[]> => {
     return await this.core.getCredentials();
+  };
+
+  /**
+   * Updates all passkeys bound to this browser
+   * @returns {Promise<void>} A void promise that signifies success
+   * @throws {Error} Will throw an error if the operation fails.
+   */
+  updatePasskeys = async (): Promise<void> => {
+    return await this.core.updateCredentials();
   };
 
   /**

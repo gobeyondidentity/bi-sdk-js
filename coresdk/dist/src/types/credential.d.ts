@@ -8,9 +8,13 @@ export type KeyType = "subtle" | "webauthn";
 export interface Credential {
     version: Version;
     /**
-     * A credential.
+     * The credential's internal ID.
      */
     id: string;
+    /**
+     * The credential's external (cloud) ID.
+     */
+    passkeyId: string;
     /**
      * Date the credential was created.
      */

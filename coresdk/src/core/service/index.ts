@@ -5,6 +5,7 @@ import {
   kmc_delete_profile,
   kmc_list_credentials,
   kmc_get_auth_context,
+  kmc_update_all_credentials,
 } from "kmc-ffi";
 import {
   BindResponse,
@@ -54,7 +55,6 @@ export async function deleteCredential(id: string, host: Host): Promise<void> {
         return hostCall(host, msg);
       });
     }
-    console.log("calling delete v1 js");
     await kmc_delete_credential(id, (msg: string) => {
       return hostCall(host, msg);
     });
@@ -63,6 +63,12 @@ export async function deleteCredential(id: string, host: Host): Promise<void> {
 
 export async function getCredentials(host: Host): Promise<Credential[]> {
   return await kmc_list_credentials((msg: string) => {
+    return hostCall(host, msg);
+  });
+}
+
+export async function updateCredentials(host: Host): Promise<void> {
+  return await kmc_update_all_credentials((msg: string) => {
     return hostCall(host, msg);
   });
 }

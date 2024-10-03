@@ -29,6 +29,12 @@ export declare class Core {
      */
     getCredentials: () => Promise<Credential[]>;
     /**
+     * Updates all credentials in the DB
+     * NOTE: entitlements are hardcoded in core for wasm atm
+     * Cloud fails without them
+     */
+    updateCredentials: () => Promise<void>;
+    /**
      * Authenticate using the specified credential.
      *
      * If the provided credential describes an OTP credential,

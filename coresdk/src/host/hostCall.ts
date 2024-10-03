@@ -62,6 +62,8 @@ function dispatch(
         return CoreMessage.deviceGatewayUrl(host.getDeviceGatewayUrl());
       } else if (rq == "ClientEnvironment") {
         return CoreMessage.clientEnvironment(host.getClientEnvironment());
+      }else if ("CredentialStateChanged" == rq) {
+        return CoreMessage.ok();
       }
     } else {
       if ("Ask" in rq) {

@@ -6,6 +6,7 @@ export * as v0 from "./v0";
 export declare function bindCredential(url: string, host: Host): Promise<BindResponse>;
 export declare function deleteCredential(id: string, host: Host): Promise<void>;
 export declare function getCredentials(host: Host): Promise<Credential[]>;
+export declare function updateCredentials(host: Host): Promise<void>;
 export declare function getAuthenticationContext(url: string, host: Host): Promise<AuthenticationContext>;
 /**
  *

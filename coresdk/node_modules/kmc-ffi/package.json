@@ -1,12 +1,15 @@
 {
   "name": "kmc-ffi",
+  "type": "module",
   "version": "0.1.0",
   "files": [
     "kmc_bg.wasm",
     "kmc.js",
     "kmc.d.ts"
   ],
-  "module": "kmc.js",
+  "main": "kmc.js",
   "types": "kmc.d.ts",
-  "sideEffects": false
+  "sideEffects": [
+    "./snippets/*"
+  ]
 }

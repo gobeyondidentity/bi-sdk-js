@@ -8,7 +8,7 @@ import {
   getCredentials,
   authenticate,
   getAuthenticationContext,
-  v0,
+  v0, updateCredentials,
 } from "./service";
 import { Configuration } from "../configuration";
 import {
@@ -70,6 +70,13 @@ export class Core {
    * Returns a list of all the Credentials in the local store.
    */
   getCredentials = async (): Promise<Credential[]> => getCredentials(this.host);
+
+  /**
+   * Updates all credentials in the DB
+   * NOTE: entitlements are hardcoded in core for wasm atm
+   * Cloud fails without them
+   */
+  updateCredentials = async (): Promise<void> => updateCredentials(this.host);
 
   /**
    * Authenticate using the specified credential.

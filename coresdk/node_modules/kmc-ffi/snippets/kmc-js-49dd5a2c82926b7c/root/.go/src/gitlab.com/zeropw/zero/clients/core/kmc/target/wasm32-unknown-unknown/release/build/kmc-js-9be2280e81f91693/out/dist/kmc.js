@@ -8523,7 +8523,7 @@ async function kmc_get_device_info(db) {
   const data2 = await Data.collect(db);
   const osVersion = data2.getOsVersion();
   deviceInfo.answer = { type: device.AnswerType.VALUE };
-  deviceInfo.platform = osVersion.userAgentData.platform.name === "Chrome OS" ? device.Platform.CHROMEOSWEB : device.Platform.WEB;
+  deviceInfo.platform = ["Chromium OS", "Chrome OS"].includes(osVersion.userAgentData.platform.name.value) ? device.Platform.CHROMEOSWEB : device.Platform.WEB;
   deviceInfo.osVersion = osVersion;
   deviceInfo.core = device.Core.RUST;
   const appVersion = "1.0.0";
