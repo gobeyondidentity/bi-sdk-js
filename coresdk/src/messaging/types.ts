@@ -164,6 +164,7 @@ export interface ClientEnvironment {
   crypto_source: CryptoSource;
   key_storage_strategy: KeyStorageStrategy;
   gdc_url: string;
+  keymaker_allowed_domains: string,
 }
 
 export type UrlType = { type: "Authenticate" } | { type: "Bind" };

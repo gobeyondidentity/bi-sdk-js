@@ -97,6 +97,7 @@ export function clientEnvironment(
       crypto_source: clientEnvironment.cryptoSource,
       key_storage_strategy: clientEnvironment.keyStorageStrategy,
       gdc_url: clientEnvironment.gdcUrl,
+      keymaker_allowed_domains: clientEnvironment.keymakerAllowedDomains,
     },
   });
 }

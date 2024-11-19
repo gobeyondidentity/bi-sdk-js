@@ -12,6 +12,7 @@ import { Log } from "../log";
  */
 export declare class Host implements HostEvents {
     logger?: Log;
+    allowedDomains?: string;
     onexport?: (this: Host, ev: ExportEvent) => void;
     onimport?: (this: Host, ev: ImportEvent) => void;
     onSelectCredential?: (credentials: Credential[]) => Promise<string | undefined>;

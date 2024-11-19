@@ -21,6 +21,7 @@ import { Log } from "../log";
  */
 export class Host implements HostEvents {
   logger?: Log;
+  allowedDomains?: string;
 
   onexport?: (this: Host, ev: ExportEvent) => void;
   onimport?: (this: Host, ev: ImportEvent) => void;
@@ -35,6 +36,7 @@ export class Host implements HostEvents {
 
   constructor(config: Configuration) {
     this.logger = config.log;
+    this.allowedDomains = config.allowedDomains;
   }
 
   checkFeatureFlags(
@@ -89,6 +91,7 @@ export class Host implements HostEvents {
       cryptoSource: "Hal",
       keyStorageStrategy: "ForceSoftware",
       gdcUrl: Environment.deviceGatewayUrl + "/device",
+      keymakerAllowedDomains: this.allowedDomains || "",
     };
   }
 

@@ -72,6 +72,7 @@ export interface ClientEnvironment {
   cryptoSource: CryptoSource;
   keyStorageStrategy: KeyStorageStrategy;
   gdcUrl: string;
+  keymakerAllowedDomains: string,
 }
 
 /**

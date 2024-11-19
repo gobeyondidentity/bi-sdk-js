@@ -45,6 +45,7 @@ export interface ClientEnvironment {
     cryptoSource: CryptoSource;
     keyStorageStrategy: KeyStorageStrategy;
     gdcUrl: string;
+    keymakerAllowedDomains: string;
 }
 /**
  * Describes a Credential and method with which to authenticate.
