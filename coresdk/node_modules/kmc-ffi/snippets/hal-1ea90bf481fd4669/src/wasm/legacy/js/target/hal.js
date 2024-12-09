@@ -4033,6 +4033,12 @@ var WebAuthnError = class extends Error {
     this.name = name;
   }
 };
+var FailedVerification = class extends Error {
+  constructor() {
+    super(`failed verification`);
+    this.name = "FailedVerification";
+  }
+};
 
 // node_modules/web-api/src/validate.js
 function validateDatabase(tx) {
@@ -4573,6 +4579,45 @@ async function sign(key, data) {
     throw new InvalidKey("sign");
   return await api.sign(key, data);
 }
+async function digest(alg, msg) {
+  let algorithm = "";
+  switch (alg) {
+    case "Sha256":
+      algorithm = "SHA-256";
+      break;
+    case "Sha384":
+      algorithm = "SHA-384";
+      break;
+    default:
+      throw new InvalidArg(alg);
+  }
+  return new Uint8Array(await window.crypto.subtle.digest(algorithm, msg));
+}
+async function verify(msg, alg, pub, sig) {
+  let verify_algorithm = "";
+  let import_algorithm = "";
+  switch (alg) {
+    case "EcdsaSha256":
+      import_algorithm = {
+        name: "ECDSA",
+        namedCurve: "P-256"
+      };
+      verify_algorithm = {
+        name: "ECDSA",
+        hash: "SHA-256"
+      };
+      break;
+    default:
+      throw new InvalidArg(alg);
+  }
+  let pkey = await window.crypto.subtle.importKey("raw", pub, import_algorithm, true, ["verify"]);
+  let res = await window.crypto.subtle.verify(verify_algorithm, pkey, sig, msg);
+  if (res) {
+    return;
+  } else {
+    throw new FailedVerification();
+  }
+}
 async function publicKey(key) {
   let api = keyProvider(key);
   if (api === void 0)
@@ -4888,6 +4933,26 @@ function FfiSignWithP256(handle, data) {
     }
   });
 }
+function FfiDigest(alg, msg) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let d = await digest(alg, msg);
+      resolve(d);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+function FfiVerify(msg, alg, pub, sig) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let v = await verify(msg, alg, pub, sig);
+      resolve(v);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 function FfiPublicBitsP256(handle) {
   return new Promise(async (resolve, reject) => {
     let db;
@@ -4918,15 +4983,18 @@ function FfiHasWebAuthn() {
 export {
   FfiCreateKeyP256,
   FfiDeleteKeyP256,
+  FfiDigest,
   FfiHasWebAuthn,
   FfiPublicBitsP256,
   FfiQueryKeyP256,
   FfiSignWithP256,
+  FfiVerify,
   FfiVerifyExistingKeyP256,
   KeyExists,
   KeyNotFound,
   closeDb,
   deleteKey,
+  digest,
   ecdsaGenerateKeyPair2 as ecdsaGenerateKeyPair,
   ecdsaSign2 as ecdsaSign,
   exportKey2 as exportKey,
@@ -4940,6 +5008,7 @@ export {
   saveKey,
   sign,
   validateKey,
-  validateKeyHandle
+  validateKeyHandle,
+  verify
 };
 /*! For license information please see cbor.js.LICENSE.txt */
