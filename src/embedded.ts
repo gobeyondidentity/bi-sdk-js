@@ -236,7 +236,7 @@ export class Embedded {
    */
   static initialize = async (config?: Config): Promise<Embedded> => {
     const defaults = {
-      allowedDomains: ["beyondidentity.com", "byndid.com"],
+      allowedDomains: ["beyondidentity.com", "byndid.com", "beyondidentity-gov.com"],
     };
     config = config ? config : defaults;
     let allowedDomains = config.allowedDomains

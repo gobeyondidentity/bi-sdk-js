@@ -2,12 +2,14 @@ import '@beyondidentity/bi-sdk-js';
 import { Embedded } from '@beyondidentity/bi-sdk-js';
 export type { Passkey } from '@beyondidentity/bi-sdk-js';
 
-class BeyondIdentityEmbeddedSdk {
-  embedded: Embedded | null = null;
+// Module-level singleton: all instances share one initialization promise
+// to prevent concurrent WASM double-init (which causes memory corruption).
+let _embeddedPromise: Promise<Embedded> | null = null;
 
+class BeyondIdentityEmbeddedSdk {
   private initialized = async () => {
-    if (!this.embedded) {
-      this.embedded = await Embedded.initialize({
+    if (!_embeddedPromise) {
+      _embeddedPromise = Embedded.initialize({
         logger: {
           write: function (logType: string, message: string): void {
             console.log(`[${logType}] ${message}`);
@@ -15,7 +17,7 @@ class BeyondIdentityEmbeddedSdk {
         }
       });
     }
-    return this.embedded as Embedded;
+    return _embeddedPromise;
   };
 
   bindPasskey = async (url: string) => {
@@ -46,9 +48,6 @@ class BeyondIdentityEmbeddedSdk {
     url: string,
     passkeyId: string
   ) => {
-    let cxt = await this.getAuthenticationContext(url);
-    console.log(JSON.stringify(cxt));
-
     return (await this.initialized()).authenticate(url, passkeyId);
   };
 

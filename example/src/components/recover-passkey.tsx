@@ -11,41 +11,45 @@ const RecoverPasskey = () => {
     e: React.MouseEvent<HTMLButtonElement>
   ) {
     e.preventDefault();
-    const BeyondIdentityEmbeddedSdk = await import(
-      "../utils/BeyondIdentityEmbeddedSdk"
-    );
-    let embedded = new BeyondIdentityEmbeddedSdk.default();
-    let username = recoverPasskeyUsername;
-    let response = await fetch(
-      "https://acme-cloud.byndid.com/recover-credential-binding-link",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          authenticator_type: "web",
-          delivery_method: "return",
-        }),
-      }
-    );
-    let jsonResponse = await response.json();
-    if (response.status !== 200 || jsonResponse === null) {
-      setRecoverPasskeyResult(jsonResponse);
-      return;
-    }
-    let credentialBindingLink = jsonResponse.credential_binding_link;
     try {
+      const BeyondIdentityEmbeddedSdk = await import(
+        "../utils/BeyondIdentityEmbeddedSdk"
+      );
+      let embedded = new BeyondIdentityEmbeddedSdk.default();
+      let username = recoverPasskeyUsername;
+      let response = await fetch(
+        "https://acme-cloud.byndid.com/recover-credential-binding-link",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            authenticator_type: "web",
+            delivery_method: "return",
+          }),
+        }
+      );
+      let jsonResponse = await response.json();
+      if (response.status !== 200 || jsonResponse === null) {
+        setRecoverPasskeyResult(jsonResponse);
+        return;
+      }
+      let credentialBindingLink = jsonResponse.credential_binding_link;
+      if (!credentialBindingLink) {
+        setRecoverPasskeyResult({ error: "No credential binding link returned by server", response: jsonResponse });
+        return;
+      }
       if (await embedded.isBindPasskeyUrl(credentialBindingLink)) {
         let result = await embedded.bindPasskey(credentialBindingLink);
         setRecoverPasskeyResult(result);
         window.postMessage("update-passkeys", "*");
       } else {
-        setRecoverPasskeyResult(jsonResponse);
+        setRecoverPasskeyResult({ error: "URL is not a valid bind passkey URL", url: credentialBindingLink });
       }
     } catch (err) {
-      setRecoverPasskeyResult({ error: err });
+      setRecoverPasskeyResult({ error: (err as Error).message });
     }
   }
 

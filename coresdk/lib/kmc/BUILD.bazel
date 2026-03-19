@@ -1,0 +1,11 @@
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+
+# Stub to appease the top level clients/web BUILD.bazel file.
+npm_package(
+    name = "pkg",
+    srcs = glob(
+        ["**"],
+        exclude = ["BUILD.bazel"],
+    ),
+    visibility = ["//visibility:public"],
+)

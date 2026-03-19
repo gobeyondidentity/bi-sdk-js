@@ -1,7 +1,7 @@
 {
   "name": "kmc-ffi",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.10",
   "files": [
     "kmc_bg.wasm",
     "kmc.js",
