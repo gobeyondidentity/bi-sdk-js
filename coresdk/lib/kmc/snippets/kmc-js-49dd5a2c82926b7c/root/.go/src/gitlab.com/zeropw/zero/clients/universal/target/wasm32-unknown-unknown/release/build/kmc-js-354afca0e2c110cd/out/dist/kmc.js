@@ -10,9 +10,9 @@ var __commonJS = (cb, mod2) => function __require() {
 };
 var __reExport = (target, module2, desc) => {
   if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key2 of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key2) && key2 !== "default")
-        __defProp(target, key2, { get: () => module2[key2], enumerable: !(desc = __getOwnPropDesc(module2, key2)) || desc.enumerable });
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
   }
   return target;
 };
@@ -2254,25 +2254,47 @@ var require_ua_parser = __commonJS({
 });
 
 // src/err.js
-var badPlatform = new Error("Unsupported platform");
-var invalidArg = new Error("Invalid argument");
-var unexpected = new Error("Unexpected error");
-var invalidKey = new Error("Invalid key");
-var invalidSignature = new Error("Invalid signature");
-var operationBlocked = new Error("Operation blocked");
+var errCodes = {
+  badPlatform: "kmc/bad-platform",
+  invalidArg: "kmc/invalid-arg",
+  unexpected: "kmc/unexpected",
+  invalidKey: "kmc/invalid-key",
+  invalidSignature: "kmc/invalid-signature",
+  operationBlocked: "kmc/operation-blocked"
+};
+function sentinel(message, code) {
+  const err = new Error(message);
+  err.code = code;
+  return err;
+}
+var badPlatform = sentinel("Unsupported platform", errCodes.badPlatform);
+var invalidArg = sentinel("Invalid argument", errCodes.invalidArg);
+var unexpected = sentinel("Unexpected error", errCodes.unexpected);
+var invalidKey = sentinel("Invalid key", errCodes.invalidKey);
+var invalidSignature = sentinel("Invalid signature", errCodes.invalidSignature);
+var operationBlocked = sentinel("Operation blocked", errCodes.operationBlocked);
 
 // src/idb.js
 var idb_transaction = {
   readonly: "readonly",
   readwrite: "readwrite"
 };
+var BLOCKED_GRACE_MS = 3e3;
 function idb_open_db(name, version, runMigrations2) {
   if (!window.indexedDB)
-    Promise.reject(badPlatform);
+    return Promise.reject(badPlatform);
   return new Promise((resolve, reject) => {
     try {
       let rejected = false;
+      let blockedTimer = null;
+      let clearBlockedTimer = () => {
+        if (blockedTimer !== null) {
+          clearTimeout(blockedTimer);
+          blockedTimer = null;
+        }
+      };
       let reject_once2 = (err) => {
+        clearBlockedTimer();
         if (!rejected) {
           rejected = true;
           reject(err);
@@ -2287,19 +2309,22 @@ function idb_open_db(name, version, runMigrations2) {
         }
       };
       rq.onblocked = (e) => {
-        reject_once2(operationBlocked);
+        blockedTimer = setTimeout(() => reject_once2(operationBlocked), BLOCKED_GRACE_MS);
       };
       rq.onerror = (e) => {
         reject_once2(e.target.error);
       };
       rq.onsuccess = (e) => {
-        if (!rejected) {
-          let db = e.target.result;
-          db.onversionchange = (e2) => {
-            db.close();
-          };
-          resolve(db);
+        clearBlockedTimer();
+        let db = e.target.result;
+        db.onversionchange = (e2) => {
+          db.close();
+        };
+        if (rejected) {
+          db.close();
+          return;
         }
+        resolve(db);
       };
     } catch (err) {
       reject_once(err);
@@ -2334,7 +2359,11 @@ function idb_begin_transaction(db, scope, mode) {
       reject(tx.error ? tx.error : e.target.error);
     };
     tx.onabort = (e) => {
-      reject(tx.result);
+      let err = tx.error;
+      if (!err && tx.result instanceof Error) {
+        err = tx.result;
+      }
+      reject(err || new DOMException("IndexedDB transaction aborted", "AbortError"));
     };
   });
   return tx;
@@ -2345,10 +2374,10 @@ function idb_finish_transaction(tx) {
   }
   return tx.promise;
 }
-function idb_get(tx, store, key2) {
+function idb_get(tx, store, key) {
   try {
     let os = tx.objectStore(store);
-    let rq = os.get(key2);
+    let rq = os.get(key);
     rq.onsuccess = (e) => {
       tx.result = rq.result;
     };
@@ -2361,17 +2390,17 @@ function idb_get(tx, store, key2) {
     tx.abort();
   }
 }
-function idb_get_now(tx, store, key2) {
+function idb_get_now(tx, store, key) {
   return new Promise((resolve, reject) => {
     try {
       let os = tx.objectStore(store);
-      let rq = os.get(key2);
+      let rq = os.get(key);
       rq.onsuccess = (e) => {
         resolve(rq.result);
       };
       rq.onerror = (e) => {
         tx.result = e.target.error;
-        reject(e.error);
+        reject(e.target.error);
       };
     } catch (err) {
       tx.result = err;
@@ -2405,7 +2434,7 @@ function idb_getall_now(tx, store) {
       };
       rq.onerror = (e) => {
         tx.result = e.target.error;
-        reject(e.error);
+        reject(e.target.error);
       };
     } catch (err) {
       tx.result = err;
@@ -2413,10 +2442,10 @@ function idb_getall_now(tx, store) {
     }
   });
 }
-function idb_put(tx, store, value, key2) {
+function idb_put(tx, store, value, key) {
   try {
     let os = tx.objectStore(store);
-    let rq = os.put(value, key2);
+    let rq = os.put(value, key);
     rq.onsuccess = (e) => {
       tx.result = rq.result;
     };
@@ -2429,10 +2458,10 @@ function idb_put(tx, store, value, key2) {
     tx.abort();
   }
 }
-function idb_delete(tx, store, key2) {
+function idb_delete(tx, store, key) {
   try {
     let os = tx.objectStore(store);
-    let rq = os.delete(key2);
+    let rq = os.delete(key);
     rq.onsuccess = (e) => {
       tx.result = rq.result;
     };
@@ -2470,17 +2499,29 @@ var kmcKeyStore = "keys";
 var kmcProfileStore = "credentials";
 var kmcProfileIndex = "id";
 var kmcAppSettings = "appSettings";
-function kmc_open_db(version) {
-  return new Promise(async (resolve, reject) => {
-    if (version === void 0)
-      version = kmcDbVersions.length;
+var OPEN_ATTEMPTS = 3;
+var OPEN_RETRY_MS = 150;
+var NON_RETRYABLE = new Set([
+  errCodes.operationBlocked,
+  errCodes.badPlatform
+]);
+async function kmc_open_db(version) {
+  if (version === void 0)
+    version = kmcDbVersions.length;
+  let lastErr;
+  for (let attempt = 0; attempt < OPEN_ATTEMPTS; attempt++) {
     try {
-      let db = await idb_open_db(kmcDbName, version, runMigrations);
-      resolve(db);
+      return await idb_open_db(kmcDbName, version, runMigrations);
     } catch (err) {
-      reject(err);
+      lastErr = err;
+      if (NON_RETRYABLE.has(err?.code))
+        break;
+      if (attempt + 1 < OPEN_ATTEMPTS) {
+        await new Promise((r) => setTimeout(r, OPEN_RETRY_MS * (attempt + 1)));
+      }
     }
-  });
+  }
+  throw lastErr;
 }
 function kmc_close_db(db) {
   idb_close_db(db);
@@ -2596,11 +2637,11 @@ function kmc_delete_cert(db, handle) {
 }
 
 // src/kmc-keystore.js
-function kmc_save_key(db, handle, key2) {
+function kmc_save_key(db, handle, key) {
   return new Promise(async (resolve, reject) => {
     try {
       let tx = idb_begin_transaction(db, kmcKeyStore, idb_transaction.readwrite);
-      idb_put(tx, kmcKeyStore, key2, handle);
+      idb_put(tx, kmcKeyStore, key, handle);
       await idb_finish_transaction(tx);
       resolve();
     } catch (err) {
@@ -2613,9 +2654,9 @@ function kmc_get_key(db, handle) {
     try {
       let tx = idb_begin_transaction(db, kmcKeyStore, idb_transaction.readonly);
       idb_get(tx, kmcKeyStore, handle);
-      let key2 = await idb_finish_transaction(tx);
-      if (key2)
-        resolve(key2);
+      let key = await idb_finish_transaction(tx);
+      if (key)
+        resolve(key);
       else
         reject(invalidKey);
     } catch (err) {
@@ -2640,9 +2681,9 @@ function kmc_delete_key(db, handle) {
 function random_bytes(buffer) {
   window.crypto.getRandomValues(buffer);
 }
-function key_export(key2, format) {
+function key_export(key, format) {
   return new Promise((resolve, reject) => {
-    window.crypto.subtle.exportKey(format, key2).then((data2) => {
+    window.crypto.subtle.exportKey(format, key).then((data2) => {
       resolve(new Uint8Array(data2));
     }, (err) => {
       reject(err);
@@ -2675,13 +2716,13 @@ function ecdsa_import_key(format, curve, bits, use) {
     });
   });
 }
-function ecdsa_sign(key2, hash, data2) {
+function ecdsa_sign(key, hash, data2) {
   return new Promise((resolve, reject) => {
     let params = {
       name: "ECDSA",
       hash
     };
-    window.crypto.subtle.sign(params, key2, data2).then((signature) => {
+    window.crypto.subtle.sign(params, key, data2).then((signature) => {
       signature = new Uint8Array(signature);
       resolve(signature);
     }, (err) => {
@@ -2689,13 +2730,13 @@ function ecdsa_sign(key2, hash, data2) {
     });
   });
 }
-function ecdsa_verify(key2, hash, signature, message) {
+function ecdsa_verify(key, hash, signature, message) {
   return new Promise((resolve, reject) => {
     let params = {
       name: "ECDSA",
       hash
     };
-    window.crypto.subtle.verify(params, key2, signature, message).then((ok) => {
+    window.crypto.subtle.verify(params, key, signature, message).then((ok) => {
       resolve(ok);
     }, (err) => {
       reject(err);
@@ -2708,33 +2749,33 @@ function aesgcm_generate_key() {
       name: "AES-GCM",
       length: 256
     };
-    window.crypto.subtle.generateKey(params, false, ["encrypt", "decrypt"]).then((key2) => {
-      resolve(key2);
+    window.crypto.subtle.generateKey(params, false, ["encrypt", "decrypt"]).then((key) => {
+      resolve(key);
     }, (err) => {
       reject(err);
     });
   });
 }
-function aesgcm_encrypt(key2, iv, data2) {
+function aesgcm_encrypt(key, iv, data2) {
   return new Promise((resolve, reject) => {
     let params = {
       name: "AES-GCM",
       iv
     };
-    window.crypto.subtle.encrypt(params, key2, data2).then((signature) => {
+    window.crypto.subtle.encrypt(params, key, data2).then((signature) => {
       resolve(new Uint8Array(signature));
     }, (err) => {
       reject(err);
     });
   });
 }
-function aesgcm_decrypt(key2, iv, data2) {
+function aesgcm_decrypt(key, iv, data2) {
   return new Promise((resolve, reject) => {
     let params = {
       name: "AES-GCM",
       iv
     };
-    window.crypto.subtle.decrypt(params, key2, data2).then((signature) => {
+    window.crypto.subtle.decrypt(params, key, data2).then((signature) => {
       resolve(new Uint8Array(signature));
     }, (err) => {
       reject(err);
@@ -2748,8 +2789,8 @@ function kmc_generate_key(db, handle) {
   return new Promise(async (resolve, reject) => {
     try {
       let api = await queryCryptoCapabilities();
-      let key2 = await api.generateKey(handle);
-      await kmc_save_key(db, handle, key2);
+      let key = await api.generateKey(handle);
+      await kmc_save_key(db, handle, key);
       resolve();
     } catch (err) {
       reject(err);
@@ -2759,8 +2800,8 @@ function kmc_generate_key(db, handle) {
 function kmc_is_key_webauthn_backed(db, handle) {
   return new Promise(async (resolve, reject) => {
     try {
-      let key2 = await kmc_get_key(db, handle);
-      let provider = keyProvider(key2);
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
       resolve(provider === webauthn);
     } catch (err) {
       reject(err);
@@ -2770,9 +2811,9 @@ function kmc_is_key_webauthn_backed(db, handle) {
 function kmc_sign(db, handle, data2) {
   return new Promise(async (resolve, reject) => {
     try {
-      let key2 = await kmc_get_key(db, handle);
-      let provider = keyProvider(key2);
-      let signature = await provider.sign(key2, data2);
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let signature = await provider.sign(key, data2);
       resolve(signature);
     } catch (err) {
       reject(err);
@@ -2818,9 +2859,9 @@ function kmc_verify(db, handle, signature, data2) {
   return new Promise(async (resolve, reject) => {
     try {
       let bits = await kmc_public_key(db, handle);
-      let key2 = await ecdsa_import_key("raw", "P-256", bits, "verify");
+      let key = await ecdsa_import_key("raw", "P-256", bits, "verify");
       signature = decode_signature(signature);
-      let ok = await ecdsa_verify(key2, "SHA-256", signature, data2);
+      let ok = await ecdsa_verify(key, "SHA-256", signature, data2);
       resolve(ok);
     } catch (err) {
       reject(err);
@@ -2830,9 +2871,9 @@ function kmc_verify(db, handle, signature, data2) {
 function kmc_public_key(db, handle) {
   return new Promise(async (resolve, reject) => {
     try {
-      let key2 = await kmc_get_key(db, handle);
-      let provider = keyProvider(key2);
-      let pubkey = await provider.publicKey(key2);
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let pubkey = await provider.publicKey(key);
       resolve(new Uint8Array(pubkey));
     } catch (err) {
       reject(err);
@@ -2842,9 +2883,9 @@ function kmc_public_key(db, handle) {
 function kmc_encrypt(db, handle, plaintext) {
   return new Promise(async (resolve, reject) => {
     try {
-      let key2 = await kmc_get_key(db, handle);
-      let provider = keyProvider(key2);
-      let ciphertext = await provider.encrypt(key2, plaintext);
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let ciphertext = await provider.encrypt(key, plaintext);
       resolve(ciphertext);
     } catch (err) {
       reject(err);
@@ -2854,9 +2895,9 @@ function kmc_encrypt(db, handle, plaintext) {
 function kmc_decrypt(db, handle, ciphertext) {
   return new Promise(async (resolve, reject) => {
     try {
-      let key2 = await kmc_get_key(db, handle);
-      let provider = keyProvider(key2);
-      let plaintext = await provider.decrypt(key2, data);
+      let key = await kmc_get_key(db, handle);
+      let provider = keyProvider(key);
+      let plaintext = await provider.decrypt(key, data);
       resolve(plaintext);
     } catch (err) {
       reject(err);
@@ -2876,21 +2917,21 @@ async function queryCryptoCapabilities(provider) {
     return subtle;
   throw badPlatform;
 }
-function keySanityCheck(key2, provider) {
-  return provider in key2;
+function keySanityCheck(key, provider) {
+  return provider in key;
 }
-function keyProvider(key2) {
-  if ("subtle" in key2)
+function keyProvider(key) {
+  if ("subtle" in key)
     return subtle;
-  else if ("webauthn" in key2)
+  else if ("webauthn" in key)
     return webauthn;
   else
     throw invalidArg;
 }
 var subtle = new class Subtle {
-  extractKeys(key2) {
-    if (keySanityCheck(key2, subtleProvider))
-      return key2.subtle;
+  extractKeys(key) {
+    if (keySanityCheck(key, subtleProvider))
+      return key.subtle;
     throw invalidKey;
   }
   async generateKey(handle) {
@@ -2903,12 +2944,12 @@ var subtle = new class Subtle {
       }
     };
   }
-  async publicKey(key2) {
-    let keys = this.extractKeys(key2);
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
     return await key_export(keys.signingKey.publicKey, "raw");
   }
-  async sign(key2, data2) {
-    let keys = this.extractKeys(key2);
+  async sign(key, data2) {
+    let keys = this.extractKeys(key);
     let signature = await ecdsa_sign(keys.signingKey.privateKey, "SHA-256", data2);
     return {
       subtle: {
@@ -2916,8 +2957,8 @@ var subtle = new class Subtle {
       }
     };
   }
-  async encrypt(key2, plaintext) {
-    let keys = this.extractKeys(key2);
+  async encrypt(key, plaintext) {
+    let keys = this.extractKeys(key);
     let iv = new Uint8Array(12);
     random_bytes(iv);
     let ciphertext = await aesgcm_encrypt(keys.encryptionKey, iv, plaintext);
@@ -2926,28 +2967,28 @@ var subtle = new class Subtle {
     result.set(ciphertext, iv.length);
     return result;
   }
-  async decrypt(key2, ciphertext) {
-    let keys = this.extractKeys(key2);
+  async decrypt(key, ciphertext) {
+    let keys = this.extractKeys(key);
     let iv = ciphertext.slice(0, 12);
     ciphertext = ciphertext.slice(12);
     return await aesgcm_decrypt(keys.encryptionKey, iv, ciphertext);
   }
 }();
 var webauthn = new class WebAuthn {
-  extractKeys(key2) {
-    if (keySanityCheck(key2, webAuthnProvider))
-      return key2.webauthn;
+  extractKeys(key) {
+    if (keySanityCheck(key, webAuthnProvider))
+      return key.webauthn;
     throw invalidKey;
   }
   async generateKey(handle) {
     throw badPlatform;
   }
-  async publicKey(key2) {
-    let keys = this.extractKeys(key2);
+  async publicKey(key) {
+    let keys = this.extractKeys(key);
     return await key_export(keys.signingKey.publicKey, "raw");
   }
-  async sign(key2, data2) {
-    let keys = this.extractKeys(key2);
+  async sign(key, data2) {
+    let keys = this.extractKeys(key);
     const publicKeyOptions = {
       challenge: data2,
       allowCredentials: [
@@ -2972,8 +3013,8 @@ var webauthn = new class WebAuthn {
       }
     };
   }
-  async encrypt(key2, plaintext) {
-    let keys = this.extractKeys(key2);
+  async encrypt(key, plaintext) {
+    let keys = this.extractKeys(key);
     let iv = new Uint8Array(12);
     random_bytes(iv);
     let ciphertext = await aesgcm_encrypt(keys.encryptionKey, iv, plaintext);
@@ -2982,8 +3023,8 @@ var webauthn = new class WebAuthn {
     result.set(ciphertext, iv.length);
     return result;
   }
-  async decrypt(key2, ciphertext) {
-    let keys = this.extractKeys(key2);
+  async decrypt(key, ciphertext) {
+    let keys = this.extractKeys(key);
     let iv = ciphertext.slice(0, 12);
     ciphertext = ciphertext.slice(12);
     return await aesgcm_decrypt(keys.encryptionKey, iv, ciphertext);
@@ -3221,7 +3262,7 @@ async function get_update_app_settings(db, appSettings) {
   } else {
     if (appSettings !== void 0) {
       if (appSettings.instanceId !== allSettings[0].instanceId) {
-        idb_clear();
+        idb_clear(tx, kmcAppSettings);
       }
       idb_put(tx, kmcAppSettings, settings());
     }
@@ -8437,10 +8478,10 @@ var Data = class {
     let ch = {};
     if (ua.clientData) {
       ch.answer = { type: device.AnswerType.VALUE };
-      for (const key2 in ua.clientData) {
-        if (key2 === "brands")
+      for (const key in ua.clientData) {
+        if (key === "brands")
           continue;
-        ch[key2] = { value: ua.clientData[key2] };
+        ch[key] = { value: ua.clientData[key] };
       }
     } else {
       ch.answer = { type: device.AnswerType.UNSUPPORTED };
