@@ -4135,7 +4135,11 @@ function idbBeginTransaction(db, scope, mode) {
       reject(tx.error ? tx.error : e.target.error);
     };
     tx.onabort = (e) => {
-      reject(tx.result);
+      let err = tx.error;
+      if (!err && tx.result != null) {
+        err = tx.result instanceof Error ? tx.result : new DOMException(`IndexedDB transaction aborted: ${String(tx.result)}`, "AbortError");
+      }
+      reject(err || new DOMException("IndexedDB transaction aborted", "AbortError"));
     };
   });
   return tx;

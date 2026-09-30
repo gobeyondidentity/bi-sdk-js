@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.3] - 2026-09-29
+
+### Changed
+
+- **Every rejection is now a `FlattenedError`.** Previously any error the core
+  had no specific mapping for reached you as a plain `Error` -- `name:
+  "Error"`, no `type`, no `code`, no `errorCode`. That was every failure of
+  `bindPasskey()` and `authenticate()`, because both route through a path none
+  of the mappings covered. Such errors now carry `name: "FlattenedError"` and
+  `type: "Unknown"`, with the underlying error rendering in `data` (capped at
+  200 characters) and in full in `message`.
+
+  `type: "Unknown"` is therefore reachable for *any* rejection, including
+  faults inside the SDK bridge itself rather than the core. If you branch on
+  `err.name === "Error"` to detect these, that test no longer matches; branch
+  on `type` instead. Core failures render `data` as `Service(..)` and bridge
+  failures as `Anyhow(..)`.
+
+### Fixed
+
+- An IndexedDB transaction that aborted rejected with the transaction's last
+  stored value -- `null`, or the result of the preceding successful read --
+  instead of an error. Callers saw a rejection with no `name` and no
+  `message`. Aborts now reject with a `DOMException` named `AbortError`,
+  preserving the original `DOMException` where the browser supplied one.
+
 ## [2.0.5] - 2023-09-25
 
 ### Changed
